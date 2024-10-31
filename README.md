@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">Birdiary</h1>
+<p align="center">A web-based application to track bird sightings and manage a birdwatching life list.</p>
 
-## Getting Started
+## Description
 
-First, run the development server:
+This is the Birdiary client application, built with TypeScript, React, and using the Next.js 15 framework. Using this application, users can track their birdwatching activities by logging sightings of more than 800 birds that can be seen in North America. The application is free to use, and users are not required to create an account, though this will ensure their data is permanently saved.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Packages
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- React
+- React-DOM
+- Next
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Dev Dependencies
 
-## Learn More
+- TypeScript
+- PostCSS
+- TailwindCSS
+- ESLint
+- eslint-config-next
 
-To learn more about Next.js, take a look at the following resources:
+#### Required Types Packages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- @types/node
+- @types/react
+- @types/react-dom
