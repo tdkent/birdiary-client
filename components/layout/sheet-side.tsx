@@ -3,10 +3,12 @@
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 
 export function SheetSide() {
@@ -18,8 +20,11 @@ export function SheetSide() {
       <SheetContent side={"left"} className="w-4/5">
         <SheetHeader>
           <SheetTitle>birDiary</SheetTitle>
+          <SheetDescription>
+            <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
+          </SheetDescription>
         </SheetHeader>
-        {/* NavLinks */}
+        {/* <NavLinks /> */}
       </SheetContent>
     </Sheet>
   );
