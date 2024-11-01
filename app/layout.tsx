@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "../components/theme-provider";
-import Header from "../components/header";
-import Footer from "../components/footer";
+import { open_sans } from "./fonts";
+import { ThemeProvider } from "../components/theme/theme-provider";
+import Header from "../components/layout/header";
+import Footer from "../components/layout/footer";
 
 export const metadata: Metadata = {
   title: "Birdiary",
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${open_sans.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
