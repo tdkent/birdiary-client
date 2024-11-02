@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
+import MobileNav from "./MobileNav";
 
 export function SheetSide() {
   return (
@@ -17,14 +18,14 @@ export function SheetSide() {
       <SheetTrigger>
         <AlignJustify />
       </SheetTrigger>
-      <SheetContent side={"left"} className="w-4/5">
+      <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
           <SheetTitle>birDiary</SheetTitle>
           <SheetDescription>
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
           </SheetDescription>
         </SheetHeader>
-        {/* <NavLinks /> */}
+        <MobileNav />
       </SheetContent>
     </Sheet>
   );

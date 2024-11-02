@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { open_sans } from "./fonts";
 import { ThemeProvider } from "../components/theme/theme-provider";
-import Header from "../components/layout/header";
-import Footer from "../components/layout/footer";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Birdiary",
