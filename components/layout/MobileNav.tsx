@@ -3,6 +3,7 @@
 import React from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -92,7 +93,9 @@ export function MobileNav() {
                 <React.Fragment key={label}>
                   <li>
                     <div className="py-3">
-                      <MobileNavLink label={label} href={href} icon={icon} />
+                      <SheetClose>
+                        <MobileNavLink label={label} href={href} icon={icon} />
+                      </SheetClose>
                     </div>
                   </li>
                   {idx !== navLinks.length - 1 && <Separator />}

@@ -1,5 +1,6 @@
 "use client";
 import { useMediaQuery } from "usehooks-ts";
+import DesktopNav from "./DesktopNav";
 import { MobileNav } from "./MobileNav";
 
 export default function Nav() {
@@ -8,8 +9,5 @@ export default function Nav() {
   if (!isDesktop) {
     return <MobileNav />;
   }
-  return (
-    // return desktop nav
-    <nav>Desktop nav goes here</nav>
-  );
+  return <DesktopNav />;
 }
