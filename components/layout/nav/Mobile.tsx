@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import {
   Sheet,
   SheetClose,
@@ -23,8 +24,7 @@ import {
 } from "lucide-react";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
-import { Separator } from "../ui/separator";
-import MobileNavLink from "./MobileNavLink";
+import { Separator } from "../../ui/separator";
 
 const navLinks: {
   label: string;
@@ -33,42 +33,42 @@ const navLinks: {
 }[] = [
   {
     label: "Home",
-    href: "/",
+    href: "",
     icon: House,
   },
   {
     label: "Diary",
-    href: "/diary",
+    href: "diary",
     icon: NotebookPen,
   },
   {
     label: "My Birds",
-    href: "/sightings",
+    href: "sightings",
     icon: Binoculars,
   },
   {
     label: "Life List",
-    href: "/lifelist",
+    href: "lifelist",
     icon: Scroll,
   },
   {
     label: "Locations",
-    href: "/locations",
+    href: "locations",
     icon: MapPinned,
   },
   {
     label: "Birdpedia",
-    href: "/birds",
+    href: "birds",
     icon: Bird,
   },
   {
     label: "Profile",
-    href: "/profile",
+    href: "profile",
     icon: CircleUserRound,
   },
   {
     label: "Account",
-    href: "/account",
+    href: "account",
     icon: UserPen,
   },
 ];
@@ -88,13 +88,18 @@ export function MobileNav() {
         </SheetHeader>
         <nav>
           <ul className="flex flex-col">
-            {navLinks.map(({ label, href, icon }, idx) => {
+            {navLinks.map(({ label, href, icon: Icon }, idx) => {
               return (
                 <React.Fragment key={label}>
                   <li>
                     <div className="py-3">
-                      <SheetClose>
-                        <MobileNavLink label={label} href={href} icon={icon} />
+                      <SheetClose asChild>
+                        <Link href={`/${href}`}>
+                          <span className="flex items-center gap-2.5">
+                            {Icon && <Icon className="w-4 h-4" />}
+                            {label}
+                          </span>
+                        </Link>
                       </SheetClose>
                     </div>
                   </li>
