@@ -1,5 +1,5 @@
-import { serverUrl } from "@/constants/env";
 import { Bird } from "@/models/response-models";
+import { findAllBirds } from "@/data/endpoints";
 
 export default async function BirdsView() {
   const data: Bird[] = await getData();
@@ -23,7 +23,7 @@ export default async function BirdsView() {
 }
 
 async function getData() {
-  const response = await fetch(serverUrl + "bird");
+  const response = await fetch(findAllBirds);
 
   if (!response.ok) {
     if (response.status === 404) {
