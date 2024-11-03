@@ -1,6 +1,6 @@
-import { roboto_mono } from "../../app/fonts";
+import { roboto_mono } from "@/app/fonts";
 import Nav from "./nav";
-import { ModeToggle } from "../theme/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 
 export default function Header() {
   return (

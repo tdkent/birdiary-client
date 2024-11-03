@@ -1,4 +1,4 @@
-import { serverUrl } from "../../constants/env";
+import { serverUrl } from "@/constants/env";
 
 export default async function BirdsView() {
   const data = await getData();
