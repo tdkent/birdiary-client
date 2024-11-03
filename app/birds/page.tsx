@@ -1,5 +1,6 @@
 import { Bird } from "@/models/response-models";
 import { findAllBirds } from "@/data/endpoints";
+import { delay } from "@/helpers/api";
 
 export default async function BirdsView() {
   const data: Bird[] = await getData();
@@ -23,6 +24,7 @@ export default async function BirdsView() {
 }
 
 async function getData() {
+  await delay(2000); //! simulate 2s response time
   const response = await fetch(findAllBirds);
 
   if (!response.ok) {
