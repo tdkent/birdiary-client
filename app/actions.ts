@@ -1,8 +1,15 @@
 "use server";
 
+import { createSession } from "@/lib/session";
 import { signInUser } from "@/data/endpoints";
 
-export async function signIn(email: string, password: string) {
+export async function signIn({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const response = await fetch(signInUser, {
     method: "POST",
     headers: {
@@ -15,6 +22,7 @@ export async function signIn(email: string, password: string) {
     throw new Error("Failed to sign in user.");
   }
 
-  const data = await response.json();
-  return data;
+  const { userId }: { userId: string } = await response.json();
+  const session = await createSession(userId);
+  return session;
 }
