@@ -4,7 +4,7 @@ import { sessionKey } from "@/constants/env";
 
 const encodedKey = new TextEncoder().encode(sessionKey);
 
-export async function encrypt(payload: { userId: string }) {
+export async function encrypt(payload: { id: string }) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -24,9 +24,9 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(userId: string) {
+export async function createSession(id: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId });
+  const session = await encrypt({ id });
   (await cookies()).set("session", session, {
     httpOnly: true,
     secure: true,

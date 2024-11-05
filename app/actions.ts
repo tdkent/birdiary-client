@@ -22,7 +22,7 @@ export async function signIn({
     throw new Error("Failed to sign in user.");
   }
 
-  const { userId }: { userId: string } = await response.json();
-  const session = await createSession(userId);
+  const { id }: { id: string } = await response.json();
+  const session = await createSession(id);
   return session;
 }
