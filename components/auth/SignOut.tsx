@@ -4,7 +4,7 @@ import { signOut } from "@/actions/auth";
 export default function SignOut() {
   return (
     <Button variant={"outline"} onClick={async () => await signOut()}>
-      Log Out
+      Sign Out
     </Button>
   );
 }

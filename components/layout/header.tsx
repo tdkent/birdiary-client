@@ -1,6 +1,7 @@
 import { roboto_mono } from "@/app/fonts";
 import Nav from "./nav";
 import { ModeToggle } from "@/components/theme/mode-toggle";
+import Auth from "@/components/layout/nav/Auth";
 
 export default function Header() {
   return (
@@ -9,6 +10,7 @@ export default function Header() {
       <div className="flex gap-4">
         <Nav />
         <ModeToggle />
+        <Auth />
       </div>
     </header>
   );
