@@ -26,7 +26,11 @@ export default function AuthForm() {
   });
 
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    await signIn(values);
+    const response = await signIn(values);
+    if (response) {
+      console.log(response);
+      return;
+    }
   }
 
   return (

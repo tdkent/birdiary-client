@@ -1,5 +1,5 @@
 import { findAllBirds } from "@/data/endpoints";
-import { Bird } from "@/models/response-models";
+import { Bird } from "@/models/response";
 import { delay } from "@/helpers/api";
 
 export default async function ShowAllBirds() {

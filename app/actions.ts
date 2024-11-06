@@ -2,6 +2,7 @@
 
 import { createSession } from "@/lib/session";
 import { signInUser } from "@/data/endpoints";
+import { NestResError } from "@/models/error";
 
 export async function signIn({
   email,
@@ -19,10 +20,10 @@ export async function signIn({
   });
 
   if (!response.ok) {
-    throw new Error("Failed to sign in user.");
+    const errorData: NestResError = await response.json();
+    return errorData;
   }
 
   const { id }: { id: string } = await response.json();
-  const session = await createSession(id);
-  return session;
+  await createSession(id);
 }
