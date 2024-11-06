@@ -1,6 +1,7 @@
 "use server";
 
-import { createSession } from "@/lib/session";
+import { redirect } from "next/navigation";
+import { createSession, deleteSession } from "@/lib/session";
 import { signInUser } from "@/data/endpoints";
 import { NestResError } from "@/models/error";
 
@@ -26,4 +27,9 @@ export async function signIn({
 
   const { id }: { id: string } = await response.json();
   await createSession(id);
+}
+
+export async function signOut() {
+  deleteSession();
+  redirect("/signin");
 }

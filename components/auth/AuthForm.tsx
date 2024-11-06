@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SignupFormSchema } from "@/lib/definitions";
-import { signIn } from "@/app/actions";
+import { signIn } from "@/actions/auth";
 
 export default function AuthForm() {
   const form = useForm<z.infer<typeof SignupFormSchema>>({

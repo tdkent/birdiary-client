@@ -37,3 +37,8 @@ export async function createSession(id: string) {
 
   return session;
 }
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+}

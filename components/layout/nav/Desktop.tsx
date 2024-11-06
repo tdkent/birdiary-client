@@ -16,6 +16,7 @@ import {
   NotebookPen,
   Scroll,
 } from "lucide-react";
+import SignOut from "@/components/auth/SignOut";
 
 const subLinks = {
   diary: [
@@ -150,7 +151,9 @@ export default function DesktopNav() {
             </NavigationMenuList>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>Log Out</NavigationMenuItem>
+        <NavigationMenuItem>
+          <SignOut />
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
