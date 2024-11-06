@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,11 +26,16 @@ export default function AuthForm() {
     },
   });
 
+  const { toast } = useToast();
+
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const response = await signIn(values);
-    if (response) {
-      console.log(response);
-      return;
+    const err = await signIn(values);
+    if (err) {
+      return toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: `${err.message} (Error Code ${err.statusCode})`,
+      });
     }
   }
 
