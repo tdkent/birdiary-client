@@ -16,6 +16,7 @@ import {
   Bird,
   CircleUserRound,
   House,
+  LockKeyhole,
   LucideIcon,
   MapPinned,
   NotebookPen,
@@ -70,6 +71,11 @@ const navLinks: {
     label: "Account",
     href: "account",
     icon: UserPen,
+  },
+  {
+    label: "Sign In",
+    href: "signin",
+    icon: LockKeyhole,
   },
 ];
 
