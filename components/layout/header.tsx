@@ -1,4 +1,4 @@
-import { roboto_mono } from "@/app/fonts";
+import { roboto_mono } from "@/lib/fonts";
 import Nav from "./nav";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import Auth from "@/components/layout/nav/Auth";

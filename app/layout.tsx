@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { open_sans } from "./fonts";
+import { open_sans } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Header from "@/components/layout/Header";
