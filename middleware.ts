@@ -1,29 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { JWTPayload } from "jose";
-import { decrypt } from "@/lib/session";
+import { checkSession } from "@/helpers/auth";
 
 const protectedRoutes = ["/account"];
 const authRoutes = ["/signin", "/signup"];
 
 export default async function middleware(req: NextRequest) {
-  let session: JWTPayload | undefined;
-  const cookie = (await cookies()).get("session")?.value;
   const path = req.nextUrl.pathname;
-
-  if (cookie) {
-    session = await decrypt(cookie);
-  }
-
-  const userId: string | undefined = session?.id as string;
+  const isLoggedIn = await checkSession();
 
   // redirect from protected routes if not logged in
-  if (!userId && protectedRoutes.includes(path)) {
+  if (!isLoggedIn && protectedRoutes.includes(path)) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
 
   // redirect from auth routes if logged in
-  if (userId && authRoutes.includes(path)) {
+  if (isLoggedIn && authRoutes.includes(path)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 

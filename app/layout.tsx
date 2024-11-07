@@ -3,6 +3,7 @@ import "./globals.css";
 import { open_sans } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import ContextProviders from "@/app/providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -25,12 +26,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-[calc(100vh-80px)]">
-            <Header />
-            <main>{children}</main>
-            <Toaster />
-          </div>
-          <Footer />
+          <ContextProviders>
+            <div className="min-h-[calc(100vh-80px)]">
+              <Header />
+              <main>{children}</main>
+              <Toaster />
+            </div>
+            <Footer />
+          </ContextProviders>
         </ThemeProvider>
       </body>
     </html>

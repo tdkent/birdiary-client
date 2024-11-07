@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -26,6 +26,7 @@ import {
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import { Separator } from "../../ui/separator";
+import { AuthContext } from "@/context/auth";
 
 const navLinks: {
   label: string;
@@ -80,6 +81,8 @@ const navLinks: {
 ];
 
 export function MobileNav() {
+  const isSignedIn = useContext(AuthContext);
+  console.log("🚀 ~ MobileNav ~ isSignedIn:", isSignedIn);
   return (
     <Sheet>
       <SheetTrigger>
