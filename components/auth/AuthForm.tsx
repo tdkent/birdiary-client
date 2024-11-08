@@ -1,5 +1,6 @@
 "use client";
 
+import { useContext } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -15,9 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SignupFormSchema } from "@/lib/definitions";
-import { signIn } from "@/actions/auth";
+import { signIn as signInAction } from "@/actions/auth";
+import { AuthContext } from "@/context/auth";
 
 export default function AuthForm() {
+  const { signIn } = useContext(AuthContext);
+
   const form = useForm<z.infer<typeof SignupFormSchema>>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
@@ -29,7 +33,8 @@ export default function AuthForm() {
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const err = await signIn(values);
+    const err = await signInAction(values);
+
     if (err) {
       return toast({
         variant: "destructive",
@@ -37,6 +42,8 @@ export default function AuthForm() {
         description: `${err.message} (Error Code ${err.statusCode})`,
       });
     }
+
+    signIn();
   }
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -11,78 +11,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Binoculars,
-  Bird,
-  CircleUserRound,
-  House,
-  LockKeyhole,
-  LucideIcon,
-  MapPinned,
-  NotebookPen,
-  Scroll,
-  UserPen,
-} from "lucide-react";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import { Separator } from "../../ui/separator";
 import { AuthContext } from "@/context/auth";
-
-const navLinks: {
-  label: string;
-  href: string;
-  icon?: LucideIcon;
-}[] = [
-  {
-    label: "Home",
-    href: "",
-    icon: House,
-  },
-  {
-    label: "Diary",
-    href: "diary",
-    icon: NotebookPen,
-  },
-  {
-    label: "My Birds",
-    href: "sightings",
-    icon: Binoculars,
-  },
-  {
-    label: "Life List",
-    href: "lifelist",
-    icon: Scroll,
-  },
-  {
-    label: "Locations",
-    href: "locations",
-    icon: MapPinned,
-  },
-  {
-    label: "Birdpedia",
-    href: "birds",
-    icon: Bird,
-  },
-  {
-    label: "Profile",
-    href: "profile",
-    icon: CircleUserRound,
-  },
-  {
-    label: "Account",
-    href: "account",
-    icon: UserPen,
-  },
-  {
-    label: "Sign In",
-    href: "signin",
-    icon: LockKeyhole,
-  },
-];
+import { mobile as mobileNavLinks } from "@/data/nav";
 
 export function MobileNav() {
-  const isSignedIn = useContext(AuthContext);
-  console.log("🚀 ~ MobileNav ~ isSignedIn:", isSignedIn);
+  const { isSignedIn } = useContext(AuthContext);
+  const [navLinks, setNavLinks] = useState<typeof mobileNavLinks>([]);
+
+  useEffect(() => {
+    const exclude = isSignedIn ? "auth" : "protected";
+    setNavLinks(mobileNavLinks.filter((link) => link.type !== exclude));
+  }, [isSignedIn]);
+
   return (
     <Sheet>
       <SheetTrigger>
