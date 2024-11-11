@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext } from "react";
+import { redirect } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -44,6 +45,13 @@ export default function AuthForm() {
     }
 
     signIn();
+    toast({
+      variant: "default",
+      title: "Success",
+      description: "You are now signed in",
+    });
+
+    redirect("/diary");
   }
 
   return (
