@@ -14,6 +14,7 @@ import {
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import { Separator } from "../../ui/separator";
+import { caveat } from "@/lib/fonts";
 import { AuthContext } from "@/context/auth";
 import { mobile as mobileNavLinks } from "@/data/nav";
 
@@ -33,7 +34,9 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
-          <SheetTitle>birDiary</SheetTitle>
+          <SheetTitle className={`${caveat.className} antialiased text-4xl`}>
+            Birdiary
+          </SheetTitle>
           <SheetDescription>
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
           </SheetDescription>
@@ -48,7 +51,7 @@ export function MobileNav() {
                       <SheetClose asChild>
                         <Link href={`/${href}`}>
                           <span className="flex items-center gap-2.5">
-                            {Icon && <Icon className="w-4 h-4" />}
+                            {Icon && <Icon className="w-3 h-3" />}
                             {label}
                           </span>
                         </Link>

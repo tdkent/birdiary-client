@@ -1,11 +1,11 @@
-import { Open_Sans, Roboto_Mono } from "next/font/google";
+import { Caveat, Quicksand } from "next/font/google";
 
-export const open_sans = Open_Sans({
+export const caveat = Caveat({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
 });
 
-export const roboto_mono = Roboto_Mono({
+export const quicksand = Quicksand({
   subsets: ["latin"],
-  display: "swap",
+  weight: ["400", "700"],
 });

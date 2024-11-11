@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { open_sans } from "../lib/fonts";
+import { quicksand } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import AuthProvider from "@/context/providers/AuthProvider";
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${open_sans.className} antialiased`}>
+      <body className={`${quicksand.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
