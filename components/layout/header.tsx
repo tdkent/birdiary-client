@@ -11,10 +11,10 @@ export default function Header() {
           Birdiary
         </span>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         <Nav />
-        <ModeToggle />
         <Auth />
+        <ModeToggle />
       </div>
     </header>
   );

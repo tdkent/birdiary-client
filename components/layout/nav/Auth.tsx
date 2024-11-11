@@ -1,35 +1,34 @@
 "use client";
 
-import { useMediaQuery } from "usehooks-ts";
+import { useContext } from "react";
+import Link from "next/link";
 import { LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import SignOut from "@/components/auth/SignOut";
+import { AuthContext } from "@/context/auth";
+import { signOut as signOutAction } from "@/actions/auth";
 
 export default function Auth() {
-  const matches = useMediaQuery("(min-width: 768px)");
+  const { isSignedIn, signOut } = useContext(AuthContext);
 
-  if (!matches) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost">
-            <LockKeyhole />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem>
-            <SignOut />
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
+  async function handleClick() {
+    signOut();
+    await signOutAction();
   }
 
-  return null;
+  if (isSignedIn) {
+    return (
+      <Button variant="outline" className="rounded-xl" onClick={handleClick}>
+        <LockKeyhole />
+        Sign Out
+      </Button>
+    );
+  }
+  return (
+    <Link href="/signin">
+      <Button variant="outline" className="rounded-xl">
+        <LockKeyhole />
+        Sign In
+      </Button>
+    </Link>
+  );
 }
