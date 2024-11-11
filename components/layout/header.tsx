@@ -1,7 +1,7 @@
 import { caveat } from "@/lib/fonts";
 import Nav from "./nav";
 import { ModeToggle } from "@/components/theme/mode-toggle";
-import Auth from "@/components/layout/nav/Auth";
+import AuthButton from "@/components/layout/nav/AuthButton";
 
 export default function Header() {
   return (
@@ -13,7 +13,7 @@ export default function Header() {
       </div>
       <div className="flex gap-2">
         <Nav />
-        <Auth />
+        <AuthButton />
         <ModeToggle />
       </div>
     </header>
