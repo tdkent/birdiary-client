@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -10,8 +11,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import { CircleUserRound } from "lucide-react";
 import { desktopSublinks as sublinks } from "@/data/nav";
+import { AuthContext } from "@/context/auth";
 
 export default function DesktopNav() {
+  const { isSignedIn } = useContext(AuthContext);
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -23,28 +26,38 @@ export default function DesktopNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Diary</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <NavigationMenuList className="flex flex-col border justify-start items-start">
-              {sublinks.diary.map(({ label, href, icon: Icon }) => {
-                return (
-                  <NavigationMenuItem key={label}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href={href}
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        <span className="flex gap-2 items-center">
-                          {Icon && <Icon className="w-4 h-4" />}
-                          {label}
-                        </span>
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList>
-          </NavigationMenuContent>
+          {isSignedIn ? (
+            <>
+              <NavigationMenuTrigger>Diary</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationMenuList className="flex flex-col border justify-start items-start">
+                  {sublinks.diary.map(({ label, href, icon: Icon }) => {
+                    return (
+                      <NavigationMenuItem key={label}>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={href}
+                            className={navigationMenuTriggerStyle()}
+                          >
+                            <span className="flex gap-2 items-center">
+                              {Icon && <Icon className="w-4 h-4" />}
+                              {label}
+                            </span>
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    );
+                  })}
+                </NavigationMenuList>
+              </NavigationMenuContent>
+            </>
+          ) : (
+            <NavigationMenuLink asChild>
+              <Link href="/diary" className={navigationMenuTriggerStyle()}>
+                Diary
+              </Link>
+            </NavigationMenuLink>
+          )}
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
@@ -54,27 +67,39 @@ export default function DesktopNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>
-            <CircleUserRound className="w-4 h-4" />
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <NavigationMenuList className="flex flex-col border justify-start items-start">
-              {sublinks.user.map(({ label, href }) => {
-                return (
-                  <NavigationMenuItem key={label}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href={href}
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        <span className="flex gap-2 items-center">{label}</span>
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList>
-          </NavigationMenuContent>
+          {isSignedIn ? (
+            <>
+              <NavigationMenuTrigger>
+                <CircleUserRound className="w-4 h-4" />
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationMenuList className="flex flex-col border justify-start items-start">
+                  {sublinks.user.map(({ label, href }) => {
+                    return (
+                      <NavigationMenuItem key={label}>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={href}
+                            className={navigationMenuTriggerStyle()}
+                          >
+                            <span className="flex gap-2 items-center">
+                              {label}
+                            </span>
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    );
+                  })}
+                </NavigationMenuList>
+              </NavigationMenuContent>
+            </>
+          ) : (
+            <NavigationMenuLink asChild>
+              <Link href="/profile" className={navigationMenuTriggerStyle()}>
+                Profile
+              </Link>
+            </NavigationMenuLink>
+          )}
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

@@ -14,7 +14,7 @@ export const mobile: {
   label: string;
   href: string;
   icon?: LucideIcon;
-  type: "public" | "protected" | "auth";
+  type: "public" | "protected";
 }[] = [
   {
     label: "Home",
@@ -32,19 +32,19 @@ export const mobile: {
     label: "My Birds",
     href: "sightings",
     icon: Binoculars,
-    type: "public",
+    type: "protected",
   },
   {
     label: "Life List",
     href: "lifelist",
     icon: Scroll,
-    type: "public",
+    type: "protected",
   },
   {
     label: "Locations",
     href: "locations",
     icon: MapPinned,
-    type: "public",
+    type: "protected",
   },
   {
     label: "Birdpedia",
