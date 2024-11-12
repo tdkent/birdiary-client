@@ -3,7 +3,6 @@ import {
   Bird,
   CircleUserRound,
   House,
-  LockKeyhole,
   LucideIcon,
   MapPinned,
   NotebookPen,
@@ -65,10 +64,39 @@ export const mobile: {
     icon: UserPen,
     type: "protected",
   },
-  {
-    label: "Sign In",
-    href: "signin",
-    icon: LockKeyhole,
-    type: "auth",
-  },
 ];
+
+export const desktopSublinks = {
+  diary: [
+    {
+      label: "My Diary",
+      href: "/diary",
+      icon: NotebookPen,
+    },
+    {
+      label: "My Birds",
+      href: "/sightings",
+      icon: Binoculars,
+    },
+    {
+      label: "Life List",
+      href: "/lifelist",
+      icon: Scroll,
+    },
+    {
+      label: "Locations",
+      href: "/locations",
+      icon: MapPinned,
+    },
+  ],
+  user: [
+    {
+      label: "Profile",
+      href: "/profile",
+    },
+    {
+      label: "Account",
+      href: "/account",
+    },
+  ],
+};
