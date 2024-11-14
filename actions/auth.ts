@@ -2,17 +2,26 @@
 
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
-import { signInUser } from "@/data/endpoints";
+import { signUpUser, signInUser } from "@/data/endpoints";
 import { NestResError } from "@/models/error";
 
-export async function signIn({
+export async function auth({
   email,
   password,
+  pathname,
 }: {
   email: string;
   password: string;
+  pathname: "/signup" | "/signin";
 }) {
-  const response = await fetch(signInUser, {
+  let endpoint: string;
+  if (pathname === "/signup") {
+    endpoint = signUpUser;
+  } else {
+    endpoint = signInUser;
+  }
+
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,8 +34,10 @@ export async function signIn({
     return errorData;
   }
 
-  const { id }: { id: string } = await response.json();
-  await createSession(id);
+  if (pathname === "/signin") {
+    const { id }: { id: string } = await response.json();
+    await createSession(id);
+  }
 }
 
 export async function signOut() {

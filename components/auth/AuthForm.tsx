@@ -2,6 +2,7 @@
 
 import { useContext } from "react";
 import { redirect } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -17,11 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SignupFormSchema } from "@/lib/definitions";
-import { signIn as signInAction } from "@/actions/auth";
+import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/auth";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
+  const pathname = usePathname() as "/signup" | "/signin";
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof SignupFormSchema>>({
     resolver: zodResolver(SignupFormSchema),
@@ -31,10 +34,8 @@ export default function AuthForm() {
     },
   });
 
-  const { toast } = useToast();
-
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const err = await signInAction(values);
+    const err = await auth({ ...values, pathname });
 
     if (err) {
       return toast({
@@ -44,14 +45,22 @@ export default function AuthForm() {
       });
     }
 
-    signIn();
-    toast({
-      variant: "default",
-      title: "Success",
-      description: "You are now signed in",
-    });
-
-    redirect("/diary");
+    if (pathname === "/signin") {
+      signIn();
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "You are now signed in",
+      });
+      redirect("/diary");
+    } else {
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "Your account has been created",
+      });
+      redirect("/signin");
+    }
   }
 
   return (
