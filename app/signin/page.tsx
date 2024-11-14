@@ -1,10 +1,12 @@
-import AuthForm from "@/components/auth/AuthForm";
+import AuthView from "@/components/auth/AuthView";
 
 export default function SignInView() {
   return (
-    <div>
-      <h1>Sign In</h1>
-      <AuthForm />
-    </div>
+    <AuthView
+      title="Sign in to your account"
+      footerText="Don't have an account?"
+      footerLinkHref="/signup"
+      footerLinkLabel="Sign up"
+    />
   );
 }

@@ -29,7 +29,9 @@ export default function RootLayout({
           <AuthProvider>
             <div className="min-h-[calc(100vh-80px)]">
               <Header />
-              <main>{children}</main>
+              <main className="px-4 py-16 max-w-[1024px] mx-auto">
+                {children}
+              </main>
               <Toaster />
             </div>
             <Footer />

@@ -1,8 +1,12 @@
+import AuthView from "@/components/auth/AuthView";
+
 export default function SignUpView() {
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <p>User creates their account</p>
-    </div>
+    <AuthView
+      title="Create a new account"
+      footerText="Already have an account?"
+      footerLinkHref="/signin"
+      footerLinkLabel="Sign in"
+    />
   );
 }
