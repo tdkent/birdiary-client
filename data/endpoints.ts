@@ -6,3 +6,6 @@ export const signInUser = serverUrl + "users/auth/signin";
 
 // Bird
 export const findAllBirds = serverUrl + "bird";
+
+// Sighting
+export const newSightingEndpoint = serverUrl + "sightings";
