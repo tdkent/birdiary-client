@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -23,6 +24,7 @@ const simpleSightingSchema = z.object({
 });
 
 export default function SimpleSightingForm() {
+  const [isPending, setIsPending] = useState(false);
   const { token } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof simpleSightingSchema>>({
@@ -33,6 +35,7 @@ export default function SimpleSightingForm() {
   });
 
   async function onSubmit(values: z.infer<typeof simpleSightingSchema>) {
+    setIsPending(true);
     const formValues: Sighting = {
       bird_id: 1, // bird id is currently hard coded; should be included when name is fetched
       commonName: values.commonName,
@@ -40,6 +43,9 @@ export default function SimpleSightingForm() {
     };
 
     await create(token, formValues);
+
+    form.reset();
+    setIsPending(false);
   }
 
   return (
@@ -52,13 +58,15 @@ export default function SimpleSightingForm() {
             <FormItem>
               <FormLabel>Common Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button>Submit</Button>
+        <Button disabled={isPending} className="w-full">
+          {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );
