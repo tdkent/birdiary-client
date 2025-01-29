@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/context/auth";
-import { create } from "@/actions/sightings";
+import { create, type Sighting } from "@/actions/sightings";
+import { createUtcDate } from "@/helpers/dates";
 
 const simpleSightingSchema = z.object({
   commonName: z.string().min(1),
@@ -24,7 +24,6 @@ const simpleSightingSchema = z.object({
 
 export default function SimpleSightingForm() {
   const { token } = useContext(AuthContext);
-  console.log("🚀 ~ SimpleSightingForm ~ token:", token);
 
   const form = useForm<z.infer<typeof simpleSightingSchema>>({
     resolver: zodResolver(simpleSightingSchema),
@@ -34,7 +33,13 @@ export default function SimpleSightingForm() {
   });
 
   async function onSubmit(values: z.infer<typeof simpleSightingSchema>) {
-    await create(token, values);
+    const formValues: Sighting = {
+      bird_id: 1, // bird id is currently hard coded; should be included when name is fetched
+      commonName: values.commonName,
+      date: createUtcDate(new Date()),
+    };
+
+    await create(token, formValues);
   }
 
   return (

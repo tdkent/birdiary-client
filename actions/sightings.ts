@@ -2,11 +2,15 @@
 
 import { newSightingEndpoint } from "@/data/endpoints";
 
-export async function create(
-  token: string,
-  { commonName }: { commonName: string }
-) {
-  console.log(token, commonName);
+export type Sighting = {
+  bird_id: number;
+  commonName: string;
+  date: Date;
+  location?: string;
+  desc?: string;
+};
+
+export async function create(token: string, formValues: Sighting) {
   try {
     const response = await fetch(newSightingEndpoint, {
       method: "POST",
@@ -14,14 +18,16 @@ export async function create(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ commonName }),
+      body: JSON.stringify(formValues),
     });
 
     const data = await response.json();
-    console.log(data);
+
     if (!response.ok) {
       throw new Error("An error occurred");
     }
+
+    return data;
   } catch (error) {
     console.error(error);
   }

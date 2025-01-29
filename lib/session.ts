@@ -19,7 +19,7 @@ export async function decrypt(session: string | undefined = "") {
     });
     return payload;
   } catch (error) {
-    console.log("Decryption failed:", error);
+    console.error("Decryption failed:", error);
   }
 }
 
