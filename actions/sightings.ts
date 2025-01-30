@@ -21,14 +21,11 @@ export async function create(token: string, formValues: Sighting) {
       body: JSON.stringify(formValues),
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      throw new Error("An error occurred");
+      return response.json();
     }
-
-    return data;
   } catch (error) {
     console.error(error);
+    throw new Error("Failed to create new sighting");
   }
 }

@@ -14,10 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/context/auth";
 import { create, type Sighting } from "@/actions/sightings";
 import { createUtcDate } from "@/helpers/dates";
+import { NestResError } from "@/models/error";
 
 const simpleSightingSchema = z.object({
   commonName: z.string().min(1),
@@ -26,6 +28,7 @@ const simpleSightingSchema = z.object({
 export default function SimpleSightingForm() {
   const [isPending, setIsPending] = useState(false);
   const { token } = useContext(AuthContext);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof simpleSightingSchema>>({
     resolver: zodResolver(simpleSightingSchema),
@@ -37,15 +40,24 @@ export default function SimpleSightingForm() {
   async function onSubmit(values: z.infer<typeof simpleSightingSchema>) {
     setIsPending(true);
     const formValues: Sighting = {
-      bird_id: 1, // bird id is currently hard coded; should be included when name is fetched
+      bird_id: 1, //! bird_id is currently hard coded; should be included when name is fetched
       commonName: values.commonName,
       date: createUtcDate(new Date()),
     };
 
-    await create(token, formValues);
+    const err: NestResError | undefined = await create(token, formValues);
 
-    form.reset();
-    setIsPending(false);
+    if (err) {
+      toast({
+        variant: "destructive",
+        title: `Error: ${err.error}`,
+        description: `${err.message} (Error Code ${err.statusCode})`,
+      });
+    } else {
+      form.reset();
+    }
+
+    return setIsPending(false);
   }
 
   return (
