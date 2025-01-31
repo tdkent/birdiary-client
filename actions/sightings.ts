@@ -21,11 +21,14 @@ export async function create(token: string, formValues: Sighting) {
       body: JSON.stringify(formValues),
     });
 
+    // Return expected error object containing error property
     if (!response.ok) {
       return response.json();
     }
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to create new sighting");
+  } catch {
+    // Unexpected errors bubble to nearest error boundary
+    throw new Error(
+      "An unexpected error occurred while attempting to create the new sighting. Please try again later."
+    );
   }
 }
