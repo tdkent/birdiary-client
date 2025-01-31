@@ -1,6 +1,7 @@
 "use server";
 
 import { newSightingEndpoint } from "@/data/endpoints";
+import { ErrorMessages } from "@/models/error";
 
 export type Sighting = {
   bird_id: number;
@@ -10,6 +11,8 @@ export type Sighting = {
   desc?: string;
 };
 
+// This action sends POST request for both 'simple' and 'detailed' sightings
+// 'location' and 'desc' are undefined in 'simple' sightings
 export async function create(token: string, formValues: Sighting) {
   try {
     const response = await fetch(newSightingEndpoint, {
@@ -27,8 +30,6 @@ export async function create(token: string, formValues: Sighting) {
     }
   } catch {
     // Unexpected errors bubble to nearest error boundary
-    throw new Error(
-      "An unexpected error occurred while attempting to create the new sighting. Please try again later."
-    );
+    throw new Error(ErrorMessages.Default);
   }
 }

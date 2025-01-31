@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
 import { signUpUser, signInUser } from "@/data/endpoints";
-import { NestResError } from "@/models/error";
+import { NestResError, ErrorMessages } from "@/models/error";
 
 type AuthParams = {
   email: string;
@@ -14,7 +14,8 @@ type AuthParams = {
 // This function handles both 'Sign up' and 'Sign in' auth actions
 // The request body contains the email and password in both cases
 // The API endpoint is determined based on pathname from params
-export async function auth({ email, password, pathname }: AuthParams) {
+// ...args is a rest parameter of type { email:string; password: string }
+export async function auth({ pathname, ...args }: AuthParams) {
   let endpoint: string;
   if (pathname === "/signup") {
     endpoint = signUpUser;
@@ -28,7 +29,7 @@ export async function auth({ email, password, pathname }: AuthParams) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(args),
     });
 
     const data: NestResError | { id: string } = await response.json();
@@ -48,9 +49,7 @@ export async function auth({ email, password, pathname }: AuthParams) {
     }
   } catch {
     // Unexpected errors bubble to nearest error boundary
-    throw new Error(
-      "An unexpected error occurred during the authentication process. Please try again later."
-    );
+    throw new Error(ErrorMessages.Default);
   }
 }
 
