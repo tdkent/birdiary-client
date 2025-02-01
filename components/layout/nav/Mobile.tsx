@@ -15,7 +15,7 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import { Separator } from "../../ui/separator";
 import { caveat } from "@/lib/fonts";
-import { AuthContext } from "@/context/auth";
+import { AuthContext } from "@/context/AuthContext";
 import { mobile as mobileNavLinks } from "@/data/nav";
 
 export function MobileNav() {

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { AuthContext } from "@/context/auth";
+import { AuthContext } from "@/context/AuthContext";
 import { create, type Sighting } from "@/actions/sightings";
 import { createUtcDate } from "@/helpers/dates";
 import { NestResError } from "@/models/error";

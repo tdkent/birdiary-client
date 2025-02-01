@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupFormSchema } from "@/lib/definitions";
 import { auth } from "@/actions/auth";
-import { AuthContext } from "@/context/auth";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);

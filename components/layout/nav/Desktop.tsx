@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { CircleUserRound } from "lucide-react";
 import { desktopSublinks as sublinks } from "@/data/nav";
-import { AuthContext } from "@/context/auth";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function DesktopNav() {
   const { isSignedIn } = useContext(AuthContext);

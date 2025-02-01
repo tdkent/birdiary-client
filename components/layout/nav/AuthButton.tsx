@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Link from "next/link";
 import { LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AuthContext } from "@/context/auth";
+import { AuthContext } from "@/context/AuthContext";
 import { signOut as signOutAction } from "@/actions/auth";
 
 export default function AuthButton() {

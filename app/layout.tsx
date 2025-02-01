@@ -3,7 +3,7 @@ import "./globals.css";
 import { quicksand } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import AuthProvider from "@/context/providers/AuthProvider";
+import AuthProvider from "@/context/AuthContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
