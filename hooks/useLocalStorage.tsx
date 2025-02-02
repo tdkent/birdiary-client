@@ -1,5 +1,3 @@
-import type { Sighting } from "@/actions/sightings";
-
 // `formValues` is a generic type <T>
 // The type of <T> must be explicity declared when the function is called
 export type LocalStorageRequest<T> = {
