@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useGuestFormStorage";
 
 export type FormAction<T> = {
   formValues: T; // needs to be a generic
@@ -10,7 +10,7 @@ export type FormAction<T> = {
   key: "sightings"; // local storage key if user is not signed in
 };
 
-export default function useFormAction() {
+export default function useFormRouter() {
   const { isSignedIn, token } = useContext(AuthContext);
   const { sendReqToLocalStorage } = useLocalStorage();
 

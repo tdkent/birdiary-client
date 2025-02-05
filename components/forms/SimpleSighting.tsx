@@ -20,7 +20,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { create } from "@/actions/sightings";
 import { createUtcDate } from "@/helpers/dates";
 import { NestResError } from "@/models/error";
-import useFormAction, { type FormAction } from "@/hooks/useFormAction";
+import useFormAction, { type FormAction } from "@/hooks/useFormRouter";
 
 const simpleSightingSchema = z.object({
   commonName: z.string().min(1),

@@ -6,7 +6,7 @@ export type LocalStorageRequest<T> = {
   key: "sightings";
 };
 
-export default function useLocalStorage() {
+export default function useGuestFormStorage() {
   function sendReqToLocalStorage<T>({
     formValues,
     method,
