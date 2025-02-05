@@ -1,10 +1,7 @@
-// `formValues` is a generic type <T>
-// The type of <T> must be explicity declared when the function is called
-export type LocalStorageRequest<T> = {
-  formValues: T;
-  method: "POST" | "GET" | "PATCH" | "DELETE";
-  key: "sightings";
-};
+import type { FormAction } from "@/hooks/useFormRouter";
+
+// Omit "route" property from FormAction type
+type LocalStorageRequest<T> = Omit<FormAction<T>, "route">;
 
 export default function useGuestFormStorage() {
   function sendReqToLocalStorage<T>({

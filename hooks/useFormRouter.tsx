@@ -2,14 +2,17 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import useLocalStorage from "@/hooks/useGuestFormStorage";
 
+// `formValues` is a generic type <T>
+// The type of <T> must be explicity declared when the function is called
 export type FormAction<T> = {
-  formValues: T; // needs to be a generic
+  formValues: T;
   method: "POST" | "GET" | "PATCH" | "DELETE";
   // TODO: create and assign routes enum as type
   route: string; // API route if user is signed in
   key: "sightings"; // local storage key if user is not signed in
 };
 
+// Check user's auth status route form action to appropriate hook
 export default function useFormRouter() {
   const { isSignedIn, token } = useContext(AuthContext);
   const { sendReqToLocalStorage } = useLocalStorage();
