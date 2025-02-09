@@ -28,8 +28,8 @@ export type Sighting = {
   bird_id: number;
   commonName: string;
   date: Date;
-  location: string;
-  desc: string;
+  location?: string;
+  desc?: string;
 };
 
 export default function SimpleSightingForm() {
@@ -49,11 +49,9 @@ export default function SimpleSightingForm() {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     //! bird_id is currently hard coded; should be included when name is fetched
     const formValues: Sighting = {
-      bird_id: 1,
+      bird_id: 11,
       commonName: values.commonName,
       date: createUtcDate(new Date()),
-      location: "",
-      desc: "",
     };
 
     // Explicity set generic type <T> to be Sighting
