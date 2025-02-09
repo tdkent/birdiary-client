@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -34,8 +33,7 @@ export type Sighting = {
 };
 
 export default function SimpleSightingForm() {
-  const [isPending, setIsPending] = useState(false);
-  const { checkAuthAndSubmit } = useFormRouter();
+  const { isPending, setIsPending, checkAuthAndSubmit } = useFormRouter();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof simpleSightingSchema>>({

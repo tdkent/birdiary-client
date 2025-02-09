@@ -13,8 +13,7 @@ export default function useApiFormSubmit() {
     token,
   }: ApiRequest<T>) {
     try {
-      // TODO: update route
-      const response = await fetch("", {
+      const response = await fetch(route, {
         method,
         headers: {
           "Content-Type": "application/json",
