@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
-import { signUpUser, signInUser } from "@/data/endpoints";
+import apiRoutes from "@/constants/api";
 import { NestResError, ErrorMessages } from "@/models/error";
 
 type AuthParams = {
@@ -18,9 +18,9 @@ type AuthParams = {
 export async function auth({ pathname, ...args }: AuthParams) {
   let endpoint: string;
   if (pathname === "/signup") {
-    endpoint = signUpUser;
+    endpoint = apiRoutes.SIGNUP;
   } else {
-    endpoint = signInUser;
+    endpoint = apiRoutes.SIGNIN;
   }
 
   try {
