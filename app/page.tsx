@@ -1,11 +1,12 @@
 import SimpleSightingForm from "@/components/forms/SimpleSighting";
+import SightingList from "@/components/Sighting/SightingList/SightingList";
 
 export default function Home() {
   return (
     <div>
-      <h1>home page</h1>
+      <h1>Welcome to Birdiary</h1>
       <SimpleSightingForm />
-      <p>list of recent sightings</p>
+      <SightingList />
     </div>
   );
 }
