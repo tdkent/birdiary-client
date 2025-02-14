@@ -1,4 +1,4 @@
-import { findAllBirds } from "@/data/endpoints";
+import apiRoutes from "@/constants/api";
 import { Bird } from "@/models/response";
 
 export default async function ShowAllBirds() {
@@ -15,7 +15,7 @@ export default async function ShowAllBirds() {
 }
 
 async function getData() {
-  const response = await fetch(findAllBirds);
+  const response = await fetch(apiRoutes.BIRDS);
 
   if (!response.ok) {
     if (response.status === 404) {

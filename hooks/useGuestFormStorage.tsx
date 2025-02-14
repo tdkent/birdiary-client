@@ -1,12 +1,9 @@
-// `formValues` is a generic type <T>
-// The type of <T> must be explicity declared when the function is called
-export type LocalStorageRequest<T> = {
-  formValues: T;
-  method: "POST" | "GET" | "PATCH" | "DELETE";
-  key: "sightings";
-};
+import type { FormAction } from "@/hooks/useFormRouter";
 
-export default function useLocalStorage() {
+// Omit "route" property from FormAction type
+type LocalStorageRequest<T> = Omit<FormAction<T>, "route">;
+
+export default function useGuestFormStorage() {
   function sendReqToLocalStorage<T>({
     formValues,
     method,
@@ -22,6 +19,9 @@ export default function useLocalStorage() {
     // Fetch data from local storage based on `key` parameter
     const data: T[] = JSON.parse(window.localStorage.getItem(key)!);
 
+    if (method === "GET") {
+      return data;
+    }
     // Update the data based on HTTP `method` parameter
     if (method === "POST") {
       data.push(formValues);

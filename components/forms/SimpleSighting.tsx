@@ -1,6 +1,5 @@
 "use client";
 
-import { useContext, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,11 +15,10 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { AuthContext } from "@/context/AuthContext";
-import { create } from "@/actions/sightings";
 import { createUtcDate } from "@/helpers/dates";
 import { NestResError } from "@/models/error";
-import useFormAction, { type FormAction } from "@/hooks/useFormAction";
+import useFormRouter, { type FormAction } from "@/hooks/useFormRouter";
+import apiRoutes from "@/constants/api";
 
 const simpleSightingSchema = z.object({
   commonName: z.string().min(1),
@@ -30,14 +28,12 @@ export type Sighting = {
   bird_id: number;
   commonName: string;
   date: Date;
-  location: string;
-  desc: string;
+  location?: string;
+  desc?: string;
 };
 
 export default function SimpleSightingForm() {
-  const [isPending, setIsPending] = useState(false);
-  const { isSignedIn, token } = useContext(AuthContext);
-  const { checkAuthAndSubmit } = useFormAction();
+  const { isPending, setIsPending, checkAuthAndSubmit } = useFormRouter();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof simpleSightingSchema>>({
@@ -53,36 +49,29 @@ export default function SimpleSightingForm() {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     //! bird_id is currently hard coded; should be included when name is fetched
     const formValues: Sighting = {
-      bird_id: 1,
+      bird_id: 11,
       commonName: values.commonName,
       date: createUtcDate(new Date()),
-      location: "",
-      desc: "",
     };
 
     // Explicity set generic type <T> to be Sighting
     const requestData: FormAction<Sighting> = {
       formValues,
       method: "POST",
-      route: "", // TODO: add route
+      route: apiRoutes.SIGHTING,
       key: "sightings",
     };
 
-    //! Temp working code below. Update w/ useApi hook
-    if (!isSignedIn) {
-      checkAuthAndSubmit(requestData);
-    } else {
-      const err: NestResError | undefined = await create(token, formValues);
+    const err: NestResError | undefined = await checkAuthAndSubmit(requestData);
 
-      if (err) {
-        toast({
-          variant: "destructive",
-          title: `Error: ${err.error}`,
-          description: `${err.message} (Error Code ${err.statusCode})`,
-        });
-      } else {
-        form.reset();
-      }
+    if (err) {
+      toast({
+        variant: "destructive",
+        title: `Error: ${err.error}`,
+        description: `${err.message} (Error Code ${err.statusCode})`,
+      });
+    } else {
+      form.reset();
     }
 
     return setIsPending(false);
