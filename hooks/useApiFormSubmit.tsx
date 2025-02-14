@@ -19,13 +19,11 @@ export default function useApiFormSubmit() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formValues),
+        // Do not include request body with "GET" requests
+        body: method === "GET" ? null : JSON.stringify(formValues),
       });
 
-      // Return expected error object containing error property
-      if (!response.ok) {
-        return response.json();
-      }
+      return response.json();
     } catch {
       // Unexpected errors bubble to nearest error boundary
       throw new Error(ErrorMessages.Default);

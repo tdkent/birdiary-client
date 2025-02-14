@@ -19,6 +19,9 @@ export default function useGuestFormStorage() {
     // Fetch data from local storage based on `key` parameter
     const data: T[] = JSON.parse(window.localStorage.getItem(key)!);
 
+    if (method === "GET") {
+      return data;
+    }
     // Update the data based on HTTP `method` parameter
     if (method === "POST") {
       data.push(formValues);

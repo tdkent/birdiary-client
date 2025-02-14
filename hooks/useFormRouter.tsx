@@ -3,14 +3,17 @@ import { AuthContext } from "@/context/AuthContext";
 import useLocalStorage from "@/hooks/useGuestFormStorage";
 import useApiFormSubmit from "@/hooks/useApiFormSubmit";
 
-// `formValues` is a generic type <T>
-// The type of <T> must be explicity declared when the function is called
-export type FormAction<T> = {
+/* 
+• `formValues` is a generic type <T>.
+• The type of <T> must be declared when the function is called.
+• `route` is the API route used when the user is signed in.
+• `key` is the local storage key when the user is not signed in.
+*/
+export type FormAction<T = object> = {
   formValues: T;
-  method: "POST" | "GET" | "PATCH" | "DELETE";
-  // TODO: assign routes object as type
-  route: string; // API route if user is signed in
-  key: "sightings"; // local storage key if user is not signed in
+  method: "GET" | "POST" | "PATCH" | "DELETE";
+  route: string;
+  key: "sightings";
 };
 
 // Check user's auth status route form action to appropriate hook
@@ -28,9 +31,10 @@ export default function useFormRouter() {
     key,
   }: FormAction<T>) {
     if (!isSignedIn) {
-      sendReqToLocalStorage({ formValues, method, key });
+      return sendReqToLocalStorage({ formValues, method, key });
     } else {
-      return sendReqToServer({ formValues, method, route, token });
+      // Wait to retrieve token before sending request
+      if (token) return sendReqToServer({ formValues, method, route, token });
     }
   }
 
