@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/AuthContext";
 import { signOut as signOutAction } from "@/actions/auth";
 
-export default function AuthButton() {
+export default function SignInOutButton() {
   const { isSignedIn, signOut } = useContext(AuthContext);
 
   async function handleClick() {

@@ -6,21 +6,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AuthForm from "@/components/auth/AuthForm";
+import AuthForm from "@/components/forms/AuthForm";
 
-type AuthViewProps = {
+type AuthProps = {
   title: string;
   footerText: string;
   footerLinkHref: string;
   footerLinkLabel: string;
 };
 
-export default function AuthView({
+export default function AuthContainer({
   title,
   footerText,
   footerLinkHref,
   footerLinkLabel,
-}: AuthViewProps) {
+}: AuthProps) {
   return (
     <Card>
       <CardHeader>

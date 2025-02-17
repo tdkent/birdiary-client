@@ -1,7 +1,7 @@
 import apiRoutes from "@/constants/api";
 import { Bird } from "@/models/response";
 
-export default async function ShowAllBirds() {
+export default async function BirdList() {
   const data: Bird[] = await getData();
   return (
     <div id="bird-data-container" className="mt-12">

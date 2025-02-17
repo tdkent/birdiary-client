@@ -20,7 +20,7 @@ import { NestResError } from "@/models/error";
 import useFormRouter, { type FormAction } from "@/hooks/useFormRouter";
 import apiRoutes from "@/constants/api";
 
-const simpleSightingSchema = z.object({
+const quickSightingSchema = z.object({
   commonName: z.string().min(1),
 });
 
@@ -32,18 +32,18 @@ export type Sighting = {
   desc?: string;
 };
 
-export default function SimpleSightingForm() {
+export default function QuickSightingForm() {
   const { isPending, setIsPending, checkAuthAndSubmit } = useFormRouter();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof simpleSightingSchema>>({
-    resolver: zodResolver(simpleSightingSchema),
+  const form = useForm<z.infer<typeof quickSightingSchema>>({
+    resolver: zodResolver(quickSightingSchema),
     defaultValues: {
       commonName: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof simpleSightingSchema>) {
+  async function onSubmit(values: z.infer<typeof quickSightingSchema>) {
     setIsPending(true);
 
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"

@@ -1,9 +1,9 @@
 "use client";
 import { useMediaQuery } from "usehooks-ts";
-import DesktopNav from "./Desktop";
-import { MobileNav } from "./Mobile";
+import DesktopNav from "./DesktopNav";
+import { MobileNav } from "./MobileNav";
 
-export default function Nav() {
+export default function ResponsiveNav() {
   const isDesktop = useMediaQuery("(min-width:768px)");
 
   if (!isDesktop) {
