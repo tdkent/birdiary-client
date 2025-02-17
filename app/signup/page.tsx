@@ -1,8 +1,8 @@
-import AuthView from "@/components/auth/AuthView";
+import AuthContainer from "@/components/pages/AuthContainer";
 
 export default function SignUpView() {
   return (
-    <AuthView
+    <AuthContainer
       title="Create a new account"
       footerText="Already have an account?"
       footerLinkHref="/signin"

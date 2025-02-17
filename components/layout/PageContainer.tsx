@@ -1,4 +1,4 @@
-export default function PageLayout({
+export default function PageContainer({
   header,
   desc,
   children,

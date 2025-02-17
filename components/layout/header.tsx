@@ -1,7 +1,7 @@
 import Logo from "@/components/layout/Logo";
-import Nav from "@/components/layout/nav";
+import Nav from "@/components/layout/ResponsiveNav";
 import { ModeToggle } from "@/components/theme/mode-toggle";
-import AuthButton from "@/components/layout/nav/AuthButton";
+import SignInOutButton from "@/components/layout/SignInOutButton";
 
 export default function Header() {
   return (
@@ -9,7 +9,7 @@ export default function Header() {
       <Logo />
       <div className="flex gap-2">
         <Nav />
-        <AuthButton />
+        <SignInOutButton />
         <ModeToggle />
       </div>
     </header>

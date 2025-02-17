@@ -1,16 +1,16 @@
 import { Suspense } from "react";
-import PageLayout from "@/components/layout/page/PageLayout";
-import ShowAllBirds from "@/components/core/birds/ShowAllBirds";
+import PageContainer from "@/components/layout/PageContainer";
+import BirdList from "@/components/pages/BirdList";
 
 export default async function BirdsView() {
   return (
-    <PageLayout
+    <PageContainer
       header="Birdpedia"
       desc="Index of all bird species with a rarity rating of Rare or better, as determined by the ABA."
     >
       <Suspense fallback={<p>Loading some stuff...</p>}>
-        <ShowAllBirds />
+        <BirdList />
       </Suspense>
-    </PageLayout>
+    </PageContainer>
   );
 }
