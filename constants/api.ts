@@ -1,10 +1,15 @@
-import { serverUrl } from "@/constants/env";
+import { SERVER_URL } from "@/constants/env";
 
-const apiRoutes = {
-  BIRDS: `${serverUrl}/birds`,
-  SIGHTING: `${serverUrl}/sightings`,
-  SIGNIN: `${serverUrl}/users/auth/signin`,
-  SIGNUP: `${serverUrl}/users`,
+const BIRD = "/birds";
+const SIGHTING = "/sightings";
+const USER = "/users";
+const SIGNIN = "/auth/signin";
+
+const API_ROUTES = {
+  BIRDS: SERVER_URL + BIRD,
+  SIGHTING: SERVER_URL + SIGHTING,
+  SIGNIN: SERVER_URL + USER + SIGNIN,
+  SIGNUP: SERVER_URL + USER,
 } as const;
 
-export default apiRoutes;
+export default API_ROUTES;
