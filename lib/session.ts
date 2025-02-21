@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
-import { sessionKey } from "@/constants/env";
+import { SESSION_KEY } from "@/constants/env";
 
-const encodedKey = new TextEncoder().encode(sessionKey);
+const encodedKey = new TextEncoder().encode(SESSION_KEY);
 
 export async function encrypt(payload: { id: string }) {
   return new SignJWT(payload)
