@@ -3,13 +3,8 @@
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
 import apiRoutes from "@/constants/api";
-import { NestResError, ErrorMessages } from "@/models/error";
-
-type AuthParams = {
-  email: string;
-  password: string;
-  pathname: "/signup" | "/signin";
-};
+import type { AuthParams, AuthResponse } from "@/types/auth";
+import { NestResError, ErrorMessages } from "@/types/api";
 
 // This function handles both 'Sign up' and 'Sign in' auth actions
 // The request body contains the email and password in both cases
@@ -32,7 +27,7 @@ export async function auth({ pathname, ...args }: AuthParams) {
       body: JSON.stringify(args),
     });
 
-    const data: NestResError | { id: string } = await response.json();
+    const data: NestResError | AuthResponse = await response.json();
 
     // Return expected error object containing error property
     if (!response.ok) {

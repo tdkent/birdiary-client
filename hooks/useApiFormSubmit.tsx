@@ -1,5 +1,5 @@
 import type { FormAction } from "@/hooks/useFormRouter";
-import { ErrorMessages } from "@/models/error";
+import { ErrorMessages } from "@/types/error";
 
 // Omit "key" property from FormAction type
 type ApiRequest<T> = Omit<FormAction<T>, "key"> & { token: string };

@@ -2,15 +2,9 @@
 
 import { useEffect, useState, createContext } from "react";
 import { checkSession, getCookie } from "@/helpers/auth";
+import { AuthState } from "@/types/auth";
 
-export type Auth = {
-  isSignedIn: boolean;
-  token: string;
-  signIn: () => void;
-  signOut: () => void;
-};
-
-export const AuthContext = createContext<Auth>({
+export const AuthContext = createContext<AuthState>({
   isSignedIn: false,
   token: "",
   signIn: () => {},
@@ -60,7 +54,7 @@ export default function AuthProvider({
     setToken(cookie);
   }
 
-  const auth: Auth = {
+  const auth: AuthState = {
     isSignedIn,
     token,
     signIn,

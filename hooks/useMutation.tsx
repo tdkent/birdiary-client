@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
-import { ErrorMessages, NestResError } from "@/models/error";
+import { ErrorMessages, type NestResError } from "@/types/api";
+import type { MutationParameters } from "@/types/api";
 import { checkSession, getCookie } from "@/helpers/auth";
-
-type MutationParameters<T> = {
-  key: "sightings";
-  route: string;
-  method: "POST";
-  formValues: T;
-};
 
 export default function useMutation() {
   async function mutateData<T>({
