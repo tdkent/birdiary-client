@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import { ErrorMessages, NestResError } from "@/types/error";
+import { ErrorMessages, type NestResError } from "@/types/api";
+import type { QueryParameters } from "@/types/api";
 import { checkSession, getCookie } from "@/helpers/auth";
-
-type QueryParameters = {
-  key: "sightings";
-  route: string;
-};
 
 export default function useQuery<T>(
   key: QueryParameters["key"],

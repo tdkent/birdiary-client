@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
-import useFormRouter from "@/hooks/useFormRouter";
-import { type FormAction } from "@/hooks/useFormRouter";
-import { NestResError } from "@/types/error";
+// import { NestResError } from "@/types/error";
 import useQuery from "@/hooks/useQuery";
 import apiRoutes from "@/constants/api";
+import type { RecentSighting } from "@/types/models";
 /*
 
 • Renders a list of the user's recent bird sightings.
@@ -14,15 +13,6 @@ import apiRoutes from "@/constants/api";
 • The sightings array is mapped to render sighting cards.
 
 */
-
-type RecentSighting = {
-  id: number;
-  date: Date;
-  bird: {
-    comm_name: string;
-    id: number;
-  };
-};
 
 export default function SightingList() {
   const [scrollPage, setScrollPage] = useState(1);

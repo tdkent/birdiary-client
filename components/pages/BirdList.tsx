@@ -1,5 +1,5 @@
 import apiRoutes from "@/constants/api";
-import { Bird } from "@/types/response";
+import type { Bird } from "@/types/models";
 
 export default async function BirdList() {
   const data: Bird[] = await getData();
