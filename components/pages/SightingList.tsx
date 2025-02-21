@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useFormRouter from "@/hooks/useFormRouter";
 import { type FormAction } from "@/hooks/useFormRouter";
-import { NestResError } from "@/models/error";
+import { NestResError } from "@/types/error";
 import useQuery from "@/hooks/useQuery";
 import apiRoutes from "@/constants/api";
 /*

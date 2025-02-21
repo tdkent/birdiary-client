@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
 import apiRoutes from "@/constants/api";
-import { NestResError, ErrorMessages } from "@/models/error";
+import { NestResError, ErrorMessages } from "@/types/error";
 
 type AuthParams = {
   email: string;

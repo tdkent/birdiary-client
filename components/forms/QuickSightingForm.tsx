@@ -16,7 +16,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { createUtcDate } from "@/helpers/dates";
-import { NestResError } from "@/models/error";
+import { NestResError } from "@/types/error";
 import useFormRouter, { type FormAction } from "@/hooks/useFormRouter";
 import apiRoutes from "@/constants/api";
 

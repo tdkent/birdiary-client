@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ErrorMessages, NestResError } from "@/models/error";
+import { ErrorMessages, NestResError } from "@/types/error";
 import { checkSession, getCookie } from "@/helpers/auth";
 
 type QueryParameters = {
