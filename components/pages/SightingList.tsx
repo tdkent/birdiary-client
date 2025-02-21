@@ -1,8 +1,9 @@
 "use client";
-import { useEffect } from "react";
+import { useState } from "react";
 import useFormRouter from "@/hooks/useFormRouter";
 import { type FormAction } from "@/hooks/useFormRouter";
 import { NestResError } from "@/models/error";
+import useQuery from "@/hooks/useQuery";
 import apiRoutes from "@/constants/api";
 /*
 
@@ -14,27 +15,36 @@ import apiRoutes from "@/constants/api";
 
 */
 
+type RecentSighting = {
+  id: number;
+  date: Date;
+  bird: {
+    comm_name: string;
+    id: number;
+  };
+};
+
 export default function SightingList() {
-  const { checkAuthAndSubmit, isPending, setIsPending } = useFormRouter();
+  const [scrollPage, setScrollPage] = useState(1);
+  const { fetchedData, isPending, error } = useQuery<RecentSighting>(
+    "sightings",
+    apiRoutes.SIGHTING_RECENT(scrollPage)
+  );
 
-  useEffect(() => {
-    const requestData: FormAction = {
-      formValues: {},
-      method: "GET",
-      route: apiRoutes.SIGHTING,
-      key: "sightings",
-    };
-
-    async function fetchSightings() {
-      const res = await checkAuthAndSubmit(requestData);
-    }
-
-    fetchSightings();
-  }, [checkAuthAndSubmit]);
+  // console.log(fetchedData, isPending, error);
+  if (!fetchedData.length) {
+    return <p>No recent sightings</p>;
+  }
 
   return (
     <section>
       <h2>Recent Sightings</h2>
+      <ul>
+        {fetchedData.map((sighting) => {
+          console.log(sighting);
+          return <li key={sighting.id}>{sighting.bird?.comm_name}</li>;
+        })}
+      </ul>
     </section>
   );
 }
