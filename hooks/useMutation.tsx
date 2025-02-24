@@ -3,12 +3,11 @@ import {
   ErrorMessages,
   type ExpectedServerError,
   type MutationSuccess,
+  type MutationParameters,
+  type MutateDbParameters,
+  type MutateStorageParameters,
 } from "@/types/api";
-import type {
-  MutationParameters,
-  MutateDbParameters,
-  MutateStorageParameters,
-} from "@/types/api";
+
 import { checkSession, getCookie } from "@/helpers/auth";
 
 export default function useMutation() {
