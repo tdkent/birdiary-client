@@ -45,6 +45,8 @@ export enum ErrorMessages {
   Default = "An unexpected error occurred. Please try again later.",
 }
 
-export type SuccessResponse = {
+export type MutationSuccess = {
   message: "ok";
 };
+
+export type QuerySuccess<T> = T[] & MutationSuccess;

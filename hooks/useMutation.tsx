@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   ErrorMessages,
   type ExpectedServerError,
-  type SuccessResponse,
+  type MutationSuccess,
 } from "@/types/api";
 import type {
   MutationParameters,
@@ -47,7 +47,7 @@ export default function useMutation() {
         body: JSON.stringify(formValues),
       });
 
-      const data: ExpectedServerError | SuccessResponse = await response.json();
+      const data: ExpectedServerError | MutationSuccess = await response.json();
       return data;
     } catch (error) {
       // Unexpected errors bubble to nearest error boundary
@@ -81,7 +81,7 @@ export default function useMutation() {
     }
     // Set the updated data in local storage
     localStorage.setItem(key, JSON.stringify(data));
-    return { message: "ok" } as SuccessResponse;
+    return { message: "ok" } as MutationSuccess;
   }
 
   return { mutate, isPending };
