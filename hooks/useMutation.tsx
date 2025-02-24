@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
-import { ErrorMessages, type NestResError } from "@/types/api";
+import { useState } from "react";
+import {
+  ErrorMessages,
+  type ExpectedServerError,
+  type SuccessResponse,
+} from "@/types/api";
 import type {
   MutationParameters,
   MutateDbParameters,
@@ -19,9 +23,9 @@ export default function useMutation() {
     const isLoggedIn = await checkSession();
     // Send request to server if logged in
     if (isLoggedIn) {
-      mutateDb({ route, method, formValues });
+      return mutateDb({ route, method, formValues });
     } else {
-      mutateStorage({ key, method, formValues });
+      return mutateStorage({ key, method, formValues });
     }
   }
 
@@ -43,16 +47,11 @@ export default function useMutation() {
         body: JSON.stringify(formValues),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        // TODO: error handling
-      }
-
-      // TODO: mutation response body type
+      const data: ExpectedServerError | SuccessResponse = await response.json();
       return data;
-    } catch {
+    } catch (error) {
       // Unexpected errors bubble to nearest error boundary
+      console.error(error);
       throw new Error(ErrorMessages.Default);
     } finally {
       setIsPending(false);
@@ -82,6 +81,7 @@ export default function useMutation() {
     }
     // Set the updated data in local storage
     localStorage.setItem(key, JSON.stringify(data));
+    return { message: "ok" } as SuccessResponse;
   }
 
   return { mutate, isPending };
