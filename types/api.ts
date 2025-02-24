@@ -1,39 +1,52 @@
-// ======= HTTP REQUESTS =======
+// ======= REQUESTS =======
 
-// Data for GET requests
+// Local storage key and web server route
+// Standard params for GET requests
 export type QueryParameters = {
   key: "sightings";
   route: string;
 };
 
-// Data for POST, PATCH, DELETE requests
-export type MutationParameters<T> = {
-  key: "sightings";
-  route: string;
-  method: "POST";
+// Capture all information needed for POST, PATCH, DELETE requests
+export type MutationParameters<T> = QueryParameters & {
+  method: "POST" | "PATCH" | "DELETE";
   formValues: T;
 };
 
-// ======= ERRORS =======
+// Information needed for db mutation
+export type MutateDbParameters<T> = Omit<MutationParameters<T>, "key">;
+
+// Information needed for storage mutation
+export type MutateStorageParameters<T> = Omit<MutationParameters<T>, "route">;
+
+// ======= RESPONSES =======
 
 // Expected errors received from the server
-export type NestResError = {
-  message: string;
+// `error`: Name of the error
+// `statusCode`: Status code of the error
+// `message`: Array of class-validator error strings
+
+// Example expected error:
+// {
+//   error: "Bad Request",
+//   statusCode: 400,
+//   message: [
+//     "bird_id must not be less than 1",
+//     "maximal allowed date for date is Sun Feb 23 2025 15:53:48 GMT-0800 (Pacific Standard Time)"
+//   ]
+// }
+export type ExpectedServerError = {
   error: string;
   statusCode: number;
+  message: string[];
 };
 
 export enum ErrorMessages {
   Default = "An unexpected error occurred. Please try again later.",
 }
 
-// ======= RESPONSE BODIES =======
-
-export type RecentSighting = {
-  id: number;
-  date: Date;
-  bird: {
-    comm_name: string;
-    id: number;
-  };
+export type MutationSuccess = {
+  message: "ok";
 };
+
+export type QuerySuccess<T> = T[] & MutationSuccess;

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { ErrorMessages, type NestResError } from "@/types/api";
+import {
+  ErrorMessages,
+  type ExpectedServerError,
+  type QuerySuccess,
+} from "@/types/api";
 import type { QueryParameters } from "@/types/api";
 import { checkSession, getCookie } from "@/helpers/auth";
 
@@ -8,7 +12,7 @@ export default function useQuery<T>(
   route: QueryParameters["route"]
 ) {
   const [fetchedData, setFetchedData] = useState<T[]>([]);
-  const [error, setError] = useState<NestResError | null>(null);
+  const [error, setError] = useState<ExpectedServerError | null>(null);
   const [isPending, setIsPending] = useState(false);
 
   // Fetch data on initial render
@@ -46,17 +50,15 @@ export default function useQuery<T>(
         },
       });
 
-      const data: T[] | NestResError = await response.json();
+      const data: QuerySuccess<T> | ExpectedServerError = await response.json();
 
-      if (!response.ok) {
-        setError(data as NestResError);
-      }
-
-      setFetchedData(data as T[]);
-      setIsPending(false);
+      if (data.message !== "ok") setError(data);
+      else setFetchedData(data);
     } catch {
       // Unexpected errors bubble to nearest error boundary
       throw new Error(ErrorMessages.Default);
+    } finally {
+      setIsPending(false);
     }
   }
 
