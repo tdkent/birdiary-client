@@ -53,10 +53,11 @@ export default function useQuery<T>(
       }
 
       setFetchedData(data as T[]);
-      setIsPending(false);
     } catch {
       // Unexpected errors bubble to nearest error boundary
       throw new Error(ErrorMessages.Default);
+    } finally {
+      setIsPending(false);
     }
   }
 
