@@ -49,4 +49,4 @@ export type MutationSuccess = {
   message: "ok";
 };
 
-export type QuerySuccess<T> = T[] & MutationSuccess;
+export type QuerySuccess<T> = { result: T[] } & MutationSuccess;
