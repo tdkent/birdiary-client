@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
-import apiRoutes from "@/constants/api";
+import { BASE_URL } from "@/constants/env";
 import type { AuthParams, AuthResponse } from "@/types/auth";
 import { NestResError, ErrorMessages } from "@/types/api";
 
@@ -13,9 +13,9 @@ import { NestResError, ErrorMessages } from "@/types/api";
 export async function auth({ pathname, ...args }: AuthParams) {
   let endpoint: string;
   if (pathname === "/signup") {
-    endpoint = apiRoutes.SIGNUP;
+    endpoint = BASE_URL + "/users";
   } else {
-    endpoint = apiRoutes.SIGNIN;
+    endpoint = BASE_URL + "/users/auth/signin";
   }
 
   try {
@@ -42,7 +42,8 @@ export async function auth({ pathname, ...args }: AuthParams) {
         throw new Error("Invalid data format in response object");
       }
     }
-  } catch {
+  } catch (error) {
+    console.error(error);
     // Unexpected errors bubble to nearest error boundary
     throw new Error(ErrorMessages.Default);
   }

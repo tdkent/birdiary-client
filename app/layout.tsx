@@ -4,6 +4,7 @@ import { quicksand } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import AuthProvider from "@/context/AuthContext";
+import ApiProvider from "@/context/ApiContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -27,14 +28,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <div className="min-h-[calc(100vh-80px)]">
-              <Header />
-              <main className="px-4 py-16 max-w-[1024px] mx-auto">
-                {children}
-              </main>
-              <Toaster />
-            </div>
-            <Footer />
+            <ApiProvider>
+              <div className="min-h-[calc(100vh-80px)]">
+                <Header />
+                <main className="px-4 py-16 max-w-[1024px] mx-auto">
+                  {children}
+                </main>
+                <Toaster />
+              </div>
+              <Footer />
+            </ApiProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

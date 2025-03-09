@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import {
@@ -16,65 +17,50 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { createUtcDate } from "@/helpers/dates";
-import { NestResError } from "@/types/error";
-import useFormRouter, { type FormAction } from "@/hooks/useFormRouter";
-import apiRoutes from "@/constants/api";
+import type { NewSighting } from "@/types/models";
 
 const quickSightingSchema = z.object({
-  commonName: z.string().min(1),
+  commName: z.string().min(1),
 });
 
-export type Sighting = {
-  bird_id: number;
-  commonName: string;
-  date: Date;
-  location?: string;
-  desc?: string;
-};
-
 export default function QuickSightingForm() {
-  const { isPending, setIsPending, checkAuthAndSubmit } = useFormRouter();
+  const { useMutation } = useApi();
+  const { mutate, pending, error } = useMutation({
+    route: "/sightings",
+    key: "sightings",
+    tagsToUpdate: ["sightings"],
+    method: "POST",
+  });
+
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof quickSightingSchema>>({
     resolver: zodResolver(quickSightingSchema),
     defaultValues: {
-      commonName: "",
+      commName: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof quickSightingSchema>) {
-    setIsPending(true);
-
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
-    //! bird_id is currently hard coded; should be included when name is fetched
-    const formValues: Sighting = {
-      bird_id: 11,
-      commonName: values.commonName,
+    const formValues: NewSighting = {
+      // TODO: update birdId
+      bird_id: Math.floor(Math.random() * 20 + 1),
+      commName: values.commName,
       date: createUtcDate(new Date()),
+      desc: "",
     };
 
-    // Explicity set generic type <T> to be Sighting
-    const requestData: FormAction<Sighting> = {
-      formValues,
-      method: "POST",
-      route: apiRoutes.SIGHTING,
-      key: "sightings",
-    };
-
-    const err: NestResError | undefined = await checkAuthAndSubmit(requestData);
-
-    if (err) {
+    mutate(formValues);
+    if (error) {
       toast({
         variant: "destructive",
-        title: `Error: ${err.error}`,
-        description: `${err.message} (Error Code ${err.statusCode})`,
+        title: "Error",
+        description: error,
       });
     } else {
       form.reset();
     }
-
-    return setIsPending(false);
   }
 
   return (
@@ -82,19 +68,19 @@ export default function QuickSightingForm() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="commonName"
+          name="commName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Common Name</FormLabel>
               <FormControl>
-                <Input {...field} disabled={isPending} />
+                <Input {...field} disabled={pending} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button disabled={isPending} className="w-full">
-          {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
+        <Button disabled={pending} className="w-full">
+          {pending ? <Loader2 className="animate-spin" /> : "Quick Add"}
         </Button>
       </form>
     </Form>

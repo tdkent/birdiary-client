@@ -1,3 +1,20 @@
+// ======= CACHE =======
+
+// The cache stores query functions that correspond to tags
+// Tags represent slices of state
+// The query functions can be called to update the state
+// in response to mutations
+
+export type Cache = {
+  sightings: Array<() => void>;
+  locations: Array<() => void>;
+};
+
+export const defaultCache: Cache = {
+  sightings: [],
+  locations: [],
+};
+
 // ======= REQUESTS =======
 
 // Local storage key and web server route
@@ -5,19 +22,14 @@
 export type QueryParameters = {
   key: "sightings";
   route: string;
+  tag: "sightings" | "locations";
 };
 
 // Capture all information needed for POST, PATCH, DELETE requests
-export type MutationParameters<T> = QueryParameters & {
+export type MutationParameters = Omit<QueryParameters, "tag"> & {
   method: "POST" | "PATCH" | "DELETE";
-  formValues: T;
+  tagsToUpdate: ["sightings" | "locations"];
 };
-
-// Information needed for db mutation
-export type MutateDbParameters<T> = Omit<MutationParameters<T>, "key">;
-
-// Information needed for storage mutation
-export type MutateStorageParameters<T> = Omit<MutationParameters<T>, "route">;
 
 // ======= RESPONSES =======
 
@@ -49,4 +61,4 @@ export type MutationSuccess = {
   message: "ok";
 };
 
-export type QuerySuccess<T> = T[] & MutationSuccess;
+export type QuerySuccess<T> = { data: T[] } & MutationSuccess;
