@@ -15,6 +15,7 @@
  */
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   defaultCache,
   ErrorMessages,
@@ -172,9 +173,8 @@ export default function ApiProvider({
 
         // Update the data based on HTTP `method` parameter
         if (method === "POST") {
-          // TODO: create uuid
-          data.push({
-            id: Math.floor(Math.random() * 1000 + 1),
+          data.unshift({
+            id: uuidv4(),
             ...formValues,
           });
         }
