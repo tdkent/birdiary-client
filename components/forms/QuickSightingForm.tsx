@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,6 +25,7 @@ const quickSightingSchema = z.object({
 });
 
 export default function QuickSightingForm() {
+  const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error } = useMutation({
     route: "/sightings",
@@ -32,7 +34,15 @@ export default function QuickSightingForm() {
     method: "POST",
   });
 
-  const { toast } = useToast();
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error,
+      });
+    }
+  }, [error, toast]);
 
   const form = useForm<z.infer<typeof quickSightingSchema>>({
     resolver: zodResolver(quickSightingSchema),
@@ -45,22 +55,15 @@ export default function QuickSightingForm() {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     const formValues: NewSighting = {
       // TODO: update birdId
-      bird_id: Math.floor(Math.random() * 20 + 1),
+      birdId: Math.floor(Math.random() * 838 + 10000),
       commName: values.commName,
       date: createUtcDate(new Date()),
       desc: "",
     };
 
     mutate(formValues);
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error,
-      });
-    } else {
-      form.reset();
-    }
+
+    form.resetField("commName");
   }
 
   return (

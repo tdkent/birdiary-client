@@ -33,24 +33,34 @@ export type MutationParameters = Omit<QueryParameters, "tag"> & {
 
 // ======= RESPONSES =======
 
-// Expected errors received from the server
-// `error`: Name of the error
-// `statusCode`: Status code of the error
-// `message`: Array of class-validator error strings
+/** 
+Expected errors received from the server
+`error`: Name of the error
+`statusCode`: Status code of the error
+`message`: string[] if Nest validation error; string if generic error
 
-// Example expected error:
-// {
-//   error: "Bad Request",
-//   statusCode: 400,
-//   message: [
-//     "bird_id must not be less than 1",
-//     "maximal allowed date for date is Sun Feb 23 2025 15:53:48 GMT-0800 (Pacific Standard Time)"
-//   ]
-// }
+Example expected validation error:
+{
+  error: "Bad Request",
+  statusCode: 400,
+  message: [
+    "bird_id must not be less than 1",
+    "maximal allowed date for date is Sun Feb 23 2025 15:53:48 GMT-0800 (Pacific Standard Time)"
+  ]
+}
+
+Example expected generic server error:
+{
+  error: "Bad Request",
+  statusCode: 400,
+  message: 'The server encountered an error'
+}
+*/
+
 export type ExpectedServerError = {
   error: string;
   statusCode: number;
-  message: string[];
+  message: Exclude<string | string[], "ok">;
 };
 
 export enum ErrorMessages {

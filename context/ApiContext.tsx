@@ -76,16 +76,23 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const result: QuerySuccess<T> | ExpectedServerError =
+            const data: QuerySuccess<T> | ExpectedServerError =
               await response.json();
 
-            if (result.message !== "ok") {
-              throw new Error(`${result.statusCode}: ${result.error}`);
+            if ("error" in data) {
+              const msg = Array.isArray(data.message)
+                ? data.message.join(",")
+                : data.message;
+              throw new Error(`${data.error}: ${msg}`);
             }
-            setData(result.data);
+
+            setData(data.data);
           } catch (error) {
-            console.error(error);
-            setError(typeof error === "string" ? error : ErrorMessages.Default);
+            if (error instanceof Error) {
+              setError(error.message);
+            } else {
+              setError(ErrorMessages.Default);
+            }
           } finally {
             setPending(false);
           }
@@ -150,12 +157,18 @@ export default function ApiProvider({
           const data: ExpectedServerError | MutationSuccess =
             await response.json();
 
-          if (data.message !== "ok") {
-            throw new Error(`${data.statusCode}: ${data.error}`);
+          if ("error" in data) {
+            const msg = Array.isArray(data.message)
+              ? data.message.join(",")
+              : data.message;
+            throw new Error(`${data.error}: ${msg}`);
           }
         } catch (error) {
-          console.error(error);
-          setError(typeof error === "string" ? error : ErrorMessages.Default);
+          if (error instanceof Error) {
+            setError(error.message);
+          } else {
+            setError(ErrorMessages.Default);
+          }
         } finally {
           setPending(false);
         }
