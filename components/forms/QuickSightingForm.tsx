@@ -54,8 +54,6 @@ export default function QuickSightingForm() {
   async function onSubmit(values: z.infer<typeof quickSightingSchema>) {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     const formValues: NewSighting = {
-      // TODO: update birdId
-      birdId: Math.floor(Math.random() * 838 + 10000),
       commName: values.commName,
       date: createUtcDate(new Date()),
       desc: "",
