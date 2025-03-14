@@ -26,7 +26,7 @@ export default function SightingList() {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Error",
+        title: "An error occurred",
         description: error,
       });
     }

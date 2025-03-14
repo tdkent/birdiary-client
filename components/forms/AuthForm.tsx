@@ -41,7 +41,7 @@ export default function AuthForm() {
       return toast({
         variant: "destructive",
         title: "An error occurred",
-        description: `${err.message} (Error Code ${err.statusCode})`,
+        description: err.message,
       });
     }
 

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
 import { BASE_URL } from "@/constants/env";
 import type { AuthParams, AuthResponse } from "@/types/auth";
-import { NestResError, ErrorMessages } from "@/types/api";
+import { ExpectedServerError, ErrorMessages } from "@/types/api";
 
 // This function handles both 'Sign up' and 'Sign in' auth actions
 // The request body contains the email and password in both cases
@@ -27,11 +27,11 @@ export async function auth({ pathname, ...args }: AuthParams) {
       body: JSON.stringify(args),
     });
 
-    const data: NestResError | AuthResponse = await response.json();
+    const data: ExpectedServerError | AuthResponse = await response.json();
 
     // Return expected error object containing error property
     if (!response.ok) {
-      return data as NestResError;
+      return data as ExpectedServerError;
     }
 
     if (pathname === "/signin") {
@@ -44,7 +44,6 @@ export async function auth({ pathname, ...args }: AuthParams) {
     }
   } catch (error) {
     console.error(error);
-    // Unexpected errors bubble to nearest error boundary
     throw new Error(ErrorMessages.Default);
   }
 }
