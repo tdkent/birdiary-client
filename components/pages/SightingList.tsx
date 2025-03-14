@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import type { RecentSighting } from "@/types/models";
 
@@ -12,12 +14,23 @@ import type { RecentSighting } from "@/types/models";
  */
 
 export default function SightingList() {
+  const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<RecentSighting>({
     route: "/sightings/recent",
     key: "sightings",
     tag: "sightings",
   });
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: error,
+      });
+    }
+  }, [error, toast]);
 
   return (
     <section>
