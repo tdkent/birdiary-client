@@ -18,8 +18,8 @@ const quickSightingSchema = z.object({
 });
 
 export default function QuickSightingForm() {
-  // Track if user has selected from autocomplete
-  const [selected, setSelected] = useState(false);
+  // Check if input matches an allowed common bird name
+  const [isMatching, setIsMatching] = useState(false);
 
   // Hooks
   const { toast } = useToast();
@@ -62,7 +62,6 @@ export default function QuickSightingForm() {
     mutate(formValues);
 
     form.resetField("commName");
-    setSelected(false);
   }
 
   return (
@@ -71,10 +70,10 @@ export default function QuickSightingForm() {
         <NameInput
           form={form}
           pending={pending}
-          selected={selected}
-          setSelected={setSelected}
+          isMatching={isMatching}
+          setIsMatching={setIsMatching}
         />
-        <Button disabled={pending || !selected} className="w-full">
+        <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Quick Add"}
         </Button>
       </form>

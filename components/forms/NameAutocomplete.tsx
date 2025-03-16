@@ -8,14 +8,14 @@ type NameAutocompleteProps = {
   form: UseFormReturn<{
     commName: string;
   }>;
-  selected: boolean;
-  setSelected: Dispatch<SetStateAction<boolean>>;
+  isMatching: boolean;
+  setIsMatching: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function NameAutocomplete({
   form,
-  selected,
-  setSelected,
+  isMatching,
+  setIsMatching,
 }: NameAutocompleteProps) {
   // Filtered bird names used in input autocomplete
   const [filteredResults, setFilteredResults] = useState<string[]>([]);
@@ -25,11 +25,17 @@ export default function NameAutocomplete({
   // Use watch() to track changes to `commName` input
   const currInput = form.watch("commName");
 
+  // Track if input matches an allowed common name
+  useEffect(() => {
+    setIsMatching(birdNames.includes(currInput));
+  }, [currInput, setIsMatching]);
+
+  // Control render of autocomplete list
   useEffect(() => {
     // Filter when input is truthy and selection not made
     // Filter array of all accepted common names
     const filteredNames =
-      currInput && !selected
+      currInput && !isMatching
         ? birdNames
             .filter((n) => {
               // Make results more predictable:
@@ -44,7 +50,7 @@ export default function NameAutocomplete({
             .slice(0, 6)
         : [];
     setFilteredResults(filteredNames);
-  }, [currInput, selected]);
+  }, [currInput, isMatching]);
 
   return (
     <>
@@ -53,10 +59,7 @@ export default function NameAutocomplete({
           return (
             <li
               key={birdName}
-              onClick={() => {
-                form.setValue("commName", birdName);
-                setSelected(true);
-              }}
+              onClick={() => form.setValue("commName", birdName)}
             >
               {birdName}
             </li>

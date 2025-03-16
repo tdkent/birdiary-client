@@ -19,11 +19,16 @@ type NameInputProps = {
     commName: string;
   }>;
   pending: boolean;
-  selected: boolean;
-  setSelected: Dispatch<SetStateAction<boolean>>;
+  isMatching: boolean;
+  setIsMatching: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function NameInput({ form, pending, ...rest }: NameInputProps) {
+export default function NameInput({
+  form,
+  pending,
+  isMatching,
+  setIsMatching,
+}: NameInputProps) {
   return (
     <>
       <FormField
@@ -40,7 +45,11 @@ export default function NameInput({ form, pending, ...rest }: NameInputProps) {
         )}
       />
 
-      <NameAutocomplete form={form} {...rest} />
+      <NameAutocomplete
+        form={form}
+        setIsMatching={setIsMatching}
+        isMatching={isMatching}
+      />
     </>
   );
 }
