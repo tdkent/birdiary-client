@@ -1,30 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Input } from "@/components/ui/input";
 import { createUtcDate } from "@/helpers/dates";
 import type { NewSighting } from "@/types/models";
+import NameInput from "@/components/forms/NameInput";
 
 const quickSightingSchema = z.object({
   commName: z.string().min(1),
 });
 
 export default function QuickSightingForm() {
+  // Check if input matches an allowed common bird name
+  const [isMatching, setIsMatching] = useState(false);
+
+  // Hooks
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error } = useMutation({
@@ -34,6 +31,15 @@ export default function QuickSightingForm() {
     method: "POST",
   });
 
+  // useForm is used with Zod
+  const form = useForm<z.infer<typeof quickSightingSchema>>({
+    resolver: zodResolver(quickSightingSchema),
+    defaultValues: {
+      commName: "",
+    },
+  });
+
+  // Syncronize error toast with API context error
   useEffect(() => {
     if (error) {
       toast({
@@ -44,18 +50,10 @@ export default function QuickSightingForm() {
     }
   }, [error, toast]);
 
-  const form = useForm<z.infer<typeof quickSightingSchema>>({
-    resolver: zodResolver(quickSightingSchema),
-    defaultValues: {
-      commName: "",
-    },
-  });
-
+  // Validate and submit the form
   async function onSubmit(values: z.infer<typeof quickSightingSchema>) {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     const formValues: NewSighting = {
-      // TODO: update birdId
-      birdId: Math.floor(Math.random() * 838 + 10000),
       commName: values.commName,
       date: createUtcDate(new Date()),
       desc: "",
@@ -69,20 +67,13 @@ export default function QuickSightingForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="commName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Common Name</FormLabel>
-              <FormControl>
-                <Input {...field} disabled={pending} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <NameInput
+          form={form}
+          pending={pending}
+          isMatching={isMatching}
+          setIsMatching={setIsMatching}
         />
-        <Button disabled={pending} className="w-full">
+        <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Quick Add"}
         </Button>
       </form>

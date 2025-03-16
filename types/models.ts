@@ -13,15 +13,13 @@ export type Bird = {
 export type Sighting = {
   id: string;
   userId: string;
-  birdId: number;
+  commName: string;
   locationId: number;
   date: Date;
   desc: string;
 };
 
-export type RecentSighting = Omit<Sighting, "userId" | "locationId"> & {
-  commName: string;
-};
+export type RecentSighting = Omit<Sighting, "userId" | "locationId">;
 export type NewSighting = Omit<RecentSighting, "id">;
 
 // ======= LOCATIONS =======
