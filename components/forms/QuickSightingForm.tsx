@@ -3,19 +3,15 @@
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { useApi } from "@/context/ApiContext";
 import { createUtcDate } from "@/helpers/dates";
 import type { NewSighting } from "@/types/models";
+import { sightingSchema, type SightingForm } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
-
-const quickSightingSchema = z.object({
-  commName: z.string().min(1),
-});
 
 export default function QuickSightingForm() {
   // Check if input matches an allowed common bird name
@@ -32,8 +28,8 @@ export default function QuickSightingForm() {
   });
 
   // useForm is used with Zod
-  const form = useForm<z.infer<typeof quickSightingSchema>>({
-    resolver: zodResolver(quickSightingSchema),
+  const form = useForm<SightingForm>({
+    resolver: zodResolver(sightingSchema),
     defaultValues: {
       commName: "",
     },
@@ -51,7 +47,7 @@ export default function QuickSightingForm() {
   }, [error, toast]);
 
   // Validate and submit the form
-  async function onSubmit(values: z.infer<typeof quickSightingSchema>) {
+  async function onSubmit(values: SightingForm) {
     // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     const formValues: NewSighting = {
       commName: values.commName,

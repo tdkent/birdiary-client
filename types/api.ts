@@ -1,3 +1,6 @@
+import type { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+
 // ======= CACHE =======
 
 // The cache stores query functions that correspond to tags
@@ -30,6 +33,14 @@ export type MutationParameters = Omit<QueryParameters, "tag"> & {
   method: "POST" | "PATCH" | "DELETE";
   tagsToUpdate: ["sightings" | "locations"];
 };
+
+export const sightingSchema = z.object({
+  commName: z.string(),
+  desc: z.string().max(150),
+});
+
+export type SightingForm = z.infer<typeof sightingSchema>;
+export type SightingFormProp = UseFormReturn<SightingForm>;
 
 // ======= RESPONSES =======
 

@@ -2,7 +2,6 @@
 Handles input of common bird names
 Renders form input and selectable autocomplete
 */
-import type { UseFormReturn } from "react-hook-form";
 import type { Dispatch, SetStateAction } from "react";
 import {
   FormControl,
@@ -13,11 +12,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NameAutocomplete from "@/components/forms/NameAutocomplete";
+import type { SightingFormProp } from "@/types/api";
 
 type NameInputProps = {
-  form: UseFormReturn<{
-    commName: string;
-  }>;
+  form: SightingFormProp;
   pending: boolean;
   isMatching: boolean;
   setIsMatching: Dispatch<SetStateAction<boolean>>;
@@ -38,7 +36,7 @@ export default function NameInput({
           <FormItem>
             <FormLabel>Common Name</FormLabel>
             <FormControl>
-              <Input {...field} disabled={pending} placeholder="Blue jay" />
+              <Input {...field} disabled={pending} />
             </FormControl>
             <FormMessage />
           </FormItem>

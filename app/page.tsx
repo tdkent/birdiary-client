@@ -16,7 +16,7 @@ export default function Home() {
         <Modal
           triggerText="+ Add detailed sighting"
           title="Add New Sighting"
-          description="Add a new detailed bird sighting to your diary."
+          description="Add a new bird sighting to your diary."
         >
           <SightingForm />
         </Modal>

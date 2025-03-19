@@ -1,13 +1,10 @@
 /* Renders a selectable list of birds */
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-
-import type { UseFormReturn } from "react-hook-form";
 import birdNames from "@/data/birds";
+import type { SightingFormProp } from "@/types/api";
 
 type NameAutocompleteProps = {
-  form: UseFormReturn<{
-    commName: string;
-  }>;
+  form: SightingFormProp;
   isMatching: boolean;
   setIsMatching: Dispatch<SetStateAction<boolean>>;
 };
