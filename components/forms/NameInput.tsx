@@ -38,7 +38,7 @@ export default function NameInput({
           <FormItem>
             <FormLabel>Common Name</FormLabel>
             <FormControl>
-              <Input {...field} disabled={pending} />
+              <Input {...field} disabled={pending} placeholder="Blue jay" />
             </FormControl>
             <FormMessage />
           </FormItem>

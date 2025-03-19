@@ -74,7 +74,7 @@ export default function QuickSightingForm() {
           setIsMatching={setIsMatching}
         />
         <Button disabled={pending || !isMatching} className="w-full">
-          {pending ? <Loader2 className="animate-spin" /> : "Quick Add"}
+          {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
         </Button>
       </form>
     </Form>

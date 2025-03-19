@@ -19,8 +19,6 @@ export default function NameAutocomplete({
 }: NameAutocompleteProps) {
   // Filtered bird names used in input autocomplete
   const [filteredResults, setFilteredResults] = useState<string[]>([]);
-  // Track if the user has made a selection from autocomplete window
-  // const [selectionMade, setSelectionMade] = useState(false);
 
   // Use watch() to track changes to `commName` input
   const currInput = form.watch("commName");
