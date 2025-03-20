@@ -38,6 +38,7 @@ export const sightingSchema = z.object({
   commName: z.string(),
   date: z.date(),
   desc: z.string().max(150),
+  location: z.string(),
 });
 
 export type SightingForm = z.infer<typeof sightingSchema>;

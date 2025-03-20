@@ -14,6 +14,7 @@ import { type SightingForm, sightingSchema } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
+import LocationInput from "@/components/forms/LocationInput";
 
 export default function SightingForm() {
   // Check if input matches an allowed common bird name
@@ -72,6 +73,7 @@ export default function SightingForm() {
           setIsMatching={setIsMatching}
         />
         <DateInput form={form} pending={pending} />
+        <LocationInput form={form} pending={pending} />
         <DescInput form={form} pending={pending} />
         <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
