@@ -1,7 +1,5 @@
-/*
-Handles input of common bird names
-Renders form input and selectable autocomplete
-*/
+// Handles input of common bird names
+// Renders form input and selectable autocomplete
 import type { Dispatch, SetStateAction } from "react";
 import {
   FormControl,
