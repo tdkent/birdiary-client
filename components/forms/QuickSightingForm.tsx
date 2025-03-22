@@ -20,7 +20,7 @@ export default function QuickSightingForm() {
   // Hooks
   const { toast } = useToast();
   const { useMutation } = useApi();
-  const { mutate, pending, error } = useMutation({
+  const { mutate, pending, error, success } = useMutation({
     route: "/sightings",
     key: "sightings",
     tagsToUpdate: ["sightings"],
@@ -45,6 +45,16 @@ export default function QuickSightingForm() {
       });
     }
   }, [error, toast]);
+
+  // Syncronize success toast with API context success
+  useEffect(() => {
+    if (success) {
+      toast({
+        title: "Success",
+        description: "New sighting created",
+      });
+    }
+  }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
     const formValues: NewSighting = {

@@ -1,18 +1,16 @@
 "use client";
 
-/*
- * This context will store the entire application `state`
- * State slices will be managed with tags that correspond to specific arrays
- * The context will create two hooks: useQuery and useMutation
- * useQuery will use `useEffect` to fetch data from a given resource on initial load
- * useQuery will accept a `resource` parameter to direct fetch
- * useMutation will perform "POST", "PUT", and "DELETE" requests
- * useMutation will accept resource and method requests
- * These hooks will change behavior based on auth status of user
- * If logged in, requests will be directed to the API
- * Otherwise, they will be directed to local storage
- * Create a generic `request` function to use for fetch requests
- */
+// This context will store the entire application `state`
+// State slices will be managed with tags that correspond to specific arrays
+// The context will create two hooks: useQuery and useMutation
+// useQuery will use `useEffect` to fetch data from a given resource on initial load
+// useQuery will accept a `resource` parameter to direct fetch
+// useMutation will perform "POST", "PUT", and "DELETE" requests
+// useMutation will accept resource and method requests
+// These hooks will change behavior based on auth status of user
+// If logged in, requests will be directed to the API
+// Otherwise, they will be directed to local storage
+// Create a generic `request` function to use for fetch requests
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -37,6 +35,7 @@ type Api = {
     pending: boolean;
   };
   useMutation: ({ route, key, method, tagsToUpdate }: MutationParameters) => {
+    success: boolean;
     error: string | null;
     pending: boolean;
     mutate: <T>(body: T) => void;
@@ -46,7 +45,12 @@ type Api = {
 // Create context with default values
 export const ApiContext = createContext<Api>({
   useQuery: () => ({ data: [], error: null, pending: false }),
-  useMutation: () => ({ error: null, pending: false, mutate: () => {} }),
+  useMutation: () => ({
+    success: false,
+    error: null,
+    pending: false,
+    mutate: () => {},
+  }),
 });
 
 export default function ApiProvider({
@@ -111,14 +115,9 @@ export default function ApiProvider({
         }
       }
 
-      // Updates the cache
-      // Spread the current cache object
-      // Find or create a new property called tag
-      // Note: [tag] syntax gives the property the name of the
-      // provided tag instead of the literal name `tag`
-      // The value of [tag] is an array
-      // Spread the current value of [tag] into the array
-      // Or create a new empty array if the value is undefined
+      // Update the cache:
+      // Use [tag] syntax to give property the name of the provided tag
+      // Spread the current value of cache[tag] into the array (or [])
       // Append the query function (with the specific `resource` parameter) to the array value
       // This function can be called later when the tag is present in a mutation and the
       // data state value for that tag will be updated
@@ -135,16 +134,18 @@ export default function ApiProvider({
     method,
     tagsToUpdate,
   }: MutationParameters) {
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
     async function mutate<T>(formValues: T) {
-      setError(null);
+      setSuccess(false);
       const token = await getCookie();
       // If user is signed in send mutation to server
       if (token) {
+        setError(null);
+        setPending(true);
         try {
-          setPending(true);
           const response = await fetch(BASE_URL + route, {
             method,
             headers: {
@@ -163,6 +164,8 @@ export default function ApiProvider({
               : data.message;
             throw new Error(`${data.error}: ${msg}`);
           }
+
+          setSuccess(true);
         } catch (error) {
           if (error instanceof Error) {
             setError(error.message);
@@ -193,6 +196,7 @@ export default function ApiProvider({
         }
         // Set the updated data in local storage
         localStorage.setItem(key, JSON.stringify(data));
+        setSuccess(true);
       }
 
       // Call the query functions attached to each tag
@@ -201,7 +205,7 @@ export default function ApiProvider({
       tagsToUpdate.forEach((tag) => cache[tag].forEach((query) => query()));
     }
 
-    return { error, pending, mutate };
+    return { success, error, pending, mutate };
   }
 
   const value: Api = {

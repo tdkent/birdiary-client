@@ -27,7 +27,12 @@ export default function DescInput({ form, pending }: DescInputProps) {
               Add somes notes about your sighting (max 150 characters).
             </FormDescription>
             <FormControl>
-              <Textarea {...field} disabled={pending} rows={4} />
+              <Textarea
+                {...field}
+                disabled={pending}
+                rows={4}
+                className="resize-none"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
