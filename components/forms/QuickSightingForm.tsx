@@ -46,9 +46,7 @@ export default function QuickSightingForm() {
     }
   }, [error, toast]);
 
-  // Validate and submit the form
   async function onSubmit(values: SightingForm) {
-    // Date is UTC format: "YYYY-MM-DDT00:00:00.000Z"
     const formValues: NewSighting = {
       commName: values.commName,
       date: createUtcDate(new Date()),

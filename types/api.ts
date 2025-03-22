@@ -36,9 +36,9 @@ export type MutationParameters = Omit<QueryParameters, "tag"> & {
 
 export const sightingSchema = z.object({
   commName: z.string(),
-  date: z.date(),
-  desc: z.string().max(150),
-  location: z.string(),
+  date: z.date().optional(),
+  desc: z.string().max(150).optional(),
+  location: z.string().optional(),
 });
 
 export type SightingForm = z.infer<typeof sightingSchema>;

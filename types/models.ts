@@ -20,7 +20,7 @@ export type Sighting = {
 };
 
 export type RecentSighting = Omit<Sighting, "userId" | "locationId">;
-export type NewSighting = Omit<RecentSighting, "id">;
+export type NewSighting = Omit<RecentSighting, "id"> & { location?: Location };
 
 // ======= LOCATIONS =======
 
