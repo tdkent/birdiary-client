@@ -1,13 +1,10 @@
 /* Renders a selectable list of birds */
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-
-import type { UseFormReturn } from "react-hook-form";
 import birdNames from "@/data/birds";
+import type { SightingFormProp } from "@/types/api";
 
 type NameAutocompleteProps = {
-  form: UseFormReturn<{
-    commName: string;
-  }>;
+  form: SightingFormProp;
   isMatching: boolean;
   setIsMatching: Dispatch<SetStateAction<boolean>>;
 };
@@ -19,8 +16,6 @@ export default function NameAutocomplete({
 }: NameAutocompleteProps) {
   // Filtered bird names used in input autocomplete
   const [filteredResults, setFilteredResults] = useState<string[]>([]);
-  // Track if the user has made a selection from autocomplete window
-  // const [selectionMade, setSelectionMade] = useState(false);
 
   // Use watch() to track changes to `commName` input
   const currInput = form.watch("commName");

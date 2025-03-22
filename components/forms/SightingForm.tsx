@@ -1,19 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { useApi } from "@/context/ApiContext";
 import { createUtcDate } from "@/helpers/dates";
 import type { NewSighting } from "@/types/models";
-import { sightingSchema, type SightingForm } from "@/types/api";
+import { type SightingForm, sightingSchema } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
+import DateInput from "@/components/forms/DateInput";
+import DescInput from "@/components/forms/DescInput";
+import LocationInput from "@/components/forms/LocationInput";
+import { AuthContext } from "@/context/AuthContext";
 
-export default function QuickSightingForm() {
+export default function SightingForm() {
+  const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
 
@@ -32,6 +37,9 @@ export default function QuickSightingForm() {
     resolver: zodResolver(sightingSchema),
     defaultValues: {
       commName: "",
+      date: new Date(),
+      desc: "",
+      location: "",
     },
   });
 
@@ -56,16 +64,27 @@ export default function QuickSightingForm() {
     }
   }, [success, toast]);
 
+  // Validate and submit the form
   async function onSubmit(values: SightingForm) {
     const formValues: NewSighting = {
       commName: values.commName,
-      date: createUtcDate(new Date()),
-      desc: "",
+      date: createUtcDate(values.date!),
+      desc: values.desc!.trim(),
     };
+
+    // If user is signed in, geolocate the location, add to req body
+    // TODO: geolocate with Google Places API
+    if (isSignedIn && values.location) {
+      formValues.location = {
+        name: values.location,
+        lat: -15,
+        lng: 15,
+      };
+    }
 
     mutate(formValues);
 
-    form.resetField("commName");
+    form.reset();
   }
 
   return (
@@ -77,6 +96,9 @@ export default function QuickSightingForm() {
           isMatching={isMatching}
           setIsMatching={setIsMatching}
         />
+        <DateInput form={form} pending={pending} />
+        {isSignedIn && <LocationInput form={form} pending={pending} />}
+        <DescInput form={form} pending={pending} />
         <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
         </Button>
