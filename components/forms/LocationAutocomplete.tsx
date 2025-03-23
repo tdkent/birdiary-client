@@ -35,7 +35,7 @@ export default function LocationAutocomplete({
     if (!places || !inputRef.current) return;
 
     const options = {
-      fields: ["geometry", "name", "formatted_address"],
+      fields: ["name", "formatted_address"],
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
@@ -45,9 +45,25 @@ export default function LocationAutocomplete({
     if (!placeAutocomplete) return;
 
     placeAutocomplete.addListener("place_changed", () => {
-      setSelectedPlace(placeAutocomplete.getPlace());
+      const newPlace = placeAutocomplete.getPlace();
+      setSelectedPlace(newPlace);
+
+      // Text to display in input. getPlace() provides `name` and
+      // `formatted_address` properties. These may differ from the
+      // text displayed by Places Autocomplete.
+      let inputText: string = "";
+      if (newPlace.formatted_address && newPlace.name) {
+        inputText = newPlace.formatted_address.includes(newPlace.name)
+          ? newPlace.formatted_address
+          : newPlace.name + ", " + newPlace.formatted_address;
+      } else {
+        // Fallback in case one or more properties are not provided
+        inputText = newPlace.formatted_address ?? newPlace.name ?? "";
+      }
+      // Update `Location` field
+      field.onChange(inputText);
     });
-  }, [setSelectedPlace, placeAutocomplete]);
+  }, [field, setSelectedPlace, placeAutocomplete]);
 
   return <Input {...field} ref={inputRef} disabled={pending} />;
 }
