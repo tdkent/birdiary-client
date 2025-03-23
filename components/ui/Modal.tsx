@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -23,6 +26,28 @@ export default function Modal({
   description,
   children,
 }: ModalProps) {
+  // This effect is needed to manage clicks inside the Place Autocomplete dropdown.
+  // Although the dropdown appears to be inside the <Dialog>, it is actually outside
+  // of it. <Dialog> therefore registers the click event as a signal to close the modal.
+  // The solution is register events inside the Autocomplete dropdown (.pac-container)
+  // and prevent them from bubbling (e.stopPropagation())
+  useEffect(() => {
+    const handlePointerDown = (e: PointerEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.closest(".pac-container")
+      ) {
+        e.stopPropagation();
+      }
+    };
+
+    // Listen for "pointerdown" in case Dialog closes before "click" triggers
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+    };
+  }, []);
+
   return (
     <Dialog>
       <DialogTrigger>{triggerText}</DialogTrigger>

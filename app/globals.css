@@ -6,6 +6,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Places Autocomplete container */
+.pac-container {
+  /* Enable pointer events that <Dialog> prevents by default */
+  pointer-events: auto !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

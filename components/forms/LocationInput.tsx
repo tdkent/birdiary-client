@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import type { SightingFormProp } from "@/types/api";
 import { GOOGLE_API_KEY } from "@/constants/env";
-import LocationAutocomplete from "@/components/forms/LocationAutocomplate";
+import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 
 type NameInputProps = {
   form: SightingFormProp;
@@ -21,6 +21,7 @@ export default function LocationInput({ form, pending }: NameInputProps) {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
 
+  console.log(selectedPlace);
   return (
     <>
       <FormField
