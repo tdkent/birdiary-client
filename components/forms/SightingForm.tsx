@@ -70,17 +70,8 @@ export default function SightingForm() {
       commName: values.commName,
       date: createUtcDate(values.date!),
       desc: values.desc!.trim(),
+      location: values.location!,
     };
-
-    // If user is signed in, geolocate the location, add to req body
-    // TODO: geolocate with Google Places API
-    if (isSignedIn && values.location) {
-      formValues.location = {
-        name: values.location,
-        lat: -15,
-        lng: 15,
-      };
-    }
 
     mutate(formValues);
 

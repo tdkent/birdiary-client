@@ -1,5 +1,3 @@
-//! Note: naming should match database conventions
-
 // ======= BIRDS =======
 
 export type Bird = {
@@ -20,12 +18,4 @@ export type Sighting = {
 };
 
 export type RecentSighting = Omit<Sighting, "userId" | "locationId">;
-export type NewSighting = Omit<RecentSighting, "id"> & { location?: Location };
-
-// ======= LOCATIONS =======
-
-export type Location = {
-  name: string;
-  lat: number;
-  lng: number;
-};
+export type NewSighting = Omit<RecentSighting, "id"> & { location: string };

@@ -4,25 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { Input } from "@/components/ui/input";
 import type { ControllerRenderProps } from "react-hook-form";
+import type { SightingForm } from "@/types/api";
 
 type LocationAutocompleteProps = {
-  field: ControllerRenderProps<
-    {
-      commName: string;
-      date?: Date | undefined;
-      desc?: string | undefined;
-      location?: string | undefined;
-    },
-    "location"
-  >;
+  field: ControllerRenderProps<SightingForm, "location">;
   pending: boolean;
-  setSelectedPlace: (place: google.maps.places.PlaceResult | null) => void;
 };
 
 export default function LocationAutocomplete({
   field,
   pending,
-  setSelectedPlace,
 }: LocationAutocompleteProps) {
   const [placeAutocomplete, setPlaceAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
@@ -46,7 +37,6 @@ export default function LocationAutocomplete({
 
     placeAutocomplete.addListener("place_changed", () => {
       const newPlace = placeAutocomplete.getPlace();
-      setSelectedPlace(newPlace);
 
       // Text to display in input. getPlace() provides `name` and
       // `formatted_address` properties. These may differ from the
@@ -63,7 +53,7 @@ export default function LocationAutocomplete({
       // Update `Location` field
       field.onChange(inputText);
     });
-  }, [field, setSelectedPlace, placeAutocomplete]);
+  }, [field, placeAutocomplete]);
 
   return <Input {...field} ref={inputRef} disabled={pending} />;
 }

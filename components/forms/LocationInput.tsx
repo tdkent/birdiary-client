@@ -1,5 +1,4 @@
 // Handles input of sighting location
-import { useState } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import {
   FormControl,
@@ -18,10 +17,6 @@ type NameInputProps = {
 };
 
 export default function LocationInput({ form, pending }: NameInputProps) {
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null);
-
-  console.log(selectedPlace);
   return (
     <>
       <FormField
@@ -31,15 +26,8 @@ export default function LocationInput({ form, pending }: NameInputProps) {
           <FormItem>
             <FormLabel>Location</FormLabel>
             <FormControl>
-              <APIProvider
-                apiKey={GOOGLE_API_KEY}
-                solutionChannel="GMP_devsite_samples_v3_rgmautocomplete"
-              >
-                <LocationAutocomplete
-                  field={field}
-                  pending={pending}
-                  setSelectedPlace={setSelectedPlace}
-                />
+              <APIProvider apiKey={GOOGLE_API_KEY}>
+                <LocationAutocomplete field={field} pending={pending} />
               </APIProvider>
             </FormControl>
             <FormMessage />
