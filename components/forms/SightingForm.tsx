@@ -67,21 +67,25 @@ export default function SightingForm() {
 
   // Validate and submit the form
   async function onSubmit(values: SightingForm) {
-    // Check if user has entered a custom location
-    let customLocation: Location | undefined = undefined;
-    if (!location && values.location) {
-      customLocation = {
-        name: values.location,
-        lat: undefined,
-        lng: undefined,
-      };
+    // Validate the location
+    let validatedLocation: Location | undefined = location;
+    // If input is empty, do not send a value
+    if (!values.location) {
+      validatedLocation = undefined;
+    }
+    // Short circuit if input !== autocomplete
+    else if (location && location.name !== values.location) {
+      return form.setError("location", {
+        type: "custom",
+        message: "Select a location from the dropdown menu",
+      });
     }
 
     const formValues: NewSighting = {
       commName: values.commName,
       date: createUtcDate(values.date!),
       desc: values.desc!.trim(),
-      location: location || customLocation,
+      location: validatedLocation,
     };
 
     mutate(formValues);
@@ -100,11 +104,13 @@ export default function SightingForm() {
         />
         <DateInput form={form} pending={pending} />
         {isSignedIn && (
-          <LocationInput
-            form={form}
-            pending={pending}
-            setLocation={setLocation}
-          />
+          <>
+            <LocationInput
+              form={form}
+              pending={pending}
+              setLocation={setLocation}
+            />
+          </>
         )}
         <DescInput form={form} pending={pending} />
         <Button disabled={pending || !isMatching} className="w-full">
