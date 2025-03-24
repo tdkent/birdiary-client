@@ -73,8 +73,9 @@ export default function SightingForm() {
     if (!values.location) {
       validatedLocation = undefined;
     }
-    // Short circuit if input !== autocomplete
-    else if (location && location.name !== values.location) {
+    // If input has a value and autocomplete is empty, OR
+    // input !== autocomplete, short circuit with error
+    else if (!location || location.name !== values.location) {
       return form.setError("location", {
         type: "custom",
         message: "Select a location from the dropdown menu",
