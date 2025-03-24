@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createUtcDate } from "@/helpers/dates";
-import type { NewSighting } from "@/types/models";
+import type { NewSighting, Location } from "@/types/models";
 import { type SightingForm, sightingSchema } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
@@ -21,6 +21,7 @@ export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
+  const [location, setLocation] = useState<Location>();
 
   // Hooks
   const { toast } = useToast();
@@ -66,21 +67,27 @@ export default function SightingForm() {
 
   // Validate and submit the form
   async function onSubmit(values: SightingForm) {
+    // Validate the location
+    let validatedLocation: Location | undefined = location;
+    // If input is empty, do not send a value
+    if (!values.location) {
+      validatedLocation = undefined;
+    }
+    // If input has a value and autocomplete is empty, OR
+    // input !== autocomplete, short circuit with error
+    else if (!location || location.name !== values.location) {
+      return form.setError("location", {
+        type: "custom",
+        message: "Select a location from the dropdown menu",
+      });
+    }
+
     const formValues: NewSighting = {
       commName: values.commName,
       date: createUtcDate(values.date!),
       desc: values.desc!.trim(),
+      location: validatedLocation,
     };
-
-    // If user is signed in, geolocate the location, add to req body
-    // TODO: geolocate with Google Places API
-    if (isSignedIn && values.location) {
-      formValues.location = {
-        name: values.location,
-        lat: -15,
-        lng: 15,
-      };
-    }
 
     mutate(formValues);
 
@@ -97,7 +104,15 @@ export default function SightingForm() {
           setIsMatching={setIsMatching}
         />
         <DateInput form={form} pending={pending} />
-        {isSignedIn && <LocationInput form={form} pending={pending} />}
+        {isSignedIn && (
+          <>
+            <LocationInput
+              form={form}
+              pending={pending}
+              setLocation={setLocation}
+            />
+          </>
+        )}
         <DescInput form={form} pending={pending} />
         <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}

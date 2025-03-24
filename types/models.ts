@@ -1,5 +1,3 @@
-//! Note: naming should match database conventions
-
 // ======= BIRDS =======
 
 export type Bird = {
@@ -24,8 +22,9 @@ export type NewSighting = Omit<RecentSighting, "id"> & { location?: Location };
 
 // ======= LOCATIONS =======
 
+// Location data may not be geocoded
 export type Location = {
   name: string;
-  lat: number;
-  lng: number;
+  lat: number | undefined;
+  lng: number | undefined;
 };

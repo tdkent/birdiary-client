@@ -1,5 +1,6 @@
-// Handles input of common bird names
-// Renders form input and selectable autocomplete
+// Handles input of sighting location
+import type { Dispatch, SetStateAction } from "react";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import {
   FormControl,
   FormField,
@@ -7,15 +8,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import type { SightingFormProp } from "@/types/api";
+import type { Location } from "@/types/models";
+import { GOOGLE_API_KEY } from "@/constants/env";
+import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 
 type NameInputProps = {
   form: SightingFormProp;
   pending: boolean;
+  setLocation: Dispatch<SetStateAction<Location | undefined>>;
 };
 
-export default function LocationInput({ form, pending }: NameInputProps) {
+export default function LocationInput({ form, ...rest }: NameInputProps) {
   return (
     <>
       <FormField
@@ -25,7 +29,9 @@ export default function LocationInput({ form, pending }: NameInputProps) {
           <FormItem>
             <FormLabel>Location</FormLabel>
             <FormControl>
-              <Input {...field} disabled={pending} />
+              <APIProvider apiKey={GOOGLE_API_KEY}>
+                <LocationAutocomplete field={field} {...rest} />
+              </APIProvider>
             </FormControl>
             <FormMessage />
           </FormItem>
