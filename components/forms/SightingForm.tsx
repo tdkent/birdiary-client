@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createUtcDate } from "@/helpers/dates";
-import type { NewSighting } from "@/types/models";
+import type { NewSighting, Location } from "@/types/models";
 import { type SightingForm, sightingSchema } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
@@ -21,6 +21,7 @@ export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
+  const [location, setLocation] = useState<Location>();
 
   // Hooks
   const { toast } = useToast();
@@ -66,11 +67,21 @@ export default function SightingForm() {
 
   // Validate and submit the form
   async function onSubmit(values: SightingForm) {
+    // Check if user has entered a custom location
+    let customLocation: Location | undefined = undefined;
+    if (!location && values.location) {
+      customLocation = {
+        name: values.location,
+        lat: undefined,
+        lng: undefined,
+      };
+    }
+
     const formValues: NewSighting = {
       commName: values.commName,
       date: createUtcDate(values.date!),
       desc: values.desc!.trim(),
-      location: values.location!,
+      location: location || customLocation,
     };
 
     mutate(formValues);
@@ -88,7 +99,13 @@ export default function SightingForm() {
           setIsMatching={setIsMatching}
         />
         <DateInput form={form} pending={pending} />
-        {isSignedIn && <LocationInput form={form} pending={pending} />}
+        {isSignedIn && (
+          <LocationInput
+            form={form}
+            pending={pending}
+            setLocation={setLocation}
+          />
+        )}
         <DescInput form={form} pending={pending} />
         <Button disabled={pending || !isMatching} className="w-full">
           {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
