@@ -27,6 +27,7 @@ export default function LocationAutocomplete({
 
     const options = {
       fields: ["name", "formatted_address"],
+      componentRestrictions: { country: "us" },
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
