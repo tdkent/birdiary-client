@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
 import { Bird } from "@/types/models";
@@ -62,9 +63,16 @@ export default function BirdImage({
     return <p>{error}</p>;
   }
 
+  if (!data || !data.imgUrl) {
+    return <p>No image to show</p>;
+  }
+
   return (
     <>
-      <figure>{data?.commName}</figure>
+      <figure>
+        <Image src={data.imgUrl} alt={data.commName} width={300} height={225} />
+        <figcaption className="text-xs">{data.imgAttr}</figcaption>
+      </figure>
     </>
   );
 }
