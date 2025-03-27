@@ -100,7 +100,7 @@ export default function SightingForm() {
 
   return (
     <>
-      <BirdImage currBirdName={currBirdName} isMatching={isMatching} />
+      <BirdImage currBirdName={currBirdName} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <NameInput

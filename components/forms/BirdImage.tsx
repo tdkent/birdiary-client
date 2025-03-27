@@ -11,21 +11,19 @@ import {
 
 type BirdImageProps = {
   currBirdName: string;
-  isMatching: boolean;
 };
 
-export default function BirdImage({
-  currBirdName,
-  isMatching,
-}: BirdImageProps) {
+export default function BirdImage({ currBirdName }: BirdImageProps) {
   const [data, setData] = useState<Bird>();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currFetchedBird, setCurrFetchedBird] = useState<string | null>(null);
 
   useEffect(() => {
     const getBird = async () => {
       setPending(true);
       setError(null);
+      setCurrFetchedBird(currBirdName);
       try {
         const response = await fetch(BASE_URL + "/birds/" + currBirdName);
         const result: QuerySuccess<Bird> | ExpectedServerError =
@@ -50,10 +48,11 @@ export default function BirdImage({
       }
     };
     // Delay call to check user has stopped typing
-    if (birdNames.includes(currBirdName)) {
+    // Do not send request if bird is already fetched
+    if (birdNames.includes(currBirdName) && currFetchedBird !== currBirdName) {
       setTimeout(() => getBird(), 500);
     }
-  }, [isMatching, currBirdName]);
+  }, [currFetchedBird, currBirdName]);
 
   if (pending) {
     return <p>Fetching bird...</p>;
