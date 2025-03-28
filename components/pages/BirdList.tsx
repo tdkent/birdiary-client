@@ -1,5 +1,5 @@
-import apiRoutes from "@/constants/api";
 import type { Bird } from "@/types/models";
+import { BASE_URL } from "@/constants/env";
 
 export default async function BirdList() {
   const data: Bird[] = await getData();
@@ -7,7 +7,7 @@ export default async function BirdList() {
     <div id="bird-data-container" className="mt-12">
       <ul>
         {data.map((bird) => {
-          return <li key={bird.id}>{bird.comm_name}</li>;
+          return <li key={bird.id}>{bird.commName}</li>;
         })}
       </ul>
     </div>
@@ -15,7 +15,7 @@ export default async function BirdList() {
 }
 
 async function getData() {
-  const response = await fetch(apiRoutes.BIRDS);
+  const response = await fetch(BASE_URL + "/birds");
 
   if (!response.ok) {
     if (response.status === 404) {

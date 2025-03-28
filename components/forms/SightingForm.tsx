@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createUtcDate } from "@/helpers/dates";
 import type { NewSighting, Location } from "@/types/models";
 import { type SightingForm, sightingSchema } from "@/types/api";
+import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
@@ -43,6 +44,9 @@ export default function SightingForm() {
       location: "",
     },
   });
+
+  // Fetch bird data if user has entered a valid name
+  const currBirdName = form.getValues("commName");
 
   // Syncronize error toast with API context error
   useEffect(() => {
@@ -95,29 +99,32 @@ export default function SightingForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <NameInput
-          form={form}
-          pending={pending}
-          isMatching={isMatching}
-          setIsMatching={setIsMatching}
-        />
-        <DateInput form={form} pending={pending} />
-        {isSignedIn && (
-          <>
-            <LocationInput
-              form={form}
-              pending={pending}
-              setLocation={setLocation}
-            />
-          </>
-        )}
-        <DescInput form={form} pending={pending} />
-        <Button disabled={pending || !isMatching} className="w-full">
-          {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
-        </Button>
-      </form>
-    </Form>
+    <>
+      <BirdImage currBirdName={currBirdName} />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <NameInput
+            form={form}
+            pending={pending}
+            isMatching={isMatching}
+            setIsMatching={setIsMatching}
+          />
+          <DateInput form={form} pending={pending} />
+          {isSignedIn && (
+            <>
+              <LocationInput
+                form={form}
+                pending={pending}
+                setLocation={setLocation}
+              />
+            </>
+          )}
+          <DescInput form={form} pending={pending} />
+          <Button disabled={pending || !isMatching} className="w-full">
+            {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

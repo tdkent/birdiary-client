@@ -80,7 +80,7 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const data: QuerySuccess<T> | ExpectedServerError =
+            const data: QuerySuccess<T[]> | ExpectedServerError =
               await response.json();
 
             if ("error" in data) {
