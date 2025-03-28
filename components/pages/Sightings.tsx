@@ -13,11 +13,11 @@ import type { RecentSighting } from "@/types/models";
  * The sightings array is mapped to render sighting cards.
  */
 
-export default function SightingList() {
+export default function Sightings() {
   const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<RecentSighting>({
-    route: "/sightings/recent",
+    route: "/sightings/recents",
     key: "sightings",
     tag: "sightings",
   });
@@ -34,7 +34,6 @@ export default function SightingList() {
 
   return (
     <section>
-      <h2>Recent Sightings</h2>
       {pending ? (
         <p>Loading...</p>
       ) : (

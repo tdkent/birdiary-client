@@ -1,6 +1,6 @@
 import QuickSightingForm from "@/components/forms/QuickSightingForm";
 import SightingForm from "@/components/forms/SightingForm";
-import SightingList from "@/components/pages/SightingList";
+import Sightings from "@/components/pages/Sightings";
 import Modal from "@/components/ui/Modal";
 
 export default function Home() {
@@ -21,7 +21,10 @@ export default function Home() {
           <SightingForm />
         </Modal>
       </section>
-      <SightingList />
+      <section>
+        <h2>Your Recent Sightings</h2>
+        <Sightings />
+      </section>
     </div>
   );
 }
