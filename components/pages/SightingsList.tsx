@@ -2,8 +2,10 @@
 
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
-import type { RecentSighting } from "@/types/models";
+import type { Sighting } from "@/types/models";
+import SightingListItem from "@/components/pages/SightingListItem";
 
 /*
  * Renders a list of the user's recent bird sightings.
@@ -13,11 +15,11 @@ import type { RecentSighting } from "@/types/models";
  * The sightings array is mapped to render sighting cards.
  */
 
-export default function Sightings() {
+export default function SightingsList() {
   const { toast } = useToast();
   const { useQuery } = useApi();
-  const { data, error, pending } = useQuery<RecentSighting>({
-    route: "/sightings/recents",
+  const { data, error, pending } = useQuery<Sighting>({
+    route: "/sightings/recent",
     key: "sightings",
     tag: "sightings",
   });
@@ -32,17 +34,25 @@ export default function Sightings() {
     }
   }, [error, toast]);
 
+  if (pending) {
+    return <Loader2 />;
+  }
+
+  if (error) {
+    return <p>An error occurred!</p>;
+  }
+
+  if (!data) {
+    return <p>No recent sightings to show!</p>;
+  }
+
   return (
-    <section>
-      {pending ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {data.map((sighting) => {
-            return <li key={sighting.id}>{sighting.commName}</li>;
-          })}
-        </ul>
-      )}
-    </section>
+    <ul className="my-4">
+      {data.map((sighting) => {
+        return (
+          <SightingListItem key={sighting.sightingId} sighting={sighting} />
+        );
+      })}
+    </ul>
   );
 }

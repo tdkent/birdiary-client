@@ -22,7 +22,7 @@ export type Bird = {
 
 // Base model
 export type Sighting = {
-  id: string;
+  sightingId: string;
   userId: string;
   commName: string;
   locationId: number;
@@ -30,8 +30,10 @@ export type Sighting = {
   desc: string;
 };
 
-export type RecentSighting = Omit<Sighting, "userId" | "locationId">;
-export type NewSighting = Omit<RecentSighting, "id"> & { location?: Location };
+export type NewSighting = Omit<
+  Sighting,
+  "sightingId" | "userId" | "locationId"
+> & { location?: Location };
 
 // ======= LOCATIONS =======
 
