@@ -10,11 +10,13 @@ import { z } from "zod";
 
 export type Cache = {
   sightings: Array<() => void>;
+  diary: Array<() => void>;
   locations: Array<() => void>;
 };
 
 export const defaultCache: Cache = {
   sightings: [],
+  diary: [],
   locations: [],
 };
 
@@ -23,9 +25,9 @@ export const defaultCache: Cache = {
 // Local storage key and web server route
 // Standard params for GET requests
 export type QueryParameters = {
-  key: "sightings";
+  key: "sightings" | "diary";
   route: string;
-  tag: "sightings" | "locations";
+  tag: "sightings" | "diary" | "locations";
 };
 
 // Capture all information needed for POST, PATCH, DELETE requests

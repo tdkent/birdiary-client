@@ -37,6 +37,13 @@ export type NewSighting = {
   location?: Location;
 };
 
+// ======= DIARY =======
+
+export type Diary = {
+  date: string;
+  _count: { _all: number };
+};
+
 // ======= LOCATIONS =======
 
 // Location data may not include geometry data
