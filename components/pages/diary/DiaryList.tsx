@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
+import DiaryListItem from "@/components/pages/diary/DiaryListItem";
 import type { Diary } from "@/types/models";
 
 export default function DiaryList() {
@@ -11,7 +12,6 @@ export default function DiaryList() {
     key: "diary",
     tag: "diary",
   });
-  console.log(data, error, pending);
 
   if (pending) {
     return (
@@ -40,9 +40,9 @@ export default function DiaryList() {
 
   return (
     <>
-      <ul>
+      <ul className="sighting-list">
         {data.map((entry) => {
-          return <li key={entry.date}>{entry._count._all}</li>;
+          return <DiaryListItem key={entry.date} diaryEntry={entry} />;
         })}
       </ul>
     </>

@@ -41,7 +41,7 @@ export type NewSighting = {
 
 export type Diary = {
   date: string;
-  _count: { _all: number };
+  count: number;
 };
 
 // ======= LOCATIONS =======

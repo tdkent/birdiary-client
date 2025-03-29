@@ -75,6 +75,12 @@
   h3 {
     @apply text-lg font-semibold;
   }
+  ul.sighting-list {
+    @apply my-4 divide-y;
+  }
+  ul.sighting-list li {
+    @apply px-2 py-4 flex justify-between items-center;
+  }
 }
 
 /* Places Autocomplete container */

@@ -8,7 +8,12 @@ export function createUtcDate(d: Date) {
   );
 }
 
-// Create a relative date string (ex: "Today")
+// Returns a date converted to a locale string
+export function createLocaleString(date: string) {
+  return DateTime.fromISO(date).toLocaleString();
+}
+
+// Returns a relative date string (ex: "Today")
 export function createRelativeDate(date: string) {
   // `toRelativeCalendar()` may return null if the date is invalid
   const relativeDate = DateTime.fromISO(date).toRelativeCalendar();
