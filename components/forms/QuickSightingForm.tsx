@@ -70,7 +70,10 @@ export default function QuickSightingForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="my-2 flex flex-col gap-1.5"
+      >
         <NameInput
           form={form}
           pending={pending}

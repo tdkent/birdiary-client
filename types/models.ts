@@ -26,14 +26,16 @@ export type Sighting = {
   userId: string;
   commName: string;
   locationId: number;
-  date: Date;
+  date: string;
   desc: string;
 };
 
-export type NewSighting = Omit<
-  Sighting,
-  "sightingId" | "userId" | "locationId"
-> & { location?: Location };
+export type NewSighting = {
+  commName: string;
+  date: Date;
+  desc: string;
+  location?: Location;
+};
 
 // ======= LOCATIONS =======
 

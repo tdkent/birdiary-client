@@ -47,7 +47,7 @@ export default function SightingsList() {
   }
 
   return (
-    <ul className="my-4">
+    <ul className="my-4 divide-y">
       {data.map((sighting) => {
         return (
           <SightingListItem key={sighting.sightingId} sighting={sighting} />

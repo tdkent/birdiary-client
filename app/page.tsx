@@ -1,16 +1,22 @@
+import { caveat } from "@/lib/fonts";
 import QuickSightingForm from "@/components/forms/QuickSightingForm";
 import SightingForm from "@/components/forms/SightingForm";
-import Sightings from "@/components/pages/Sightings";
+import SightingsList from "@/components/pages/SightingsList";
 import Modal from "@/components/ui/Modal";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to Birdiary</h1>
-      <section>
-        <div className="border p-4 my-4">
-          <h2>Quick Sighting Entry</h2>
-          <p>Spot a bird? Add it fast!</p>
+    <div className="">
+      <h1 className={`${caveat.className}`}>Welcome to Birdiary!</h1>
+      <p className={`${caveat.className} text-2xl mt-4`}>
+        Quickly log your sightings.
+      </p>
+      <p className={`${caveat.className} text-2xl`}>
+        Build your birding diary.
+      </p>
+      <section className="border rounded p-4 my-6">
+        <div className="">
+          <h3>Spot a bird? Add it fast!</h3>
           <QuickSightingForm />
         </div>
         <Modal
@@ -21,9 +27,9 @@ export default function Home() {
           <SightingForm />
         </Modal>
       </section>
-      <section>
+      <section className="my-4">
         <h2>Your Recent Sightings</h2>
-        <Sightings />
+        <SightingsList />
       </section>
     </div>
   );
