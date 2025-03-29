@@ -189,10 +189,12 @@ export default function ApiProvider({
 
         // Update the data based on HTTP `method` parameter
         if (method === "POST") {
-          data.unshift({
-            id: uuidv4(),
-            ...formValues,
-          });
+          if (key === "sightings") {
+            data.unshift({
+              sightingId: uuidv4(),
+              ...formValues,
+            });
+          }
         }
         // Set the updated data in local storage
         localStorage.setItem(key, JSON.stringify(data));

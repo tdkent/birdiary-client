@@ -42,7 +42,7 @@ export default function SightingsList() {
     return <p>An error occurred!</p>;
   }
 
-  if (!data) {
+  if (!data || !data.length) {
     return <p>No recent sightings to show!</p>;
   }
 
