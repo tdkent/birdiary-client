@@ -31,7 +31,9 @@ export type QueryParameters = {
 };
 
 // Capture all information needed for POST, PATCH, DELETE requests
-export type MutationParameters = Omit<QueryParameters, "tag"> & {
+export type MutationParameters = {
+  key: "sightings";
+  route: string;
   method: "POST" | "PATCH" | "DELETE";
   tagsToUpdate: ["sightings" | "locations"];
 };
