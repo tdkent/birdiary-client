@@ -10,7 +10,7 @@ export function createUtcDate(d: Date) {
 
 // Returns a date converted to a locale string
 export function createLocaleString(date: string) {
-  return DateTime.fromISO(date).toLocaleString();
+  return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
 }
 
 // Returns a relative date string (ex: "Today")

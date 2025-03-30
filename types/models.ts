@@ -44,6 +44,8 @@ export type Diary = {
   count: number;
 };
 
+export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
+
 // ======= LOCATIONS =======
 
 // Location data may not include geometry data
