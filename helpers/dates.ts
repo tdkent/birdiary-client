@@ -1,10 +1,10 @@
 import { DateTime } from "luxon";
 
-// Returns date string in ISO formt: "YYYY-MM-DD"
+// Returns date string in ISO/UTC format: "YYYY-MM-DDT00:00:00.000Z"
 // Date objs convert to ISO string when serialized w/ JSON.stringify(),
 // so we will go ahead and create a date string instead.
 // Note: Luxon’s DateTime.toISODate() method is typed as "string | null"
-export function createISODate(d: Date) {
+export function createIsoUtcDate(d: Date) {
   // Check that d is a valid date
   let date: Date;
   if (d instanceof Date && !isNaN(d.getTime())) {
@@ -15,7 +15,7 @@ export function createISODate(d: Date) {
   }
 
   return new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
   ).toISOString();
 }
 
@@ -23,7 +23,7 @@ export function createISODate(d: Date) {
 // Force to UTC format to avoid date changes (ex: turn Mar 1 into Feb 28)
 export function createLocaleString(date: string) {
   return DateTime.fromISO(date, { zone: "utc" }).toLocaleString(
-    DateTime.DATE_MED
+    DateTime.DATE_MED,
   );
 }
 
