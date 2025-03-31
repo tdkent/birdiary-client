@@ -13,7 +13,6 @@
 // Create a generic `request` function to use for fetch requests
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import {
   defaultCache,
   ErrorMessages,
@@ -26,6 +25,8 @@ import {
 } from "@/types/api";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
+import { mutateStorage } from "@/helpers/storage";
+import type { NewSighting } from "@/types/models";
 
 // Define the shape of the API Context object
 type Api = {
@@ -178,26 +179,9 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        // Check if local storage contains the provided key
-        // If the key does not exist, initialize with an empty array
-        if (!window.localStorage.getItem(key)) {
-          window.localStorage.setItem(key, "[]");
-        }
-
-        // Fetch data from local storage based on `key` parameter
-        const data: T[] = JSON.parse(window.localStorage.getItem(key)!);
-
-        // Update the data based on HTTP `method` parameter
-        if (method === "POST") {
-          if (key === "sightings") {
-            data.unshift({
-              sightingId: uuidv4(),
-              ...formValues,
-            });
-          }
-        }
-        // Set the updated data in local storage
-        localStorage.setItem(key, JSON.stringify(data));
+        //! Casting `formValues` to NewSighting will become an issue
+        //! when `formValues` needs to be a different type
+        mutateStorage(key, method, formValues as NewSighting);
         setSuccess(true);
       }
 

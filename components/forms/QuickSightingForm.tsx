@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
-import { createUtcDate } from "@/helpers/dates";
+import { createISODate } from "@/helpers/dates";
 import type { NewSighting } from "@/types/models";
 import { sightingSchema, type SightingForm } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
@@ -59,7 +59,7 @@ export default function QuickSightingForm() {
   async function onSubmit(values: SightingForm) {
     const formValues: NewSighting = {
       commName: values.commName,
-      date: createUtcDate(new Date()),
+      date: createISODate(new Date()),
       desc: "",
     };
 

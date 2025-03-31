@@ -1,17 +1,38 @@
 import { DateTime } from "luxon";
 
-// Returns date in UTC formt: "YYYY-MM-DDT00:00:00.000Z"
-export function createUtcDate(d: Date) {
-  const date = new Date(d);
+// Returns date string in ISO formt: "YYYY-MM-DD"
+// Date objs convert to ISO string when serialized w/ JSON.stringify(),
+// so we will go ahead and create a date string instead.
+// Note: Luxon’s DateTime.toISODate() method is typed as "string | null"
+export function createISODate(d: Date) {
+  // Check that d is a valid date
+  let date: Date;
+  if (d instanceof Date && !isNaN(d.getTime())) {
+    // return DateTime.fromJSDate(d).toISODate();
+    date = new Date(d);
+  } else {
+    date = new Date();
+  }
+
   return new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  ).toISOString();
+}
+
+// Returns a date converted to a locale string
+// Force to UTC format to avoid date changes (ex: turn Mar 1 into Feb 28)
+export function createLocaleString(date: string) {
+  return DateTime.fromISO(date, { zone: "utc" }).toLocaleString(
+    DateTime.DATE_MED
   );
 }
 
-// Create a relative date string (ex: "Today")
+// Returns a relative date string (ex: "Today")
 export function createRelativeDate(date: string) {
   // `toRelativeCalendar()` may return null if the date is invalid
-  const relativeDate = DateTime.fromISO(date).toRelativeCalendar();
+  const relativeDate = DateTime.fromISO(date, {
+    zone: "utc",
+  }).toRelativeCalendar();
   if (relativeDate) {
     return relativeDate.slice(0, 1).toUpperCase() + relativeDate.slice(1);
   }

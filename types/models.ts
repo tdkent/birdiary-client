@@ -1,3 +1,5 @@
+// Dates are ISO 8601 formatted date strings
+
 // ======= BIRDS =======
 
 // The family to which a bird species belongs
@@ -30,12 +32,24 @@ export type Sighting = {
   desc: string;
 };
 
+// Simplified storage model storedin local storage
+export type StorageSighting = Omit<Sighting, "userId" | "locationId">;
+
 export type NewSighting = {
   commName: string;
-  date: Date;
+  date: string;
   desc: string;
   location?: Location;
 };
+
+// ======= DIARY =======
+
+export type Diary = {
+  date: string;
+  count: number;
+};
+
+export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
 
 // ======= LOCATIONS =======
 
