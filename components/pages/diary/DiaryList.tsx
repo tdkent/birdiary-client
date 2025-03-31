@@ -8,13 +8,16 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import DiaryListItem from "@/components/pages/diary/DiaryListItem";
 import type { Diary, DiarySortOptions } from "@/types/models";
 import { sortDiary } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/ErrorDisplay";
 
 export default function DiaryList() {
+  const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<Diary>({
     route: "/sightings?groupby=date",
@@ -26,12 +29,24 @@ export default function DiaryList() {
   const [sort, setSort] = useState<DiarySortOptions>("dateDesc");
   const [sortedDiary, setSortedDiary] = useState<Diary[]>([]);
 
+  // Sort list
   useEffect(() => {
     if (data) {
       const sorted = sortDiary([...data], sort);
       setSortedDiary(sorted);
     }
   }, [data, sort]);
+
+  // Error toast
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: error,
+      });
+    }
+  }, [error, toast]);
 
   if (pending) {
     return (
@@ -41,11 +56,10 @@ export default function DiaryList() {
     );
   }
 
-  // TODO: error toast
   if (error) {
     return (
       <>
-        <p>There was an error</p>
+        <ErrorDisplay msg={error} showReloadBtn />
       </>
     );
   }
@@ -53,7 +67,8 @@ export default function DiaryList() {
   if (!sortedDiary || !sortedDiary.length) {
     return (
       <>
-        <p>No items to show</p>
+        <p className="my-8">You do not have any diary entries!</p>
+        <p>+ Add a new sighting</p>
       </>
     );
   }
