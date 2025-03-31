@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Diary } from "@/types/models";
 import { createLocaleString } from "@/helpers/dates";
 
@@ -10,12 +11,14 @@ export default function DiaryListItem({ diaryEntry }: DiaryListItemProps) {
   const dateLocaleString = createLocaleString(date);
   return (
     <>
-      <li>
-        <span>{dateLocaleString}</span>
-        <span className="text-sm">
-          {count} sighting{count > 1 && "s"}
-        </span>
-      </li>
+      <Link href={`/diary/${date}`}>
+        <li>
+          <span>{dateLocaleString}</span>
+          <span className="text-sm">
+            {count} sighting{count > 1 && "s"}
+          </span>
+        </li>
+      </Link>
     </>
   );
 }

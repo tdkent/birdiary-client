@@ -1,8 +1,11 @@
+import DiaryDetailsList from "@/components/pages/diary/DiaryDetailsList";
+
 export default function DiaryDetailsView() {
   return (
-    <div>
-      <h1>Diary Details</h1>
-      <p>Lists all sightings for date</p>
-    </div>
+    <>
+      <h1>Your Diary</h1>
+      <h2>Date</h2>
+      <DiaryDetailsList />
+    </>
   );
 }
