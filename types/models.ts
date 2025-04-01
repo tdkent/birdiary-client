@@ -17,7 +17,7 @@ export type Bird = {
   rarity: "Common" | "Uncommon" | "Rare";
   imgAttr: string | null;
   imgUrl: string | null;
-  family: Family;
+  familyId: number;
 };
 
 // ======= SIGHTINGS =======
@@ -50,6 +50,11 @@ export type Diary = {
 };
 
 export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
+
+export type DiaryDetails = Sighting & {
+  bird: Bird;
+  location?: Location;
+};
 
 // ======= LOCATIONS =======
 
