@@ -1,6 +1,6 @@
 // Sorting and filtering functions
 import { DateTime } from "luxon";
-import type { Diary, DiarySortOptions } from "@/types/models";
+import type { Diary, DiaryDetails, DiarySortOptions } from "@/types/models";
 
 // Sort diary array by date or number of sightings
 export function sortDiary(diary: Diary[], option: DiarySortOptions) {
@@ -19,5 +19,23 @@ export function sortDiary(diary: Diary[], option: DiarySortOptions) {
       });
     default:
       return diary.sort((a, b) => b.count - a.count);
+  }
+}
+
+// Sort list alphabetically by common name of bird
+export function sortAlpha(entries: DiaryDetails[], option: "asc" | "desc") {
+  switch (option) {
+    case "desc":
+      return entries.sort((a, b) => {
+        if (a.commName > b.commName) return -1;
+        if (a.commName < b.commName) return 1;
+        return 0;
+      });
+    default:
+      return entries.sort((a, b) => {
+        if (a.commName < b.commName) return -1;
+        if (a.commName > b.commName) return 1;
+        return 0;
+      });
   }
 }
