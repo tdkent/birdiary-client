@@ -19,12 +19,28 @@ export function createIsoUtcDate(d: Date) {
   ).toISOString();
 }
 
-// Returns a date converted to a locale string
-// Force to UTC format to avoid date changes (ex: turn Mar 1 into Feb 28)
-export function createLocaleString(date: string) {
-  return DateTime.fromISO(date, { zone: "utc" }).toLocaleString(
-    DateTime.DATE_MED,
-  );
+// Returns a locale string based on provided format
+// "short" (default) - "3/1/2025"
+// "med" - "Mar 1, 2025"
+// "full" - "March 1, 2025"
+// "huge" - "Saturday, March 1, 2025"
+// Use UTC zone to avoid date changes (ex: turn Mar 1 into Feb 28)
+export function createLocaleString(
+  date: string,
+  format?: "med" | "full" | "huge",
+) {
+  const dateFromIso = DateTime.fromISO(date, { zone: "utc" });
+
+  switch (format) {
+    case "med":
+      return dateFromIso.toLocaleString(DateTime.DATE_MED);
+    case "full":
+      return dateFromIso.toLocaleString(DateTime.DATE_FULL);
+    case "huge":
+      return dateFromIso.toLocaleString(DateTime.DATE_HUGE);
+    default:
+      return dateFromIso.toLocaleString(DateTime.DATE_SHORT);
+  }
 }
 
 // Returns a relative date string (ex: "Today")

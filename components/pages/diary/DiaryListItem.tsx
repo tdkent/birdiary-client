@@ -8,10 +8,10 @@ type DiaryListItemProps = {
 
 export default function DiaryListItem({ diaryEntry }: DiaryListItemProps) {
   const { date, count } = diaryEntry;
-  const dateLocaleString = createLocaleString(date);
+  const dateLocaleString = createLocaleString(date, "med");
   return (
     <>
-      <Link href={`/diary/${date}`}>
+      <Link href={`/diary/${date.slice(0, 10)}`}>
         <li>
           <span>{dateLocaleString}</span>
           <span className="text-sm">
