@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { createISODate } from "@/helpers/dates";
+import { createIsoUtcDate } from "@/helpers/dates";
 import type { NewSighting, Location } from "@/types/models";
 import { type SightingForm, sightingSchema } from "@/types/api";
 import BirdImage from "@/components/forms/BirdImage";
@@ -88,7 +88,7 @@ export default function SightingForm() {
 
     const formValues: NewSighting = {
       commName: values.commName,
-      date: createISODate(values.date!),
+      date: createIsoUtcDate(values.date!),
       desc: values.desc!.trim(),
       location: validatedLocation,
     };
