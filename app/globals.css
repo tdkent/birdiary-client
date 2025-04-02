@@ -79,7 +79,7 @@
     @apply my-4 divide-y;
   }
   ul.sighting-list li {
-    @apply px-2 py-4 flex justify-between items-center;
+    @apply flex items-center justify-between px-4 py-4 hover:bg-slate-900;
   }
 }
 

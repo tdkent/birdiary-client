@@ -49,12 +49,11 @@ export type Diary = {
   count: number;
 };
 
-export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
-
-export type DiaryDetails = Sighting & {
-  bird: Bird;
+export type DiaryDetails = StorageSighting & {
   location?: Location;
 };
+
+export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
 
 // ======= LOCATIONS =======
 
