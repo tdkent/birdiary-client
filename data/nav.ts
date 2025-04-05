@@ -1,5 +1,4 @@
 import {
-  Binoculars,
   Bird,
   CircleUserRound,
   House,
@@ -29,13 +28,13 @@ export const mobile: {
     type: "public",
   },
   {
-    label: "My Birds",
-    href: "sightings",
-    icon: Binoculars,
-    type: "protected",
+    label: "Birdpedia",
+    href: "birds",
+    icon: Bird,
+    type: "public",
   },
   {
-    label: "Life List",
+    label: "Lifelist",
     href: "lifelist",
     icon: Scroll,
     type: "protected",
@@ -45,12 +44,6 @@ export const mobile: {
     href: "locations",
     icon: MapPinned,
     type: "protected",
-  },
-  {
-    label: "Birdpedia",
-    href: "birds",
-    icon: Bird,
-    type: "public",
   },
   {
     label: "Profile",
@@ -67,28 +60,6 @@ export const mobile: {
 ];
 
 export const desktopSublinks = {
-  diary: [
-    {
-      label: "My Diary",
-      href: "/diary",
-      icon: NotebookPen,
-    },
-    {
-      label: "My Birds",
-      href: "/sightings",
-      icon: Binoculars,
-    },
-    {
-      label: "Life List",
-      href: "/lifelist",
-      icon: Scroll,
-    },
-    {
-      label: "Locations",
-      href: "/locations",
-      icon: MapPinned,
-    },
-  ],
   user: [
     {
       label: "Profile",

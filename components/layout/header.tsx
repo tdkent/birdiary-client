@@ -5,7 +5,7 @@ import SignInOutButton from "@/components/layout/SignInOutButton";
 
 export default function Header() {
   return (
-    <header className="flex px-4 justify-between items-center h-16 md:h-20 border-b">
+    <header className="flex h-16 items-center justify-between border-b px-4 md:h-20">
       <Logo />
       <div className="flex gap-2">
         <Nav />
