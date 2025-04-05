@@ -1,33 +1,57 @@
 // Fetch bird data from the server in RSC using name param
 // Fetch sightings data for bird from client
 
+import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
+import birdNames from "@/data/birds";
 import type { SingleBird } from "@/types/models";
-import { ExpectedServerError } from "@/types/api";
+import { ExpectedServerError, QuerySuccess } from "@/types/api";
+import ErrorDisplay from "@/components/pages/ErrorDisplay";
+import BirdDetails from "@/components/pages/birds/BirdDetails";
 
-type BirdDetailsParams = {
+type BirdDetailsViewParams = {
   params: {
     name: string;
   };
 };
 
-export default async function BirdDetails({ params }: BirdDetailsParams) {
+export default async function BirdDetailsView({
+  params,
+}: BirdDetailsViewParams) {
   const { name } = await params;
 
   // `name` param has an underscore "_" char in place of empty space " "
   const filteredName = name.replace("_", " ");
 
-  // Send to 404 if `name` is not a known bird name
+  // Render error if `name` is not a known bird
+  const findBird = birdNames.find(
+    (name) => name.toLowerCase() === filteredName.toLowerCase(),
+  );
+  if (!findBird) {
+    return (
+      <>
+        <p>Could not find &apos;{filteredName}&apos;</p>
+        <Link href="/birds">See all birds</Link>
+      </>
+    );
+  }
+
   // Fetch bird data
-  const response = await fetch(BASE_URL + "/birdss/" + filteredName);
-  const data: SingleBird | ExpectedServerError = await response.json();
+  const response = await fetch(BASE_URL + "/birds/" + findBird);
+  const data: QuerySuccess<SingleBird> | ExpectedServerError =
+    await response.json();
+
+  if (!response.ok) {
+    // `data` will be ExpectedServerError type if server sends an error
+    const msg = Array.isArray(data.message) ? data.message[0] : data.message;
+    return <ErrorDisplay msg={msg} />;
+  }
+
+  const birdData = data as QuerySuccess<SingleBird>;
 
   return (
     <>
-      <h1>Name of bird</h1>
-      <p>Bird image</p>
-      <p>Bird details</p>
-      <p>List of sightings</p>
+      <BirdDetails bird={birdData.data} />
     </>
   );
 }
