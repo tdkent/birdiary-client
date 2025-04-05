@@ -25,40 +25,15 @@ export default function DesktopNav() {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
-          {isSignedIn ? (
-            <>
-              <NavigationMenuTrigger>Diary</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuList className="flex flex-col border justify-start items-start">
-                  {sublinks.diary.map(({ label, href, icon: Icon }) => {
-                    return (
-                      <NavigationMenuItem key={label}>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={href}
-                            className={navigationMenuTriggerStyle()}
-                          >
-                            <span className="flex gap-2 items-center">
-                              {Icon && <Icon className="w-4 h-4" />}
-                              {label}
-                            </span>
-                          </Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    );
-                  })}
-                </NavigationMenuList>
-              </NavigationMenuContent>
-            </>
-          ) : (
-            <NavigationMenuLink asChild>
-              <Link href="/diary" className={navigationMenuTriggerStyle()}>
-                Diary
-              </Link>
-            </NavigationMenuLink>
-          )}
+          <NavigationMenuLink asChild>
+            <Link href="/diary" className={navigationMenuTriggerStyle()}>
+              Diary
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/birds" className={navigationMenuTriggerStyle()}>
@@ -66,14 +41,35 @@ export default function DesktopNav() {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+
+        {isSignedIn && (
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link href="/lifelist" className={navigationMenuTriggerStyle()}>
+                Lifelist
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        )}
+
+        {isSignedIn && (
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link href="/locations" className={navigationMenuTriggerStyle()}>
+                Locations
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        )}
+
         <NavigationMenuItem>
           {isSignedIn ? (
             <>
               <NavigationMenuTrigger>
-                <CircleUserRound className="w-4 h-4" />
+                <CircleUserRound className="h-4 w-4" />
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <NavigationMenuList className="flex flex-col border justify-start items-start">
+                <NavigationMenuList className="flex flex-col items-start justify-start border">
                   {sublinks.user.map(({ label, href }) => {
                     return (
                       <NavigationMenuItem key={label}>
@@ -82,7 +78,7 @@ export default function DesktopNav() {
                             href={href}
                             className={navigationMenuTriggerStyle()}
                           >
-                            <span className="flex gap-2 items-center">
+                            <span className="flex items-center gap-2">
                               {label}
                             </span>
                           </Link>
