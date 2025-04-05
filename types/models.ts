@@ -20,6 +20,8 @@ export type Bird = {
   familyId: number;
 };
 
+export type SingleBird = Omit<Bird, "familyId"> & { family: Family };
+
 // ======= SIGHTINGS =======
 
 // Base model
