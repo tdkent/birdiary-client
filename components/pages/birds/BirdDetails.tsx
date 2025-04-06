@@ -1,3 +1,5 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
 import type { SingleBird } from "@/types/models";
 
 type BirdDetailsProps = {
@@ -10,8 +12,20 @@ export default function BirdDetails({ bird }: BirdDetailsProps) {
       <section>
         <h1>{bird.commName}</h1>
 
-        <figure>
-          <p>img</p>
+        <figure className="w-full">
+          <AspectRatio ratio={16 / 9}>
+            {bird.imgUrl ? (
+              <Image
+                src={bird.imgUrl}
+                alt={bird.commName}
+                className="rounded-md object-cover"
+                fill
+                priority
+              />
+            ) : (
+              <p>No image</p>
+            )}
+          </AspectRatio>
           <figcaption className="text-xs">{bird.imgAttr}</figcaption>
         </figure>
 
