@@ -1,6 +1,7 @@
 // Fetch bird data from the server in RSC using name param
 // Fetch sightings data for bird from client
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
@@ -51,7 +52,9 @@ export default async function BirdDetailsView({
 
   return (
     <>
-      <BirdDetails bird={birdData.data} />
+      <Suspense>
+        <BirdDetails bird={birdData.data} />
+      </Suspense>
     </>
   );
 }
