@@ -9,6 +9,7 @@ import type { SingleBird } from "@/types/models";
 import { ExpectedServerError, QuerySuccess } from "@/types/api";
 import ErrorDisplay from "@/components/pages/ErrorDisplay";
 import BirdDetails from "@/components/pages/birds/BirdDetails";
+import SightingListGeneric from "@/components/pages/SightingListGeneric";
 
 type BirdDetailsViewParams = {
   params: {
@@ -55,6 +56,11 @@ export default async function BirdDetailsView({
       <Suspense>
         <BirdDetails bird={birdData.data} />
       </Suspense>
+      <h2>Sightings</h2>
+      <SightingListGeneric
+        route={"/sightings/bird/" + birdData.data.commName}
+        heading="date"
+      />
     </>
   );
 }
