@@ -16,6 +16,7 @@ import DiaryDetailsListItem from "@/components/pages/diary/DiaryDetailsListItem"
 import ErrorDisplay from "@/components/pages/ErrorDisplay";
 import type { DiaryDetails } from "@/types/models";
 import { sortAlpha } from "@/helpers/data";
+import { apiRoutes } from "@/types/api";
 
 export default function DiaryDetailsList() {
   const { toast } = useToast();
@@ -23,7 +24,7 @@ export default function DiaryDetailsList() {
 
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<DiaryDetails>({
-    route: `/sightings/date/${date}`,
+    route: apiRoutes.sightingsByDate(date),
     key: "sightings",
     tag: "sightings",
   });

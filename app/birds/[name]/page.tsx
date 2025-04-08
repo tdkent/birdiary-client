@@ -9,7 +9,8 @@ import type { SingleBird } from "@/types/models";
 import { ExpectedServerError, QuerySuccess } from "@/types/api";
 import ErrorDisplay from "@/components/pages/ErrorDisplay";
 import BirdDetails from "@/components/pages/birds/BirdDetails";
-import SightingListGeneric from "@/components/pages/SightingListGeneric";
+import SightingsList from "@/components/pages/sightings/SightingsList";
+import { apiRoutes } from "@/types/api";
 
 type BirdDetailsViewParams = {
   params: {
@@ -39,7 +40,7 @@ export default async function BirdDetailsView({
   }
 
   // Fetch bird data
-  const response = await fetch(BASE_URL + "/birds/" + findBird);
+  const response = await fetch(BASE_URL + apiRoutes.birdDetails(findBird));
   const data: QuerySuccess<SingleBird> | ExpectedServerError =
     await response.json();
 
@@ -57,9 +58,10 @@ export default async function BirdDetailsView({
         <BirdDetails bird={birdData.data} />
       </Suspense>
       <h2>Sightings</h2>
-      <SightingListGeneric
-        route={"/sightings/bird/" + birdData.data.commName}
+      <SightingsList
+        route={apiRoutes.sightingByBird(birdData.data.commName)}
         heading="date"
+        variant="card"
       />
     </>
   );

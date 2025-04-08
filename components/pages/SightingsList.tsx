@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import type { Sighting } from "@/types/models";
+import { apiRoutes } from "@/types/api";
 import SightingListItem from "@/components/pages/SightingListItem";
 
 /*
@@ -19,7 +20,7 @@ export default function SightingsList() {
   const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<Sighting>({
-    route: "/sightings/recent",
+    route: apiRoutes.recentSightings,
     key: "sightings",
     tag: "sightings",
   });

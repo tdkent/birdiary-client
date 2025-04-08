@@ -15,12 +15,13 @@ import DiaryListItem from "@/components/pages/diary/DiaryListItem";
 import type { Diary, DiarySortOptions } from "@/types/models";
 import { sortDiary } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/ErrorDisplay";
+import { apiRoutes } from "@/types/api";
 
 export default function DiaryList() {
   const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<Diary>({
-    route: "/sightings?groupby=date",
+    route: apiRoutes.groupedSightings("date"),
     key: "diary",
     tag: "diary",
   });
@@ -76,7 +77,7 @@ export default function DiaryList() {
   return (
     <>
       <Select onValueChange={(value: DiarySortOptions) => setSort(value)}>
-        <SelectTrigger className="w-1/2 mt-8 mb-4">
+        <SelectTrigger className="mb-4 mt-8 w-1/2">
           <SelectValue placeholder="Date (Newest)" />
         </SelectTrigger>
         <SelectContent>
