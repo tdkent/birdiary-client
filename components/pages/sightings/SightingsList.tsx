@@ -1,32 +1,30 @@
 "use client";
 
+// Renders a list of the user's recent bird sightings.
 // Fetches sighting data based on provided props
 // key and tag should always be "sightings"
 // Renders generic loading, error, error toast components
-// Passes fetched sighting data to SightingCard generic component
-//! All fetched sightings should be of the same type!
+// Passes fetched sighting data to generic card or list
+// components based on `variant` prop.
+// Use FetchedSighting type for all sightings
 
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import type { FetchedSighting } from "@/types/models";
-import SightingCard from "@/components/pages/SightingCard";
+import SightingCard from "@/components/pages/sightings/SightingCard";
 
-/*
- * Renders a list of the user's recent bird sightings.
- * Query method is determined by the user's auth status.
- * If signed out, query "sightings" key from browser storage.
- * If signed in, send query to web server.
- * The sightings array is mapped to render sighting cards.
- */
+// Discriminated union type requires `heading` when variant = "card"
+type SightingsListProps =
+  | { route: string; variant: "card"; heading: "name" | "date" }
+  | { route: string; variant: "list"; heading?: never };
 
-type SightingsListProps = {
-  route: string;
-  heading: "name" | "date";
-};
-
-export default function SightingsList({ route, heading }: SightingsListProps) {
+export default function SightingsList({
+  route,
+  heading,
+  variant,
+}: SightingsListProps) {
   const { toast } = useToast();
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery<FetchedSighting>({
@@ -57,16 +55,22 @@ export default function SightingsList({ route, heading }: SightingsListProps) {
     return <p>You have not observed this species.</p>;
   }
 
+  // Renders a <ul> containing sightings
+  // Two sighting variants: "list", "card"
+  // "list" shows name, date only
+  // "card" shows all sighting info
   return (
     <>
       <ul className="sighting-list">
         {data.map((sighting) => {
-          return (
+          return variant === "card" ? (
             <SightingCard
               key={sighting.sightingId}
               heading={heading}
               sighting={sighting}
             />
+          ) : (
+            <p>list</p>
           );
         })}
       </ul>
