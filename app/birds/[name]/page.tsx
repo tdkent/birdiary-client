@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import type { SingleBird } from "@/types/models";
+import type { SingleBird, SortValues, SortOptions } from "@/types/models";
 import { ExpectedServerError, QuerySuccess } from "@/types/api";
 import ErrorDisplay from "@/components/pages/ErrorDisplay";
 import BirdDetails from "@/components/pages/birds/BirdDetails";
@@ -52,6 +52,13 @@ export default async function BirdDetailsView({
 
   const birdData = data as QuerySuccess<SingleBird>;
 
+  // Define options for `SortList` component
+  const defaultSort: SortValues = "dateDesc";
+  const sortOptions: SortOptions = [
+    { value: "dateDesc", text: "Newest - Oldest" },
+    { value: "dateAsc", text: "Oldest - Newest" },
+  ];
+
   return (
     <>
       <Suspense>
@@ -62,6 +69,8 @@ export default async function BirdDetailsView({
         route={apiRoutes.sightingByBird(birdData.data.commName)}
         heading="date"
         variant="card"
+        defaultSort={defaultSort}
+        sortOptions={sortOptions}
       />
     </>
   );

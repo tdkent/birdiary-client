@@ -56,6 +56,10 @@ export type NewSighting = {
   location?: Location;
 };
 
+// Sort sightings
+export type SortValues = "alphaAsc" | "alphaDesc" | "dateAsc" | "dateDesc";
+export type SortOptions = { value: SortValues; text: string }[];
+
 // ======= DIARY =======
 
 export type Diary = {

@@ -1,29 +1,44 @@
 "use client";
 
-// Renders a list of the user's recent bird sightings.
+// Renders a list of sighting Cards or ListItems variants
 // Fetches sighting data based on provided props
-// key and tag should always be "sightings"
 // Renders generic loading, error, error toast components
-// Passes fetched sighting data to generic card or list
-// components based on `variant` prop.
-// Use FetchedSighting type for all sightings
+// All fetched sightings are FetchedSighting type
+// Manages list sorting state
+// Lists are sorted using generic `SortList` component
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
-import type { FetchedSighting } from "@/types/models";
+import type { FetchedSighting, SortValues, SortOptions } from "@/types/models";
 import SightingCard from "@/components/pages/sightings/SightingCard";
+import SortItems from "@/components/pages/SortItems";
+import { sortSightings } from "@/helpers/data";
 
 // Discriminated union type requires `heading` when variant = "card"
 type SightingsListProps =
-  | { route: string; variant: "card"; heading: "name" | "date" }
-  | { route: string; variant: "list"; heading?: never };
+  | {
+      route: string;
+      variant: "card";
+      defaultSort: SortValues;
+      sortOptions: SortOptions;
+      heading: "name" | "date";
+    }
+  | {
+      route: string;
+      variant: "list";
+      defaultSort: SortValues;
+      sortOptions: SortOptions;
+      heading?: never;
+    };
 
 export default function SightingsList({
   route,
-  heading,
   variant,
+  defaultSort,
+  sortOptions,
+  heading,
 }: SightingsListProps) {
   const { toast } = useToast();
   const { useQuery } = useApi();
@@ -43,6 +58,18 @@ export default function SightingsList({
     }
   }, [error, toast]);
 
+  // Sort list
+  const [sort, setSort] = useState<SortValues>(defaultSort);
+  const [sortedList, setSortedList] = useState<FetchedSighting[]>([]);
+
+  // Sort list
+  useEffect(() => {
+    if (data) {
+      const sorted = sortSightings([...data], sort);
+      setSortedList(sorted);
+    }
+  }, [data, sort]);
+
   if (pending) {
     return <Loader2 />;
   }
@@ -51,7 +78,7 @@ export default function SightingsList({
     return <p>An error occurred!</p>;
   }
 
-  if (!data || !data.length) {
+  if (!sortedList || !sortedList.length) {
     return <p>You have not observed this species.</p>;
   }
 
@@ -61,8 +88,9 @@ export default function SightingsList({
   // "card" shows all sighting info
   return (
     <>
+      <SortItems setSort={setSort} options={sortOptions} />
       <ul className="sighting-list">
-        {data.map((sighting) => {
+        {sortedList.map((sighting) => {
           return variant === "card" ? (
             <SightingCard
               key={sighting.sightingId}
