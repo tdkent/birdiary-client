@@ -13,10 +13,11 @@ import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import type { FetchedSighting, SortValues, SortOptions } from "@/types/models";
 import SightingCard from "@/components/pages/sightings/SightingCard";
+import SightingListItem from "@/components/pages/sightings/SightingListItem";
 import SortItems from "@/components/pages/SortItems";
 import { sortSightings } from "@/helpers/data";
 
-// Discriminated union type requires `heading` when variant = "card"
+// Discriminated union type based on variant
 type SightingsListProps =
   | {
       route: string;
@@ -28,8 +29,8 @@ type SightingsListProps =
   | {
       route: string;
       variant: "list";
-      defaultSort: SortValues;
-      sortOptions: SortOptions;
+      defaultSort?: never;
+      sortOptions?: never;
       heading?: never;
     };
 
@@ -59,7 +60,7 @@ export default function SightingsList({
   }, [error, toast]);
 
   // Sort list
-  const [sort, setSort] = useState<SortValues>(defaultSort);
+  const [sort, setSort] = useState<SortValues>(defaultSort || "");
   const [sortedList, setSortedList] = useState<FetchedSighting[]>([]);
 
   // Sort list
@@ -88,7 +89,7 @@ export default function SightingsList({
   // "card" shows all sighting info
   return (
     <>
-      <SortItems setSort={setSort} options={sortOptions} />
+      {sortOptions && <SortItems setSort={setSort} options={sortOptions} />}
       <ul className="sighting-list">
         {sortedList.map((sighting) => {
           return variant === "card" ? (
@@ -98,7 +99,7 @@ export default function SightingsList({
               sighting={sighting}
             />
           ) : (
-            <p>list</p>
+            <SightingListItem key={sighting.sightingId} sighting={sighting} />
           );
         })}
       </ul>
