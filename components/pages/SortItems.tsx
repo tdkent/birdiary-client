@@ -10,12 +10,10 @@ import {
 import type { SetStateAction } from "react";
 import type { SortValues, SortOptions } from "@/types/models";
 
-// Props:
-// array of options objects to create <SelectItem>s
-// setSort function called on a generic array
-
 type SortItemsProps = {
+  // `setSort` function called on a generic array
   setSort: (value: SetStateAction<SortValues>) => void;
+  // array of options objects to create <SelectItem>s
   options: SortOptions;
 };
 
