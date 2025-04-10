@@ -25,7 +25,7 @@ import {
 } from "@/types/api";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
-import { mutateStorage } from "@/helpers/storage";
+import { queryStorage, mutateStorage } from "@/helpers/storage";
 import type { NewSighting } from "@/types/models";
 
 // Define the shape of the API Context object
@@ -103,16 +103,10 @@ export default function ApiProvider({
           }
         }
 
-        // Otherwise send query to browser storage
+        // Else, send query to browser storage
         else {
-          // Add default empty array to storage
-          if (!window.localStorage.getItem(key)) {
-            window.localStorage.setItem(key, "[]");
-          }
-          // Fetch data from local storage based on `key` parameter
-          const data: T[] = JSON.parse(window.localStorage.getItem(key)!);
-
-          setData(data);
+          const data = queryStorage(route, key);
+          setData((data as T[]) || []);
         }
       }
 

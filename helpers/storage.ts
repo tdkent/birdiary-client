@@ -1,7 +1,58 @@
 // Functions to process data in local storage
 import { v4 as uuidv4 } from "uuid";
 import type { MutationParameters } from "@/types/api";
-import type { StorageSighting, NewSighting, Diary } from "@/types/models";
+import type {
+  StorageSighting,
+  NewSighting,
+  Diary,
+  FetchedSighting,
+} from "@/types/models";
+import { apiRoutes } from "@/types/api";
+import { sortSightings } from "@/helpers/data";
+
+// ======= QUERY =======
+
+// Query and filter data in storage based on provided route
+export function queryStorage(route: string, key: string) {
+  // Add default empty array to storage
+  if (!window.localStorage.getItem(key)) {
+    window.localStorage.setItem(key, "[]");
+  }
+  // Fetch data from local storage based on `key` parameter
+  const data = JSON.parse(window.localStorage.getItem(key)!);
+
+  switch (true) {
+    // Home ("/")
+    // Recent sightings: sort by date (desc), limit 10
+    case route === apiRoutes.recentSightings:
+      return sortSightings(data as FetchedSighting[], "dateDesc").slice(0, 10);
+
+    // Diary ("/diary")
+    // Sort by date (desc)
+    case route === apiRoutes.groupedSightings("date"):
+      return sortSightings(data as Diary[], "dateDesc");
+
+    // Diary Details ("/diary/:date")
+    // Filter by date parameter in route string
+    case route.startsWith("/sightings/date/"): {
+      const date = route.slice(-10);
+      const sightings = data as FetchedSighting[];
+      return sightings.filter(
+        (sighting) => sighting.date.slice(0, 10) === date,
+      );
+    }
+
+    // Bird Details ("/birds/:name")
+    // Filter by name parameter in route string
+    case route.startsWith("/sightings/bird/"): {
+      const name = route.split("/")[3];
+      const sightings = data as FetchedSighting[];
+      return sightings.filter((sighting) => sighting.commName === name);
+    }
+  }
+}
+
+// ======= MUTATE =======
 
 // Map keys to specific data and formValues types
 type MutationDataMap = {
@@ -15,7 +66,7 @@ type MutationDataMap = {
 export function mutateStorage<K extends keyof MutationDataMap>(
   key: K,
   method: MutationParameters["method"],
-  formValues: MutationDataMap[K]["formValues"]
+  formValues: MutationDataMap[K]["formValues"],
 ) {
   // Check if local storage contains the provided key
   // If the key does not exist, initialize with an empty array
@@ -25,7 +76,7 @@ export function mutateStorage<K extends keyof MutationDataMap>(
 
   // Fetch data from local storage based on `key` parameter
   const data: MutationDataMap[K]["data"] = JSON.parse(
-    window.localStorage.getItem(key)!
+    window.localStorage.getItem(key)!,
   );
 
   // "POST" requests
@@ -67,7 +118,7 @@ function updateDiary(date: string) {
   const entryExists = diary.find((entry) => entry.date === date);
   if (entryExists) {
     const updateDiary = diary.map((entry) =>
-      entry.date === date ? { ...entry, count: ++entry.count } : entry
+      entry.date === date ? { ...entry, count: ++entry.count } : entry,
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
