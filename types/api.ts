@@ -22,6 +22,14 @@ export const defaultCache: Cache = {
 
 // ======= REQUESTS =======
 
+export const apiRoutes = {
+  birdDetails: (name: string) => "/birds/" + name,
+  recentSightings: "/sightings/recent",
+  sightingByBird: (name: string) => "/sightings/bird/" + name,
+  sightingsByDate: (date: string) => "/sightings/date/" + date,
+  groupedSightings: (group: "date") => "/sightings?groupby=" + group,
+} as const;
+
 // Local storage key and web server route
 // Standard params for GET requests
 export type QueryParameters = {

@@ -20,9 +20,10 @@ export type Bird = {
   familyId: number;
 };
 
+export type SingleBird = Omit<Bird, "familyId"> & { family: Family };
+
 // ======= SIGHTINGS =======
 
-// Base model
 export type Sighting = {
   sightingId: string;
   userId: string;
@@ -30,6 +31,19 @@ export type Sighting = {
   locationId: number;
   date: string;
   desc: string;
+};
+
+// Location data may not include geometry data
+// Locations with undefined geometry will be rejected by backend
+export type Location = {
+  name: string;
+  lat: number | undefined;
+  lng: number | undefined;
+};
+
+// Fetched sighting with optional location
+export type FetchedSighting = Omit<Sighting, "userId" | "locationId"> & {
+  location?: Location;
 };
 
 // Simplified storage model storedin local storage
@@ -41,6 +55,10 @@ export type NewSighting = {
   desc: string;
   location?: Location;
 };
+
+// Sort sightings
+export type SortValues = "alphaAsc" | "alphaDesc" | "dateAsc" | "dateDesc" | "";
+export type SortOptions = { value: SortValues; text: string }[];
 
 // ======= DIARY =======
 
@@ -56,11 +74,3 @@ export type DiaryDetails = StorageSighting & {
 export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
 
 // ======= LOCATIONS =======
-
-// Location data may not include geometry data
-// Locations with undefined geometry will be rejected by backend
-export type Location = {
-  name: string;
-  lat: number | undefined;
-  lng: number | undefined;
-};
