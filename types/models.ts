@@ -22,6 +22,11 @@ export type Bird = {
 
 export type SingleBird = Omit<Bird, "familyId"> & { family: Family };
 
+export type Birdpedia = {
+  birds: SingleBird[];
+  countOfRecords: number;
+};
+
 // ======= SIGHTINGS =======
 
 export type Sighting = {
