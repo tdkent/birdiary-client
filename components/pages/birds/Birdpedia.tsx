@@ -7,6 +7,16 @@
 // Bird data is filtered by name with optional `startsWith` query
 // `startsWith` query is updated with select component
 
+// TODO: Showing...Results component
+// TODO: Null results text
+// TODO: Error handling
+// TODO: Loading spinner
+// TODO: Reset current page when filtering list
+// TODO: Show additional pagination options (if more pages)
+// TODO: Cross link list items to bird details pages
+// TODO: Remove filter options that have no results ("X", etc.)
+// TODO: "Filter by" text component
+
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { BASE_URL } from "@/constants/env";
@@ -16,8 +26,8 @@ import { ErrorMessages } from "@/types/api";
 import BirdpediaListItem from "@/components/pages/birds/BirdpediaListItem";
 import PaginateList from "@/components/pages/PaginateList";
 import FilterBirdList from "@/components/pages/birds/FilterBirdList";
-
-const RESULTS_PER_PAGE = 25;
+import ShowingResultsText from "@/components/pages/birds/ShowingResultsText";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default function Birdpedia() {
   const { token } = useContext(AuthContext);
@@ -25,6 +35,7 @@ export default function Birdpedia() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [birdData, setBirdData] = useState<SingleBirdWithCount[]>([]);
+  const [records, setRecords] = useState(0);
   const [pages, setPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [char, setChar] = useState("");
@@ -51,7 +62,7 @@ export default function Birdpedia() {
             : result.message;
           throw new Error(`${result.error}: ${msg}`);
         }
-        // Set pagination count
+        setRecords(result.data.countOfRecords);
         const paginationCount = Math.ceil(
           result.data.countOfRecords / RESULTS_PER_PAGE,
         );
@@ -80,7 +91,7 @@ export default function Birdpedia() {
 
   return (
     <>
-      <FilterBirdList setChar={setChar} />
+      <FilterBirdList setChar={setChar} setCurrentPage={setCurrentPage} />
       {char && (
         <div>
           <p>
@@ -93,6 +104,7 @@ export default function Birdpedia() {
           return <BirdpediaListItem key={bird.id} bird={bird} />;
         })}
       </ul>
+      <ShowingResultsText currentPage={currentPage} records={records} />
       <PaginateList
         currentPage={currentPage}
         pages={pages}
