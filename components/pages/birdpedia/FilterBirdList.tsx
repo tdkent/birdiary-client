@@ -45,14 +45,12 @@ export default function FilterBirdList({
             <SelectItem value="N">N</SelectItem>
             <SelectItem value="O">O</SelectItem>
             <SelectItem value="P">P</SelectItem>
-            <SelectItem value="Q">Q</SelectItem>
             <SelectItem value="R">R</SelectItem>
             <SelectItem value="S">S</SelectItem>
             <SelectItem value="T">T</SelectItem>
             <SelectItem value="U">U</SelectItem>
             <SelectItem value="V">V</SelectItem>
             <SelectItem value="W">W</SelectItem>
-            <SelectItem value="X">X</SelectItem>
             <SelectItem value="Y">Y</SelectItem>
             <SelectItem value="Z">Z</SelectItem>
           </SelectGroup>
