@@ -23,10 +23,10 @@ import { BASE_URL } from "@/constants/env";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
-import BirdpediaListItem from "@/components/pages/birds/BirdpediaListItem";
-import PaginateList from "@/components/pages/PaginateList";
-import FilterBirdList from "@/components/pages/birds/FilterBirdList";
-import ShowingResultsText from "@/components/pages/birds/ShowingResultsText";
+import BirdpediaListItem from "@/components/pages/birdpedia/BirdpediaListItem";
+import PaginateList from "@/components/pages/shared/PaginateList";
+import FilterBirdList from "@/components/pages/birdpedia/FilterBirdList";
+import ShowingResultsText from "@/components/pages/birdpedia/ShowingResultsText";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default function Birdpedia() {

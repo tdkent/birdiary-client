@@ -1,4 +1,4 @@
-import Birdpedia from "@/components/pages/birds/Birdpedia";
+import Birdpedia from "@/components/pages/birdpedia/Birdpedia";
 
 export default async function BirdsView() {
   return (

@@ -10,16 +10,20 @@ import {
 
 type FilterBirdListProps = {
   setChar: Dispatch<SetStateAction<string>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
-export default function FilterBirdList({ setChar }: FilterBirdListProps) {
+export default function FilterBirdList({
+  setChar,
+  setCurrentPage,
+}: FilterBirdListProps) {
+  const handleChange = (value: string) => {
+    setChar(value);
+    setCurrentPage(1);
+  };
   return (
     <>
-      <Select
-        onValueChange={(value: string) => {
-          setChar(value);
-        }}
-      >
+      <Select onValueChange={(value: string) => handleChange(value)}>
         <SelectTrigger className="my-4 w-[150px]">
           <SelectValue placeholder="Filter by name" />
         </SelectTrigger>

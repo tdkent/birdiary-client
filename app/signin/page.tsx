@@ -1,4 +1,4 @@
-import AuthContainer from "@/components/pages/AuthContainer";
+import AuthContainer from "@/components/pages/auth/AuthContainer";
 
 export default function SignInView() {
   return (
