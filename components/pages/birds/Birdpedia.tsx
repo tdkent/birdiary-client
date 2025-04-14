@@ -15,6 +15,7 @@ import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
 import BirdpediaListItem from "@/components/pages/birds/BirdpediaListItem";
 import PaginateList from "@/components/pages/PaginateList";
+import FilterBirdList from "@/components/pages/birds/FilterBirdList";
 
 const RESULTS_PER_PAGE = 25;
 
@@ -26,15 +27,19 @@ export default function Birdpedia() {
   const [birdData, setBirdData] = useState<SingleBirdWithCount[]>([]);
   const [pages, setPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [char, setChar] = useState("");
 
   useEffect(() => {
     const getBirds = async () => {
       setPending(true);
       setError(null);
+
+      const resource = `${BASE_URL}/birds?page=${currentPage}${char ? `&startsWith=${char}` : ""}`;
+
       try {
         const requestHeaders: { Authorization?: string } = {};
         if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
-        const response = await fetch(BASE_URL + "/birds?page=" + currentPage, {
+        const response = await fetch(resource, {
           headers: requestHeaders,
         });
         const result: QuerySuccess<Birdpedia> | ExpectedServerError =
@@ -63,7 +68,7 @@ export default function Birdpedia() {
       }
     };
     getBirds();
-  }, [currentPage, token]);
+  }, [currentPage, char, token]);
 
   if (pending) {
     return (
@@ -75,6 +80,14 @@ export default function Birdpedia() {
 
   return (
     <>
+      <FilterBirdList setChar={setChar} />
+      {char && (
+        <div>
+          <p>
+            Filtering birds by letter: <q>{char}</q>
+          </p>
+        </div>
+      )}
       <ul className="my-4">
         {birdData.map((bird) => {
           return <BirdpediaListItem key={bird.id} bird={bird} />;
