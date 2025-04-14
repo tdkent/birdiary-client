@@ -22,7 +22,7 @@ export type Bird = {
 
 export type SingleBird = Omit<Bird, "familyId"> & { family: Family };
 export type SingleBirdWithCount = SingleBird & {
-  _count?: { sightings: number };
+  count?: number;
 };
 
 export type Birdpedia = {

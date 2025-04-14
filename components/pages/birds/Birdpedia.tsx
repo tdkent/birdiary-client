@@ -13,6 +13,7 @@ import { BASE_URL } from "@/constants/env";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
+import BirdpediaListItem from "@/components/pages/birds/BirdpediaListItem";
 
 const RESULTS_PER_PAGE = 25;
 
@@ -63,9 +64,21 @@ export default function Birdpedia() {
     getBirds();
   }, [currentPage, token]);
 
+  if (pending) {
+    return (
+      <>
+        <p>Loading...</p>
+      </>
+    );
+  }
+
   return (
     <>
-      <ul></ul>
+      <ul className="my-4">
+        {birdData.map((bird) => {
+          return <BirdpediaListItem key={bird.id} bird={bird} />;
+        })}
+      </ul>
     </>
   );
 }
