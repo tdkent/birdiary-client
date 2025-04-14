@@ -7,38 +7,36 @@
 // Bird data is filtered by name with optional `startsWith` query
 // `startsWith` query is updated with select component
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import { BASE_URL } from "@/constants/env";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
-import type { SingleBird } from "@/types/models";
+import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
-
-type BirdpediaQuery = {
-  birds: SingleBird[];
-  countOfRecords: number;
-};
 
 const RESULTS_PER_PAGE = 25;
 
 export default function Birdpedia() {
+  const { token } = useContext(AuthContext);
+
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [birdData, setBirdData] = useState<SingleBird[]>([]);
-  console.log(birdData);
+  const [birdData, setBirdData] = useState<SingleBirdWithCount[]>([]);
   const [pages, setPages] = useState(0);
-  console.log(pages);
-  const [currentPage, setCurrentPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const getBirds = async () => {
       setPending(true);
       setError(null);
       try {
-        const response = await fetch(BASE_URL + "/birds?page=" + currentPage);
-        const result: QuerySuccess<BirdpediaQuery> | ExpectedServerError =
+        const requestHeaders: { Authorization?: string } = {};
+        if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
+        const response = await fetch(BASE_URL + "/birds?page=" + currentPage, {
+          headers: requestHeaders,
+        });
+        const result: QuerySuccess<Birdpedia> | ExpectedServerError =
           await response.json();
-
-        console.log(result);
 
         if ("error" in result) {
           const msg = Array.isArray(result.message)
@@ -63,7 +61,7 @@ export default function Birdpedia() {
       }
     };
     getBirds();
-  }, [currentPage]);
+  }, [currentPage, token]);
 
   return (
     <>
