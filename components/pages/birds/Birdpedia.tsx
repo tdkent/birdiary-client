@@ -14,6 +14,7 @@ import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
 import BirdpediaListItem from "@/components/pages/birds/BirdpediaListItem";
+import PaginateList from "@/components/pages/PaginateList";
 
 const RESULTS_PER_PAGE = 25;
 
@@ -79,6 +80,11 @@ export default function Birdpedia() {
           return <BirdpediaListItem key={bird.id} bird={bird} />;
         })}
       </ul>
+      <PaginateList
+        currentPage={currentPage}
+        pages={pages}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 }
