@@ -7,17 +7,19 @@
 // Bird data is filtered by name with optional `startsWith` query
 // `startsWith` query is updated with select component
 
-// TODO: Error handling
 // TODO: Show additional pagination options (if more pages)
 // TODO: Cross link list items to bird details pages
 // TODO: Search component
 
 import { useContext, useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 import { AuthContext } from "@/context/AuthContext";
 import { BASE_URL } from "@/constants/env";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type { Birdpedia, SingleBirdWithCount } from "@/types/models";
 import { ErrorMessages } from "@/types/api";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import BirdpediaListItem from "@/components/pages/birdpedia/BirdpediaListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import FilterBirdList from "@/components/pages/birdpedia/FilterBirdList";
@@ -26,6 +28,7 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default function Birdpedia() {
   const { token } = useContext(AuthContext);
+  const { toast } = useToast();
 
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,12 +39,10 @@ export default function Birdpedia() {
   const [char, setChar] = useState("");
 
   useEffect(() => {
+    const resource = `${BASE_URL}/birds?page=${currentPage}${char ? `&startsWith=${char}` : ""}`;
     const getBirds = async () => {
       setPending(true);
       setError(null);
-
-      const resource = `${BASE_URL}/birds?page=${currentPage}${char ? `&startsWith=${char}` : ""}`;
-
       try {
         const requestHeaders: { Authorization?: string } = {};
         if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
@@ -76,10 +77,29 @@ export default function Birdpedia() {
     getBirds();
   }, [currentPage, char, token]);
 
+  // Error toast
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: error,
+      });
+    }
+  }, [error, toast]);
+
   if (pending) {
     return (
       <>
-        <p>Loading...</p>
+        <Loader2 />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <ErrorDisplay msg={error} />
       </>
     );
   }
