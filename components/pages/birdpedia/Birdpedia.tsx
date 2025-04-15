@@ -7,15 +7,10 @@
 // Bird data is filtered by name with optional `startsWith` query
 // `startsWith` query is updated with select component
 
-// TODO: Showing...Results component
-// TODO: Null results text
 // TODO: Error handling
-// TODO: Loading spinner
-// TODO: Reset current page when filtering list
 // TODO: Show additional pagination options (if more pages)
 // TODO: Cross link list items to bird details pages
-// TODO: Remove filter options that have no results ("X", etc.)
-// TODO: "Filter by" text component
+// TODO: Search component
 
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
@@ -26,7 +21,7 @@ import { ErrorMessages } from "@/types/api";
 import BirdpediaListItem from "@/components/pages/birdpedia/BirdpediaListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import FilterBirdList from "@/components/pages/birdpedia/FilterBirdList";
-import ShowingResultsText from "@/components/pages/birdpedia/ShowingResultsText";
+import FilterByText from "@/components/pages/birdpedia/FilterByText";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default function Birdpedia() {
@@ -92,19 +87,12 @@ export default function Birdpedia() {
   return (
     <>
       <FilterBirdList setChar={setChar} setCurrentPage={setCurrentPage} />
-      {char && (
-        <div>
-          <p>
-            Filtering birds by letter: <q>{char}</q>
-          </p>
-        </div>
-      )}
+      <FilterByText char={char} records={records} currentPage={currentPage} />
       <ul className="my-4">
         {birdData.map((bird) => {
           return <BirdpediaListItem key={bird.id} bird={bird} />;
         })}
       </ul>
-      <ShowingResultsText currentPage={currentPage} records={records} />
       <PaginateList
         currentPage={currentPage}
         pages={pages}
