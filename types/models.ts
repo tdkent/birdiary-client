@@ -25,8 +25,8 @@ export type SingleBirdWithCount = SingleBird & {
   count?: number;
 };
 
-export type Birdpedia = {
-  birds: SingleBird[];
+export type BirdsWithCount = {
+  birds: SingleBirdWithCount[];
   countOfRecords: number;
 };
 

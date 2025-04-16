@@ -1,4 +1,6 @@
-import type { Dispatch, SetStateAction } from "react";
+"use client";
+
+import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -8,22 +10,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type FilterBirdListProps = {
-  setChar: Dispatch<SetStateAction<string>>;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-};
+export default function FilterList() {
+  const router = useRouter();
 
-export default function FilterBirdList({
-  setChar,
-  setCurrentPage,
-}: FilterBirdListProps) {
-  const handleChange = (value: string) => {
-    setChar(value);
-    setCurrentPage(1);
-  };
   return (
     <>
-      <Select onValueChange={(value: string) => handleChange(value)}>
+      <Select
+        onValueChange={(value: string) =>
+          router.push(`/birds?page=1&startsWith=${value}`)
+        }
+      >
         <SelectTrigger className="my-4 w-[150px]">
           <SelectValue placeholder="Filter by name" />
         </SelectTrigger>

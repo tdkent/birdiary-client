@@ -1,22 +1,22 @@
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type FilterByTextProps = {
-  char: string;
+  startsWith: string | undefined;
   records: number;
-  currentPage: number;
+  page: number;
 };
 
-export default function FilterByText({
-  char,
+export default function FilterAndResultsText({
+  startsWith,
   records,
-  currentPage,
+  page,
 }: FilterByTextProps) {
-  const filterText = char ? `Filtered by: '${char}'` : "No filter applied";
-  const minResult = currentPage * RESULTS_PER_PAGE - (RESULTS_PER_PAGE - 1);
+  const filterText = startsWith
+    ? `Filtered by: '${startsWith}'`
+    : "No filter applied";
+  const minResult = page * RESULTS_PER_PAGE - (RESULTS_PER_PAGE - 1);
   const maxResult =
-    records < currentPage * RESULTS_PER_PAGE
-      ? records
-      : currentPage * RESULTS_PER_PAGE;
+    records < page * RESULTS_PER_PAGE ? records : page * RESULTS_PER_PAGE;
 
   return (
     <>
