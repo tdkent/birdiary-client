@@ -66,7 +66,7 @@ export default async function BirdpediaList({
       </ul>
       <PaginateList
         currentPage={currentPage}
-        pages={pages}
+        finalPage={pages}
         startsWith={startsWith}
       />
     </>
