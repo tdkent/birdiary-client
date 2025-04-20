@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import BirdpediaList from "@/components/pages/birdpedia/BirdpediaList";
 
 export default async function BirdsView({
@@ -7,6 +8,11 @@ export default async function BirdsView({
 }) {
   // Get search params from URL
   const { page, startsWith } = await searchParams;
+
+  // Redirect if `page` param is missing in URL
+  if (!page) {
+    redirect(`/birds?page=1${startsWith ? `&startsWith=${startsWith}` : ""}`);
+  }
 
   return (
     <>
