@@ -53,7 +53,7 @@ export default async function BirdpediaList({
 
   return (
     <>
-      <FilterList currentPage={currentPage} />
+      <FilterList />
       <FilterAndResultsText
         startsWith={startsWith}
         records={records}
