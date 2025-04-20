@@ -10,14 +10,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function FilterList() {
+type FilterListProps = {
+  currentPage: number;
+};
+
+export default function FilterList({ currentPage }: FilterListProps) {
   const router = useRouter();
 
   return (
     <>
       <Select
         onValueChange={(value: string) =>
-          router.push(`/birds?page=1&startsWith=${value}`)
+          router.push(`/birds?page=${currentPage}&startsWith=${value}`)
         }
       >
         <SelectTrigger className="my-4 w-[150px]">

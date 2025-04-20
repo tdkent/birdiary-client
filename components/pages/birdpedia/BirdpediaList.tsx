@@ -1,11 +1,13 @@
 import { getCookie } from "@/helpers/auth";
-import { BASE_URL } from "@/constants/env";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type { BirdsWithCount } from "@/types/models";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import FilterList from "@/components/pages/birdpedia/FilterList";
 import FilterAndResultsText from "@/components/pages/birdpedia/FilterAndResultsText";
 import BirdpediaListItem from "@/components/pages/birdpedia/BirdpediaListItem";
+import PaginateList from "@/components/pages/shared/PaginateList";
+import { BASE_URL } from "@/constants/env";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type BirdpediaListProps = {
   page: string | undefined;
@@ -25,7 +27,7 @@ export default async function BirdpediaList({
   const resource = `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`;
 
   // Fetch bird data
-  const response = await fetch(resource);
+  const response = await fetch(resource, { headers: requestHeaders });
   const result: QuerySuccess<BirdsWithCount> | ExpectedServerError =
     await response.json();
 
@@ -44,10 +46,14 @@ export default async function BirdpediaList({
 
   const birds = result.data.birds;
   const records = result.data.countOfRecords;
+  // If no error, `page` param is present
+  const currentPage = +page!;
+  // Find the number of pages to render
+  const pages = Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
     <>
-      <FilterList />
+      <FilterList currentPage={currentPage} />
       <FilterAndResultsText
         startsWith={startsWith}
         records={records}
@@ -58,6 +64,11 @@ export default async function BirdpediaList({
           return <BirdpediaListItem key={bird.id} bird={bird} />;
         })}
       </ul>
+      <PaginateList
+        currentPage={currentPage}
+        pages={pages}
+        startsWith={startsWith}
+      />
     </>
   );
 }
