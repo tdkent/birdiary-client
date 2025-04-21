@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import DiaryListItem from "@/components/pages/diary/DiaryListItem";
 import type { Diary } from "@/types/models";
-import ErrorDisplay from "@/components/pages/ErrorDisplay";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { apiRoutes } from "@/types/api";
 
 export default function DiaryList() {

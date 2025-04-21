@@ -7,8 +7,8 @@ import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
 import type { SingleBird, SortValues, SortOptions } from "@/types/models";
 import { ExpectedServerError, QuerySuccess } from "@/types/api";
-import ErrorDisplay from "@/components/pages/ErrorDisplay";
-import BirdDetails from "@/components/pages/birds/BirdDetails";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import BirdDetails from "@/components/pages/bird/BirdDetails";
 import SightingsList from "@/components/pages/sightings/SightingsList";
 import { apiRoutes } from "@/types/api";
 

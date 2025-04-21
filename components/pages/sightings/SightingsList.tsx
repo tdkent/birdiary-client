@@ -14,7 +14,7 @@ import { useApi } from "@/context/ApiContext";
 import type { FetchedSighting, SortValues, SortOptions } from "@/types/models";
 import SightingCard from "@/components/pages/sightings/SightingCard";
 import SightingListItem from "@/components/pages/sightings/SightingListItem";
-import SortItems from "@/components/pages/SortItems";
+import SortItems from "@/components/pages/shared/SortItems";
 import { sortSightings } from "@/helpers/data";
 
 // Discriminated union type based on variant
