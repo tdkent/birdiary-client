@@ -9,19 +9,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
-export default function FilterList() {
+type FilterListProps = {
+  startsWith: string | undefined;
+};
+
+export default function FilterList({ startsWith }: FilterListProps) {
   const router = useRouter();
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <Select
         onValueChange={(value: string) =>
           router.push(`/birds?page=1&startsWith=${value}`)
         }
       >
         <SelectTrigger className="my-4 w-[150px]">
-          <SelectValue placeholder="Filter by name" />
+          <SelectValue placeholder={startsWith || "Filter by name"} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -52,6 +58,12 @@ export default function FilterList() {
           </SelectGroup>
         </SelectContent>
       </Select>
-    </>
+      {startsWith && (
+        <Button variant="ghost" onClick={() => router.push(`/birds?page=1`)}>
+          <X />
+          Clear Filter
+        </Button>
+      )}
+    </div>
   );
 }
