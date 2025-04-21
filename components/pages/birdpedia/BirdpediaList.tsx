@@ -9,6 +9,8 @@ import PaginateList from "@/components/pages/shared/PaginateList";
 import { BASE_URL } from "@/constants/env";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
+// TODO: search input
+
 type BirdpediaListProps = {
   page: string | undefined;
   startsWith: string | undefined;
@@ -53,7 +55,7 @@ export default async function BirdpediaList({
 
   return (
     <>
-      <FilterList />
+      <FilterList startsWith={startsWith} />
       <FilterAndResultsText
         startsWith={startsWith}
         records={records}
