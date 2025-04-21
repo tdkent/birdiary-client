@@ -31,13 +31,16 @@ export default function PaginateList({
     return `/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`;
   };
 
+  // TODO: change number of buttons based on screen size
+
   // Remaining length of list
   const remainingPages = finalPage - currentPage + 1;
   // If total pages OR total remaining pages <= 5
   if (finalPage <= MOBILE_PAGINATION_PAGES || remainingPages <= 5) {
     const rowLength =
       finalPage < MOBILE_PAGINATION_PAGES ? finalPage : MOBILE_PAGINATION_PAGES;
-    // Map remaining pages to array (must not deviate)
+    // Map remaining pages to array
+    // Base off `finalPage` instead of `currentPage` to avoid deviation
     const pages: number[] = [];
     for (let i = rowLength; i > 0; i--) {
       const page = finalPage - i + 1;
@@ -87,6 +90,14 @@ export default function PaginateList({
     );
   }
 
+  // Create array of clickable page buttons
+  // Number of buttons should be total clickable - 2 (ellipse and final page)
+  const pages = [];
+  for (let i = 0; i < MOBILE_PAGINATION_PAGES - 2; i++) {
+    const page = currentPage + i;
+    pages.push(page);
+  }
+
   return (
     <>
       <Pagination>
@@ -101,21 +112,20 @@ export default function PaginateList({
               <ChevronLeft />
             </PaginationLink>
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={updateUrl(currentPage)} isActive inert>
-              {currentPage}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={updateUrl(currentPage + 1)} scroll={false}>
-              {currentPage + 1}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href={updateUrl(currentPage + 2)} scroll={false}>
-              {currentPage + 2}
-            </PaginationLink>
-          </PaginationItem>
+          {pages.map((item) => {
+            return (
+              <PaginationItem key={item}>
+                <PaginationLink
+                  href={updateUrl(item)}
+                  isActive={currentPage === item}
+                  inert={currentPage === item}
+                  scroll={false}
+                >
+                  {item}
+                </PaginationLink>
+              </PaginationItem>
+            );
+          })}
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>

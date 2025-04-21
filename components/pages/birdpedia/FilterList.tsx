@@ -22,12 +22,13 @@ export default function FilterList({ startsWith }: FilterListProps) {
   return (
     <div className="flex items-center gap-2">
       <Select
+        value={startsWith ?? ""}
         onValueChange={(value: string) =>
           router.push(`/birds?page=1&startsWith=${value}`)
         }
       >
         <SelectTrigger className="my-4 w-[150px]">
-          <SelectValue placeholder={startsWith || "Filter by name"} />
+          <SelectValue placeholder={startsWith ?? "Filter by name"} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
