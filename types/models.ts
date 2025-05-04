@@ -82,3 +82,20 @@ export type DiaryDetails = StorageSighting & {
 export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
 
 // ======= LOCATIONS =======
+
+// ======= PROFILE =======
+
+type Profile = {
+  name: string;
+  location: string;
+};
+
+export type UserProfile = {
+  createdAt: string;
+  profile: Profile;
+  favoriteBird: Pick<Bird, "id" | "commName">;
+  count: {
+    totalSightings: number;
+    totalDistinctSightings: number;
+  };
+};
