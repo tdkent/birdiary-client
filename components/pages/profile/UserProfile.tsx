@@ -43,46 +43,48 @@ export default async function UserProfile() {
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
   return (
-    <div className="flex flex-col gap-8">
-      <section>
-        <h2>Basic Info</h2>
-        <dl className="divide-y">
-          <div className="flex gap-2.5">
-            <dt>Name:</dt>
-            <dd>{name || "N/A"}</dd>
+    <>
+      <div className="flex flex-col gap-8">
+        <section>
+          <h2>Basic Info</h2>
+          <dl className="divide-y">
+            <div className="flex gap-2.5">
+              <dt>Name:</dt>
+              <dd>{name || "N/A"}</dd>
+            </div>
+            <div className="flex gap-2.5">
+              <dt>Location:</dt>
+              <dd>{location || "N/A"}</dd>
+            </div>
+            <div className="flex gap-2.5">
+              <dt>Account Created:</dt>
+              <dd>{accountCreatedDate}</dd>
+            </div>
+          </dl>
+          <div className="my-4">
+            <Button variant="secondary" asChild>
+              <Link href="/profile/edit">Edit Profile</Link>
+            </Button>
           </div>
-          <div className="flex gap-2.5">
-            <dt>Location:</dt>
-            <dd>{location || "N/A"}</dd>
-          </div>
-          <div className="flex gap-2.5">
-            <dt>Account Created:</dt>
-            <dd>{accountCreatedDate}</dd>
-          </div>
-        </dl>
-        <div className="my-4">
-          <Button variant="secondary" asChild>
-            <Link href="/profile/edit">Edit Profile</Link>
-          </Button>
-        </div>
-      </section>
-      <section>
-        <h3>{name ? name + "'s" : "Your"} sighting stats</h3>
-        <dl className="divide-y">
-          <div className="flex gap-2.5">
-            <dt>Favorite Bird:</dt>
-            <dd>{commName || "N/A"}</dd>
-          </div>
-          <div className="flex gap-2.5">
-            <dt>Total Sightings: {totalSightings}</dt>
-            <dd></dd>
-          </div>
-          <div className="flex gap-2.5">
-            <dt>Total Species: {totalDistinctSightings}</dt>
-            <dd></dd>
-          </div>
-        </dl>
-      </section>
-    </div>
+        </section>
+        <section>
+          <h3>{name ? name + "'s" : "Your"} Sighting Stats</h3>
+          <dl className="divide-y">
+            <div className="flex gap-2.5">
+              <dt>Favorite Bird:</dt>
+              <dd>{commName || "N/A"}</dd>
+            </div>
+            <div className="flex gap-2.5">
+              <dt>Total Sightings: {totalSightings}</dt>
+              <dd></dd>
+            </div>
+            <div className="flex gap-2.5">
+              <dt>Total Species: {totalDistinctSightings}</dt>
+              <dd></dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+    </>
   );
 }
