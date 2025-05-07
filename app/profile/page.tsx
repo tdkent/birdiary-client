@@ -1,9 +1,12 @@
+import UserProfile from "@/components/pages/profile/UserProfile";
 export default function ProfileView() {
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>Display profile data</p>
-      <p>Name, location, favorite bird, date joined, etc</p>
-    </div>
+    <>
+      <header className="flex flex-col gap-4">
+        <h1>Profile</h1>
+        <p>View and edit your personal information and privacy settings.</p>
+      </header>
+      <UserProfile />
+    </>
   );
 }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { quicksand } from "../lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import AuthProvider from "@/context/AuthContext";
 import ApiProvider from "@/context/ApiContext";
 import Header from "@/components/layout/Header";
@@ -31,7 +31,7 @@ export default function RootLayout({
             <ApiProvider>
               <div className="min-h-[calc(100vh-80px)]">
                 <Header />
-                <main className="px-5 py-10 max-w-[1024px] mx-auto">
+                <main className="mx-auto max-w-[1024px] px-5 py-10">
                   {children}
                 </main>
                 <Toaster />
