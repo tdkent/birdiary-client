@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 
 type ModalProps = {
   triggerText: string;
+  buttonTrigger?: boolean;
   title: string;
   description: string;
   children: React.ReactNode;
@@ -22,6 +23,7 @@ type ModalProps = {
 
 export default function Modal({
   triggerText,
+  buttonTrigger,
   title,
   description,
   children,
@@ -50,7 +52,19 @@ export default function Modal({
 
   return (
     <Dialog>
-      <DialogTrigger>{triggerText}</DialogTrigger>
+      <DialogTrigger>
+        {buttonTrigger ? (
+          <Button
+            variant="ghost"
+            className="w-fit p-0 hover:bg-transparent"
+            asChild
+          >
+            <span>{triggerText}</span>
+          </Button>
+        ) : (
+          triggerText
+        )}
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
