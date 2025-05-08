@@ -1,9 +1,45 @@
-export default function EditProfileView() {
+import EditProfileForm from "@/components/forms/EditProfileForm";
+import { BASE_URL } from "@/constants/env";
+import { getCookie } from "@/helpers/auth";
+import type { UserProfile } from "@/types/models";
+import type { ExpectedServerError } from "@/types/api";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+
+export default async function EditProfileView() {
+  const token = await getCookie();
+
+  const response = await fetch(BASE_URL + "/users/profile", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const profileData: UserProfile | ExpectedServerError = await response.json();
+
+  // Conditionally render expected server error
+  if ("error" in profileData) {
+    const msg = Array.isArray(profileData.message)
+      ? profileData.message.join(",")
+      : profileData.message;
+
+    return (
+      <>
+        <ErrorDisplay msg={`${profileData.error}: ${msg}`} />
+      </>
+    );
+  }
   return (
-    <div>
-      <h1>Edit Profile</h1>
-      <p>Update profile data</p>
-      <p>Name, location, favorite bird, date joined, etc</p>
-    </div>
+    <>
+      <header className="flex flex-col gap-4">
+        <h1>Edit Profile</h1>
+        <p>
+          Update your profile data including nickname, location, and privacy
+          settings.
+        </p>
+      </header>
+      <section className="my-8">
+        <EditProfileForm profile={profileData.profile} />
+      </section>
+    </>
   );
 }
