@@ -28,6 +28,7 @@ export const apiRoutes = {
   sightingByBird: (name: string) => "/sightings/bird/" + name,
   sightingsByDate: (date: string) => "/sightings/date/" + date,
   groupedSightings: (group: "date") => "/sightings?groupby=" + group,
+  userProfile: "/users/profile",
 } as const;
 
 // Local storage key and web server route
@@ -42,7 +43,7 @@ export type QueryParameters = {
 export type MutationParameters = {
   key: "sightings";
   route: string;
-  method: "POST" | "PATCH" | "DELETE";
+  method: "POST" | "PUT" | "DELETE";
   tagsToUpdate: ["sightings" | "locations"];
 };
 
