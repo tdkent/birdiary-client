@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
+import { updatePassword } from "@/actions/account";
 import type { MutationSuccess, ExpectedServerError } from "@/types/api";
 
 const formSchema = z
@@ -42,26 +43,27 @@ export default function UpdatePasswordForm() {
     },
   });
 
-  // const { toast } = useToast();
+  const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // const response: MutationSuccess | ExpectedServerError =
-    //   await editUserProfile(values);
+    const response: MutationSuccess | ExpectedServerError =
+      await updatePassword(values.currentPassword, values.newPassword);
 
-    // if ("error" in response) {
-    //   return toast({
-    //     variant: "destructive",
-    //     title: "An error occurred",
-    //     description: response.message,
-    //   });
-    // }
+    if ("error" in response) {
+      return toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: response.message,
+      });
+    }
 
-    // toast({
-    //   variant: "default",
-    //   title: "Success",
-    //   description: "Profile data updated",
-    // });
+    toast({
+      variant: "default",
+      title: "Success",
+      description: "Your password has been updated",
+    });
+
+    form.reset();
   }
   return (
     <Form {...form}>
