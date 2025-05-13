@@ -92,6 +92,7 @@ type Profile = {
 
 export type UserProfile = {
   createdAt: string;
+  email: string;
   profile: Profile;
   favoriteBird: Pick<Bird, "id" | "commName">;
   count: {
