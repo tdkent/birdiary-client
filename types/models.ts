@@ -25,14 +25,10 @@ export type SingleBirdWithCount = SingleBird & {
   count?: number;
 };
 
-export type BirdsWithCount = {
-  birds: SingleBirdWithCount[];
-  countOfRecords: number;
-};
-
 // ======= SIGHTINGS =======
 
 export type Sighting = {
+  id: number;
   sightingId: string;
   userId: string;
   commName: string;
@@ -100,3 +96,11 @@ export type UserProfile = {
     totalDistinctSightings: number;
   };
 };
+
+// ======= SHARED =======
+export type ListWithCount = {
+  items: Sighting[] | SingleBirdWithCount[];
+  countOfRecords: number;
+};
+
+export type ListPathname = "home" | "lifelist" | "birds";
