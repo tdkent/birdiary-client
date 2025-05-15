@@ -16,16 +16,16 @@ type ListProps =
       pathname: "lifelist";
       page: string;
       resource: string;
-      defaultSort: SortValues;
+      defaultOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
       pathname: "birds";
       page: string;
-      startsWith: string;
+      startsWith: string | undefined;
       resource: string;
-      defaultSort?: never;
+      defaultOption?: never;
       sortOptions?: never;
     };
 
@@ -35,6 +35,7 @@ export default async function List({
   page,
   startsWith,
   resource,
+  defaultOption,
   sortOptions,
 }: ListProps) {
   // Conditionally add 'auth' header to request
@@ -68,7 +69,9 @@ export default async function List({
   return (
     <>
       {pathname === "birds" && <FilterList startsWith={startsWith} />}
-      {pathname === "lifelist" && <SortItems options={sortOptions} isSSR />}
+      {pathname === "lifelist" && (
+        <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+      )}
       <FilterAndResultsText
         pathname={pathname}
         startsWith={startsWith}

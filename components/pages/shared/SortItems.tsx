@@ -16,15 +16,22 @@ type SortItemsProps =
       isSSR?: never;
       setSort: (value: SetStateAction<SortValues>) => void;
       options: SortOptions;
+      defaultOption?: never;
     }
   | {
       isSSR: true;
       setSort?: never;
       options: SortOptions;
+      defaultOption: SortValues;
     };
 
 /**  Generic <select> element to sort items */
-export default function SortItems({ setSort, options, isSSR }: SortItemsProps) {
+export default function SortItems({
+  setSort,
+  options,
+  defaultOption,
+  isSSR,
+}: SortItemsProps) {
   const router = useRouter();
   const pathname = usePathname();
   if (!options) {
@@ -50,7 +57,7 @@ export default function SortItems({ setSort, options, isSSR }: SortItemsProps) {
 
   return (
     <>
-      <Select onValueChange={handleChange}>
+      <Select onValueChange={handleChange} defaultValue={defaultOption}>
         <SelectTrigger className="mb-4 mt-8 w-1/2">
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
