@@ -1,18 +1,27 @@
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
 import { BASE_URL } from "@/constants/env";
+import {
+  type SortValues,
+  sortByAlphaOptions,
+  sortByDateOptions,
+} from "@/types/models";
 
 export default async function LifeListView({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { page, startsWith } = await searchParams;
+  const { page } = await searchParams;
   if (!page) {
     redirect(`/lifelist?page=1`);
   }
 
   const resource = `${BASE_URL}/sightings?groupBy=lifelist&page=${page}`;
+
+  // Define options for `SortList` component
+  const defaultSort: SortValues = "alphaAsc";
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
 
   return (
     <>
@@ -27,7 +36,8 @@ export default async function LifeListView({
         pathname="lifelist"
         resource={resource}
         page={page}
-        startsWith={startsWith}
+        defaultSort={defaultSort}
+        sortOptions={sortOptions}
       />
     </>
   );

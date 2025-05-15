@@ -1,7 +1,8 @@
 import { getCookie } from "@/helpers/auth";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
-import type { ListWithCount, ListPathname } from "@/types/models";
+import type { ListWithCount, SortOptions, SortValues } from "@/types/models";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import SortItems from "@/components/pages/shared/SortItems";
 import FilterList from "@/components/pages/shared/FilterList";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
 import ListItem from "@/components/pages/shared/ListItem";
@@ -10,19 +11,31 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 // TODO: search input
 
-type ListProps = {
-  pathname: ListPathname;
-  page: string | undefined;
-  startsWith: string | undefined;
-  resource: string;
-};
+type ListProps =
+  | {
+      pathname: "lifelist";
+      page: string;
+      resource: string;
+      defaultSort: SortValues;
+      sortOptions: SortOptions;
+      startsWith?: never;
+    }
+  | {
+      pathname: "birds";
+      page: string;
+      startsWith: string;
+      resource: string;
+      defaultSort?: never;
+      sortOptions?: never;
+    };
 
-/** SSR components that renders a list of items */
+/** SSR component that renders a list of items */
 export default async function List({
   pathname,
   page,
   startsWith,
   resource,
+  sortOptions,
 }: ListProps) {
   // Conditionally add 'auth' header to request
   const token = await getCookie();
@@ -48,14 +61,14 @@ export default async function List({
 
   const items = result.data.items;
   const records = result.data.countOfRecords;
-  // If no error, `page` param is present
-  const currentPage = +page!;
-  // Find the number of pages to render
+  const currentPage = +page;
+  // The number of pages to render
   const pages = Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
     <>
       {pathname === "birds" && <FilterList startsWith={startsWith} />}
+      {pathname === "lifelist" && <SortItems options={sortOptions} isSSR />}
       <FilterAndResultsText
         pathname={pathname}
         startsWith={startsWith}

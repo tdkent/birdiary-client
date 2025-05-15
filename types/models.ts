@@ -64,6 +64,16 @@ export type NewSighting = {
 export type SortValues = "alphaAsc" | "alphaDesc" | "dateAsc" | "dateDesc" | "";
 export type SortOptions = { value: SortValues; text: string }[];
 
+export const sortByAlphaOptions = [
+  { value: "alphaAsc", text: "A - Z" },
+  { value: "alphaDesc", text: "Z - A" },
+] as const;
+
+export const sortByDateOptions = [
+  { value: "dateAsc", text: "Oldest - Newest" },
+  { value: "dateDesc", text: "Newest - Oldest" },
+] as const;
+
 // ======= DIARY =======
 
 export type Diary = {
