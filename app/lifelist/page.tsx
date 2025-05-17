@@ -12,12 +12,12 @@ export default async function LifeListView({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { page } = await searchParams;
-  if (!page) {
-    redirect(`/lifelist?page=1`);
+  const { page, sortBy } = await searchParams;
+  if (!page || !sortBy) {
+    redirect(`/lifelist?page=1&sortBy=alphaAsc`);
   }
 
-  const resource = `${BASE_URL}/sightings?groupBy=lifelist&page=${page}`;
+  const resource = `${BASE_URL}/sightings?groupBy=lifelist&page=${page}&sortBy=${sortBy}`;
 
   const defaultOption: SortValues = "alphaAsc";
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
