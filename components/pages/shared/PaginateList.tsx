@@ -3,6 +3,7 @@
 // Paginate a list of items using shadcn Pagination components
 // Pagination items are conditionally rendered based on the
 // current page and the number of pages remaining.
+import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Pagination,
@@ -13,22 +14,24 @@ import {
 } from "@/components/ui/pagination";
 import { MOBILE_PAGINATION_PAGES } from "@/constants/constants";
 
-// Props:
-// `currentPage`: the current page
-// `finalPage`: the last page in the list
 type PaginateListProps = {
   currentPage: number;
   finalPage: number;
   startsWith: string | undefined;
+  sortBy: string | undefined;
 };
 
 export default function PaginateList({
   currentPage,
   finalPage,
   startsWith,
+  sortBy,
 }: PaginateListProps) {
+  const pathname = usePathname();
   const updateUrl = (page: number) => {
-    return `/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`;
+    const startsWithQuery = startsWith ? `&startsWith=${startsWith}` : "";
+    const sortByQuery = sortBy ? `&sortBy=${sortBy}` : "";
+    return `${pathname}?page=${page}${startsWithQuery}${sortByQuery}`;
   };
 
   // TODO: change number of buttons based on screen size

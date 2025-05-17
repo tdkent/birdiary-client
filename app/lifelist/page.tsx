@@ -35,6 +35,7 @@ export default async function LifeListView({
         pathname="lifelist"
         resource={resource}
         page={page}
+        sortBy={sortBy}
         defaultOption={defaultOption}
         sortOptions={sortOptions}
       />

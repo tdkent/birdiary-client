@@ -15,6 +15,7 @@ type ListProps =
   | {
       pathname: "lifelist";
       page: string;
+      sortBy: string;
       resource: string;
       defaultOption: SortValues;
       sortOptions: SortOptions;
@@ -27,12 +28,14 @@ type ListProps =
       resource: string;
       defaultOption?: never;
       sortOptions?: never;
+      sortBy?: never;
     };
 
 /** SSR component that renders a list of items */
 export default async function List({
   pathname,
   page,
+  sortBy,
   startsWith,
   resource,
   defaultOption,
@@ -87,6 +90,7 @@ export default async function List({
         currentPage={currentPage}
         finalPage={pages}
         startsWith={startsWith}
+        sortBy={sortBy}
       />
     </>
   );
