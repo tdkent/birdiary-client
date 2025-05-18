@@ -1,5 +1,6 @@
-// Generic <select> element to sort items
+"use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -10,14 +11,29 @@ import {
 import type { SetStateAction } from "react";
 import type { SortValues, SortOptions } from "@/types/models";
 
-type SortItemsProps = {
-  // `setSort` function called on a generic array
-  setSort: (value: SetStateAction<SortValues>) => void;
-  // array of options objects to create <SelectItem>s
-  options: SortOptions;
-};
+type SortItemsProps =
+  | {
+      isSSR?: never;
+      setSort: (value: SetStateAction<SortValues>) => void;
+      options: SortOptions;
+      defaultOption?: never;
+    }
+  | {
+      isSSR: true;
+      setSort?: never;
+      options: SortOptions;
+      defaultOption: SortValues;
+    };
 
-export default function SortItems({ setSort, options }: SortItemsProps) {
+/**  Generic <select> element to sort items */
+export default function SortItems({
+  setSort,
+  options,
+  defaultOption,
+  isSSR,
+}: SortItemsProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   if (!options) {
     return (
       <>
@@ -30,13 +46,18 @@ export default function SortItems({ setSort, options }: SortItemsProps) {
     );
   }
 
+  const handleChange = (value: SortValues) => {
+    if (isSSR) {
+      const url = `${pathname}?page=1&sortBy=${value}`;
+      router.push(url);
+    } else {
+      setSort(value);
+    }
+  };
+
   return (
     <>
-      <Select
-        onValueChange={(value: SortValues) => {
-          setSort(value);
-        }}
-      >
+      <Select onValueChange={handleChange} defaultValue={defaultOption}>
         <SelectTrigger className="mb-4 mt-8 w-1/2">
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
