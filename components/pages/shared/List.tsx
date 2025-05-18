@@ -13,7 +13,7 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type ListProps =
   | {
-      pathname: "lifelist";
+      pathname: "lifelist" | "locations";
       page: string;
       sortBy: string;
       resource: string;
@@ -72,9 +72,14 @@ export default async function List({
   return (
     <>
       {pathname === "birds" && <FilterList startsWith={startsWith} />}
-      {pathname === "lifelist" && (
-        <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
-      )}
+      {pathname === "lifelist" ||
+        (pathname === "locations" && (
+          <SortItems
+            defaultOption={defaultOption}
+            options={sortOptions}
+            isSSR
+          />
+        ))}
       <FilterAndResultsText
         pathname={pathname}
         startsWith={startsWith}
