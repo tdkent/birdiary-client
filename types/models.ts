@@ -126,10 +126,16 @@ export type GroupData = {
   count: number;
 };
 
-// ======= SHARED =======
+// ======= LISTS =======
+
 export type ListWithCount = {
   items: Sighting[] | SingleBirdWithCount[] | GroupData[];
   countOfRecords: number;
 };
 
-export type ListPathname = "home" | "lifelist" | "birds" | "locations";
+export type ListVariant =
+  | "birdpedia"
+  | "diary"
+  | "lifelistSighting"
+  | "location"
+  | "recentSighting";

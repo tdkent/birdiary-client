@@ -28,7 +28,7 @@ export default async function LocationsView({
         <p>A list of all the locations where you have observed birds.</p>
       </header>
       <List
-        pathname="locations"
+        variant="location"
         resource={resource}
         page={page}
         sortBy={sortBy}

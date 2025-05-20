@@ -25,7 +25,7 @@ export default async function BirdsView({
         </p>
       </header>
       <List
-        pathname="birds"
+        variant="birdpedia"
         page={page}
         startsWith={startsWith}
         resource={resource}

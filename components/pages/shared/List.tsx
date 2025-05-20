@@ -1,6 +1,11 @@
 import { getCookie } from "@/helpers/auth";
 import type { ExpectedServerError, QuerySuccess } from "@/types/api";
-import type { ListWithCount, SortOptions, SortValues } from "@/types/models";
+import type {
+  ListVariant,
+  ListWithCount,
+  SortOptions,
+  SortValues,
+} from "@/types/models";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterList from "@/components/pages/shared/FilterList";
@@ -13,7 +18,7 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type ListProps =
   | {
-      pathname: "lifelist" | "locations";
+      variant: Extract<ListVariant, "lifelistSighting" | "location">;
       page: string;
       sortBy: string;
       resource: string;
@@ -22,7 +27,7 @@ type ListProps =
       startsWith?: never;
     }
   | {
-      pathname: "birds";
+      variant: Extract<ListVariant, "birdpedia">;
       page: string;
       startsWith: string | undefined;
       resource: string;
@@ -33,7 +38,7 @@ type ListProps =
 
 /** SSR component that renders a list of items */
 export default async function List({
-  pathname,
+  variant,
   page,
   sortBy,
   startsWith,
@@ -71,9 +76,9 @@ export default async function List({
 
   return (
     <>
-      {pathname === "birds" && <FilterList startsWith={startsWith} />}
-      {pathname === "lifelist" ||
-        (pathname === "locations" && (
+      {variant === "birdpedia" && <FilterList startsWith={startsWith} />}
+      {variant === "lifelistSighting" ||
+        (variant === "location" && (
           <SortItems
             defaultOption={defaultOption}
             options={sortOptions}
@@ -81,14 +86,14 @@ export default async function List({
           />
         ))}
       <FilterAndResultsText
-        pathname={pathname}
+        variant={variant}
         startsWith={startsWith}
         records={records}
         page={+page!}
       />
       <ul className="my-4">
         {items.map((item) => {
-          return <ListItem key={item.id} pathname={pathname} item={item} />;
+          return <ListItem key={item.id} variant={variant} item={item} />;
         })}
       </ul>
       <PaginateList

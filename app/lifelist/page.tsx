@@ -32,7 +32,7 @@ export default async function LifeListView({
         </p>
       </header>
       <List
-        pathname="lifelist"
+        variant="lifelistSighting"
         resource={resource}
         page={page}
         sortBy={sortBy}
