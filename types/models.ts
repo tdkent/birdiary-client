@@ -61,7 +61,13 @@ export type NewSighting = {
 };
 
 // Sort sightings
-export type SortValues = "alphaAsc" | "alphaDesc" | "dateAsc" | "dateDesc" | "";
+export type SortValues =
+  | "alphaAsc"
+  | "alphaDesc"
+  | "dateAsc"
+  | "dateDesc"
+  | "count"
+  | "";
 export type SortOptions = { value: SortValues; text: string }[];
 
 export const sortByAlphaOptions = [
@@ -73,6 +79,11 @@ export const sortByDateOptions = [
   { value: "dateAsc", text: "Oldest - Newest" },
   { value: "dateDesc", text: "Newest - Oldest" },
 ] as const;
+
+export const sortBySightingsCount = {
+  value: "count",
+  text: "Most Sightings",
+} as const;
 
 // ======= DIARY =======
 
@@ -107,10 +118,24 @@ export type UserProfile = {
   };
 };
 
-// ======= SHARED =======
+// ======= GROUPS =======
+
+export type GroupData = {
+  id: number;
+  name: string;
+  count: number;
+};
+
+// ======= LISTS =======
+
 export type ListWithCount = {
-  items: Sighting[] | SingleBirdWithCount[];
+  items: Sighting[] | SingleBirdWithCount[] | GroupData[];
   countOfRecords: number;
 };
 
-export type ListPathname = "home" | "lifelist" | "birds";
+export type ListVariant =
+  | "birdpedia"
+  | "diary"
+  | "lifelistSighting"
+  | "location"
+  | "recentSighting";

@@ -1,8 +1,8 @@
 import { RESULTS_PER_PAGE } from "@/constants/constants";
-import { ListPathname } from "@/types/models";
+import { ListVariant } from "@/types/models";
 
 type FilterByTextProps = {
-  pathname: ListPathname;
+  variant: ListVariant;
   startsWith: string | undefined;
   records: number;
   page: number;
@@ -12,7 +12,7 @@ export default function FilterAndResultsText({
   startsWith,
   records,
   page,
-  pathname,
+  variant,
 }: FilterByTextProps) {
   const filterText = startsWith
     ? `Filtered by: '${startsWith}'`
@@ -24,13 +24,13 @@ export default function FilterAndResultsText({
   return (
     <>
       <div className="my-6 flex flex-col gap-2 border-y py-2">
-        {pathname === "birds" && <p>{filterText}</p>}
+        {variant === "birdpedia" && <p>{filterText}</p>}
         <p className="italic">
           Showing{" "}
           <span className="font-semibold">
             {minResult} - {maxResult}
           </span>{" "}
-          of <span className="font-semibold">{records}</span> bird species
+          of <span className="font-semibold">{records}</span> results
         </p>
       </div>
     </>
