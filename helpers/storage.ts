@@ -4,51 +4,50 @@ import type { MutationParameters } from "@/types/api";
 import type {
   StorageSighting,
   NewSighting,
-  Diary,
-  FetchedSighting,
+  // Diary,
+  // FetchedSighting,
+  ListVariant,
 } from "@/types/models";
-import { apiRoutes } from "@/types/api";
+import { apiRoutes, type QueryParameters } from "@/types/api";
 import { sortSightings } from "@/helpers/data";
 
 // ======= QUERY =======
 
-// Query and filter data in storage based on provided route
-export function queryStorage(route: string, key: string) {
-  // Add default empty array to storage
+/** Query and filter data in storage based on provided route */
+export function queryStorage(
+  variant: ListVariant,
+  key: QueryParameters["tag"],
+) {
   if (!window.localStorage.getItem(key)) {
     window.localStorage.setItem(key, "[]");
   }
-  // Fetch data from local storage based on `key` parameter
   const data = JSON.parse(window.localStorage.getItem(key)!);
 
-  switch (true) {
-    // Home ("/")
-    // Recent sightings: sort by date (desc), limit 10
-    case route === apiRoutes.recentSightings:
+  console.log(variant);
+
+  switch (variant) {
+    case "recentSighting":
       return sortSightings(data as FetchedSighting[], "dateDesc").slice(0, 10);
 
-    // Diary ("/diary")
-    // Sort by date (desc)
-    case route === apiRoutes.groupedSightings("date"):
+    case "diary":
       return sortSightings(data as Diary[], "dateDesc");
 
-    // Diary Details ("/diary/:date")
-    // Filter by date parameter in route string
-    case route.startsWith("/sightings/date/"): {
-      const date = route.slice(-10);
-      const sightings = data as FetchedSighting[];
-      return sightings.filter(
-        (sighting) => sighting.date.slice(0, 10) === date,
-      );
+    case "diaryDetail": {
+      // const date = route.slice(-10);
+      // const sightings = data as FetchedSighting[];
+      // return sightings.filter(
+      //   (sighting) => sighting.date.slice(0, 10) === date,
+      // );
     }
 
-    // Bird Details ("/birds/:name")
-    // Filter by name parameter in route string
-    case route.startsWith("/sightings/bird/"): {
-      const name = route.split("/")[3];
-      const sightings = data as FetchedSighting[];
-      return sightings.filter((sighting) => sighting.commName === name);
+    case "birdDetail": {
+      // const name = route.split("/")[3];
+      // const sightings = data as FetchedSighting[];
+      // return sightings.filter((sighting) => sighting.commName === name);
     }
+
+    default:
+      throw new Error("Invalid variant");
   }
 }
 

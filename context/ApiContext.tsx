@@ -20,22 +20,23 @@ import {
   type QueryParameters,
   type MutationParameters,
   type ExpectedServerError,
-  type QuerySuccess,
+  type CsrQuerySuccess,
   type MutationSuccess,
 } from "@/types/api";
+import type { NewSighting, Sighting, GroupByDate } from "@/types/models";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
-import type { NewSighting } from "@/types/models";
 
 // Define the shape of the API Context object
 type Api = {
-  useQuery: <T>({ route, key, tag }: QueryParameters) => {
-    data: T[];
+  useQuery: ({ route, tag }: QueryParameters) => {
+    count: number;
+    data: CsrQuerySuccess["data"]["items"];
     error: string | null;
     pending: boolean;
   };
-  useMutation: ({ route, key, method, tagsToUpdate }: MutationParameters) => {
+  useMutation: ({ route, method, tagsToUpdate }: MutationParameters) => {
     success: boolean;
     error: string | null;
     pending: boolean;
@@ -45,7 +46,7 @@ type Api = {
 
 // Create context with default values
 export const ApiContext = createContext<Api>({
-  useQuery: () => ({ data: [], error: null, pending: false }),
+  useQuery: () => ({ count: 0, data: [], error: null, pending: false }),
   useMutation: () => ({
     success: false,
     error: null,
@@ -61,19 +62,17 @@ export default function ApiProvider({
 }) {
   const [cache, setCache] = useState<Cache>(defaultCache);
 
-  function useQuery<T>({ route, key, tag }: QueryParameters) {
-    const [data, setData] = useState<T[]>([]);
+  function useQuery({ route, tag, variant }: QueryParameters) {
+    const [data, setData] = useState<CsrQuerySuccess["data"]["items"]>([]);
+    const [count, setCount] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
     useEffect(() => {
       async function query() {
-        // Clear error state
         setError(null);
-        // Check user's auth status
         const token = await getCookie();
 
-        // If user is signed in send query to server
         if (token) {
           setPending(true);
           try {
@@ -81,7 +80,7 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const data: QuerySuccess<T[]> | ExpectedServerError =
+            const data: CsrQuerySuccess | ExpectedServerError =
               await response.json();
 
             if ("error" in data) {
@@ -91,7 +90,12 @@ export default function ApiProvider({
               throw new Error(`${data.error}: ${msg}`);
             }
 
-            setData(data.data);
+            if ("items" in data.data) {
+              setData(data.data.items);
+              setCount(data.data.countOfRecords);
+            } else {
+              setData(data.data);
+            }
           } catch (error) {
             if (error instanceof Error) {
               setError(error.message);
@@ -101,12 +105,9 @@ export default function ApiProvider({
           } finally {
             setPending(false);
           }
-        }
-
-        // Else, send query to browser storage
-        else {
-          const data = queryStorage(route, key);
-          setData((data as T[]) || []);
+        } else {
+          const data = queryStorage(variant, tag);
+          setData((data as Sighting[] | GroupByDate[]) || []);
         }
       }
 
@@ -118,14 +119,14 @@ export default function ApiProvider({
       // data state value for that tag will be updated
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [key, route, tag]);
+    }, [route, tag, variant]);
 
-    return { data, error, pending };
+    return { count, data, error, pending };
   }
 
   function useMutation({
     route,
-    key,
+    tag,
     method,
     tagsToUpdate,
   }: MutationParameters) {
@@ -175,7 +176,7 @@ export default function ApiProvider({
       else {
         //! Casting `formValues` to NewSighting will become an issue
         //! when `formValues` needs to be a different type
-        mutateStorage(key, method, formValues as NewSighting);
+        mutateStorage(tag, method, formValues as NewSighting);
         setSuccess(true);
       }
 

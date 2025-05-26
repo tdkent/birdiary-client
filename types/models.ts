@@ -20,8 +20,8 @@ export type Bird = {
   familyId: number;
 };
 
-export type SingleBird = Omit<Bird, "familyId"> & { family: Family };
-export type SingleBirdWithCount = SingleBird & {
+export type BirdWithFamily = Bird & { family: Family };
+export type SingleBirdWithCount = BirdWithFamily & {
   count?: number;
 };
 
@@ -46,8 +46,8 @@ export type Location = {
 };
 
 // Fetched sighting with optional location
-export type FetchedSighting = Omit<Sighting, "userId" | "locationId"> & {
-  location?: Location;
+export type SightingWithLocation = Sighting & {
+  location: Location | null;
 };
 
 // Simplified storage model storedin local storage
@@ -87,11 +87,6 @@ export const sortBySightingsCount = {
 
 // ======= DIARY =======
 
-export type Diary = {
-  date: string;
-  count: number;
-};
-
 export type DiaryDetails = StorageSighting & {
   location?: Location;
 };
@@ -120,6 +115,12 @@ export type UserProfile = {
 
 // ======= GROUPS =======
 
+export type GroupByDate = {
+  id: string;
+  date: string;
+  count: number;
+};
+
 export type GroupData = {
   id: number;
   name: string;
@@ -128,14 +129,28 @@ export type GroupData = {
 
 // ======= LISTS =======
 
+export type ListItem =
+  | Sighting
+  | SightingWithLocation
+  | SingleBirdWithCount
+  | GroupData
+  | GroupByDate;
+
 export type ListWithCount = {
-  items: Sighting[] | SingleBirdWithCount[] | GroupData[];
+  items:
+    | Sighting[]
+    | SightingWithLocation[]
+    | SingleBirdWithCount[]
+    | GroupData[]
+    | GroupByDate[];
   countOfRecords: number;
 };
 
 export type ListVariant =
   | "birdpedia"
+  | "birdDetail"
   | "diary"
+  | "diaryDetail"
   | "lifelistSighting"
   | "location"
   | "recentSighting";

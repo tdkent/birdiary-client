@@ -1,10 +1,18 @@
-import DiaryList from "@/components/pages/diary/DiaryList";
+import CsrList from "@/components/pages/shared/CsrList";
+import { apiRoutes } from "@/types/api";
 
 export default function DiaryView() {
   return (
     <>
-      <h1>Diary</h1>
-      <DiaryList />
+      <header>
+        <h1>Diary</h1>
+        <p>Your sightings grouped by date.</p>
+      </header>
+      <CsrList
+        route={apiRoutes.groupedSightings("date")}
+        variant="diary"
+        tag="diary"
+      />
     </>
   );
 }

@@ -5,11 +5,16 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import type { SingleBird, SortValues, SortOptions } from "@/types/models";
+import type {
+  // SingleBird,
+  // SortValues,
+  // SortOptions,
+  BirdWithFamily,
+} from "@/types/models";
 import { ExpectedServerError, QuerySuccess } from "@/types/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
-import SightingsList from "@/components/pages/sightings/SightingsList";
+import CsrList from "@/components/pages/shared/CsrList";
 import { apiRoutes } from "@/types/api";
 
 type BirdDetailsViewParams = {
@@ -26,10 +31,10 @@ export default async function BirdDetailsView({
   // `name` param has an underscore "_" char in place of empty space " "
   const filteredName = name.replace("_", " ");
 
-  // Render error if `name` is not a known bird
   const findBird = birdNames.find(
     (name) => name.toLowerCase() === filteredName.toLowerCase(),
   );
+
   if (!findBird) {
     return (
       <>
@@ -41,36 +46,36 @@ export default async function BirdDetailsView({
 
   // Fetch bird data
   const response = await fetch(BASE_URL + apiRoutes.birdDetails(findBird));
-  const data: QuerySuccess<SingleBird> | ExpectedServerError =
-    await response.json();
+  const result: QuerySuccess | ExpectedServerError = await response.json();
 
   if (!response.ok) {
-    // `data` will be ExpectedServerError type if server sends an error
-    const msg = Array.isArray(data.message) ? data.message[0] : data.message;
+    const errorData = result as ExpectedServerError;
+    const msg = Array.isArray(errorData.message)
+      ? errorData.message[0]
+      : errorData.message;
     return <ErrorDisplay msg={msg} />;
   }
 
-  const birdData = data as QuerySuccess<SingleBird>;
+  const data = result as QuerySuccess;
+  const birdData = data.data as BirdWithFamily;
 
   // Define options for `SortList` component
-  const defaultSort: SortValues = "dateDesc";
-  const sortOptions: SortOptions = [
-    { value: "dateDesc", text: "Newest - Oldest" },
-    { value: "dateAsc", text: "Oldest - Newest" },
-  ];
+  // const defaultSort: SortValues = "dateDesc";
+  // const sortOptions: SortOptions = [
+  //   { value: "dateDesc", text: "Newest - Oldest" },
+  //   { value: "dateAsc", text: "Oldest - Newest" },
+  // ];
 
   return (
     <>
       <Suspense>
-        <BirdDetails bird={birdData.data} />
+        <BirdDetails bird={birdData} />
       </Suspense>
       <h2>Sightings</h2>
-      <SightingsList
-        route={apiRoutes.sightingByBird(birdData.data.commName)}
-        heading="date"
-        variant="card"
-        defaultSort={defaultSort}
-        sortOptions={sortOptions}
+      <CsrList
+        variant="birdDetail"
+        route={apiRoutes.sightingByBird(birdData.commName)}
+        tag="sightings"
       />
     </>
   );
