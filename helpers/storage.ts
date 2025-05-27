@@ -2,118 +2,107 @@
 import { v4 as uuidv4 } from "uuid";
 import type { MutationParameters } from "@/types/api";
 import type {
-  StorageSighting,
-  NewSighting,
-  // Diary,
-  // FetchedSighting,
-  ListVariant,
+  NewSightingFormValues,
+  Sighting,
+  GroupByDate,
+  SightingWithLocation,
 } from "@/types/models";
 import { apiRoutes, type QueryParameters } from "@/types/api";
 import { sortSightings } from "@/helpers/data";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 // ======= QUERY =======
 
 /** Query and filter data in storage based on provided route */
-export function queryStorage(
-  variant: ListVariant,
-  key: QueryParameters["tag"],
-) {
+export function queryStorage(route: string, key: QueryParameters["tag"]) {
   if (!window.localStorage.getItem(key)) {
     window.localStorage.setItem(key, "[]");
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
 
-  console.log(variant);
+  switch (true) {
+    // Home ("/"): Recent sightings: sort by date (desc)
+    case route === apiRoutes.usersSightings:
+      return sortSightings(data as Sighting[], "dateDesc").slice(
+        0,
+        RESULTS_PER_PAGE,
+      );
 
-  switch (variant) {
-    case "recentSighting":
-      return sortSightings(data as FetchedSighting[], "dateDesc").slice(0, 10);
+    // Diary ("/diary"): sort by date (desc)
+    case route === apiRoutes.groupedSightings("date"):
+      return sortSightings(data as GroupByDate[], "dateDesc");
 
-    case "diary":
-      return sortSightings(data as Diary[], "dateDesc");
-
-    case "diaryDetail": {
-      // const date = route.slice(-10);
-      // const sightings = data as FetchedSighting[];
-      // return sightings.filter(
-      //   (sighting) => sighting.date.slice(0, 10) === date,
-      // );
+    // Diary Details ("/diary/:date"): filter by date parameter in route string
+    case route.startsWith("/sightings/date/"): {
+      const date = route.slice(-10);
+      const sightings = data as SightingWithLocation[];
+      return sightings.filter(
+        (sighting) => sighting.date.slice(0, 10) === date,
+      );
     }
 
-    case "birdDetail": {
-      // const name = route.split("/")[3];
-      // const sightings = data as FetchedSighting[];
-      // return sightings.filter((sighting) => sighting.commName === name);
+    // Bird Details ("/birds/:name"): filter by name parameter in route string
+    case route.startsWith("/sightings/bird/"): {
+      const name = route.split("/")[3];
+      const sightings = data as SightingWithLocation[];
+      return sightings.filter((sighting) => sighting.commName === name);
     }
 
     default:
-      throw new Error("Invalid variant");
+      throw new Error("Invalid request");
   }
 }
 
 // ======= MUTATE =======
 
-// Map keys to specific data and formValues types
-type MutationDataMap = {
-  sightings: {
-    data: StorageSighting[];
-    formValues: NewSighting;
-  };
-};
-
-// K is the key of MutationDataMap, such as "sightings"
-export function mutateStorage<K extends keyof MutationDataMap>(
-  key: K,
+export function mutateStorage(
+  tag: "sightings",
   method: MutationParameters["method"],
-  formValues: MutationDataMap[K]["formValues"],
+  formValues: NewSightingFormValues,
 ) {
-  // Check if local storage contains the provided key
-  // If the key does not exist, initialize with an empty array
-  if (!window.localStorage.getItem(key)) {
-    window.localStorage.setItem(key, "[]");
+  if (!window.localStorage.getItem(tag)) {
+    window.localStorage.setItem(tag, "[]");
   }
 
-  // Fetch data from local storage based on `key` parameter
-  const data: MutationDataMap[K]["data"] = JSON.parse(
-    window.localStorage.getItem(key)!,
-  );
+  const data = JSON.parse(window.localStorage.getItem(tag)!);
 
-  // "POST" requests
-  if (method === "POST") {
-    if (key === "sightings") {
-      addSighting(data, formValues);
+  switch (method) {
+    case "POST": {
+      if (tag === "sightings") {
+        addSighting(data, formValues as NewSightingFormValues);
+        break;
+      }
     }
+
+    default:
+      throw new Error("Invalid request method");
   }
 }
 
-// Note about `date`: dates are sent TO the server as type Date
+// Note about `date`: dates are sent TO the server as a Date
 // `date` is returned FROM the server as a string
 
-// Add a new sighting to "sightings" key array
-// Update "diary" key array
-function addSighting(data: StorageSighting[], formValues: NewSighting) {
-  // Create ID, add sighting object to data array
-  const sightingId = uuidv4();
-  data.push({ ...formValues, sightingId });
-
-  // Set the updated data in local storage
+function addSighting(data: Sighting[], formValues: NewSightingFormValues) {
+  data.push({
+    ...formValues,
+    sightingId: uuidv4(),
+    id: data.length ? data[data.length - 1].id + 1 : 1,
+    userId: "",
+    locationId: null,
+  });
   window.localStorage.setItem("sightings", JSON.stringify(data));
-
-  // Update the diary
   updateDiary(formValues.date);
 }
 
-// Group sightings by date with a count
 function updateDiary(date: string) {
-  // Initialize a new diary array if needed
   if (!window.localStorage.getItem("diary")) {
     window.localStorage.setItem("diary", "[]");
   }
 
-  const diary: Diary[] = JSON.parse(window.localStorage.getItem("diary")!);
+  const diary: GroupByDate[] = JSON.parse(
+    window.localStorage.getItem("diary")!,
+  );
 
-  // If the diary contains an object with the current date, increment count by 1
-  // Otherwise, create a new diary entry object and initialize count at 1
   const entryExists = diary.find((entry) => entry.date === date);
   if (entryExists) {
     const updateDiary = diary.map((entry) =>
@@ -121,7 +110,7 @@ function updateDiary(date: string) {
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
-    const diaryEntry: Diary = { date, count: 1 };
+    const diaryEntry: GroupByDate = { id: date, date, count: 1 };
     diary.push(diaryEntry);
     window.localStorage.setItem("diary", JSON.stringify(diary));
   }

@@ -23,7 +23,11 @@ import {
   type CsrQuerySuccess,
   type MutationSuccess,
 } from "@/types/api";
-import type { NewSighting, Sighting, GroupByDate } from "@/types/models";
+import type {
+  NewSightingFormValues,
+  Sighting,
+  GroupByDate,
+} from "@/types/models";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
@@ -62,7 +66,7 @@ export default function ApiProvider({
 }) {
   const [cache, setCache] = useState<Cache>(defaultCache);
 
-  function useQuery({ route, tag, variant }: QueryParameters) {
+  function useQuery({ route, tag }: QueryParameters) {
     const [data, setData] = useState<CsrQuerySuccess["data"]["items"]>([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState<string | null>(null);
@@ -106,7 +110,7 @@ export default function ApiProvider({
             setPending(false);
           }
         } else {
-          const data = queryStorage(variant, tag);
+          const data = queryStorage(route, tag);
           setData((data as Sighting[] | GroupByDate[]) || []);
         }
       }
@@ -119,7 +123,7 @@ export default function ApiProvider({
       // data state value for that tag will be updated
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [route, tag, variant]);
+    }, [route, tag]);
 
     return { count, data, error, pending };
   }
@@ -174,9 +178,9 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        //! Casting `formValues` to NewSighting will become an issue
+        //! Casting `formValues` to NewSightingFormValues will become an issue
         //! when `formValues` needs to be a different type
-        mutateStorage(tag, method, formValues as NewSighting);
+        mutateStorage(tag, method, formValues as NewSightingFormValues);
         setSuccess(true);
       }
 

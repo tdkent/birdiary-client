@@ -9,7 +9,7 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { NewSighting } from "@/types/models";
+import type { NewSightingFormValues } from "@/types/models";
 import { sightingSchema, type SightingForm } from "@/types/api";
 import NameInput from "@/components/forms/NameInput";
 
@@ -22,7 +22,7 @@ export default function QuickSightingForm() {
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: "/sightings",
-    key: "sightings",
+    tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "POST",
   });
@@ -57,7 +57,7 @@ export default function QuickSightingForm() {
   }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
-    const formValues: NewSighting = {
+    const formValues: NewSightingFormValues = {
       commName: values.commName,
       date: createIsoUtcDate(new Date()),
       desc: "",

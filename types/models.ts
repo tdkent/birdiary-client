@@ -32,7 +32,7 @@ export type Sighting = {
   sightingId: string;
   userId: string;
   commName: string;
-  locationId: number;
+  locationId: number | null;
   date: string;
   desc: string;
 };
@@ -51,9 +51,9 @@ export type SightingWithLocation = Sighting & {
 };
 
 // Simplified storage model storedin local storage
-export type StorageSighting = Omit<Sighting, "userId" | "locationId">;
+// export type StorageSighting = Omit<Sighting, "userId" | "locationId">;
 
-export type NewSighting = {
+export type NewSightingFormValues = {
   commName: string;
   date: string;
   desc: string;
@@ -87,13 +87,7 @@ export const sortBySightingsCount = {
 
 // ======= DIARY =======
 
-export type DiaryDetails = StorageSighting & {
-  location?: Location;
-};
-
 export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
-
-// ======= LOCATIONS =======
 
 // ======= PROFILE =======
 
