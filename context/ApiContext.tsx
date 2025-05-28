@@ -26,7 +26,7 @@ import {
 import type {
   NewSightingFormValues,
   Sighting,
-  GroupByDate,
+  GroupedData,
 } from "@/types/models";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
@@ -111,7 +111,7 @@ export default function ApiProvider({
           }
         } else {
           const data = queryStorage(route, tag);
-          setData((data as Sighting[] | GroupByDate[]) || []);
+          setData((data as Sighting[] | GroupedData[]) || []);
         }
       }
 

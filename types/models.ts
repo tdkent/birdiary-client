@@ -50,9 +50,7 @@ export type SightingWithLocation = Sighting & {
   location: Location | null;
 };
 
-// Simplified storage model storedin local storage
-// export type StorageSighting = Omit<Sighting, "userId" | "locationId">;
-
+/** Create a new sighting */
 export type NewSightingFormValues = {
   commName: string;
   date: string;
@@ -109,15 +107,9 @@ export type UserProfile = {
 
 // ======= GROUPS =======
 
-export type GroupByDate = {
-  id: string;
-  date: string;
-  count: number;
-};
-
-export type GroupData = {
+export type GroupedData = {
   id: number;
-  name: string;
+  text: string;
   count: number;
 };
 
@@ -127,16 +119,14 @@ export type ListItem =
   | Sighting
   | SightingWithLocation
   | SingleBirdWithCount
-  | GroupData
-  | GroupByDate;
+  | GroupedData;
 
 export type ListWithCount = {
   items:
     | Sighting[]
     | SightingWithLocation[]
     | SingleBirdWithCount[]
-    | GroupData[]
-    | GroupByDate[];
+    | GroupedData[];
   countOfRecords: number;
 };
 

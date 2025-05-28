@@ -4,7 +4,7 @@ import type { MutationParameters } from "@/types/api";
 import type {
   NewSightingFormValues,
   Sighting,
-  GroupByDate,
+  GroupedData,
   SightingWithLocation,
 } from "@/types/models";
 import { apiRoutes, type QueryParameters } from "@/types/api";
@@ -30,7 +30,7 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
 
     // Diary ("/diary"): sort by date (desc)
     case route === apiRoutes.groupedSightings("date"):
-      return sortSightings(data as GroupByDate[], "dateDesc");
+      return sortSightings(data as GroupedData[], "dateDesc");
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
     case route.startsWith("/sightings/date/"): {
@@ -99,18 +99,23 @@ function updateDiary(date: string) {
     window.localStorage.setItem("diary", "[]");
   }
 
-  const diary: GroupByDate[] = JSON.parse(
+  const diary: GroupedData[] = JSON.parse(
     window.localStorage.getItem("diary")!,
   );
 
-  const entryExists = diary.find((entry) => entry.date === date);
+  const entryExists = diary.find((entry) => entry.text === date);
   if (entryExists) {
     const updateDiary = diary.map((entry) =>
-      entry.date === date ? { ...entry, count: ++entry.count } : entry,
+      entry.text === date ? { ...entry, count: ++entry.count } : entry,
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
-    const diaryEntry: GroupByDate = { id: date, date, count: 1 };
+    const convertDateToInteger = Number(date.slice(0, 10).replaceAll("-", ""));
+    const diaryEntry: GroupedData = {
+      id: convertDateToInteger,
+      text: date,
+      count: 1,
+    };
     diary.push(diaryEntry);
     window.localStorage.setItem("diary", JSON.stringify(diary));
   }

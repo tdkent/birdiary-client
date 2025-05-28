@@ -1,5 +1,5 @@
 import type {
-  GroupByDate,
+  GroupedData,
   ListItem,
   ListVariant,
   Sighting,
@@ -29,13 +29,13 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diary": {
-      const { date, count } = item as Extract<ListItem, GroupByDate>;
+      const { text, count } = item as Extract<ListItem, GroupedData>;
 
       return (
         <CsrListItemDetails
           variant="list"
-          href={"/diary/" + date.slice(0, 10)}
-          text={createLocaleString(date, "med")}
+          href={"/diary/" + text.slice(0, 10)}
+          text={createLocaleString(text, "med")}
           count={count}
         />
       );
