@@ -1,15 +1,22 @@
 import type {
-  SingleBirdWithCount,
   Sighting,
+  SightingWithLocation,
+  SingleBirdWithCount,
   ListVariant,
   GroupData,
+  GroupByDate,
 } from "@/types/models";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
   variant: ListVariant;
-  item: SingleBirdWithCount | Sighting | GroupData;
+  item:
+    | Sighting
+    | SightingWithLocation
+    | SingleBirdWithCount
+    | GroupByDate
+    | GroupData;
 };
 
 /** SSR component that renders a single item in List */

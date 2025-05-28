@@ -52,8 +52,7 @@ export default async function List({
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
   const response = await fetch(resource, { headers: requestHeaders });
-  const result: QuerySuccess<ListWithCount> | ExpectedServerError =
-    await response.json();
+  const result: QuerySuccess | ExpectedServerError = await response.json();
 
   // Conditionally render expected server error
   if ("error" in result) {
@@ -68,8 +67,9 @@ export default async function List({
     );
   }
 
-  const items = result.data.items;
-  const records = result.data.countOfRecords;
+  const data = result.data as ListWithCount;
+  const items = data.items;
+  const records = data.countOfRecords;
   const currentPage = +page;
   // The number of pages to render
   const pages = Math.ceil(records / RESULTS_PER_PAGE);

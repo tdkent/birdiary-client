@@ -84,5 +84,5 @@ export type CsrQuerySuccess = {
 // export type QuerySuccess<T> = { data: T } & MutationSuccess;
 export type QuerySuccess = {
   message: "ok";
-  data: BirdWithFamily;
+  data: ListWithCount | BirdWithFamily;
 };
