@@ -20,6 +20,8 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
 
+  console.log(route);
+
   switch (true) {
     // Home ("/"): Recent sightings: sort by date (desc)
     case route === apiRoutes.usersSightings:
