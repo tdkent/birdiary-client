@@ -110,9 +110,9 @@ export default function ApiProvider({
             setPending(false);
           }
         } else {
-          const data = queryStorage(route, tag);
-          setData((data as Sighting[] | GroupedData[]) || []);
-          setCount(data.length);
+          const { items, countOfRecords } = queryStorage(route, tag);
+          setData((items as Sighting[] | GroupedData[]) || []);
+          setCount(countOfRecords);
         }
       }
 

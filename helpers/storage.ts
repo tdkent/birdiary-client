@@ -13,8 +13,16 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 // ======= QUERY =======
 
+type QueryStorageData = {
+  items: Sighting[] | GroupedData[];
+  countOfRecords: number;
+};
+
 /** Query and filter data in storage based on provided route */
-export function queryStorage(route: string, key: QueryParameters["tag"]) {
+export function queryStorage(
+  route: string,
+  key: QueryParameters["tag"],
+): QueryStorageData {
   if (!window.localStorage.getItem(key)) {
     window.localStorage.setItem(key, "[]");
   }
@@ -22,33 +30,48 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
 
   switch (true) {
     // Home ("/"): Recent sightings: sort by date (desc)
-    case route === apiRoutes.usersSightings:
-      return sortSightings(data as Sighting[], "dateDesc").slice(
+    case route === apiRoutes.usersSightings: {
+      const sightings = sortSightings(data as Sighting[], "dateDesc").slice(
         0,
         RESULTS_PER_PAGE,
       );
+      return { items: sightings, countOfRecords: sightings.length };
+    }
 
     // Diary ("/diary"): sort by selected option
-    case route.startsWith("/sightings?groupBy=date"):
+    case route.startsWith("/sightings?groupBy=date"): {
       const query = route.split("&");
-      const page = query[1].slice(5);
+      const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
-      return sortSightings(data as GroupedData[], sortBy as SortValues);
+      const sightings = sortSightings(
+        data as GroupedData[],
+        sortBy as SortValues,
+      );
+      const paginated = sightings.slice(
+        RESULTS_PER_PAGE * (page - 1),
+        RESULTS_PER_PAGE * page,
+      );
+      return { items: paginated, countOfRecords: sightings.length };
+    }
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
     case route.startsWith("/sightings/date/"): {
       const date = route.slice(-10);
       const sightings = data as Sighting[];
-      return sightings.filter(
+      const filterByDate = sightings.filter(
         (sighting) => sighting.date.slice(0, 10) === date,
       );
+      return { items: filterByDate, countOfRecords: filterByDate.length };
     }
 
     // Bird Details ("/birds/:name"): filter by name parameter in route string
     case route.startsWith("/sightings/bird/"): {
       const name = route.split("/")[3];
       const sightings = data as Sighting[];
-      return sightings.filter((sighting) => sighting.commName === name);
+      const filterByBird = sightings.filter(
+        (sighting) => sighting.commName === name,
+      );
+      return { items: filterByBird, countOfRecords: filterByBird.length };
     }
 
     default:
