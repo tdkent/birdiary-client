@@ -5,7 +5,7 @@ import type {
   NewSightingFormValues,
   Sighting,
   GroupedData,
-  SightingWithLocation,
+  SortValues,
 } from "@/types/models";
 import { apiRoutes, type QueryParameters } from "@/types/api";
 import { sortSightings } from "@/helpers/data";
@@ -20,8 +20,6 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
 
-  console.log(route);
-
   switch (true) {
     // Home ("/"): Recent sightings: sort by date (desc)
     case route === apiRoutes.usersSightings:
@@ -30,14 +28,17 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
         RESULTS_PER_PAGE,
       );
 
-    // Diary ("/diary"): sort by date (desc)
-    case route === apiRoutes.groupedSightings("date"):
-      return sortSightings(data as GroupedData[], "dateDesc");
+    // Diary ("/diary"): sort by selected option
+    case route.startsWith("/sightings?groupBy=date"):
+      const query = route.split("&");
+      const page = query[1].slice(5);
+      const sortBy = query[2].slice(7);
+      return sortSightings(data as GroupedData[], sortBy as SortValues);
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
     case route.startsWith("/sightings/date/"): {
       const date = route.slice(-10);
-      const sightings = data as SightingWithLocation[];
+      const sightings = data as Sighting[];
       return sightings.filter(
         (sighting) => sighting.date.slice(0, 10) === date,
       );
@@ -46,7 +47,7 @@ export function queryStorage(route: string, key: QueryParameters["tag"]) {
     // Bird Details ("/birds/:name"): filter by name parameter in route string
     case route.startsWith("/sightings/bird/"): {
       const name = route.split("/")[3];
-      const sightings = data as SightingWithLocation[];
+      const sightings = data as Sighting[];
       return sightings.filter((sighting) => sighting.commName === name);
     }
 

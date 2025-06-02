@@ -93,6 +93,18 @@ export default function CsrList({
     }
   }
 
+  if (variant === "recentSighting") {
+    return (
+      <>
+        <ul className="my-4">
+          {items.map((item, idx) => {
+            return <CsrListItem key={idx} variant={variant} item={item} />;
+          })}
+        </ul>
+      </>
+    );
+  }
+
   const currentPage = +page;
   const pages = Math.ceil(count / RESULTS_PER_PAGE);
 

@@ -112,6 +112,7 @@ export default function ApiProvider({
         } else {
           const data = queryStorage(route, tag);
           setData((data as Sighting[] | GroupedData[]) || []);
+          setCount(data.length);
         }
       }
 
