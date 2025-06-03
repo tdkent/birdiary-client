@@ -56,12 +56,20 @@ export function queryStorage(
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
     case route.startsWith("/sightings/date/"): {
-      const date = route.slice(-10);
+      const date = route.split("?")[0].slice(-10);
+      const query = route.split("&");
+      const page = Number(query[0].split("?")[1].slice(5));
+      const sortBy = query[1].slice(7);
       const sightings = data as Sighting[];
       const filterByDate = sightings.filter(
         (sighting) => sighting.date.slice(0, 10) === date,
       );
-      return { items: filterByDate, countOfRecords: filterByDate.length };
+      const sorted = sortSightings(filterByDate, sortBy as SortValues);
+      const paginated = sorted.slice(
+        RESULTS_PER_PAGE * (page - 1),
+        RESULTS_PER_PAGE * page,
+      );
+      return { items: paginated, countOfRecords: filterByDate.length };
     }
 
     // Bird Details ("/birds/:name"): filter by name parameter in route string

@@ -31,7 +31,8 @@ export const apiRoutes = {
   birdDetails: (name: string) => "/birds/" + name,
   usersSightings: "/sightings",
   sightingByBird: (name: string) => "/sightings/bird/" + name,
-  sightingsByDate: (date: string) => "/sightings/date/" + date,
+  sightingsByDate: (date: string, page: string, sortBy: string) =>
+    `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
   groupedSightings: (group: "date", page: string, sortBy: string) =>
     `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   userProfile: "/users/profile",

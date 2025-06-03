@@ -1,26 +1,30 @@
+import { redirect } from "next/navigation";
 import CsrList from "@/components/pages/shared/CsrList";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/types/api";
-// import type { SortOptions, SortValues } from "@/types/models";
+import { type SortValues, sortByAlphaOptions } from "@/types/models";
 
 type DiaryParams = {
-  params: {
-    date: string;
-  };
+  params: { date: string };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
-export default async function DiaryDetailsView({ params }: DiaryParams) {
+export default async function DiaryDetailsView({
+  params,
+  searchParams,
+}: DiaryParams) {
   // Need to await params: https://nextjs.org/docs/messages/sync-dynamic-apis
   const { date } = await params;
+  const { page, sortBy } = await searchParams;
 
-  // // Define options for `SortList` component
-  // const defaultSort: SortValues = "alphaAsc";
-  // const sortOptions: SortOptions = [
-  //   { value: "alphaAsc", text: "A - Z" },
-  //   { value: "alphaDesc", text: "Z - A" },
-  // ];
+  if (!page || !sortBy) {
+    redirect(`/diary/${date}?page=1&sortBy=alphaAsc`);
+  }
+
+  const defaultOption = sortBy as SortValues;
+  const sortOptions = [...sortByAlphaOptions];
 
   return (
     <>
@@ -36,9 +40,13 @@ export default async function DiaryDetailsView({ params }: DiaryParams) {
         </Link>
       </header>
       <CsrList
-        route={apiRoutes.sightingsByDate(date)}
+        route={apiRoutes.sightingsByDate(date, page, sortBy)}
         variant="diaryDetail"
         tag="sightings"
+        page={page}
+        sortBy={sortBy}
+        defaultOption={defaultOption}
+        sortOptions={sortOptions}
       />
     </>
   );
