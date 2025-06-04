@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { NewSighting, Location } from "@/types/models";
+import type { NewSightingFormValues, Location } from "@/types/models";
 import { type SightingForm, sightingSchema } from "@/types/api";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
@@ -29,7 +29,7 @@ export default function SightingForm() {
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: "/sightings",
-    key: "sightings",
+    tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "POST",
   });
@@ -86,7 +86,7 @@ export default function SightingForm() {
       });
     }
 
-    const formValues: NewSighting = {
+    const formValues: NewSightingFormValues = {
       commName: values.commName,
       date: createIsoUtcDate(values.date!),
       desc: values.desc!.trim(),

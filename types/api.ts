@@ -1,5 +1,10 @@
 import type { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import type {
+  BirdWithFamily,
+  ListVariant,
+  ListWithCount,
+} from "@/types/models";
 
 // ======= CACHE =======
 
@@ -24,27 +29,28 @@ export const defaultCache: Cache = {
 
 export const apiRoutes = {
   birdDetails: (name: string) => "/birds/" + name,
-  recentSightings: "/sightings/recent",
-  sightingByBird: (name: string) => "/sightings/bird/" + name,
-  sightingsByDate: (date: string) => "/sightings/date/" + date,
-  groupedSightings: (group: "date") => "/sightings?groupby=" + group,
+  usersSightings: "/sightings",
+  sightingByBird: (name: string, page: string, sortBy: string) =>
+    `/sightings/bird/${name}?page=${page}&sortBy=${sortBy}`,
+  sightingsByDate: (date: string, page: string, sortBy: string) =>
+    `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
+  groupedSightings: (group: "date", page: string, sortBy: string) =>
+    `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   userProfile: "/users/profile",
 } as const;
 
-// Local storage key and web server route
-// Standard params for GET requests
 export type QueryParameters = {
-  key: "sightings" | "diary";
   route: string;
-  tag: "sightings" | "diary" | "locations";
+  tag: "sightings" | "diary";
+  variant: ListVariant;
 };
 
 // Capture all information needed for POST, PATCH, DELETE requests
 export type MutationParameters = {
-  key: "sightings";
   route: string;
+  tag: "sightings";
   method: "POST" | "PUT" | "DELETE";
-  tagsToUpdate: ["sightings" | "locations"];
+  tagsToUpdate: ["sightings"];
 };
 
 export const sightingSchema = z.object({
@@ -58,30 +64,6 @@ export type SightingForm = z.infer<typeof sightingSchema>;
 export type SightingFormProp = UseFormReturn<SightingForm>;
 
 // ======= RESPONSES =======
-
-/** 
-Expected errors received from the server
-`error`: Name of the error
-`statusCode`: Status code of the error
-`message`: string[] if Nest validation error; string if generic error
-
-Example expected validation error:
-{
-  error: "Bad Request",
-  statusCode: 400,
-  message: [
-    "bird_id must not be less than 1",
-    "maximal allowed date for date is Sun Feb 23 2025 15:53:48 GMT-0800 (Pacific Standard Time)"
-  ]
-}
-
-Example expected generic server error:
-{
-  error: "Bad Request",
-  statusCode: 400,
-  message: 'The server encountered an error'
-}
-*/
 
 export type ExpectedServerError = {
   error: string;
@@ -97,4 +79,13 @@ export type MutationSuccess = {
   message: "ok";
 };
 
-export type QuerySuccess<T> = { data: T } & MutationSuccess;
+export type CsrQuerySuccess = {
+  message: "ok";
+  data: ListWithCount;
+};
+
+// export type QuerySuccess<T> = { data: T } & MutationSuccess;
+export type QuerySuccess = {
+  message: "ok";
+  data: ListWithCount | BirdWithFamily;
+};

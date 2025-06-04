@@ -1,10 +1,42 @@
-import DiaryList from "@/components/pages/diary/DiaryList";
+import { redirect } from "next/navigation";
+import CsrList from "@/components/pages/shared/CsrList";
+import {
+  type SortValues,
+  sortByDateOptions,
+  sortBySightingsCount,
+} from "@/types/models";
+import { apiRoutes } from "@/types/api";
 
-export default function DiaryView() {
+export default async function DiaryView({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const { page, sortBy } = await searchParams;
+  console.log(page, sortBy);
+
+  if (!page || !sortBy) {
+    redirect(`/diary?page=1&sortBy=dateDesc`);
+  }
+
+  const defaultOption = sortBy as SortValues;
+  const sortOptions = [...sortByDateOptions, sortBySightingsCount];
+
   return (
     <>
-      <h1>Diary</h1>
-      <DiaryList />
+      <header>
+        <h1>Diary</h1>
+        <p>Your sightings grouped by date.</p>
+      </header>
+      <CsrList
+        route={apiRoutes.groupedSightings("date", page, sortBy)}
+        variant="diary"
+        tag="diary"
+        page={page}
+        sortBy={sortBy}
+        defaultOption={defaultOption}
+        sortOptions={sortOptions}
+      />
     </>
   );
 }

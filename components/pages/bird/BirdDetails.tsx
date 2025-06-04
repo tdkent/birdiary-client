@@ -1,9 +1,9 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
-import type { SingleBird } from "@/types/models";
+import type { BirdWithFamily } from "@/types/models";
 
 type BirdDetailsProps = {
-  bird: SingleBird;
+  bird: BirdWithFamily;
 };
 
 export default function BirdDetails({ bird }: BirdDetailsProps) {
