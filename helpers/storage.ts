@@ -74,12 +74,20 @@ export function queryStorage(
 
     // Bird Details ("/birds/:name"): filter by name parameter in route string
     case route.startsWith("/sightings/bird/"): {
-      const name = route.split("/")[3];
+      const queries = route.split("?");
+      const name = queries[0].split("/")[3];
+      const page = Number(queries[1].split("&")[0].slice(5));
+      const sortBy = queries[1].split("&")[1].slice(7);
       const sightings = data as Sighting[];
       const filterByBird = sightings.filter(
         (sighting) => sighting.commName === name,
       );
-      return { items: filterByBird, countOfRecords: filterByBird.length };
+      const sorted = sortSightings(filterByBird, sortBy as SortValues);
+      const paginated = sorted.slice(
+        RESULTS_PER_PAGE * (page - 1),
+        RESULTS_PER_PAGE * page,
+      );
+      return { items: paginated, countOfRecords: filterByBird.length };
     }
 
     default:

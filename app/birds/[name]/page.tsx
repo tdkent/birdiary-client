@@ -2,31 +2,44 @@
 // Fetch sightings data for bird from client
 
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import type {
+import {
   // SingleBird,
-  // SortValues,
+  SortValues,
   // SortOptions,
   BirdWithFamily,
+  sortByDateOptions,
 } from "@/types/models";
-import { ExpectedServerError, QuerySuccess } from "@/types/api";
+import {
+  apiRoutes,
+  type ExpectedServerError,
+  type QuerySuccess,
+} from "@/types/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
-import { apiRoutes } from "@/types/api";
 
 type BirdDetailsViewParams = {
-  params: {
-    name: string;
-  };
+  params: { name: string };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 export default async function BirdDetailsView({
   params,
+  searchParams,
 }: BirdDetailsViewParams) {
   const { name } = await params;
+  const { page, sortBy } = await searchParams;
+
+  if (!page || !sortBy) {
+    redirect(`/birds/${name}?page=1&sortBy=dateDesc`);
+  }
+
+  const defaultOption = sortBy as SortValues;
+  const sortOptions = [...sortByDateOptions];
 
   // `name` param has an underscore "_" char in place of empty space " "
   const filteredName = name.replace("_", " ");
@@ -59,13 +72,6 @@ export default async function BirdDetailsView({
   const data = result as QuerySuccess;
   const birdData = data.data as BirdWithFamily;
 
-  // Define options for `SortList` component
-  // const defaultSort: SortValues = "dateDesc";
-  // const sortOptions: SortOptions = [
-  //   { value: "dateDesc", text: "Newest - Oldest" },
-  //   { value: "dateAsc", text: "Oldest - Newest" },
-  // ];
-
   return (
     <>
       <Suspense>
@@ -74,8 +80,12 @@ export default async function BirdDetailsView({
       <h2>Sightings</h2>
       <CsrList
         variant="birdDetail"
-        route={apiRoutes.sightingByBird(birdData.commName)}
+        route={apiRoutes.sightingByBird(birdData.commName, page, sortBy)}
         tag="sightings"
+        page={page}
+        sortBy={sortBy}
+        defaultOption={defaultOption}
+        sortOptions={sortOptions}
       />
     </>
   );
