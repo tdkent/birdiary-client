@@ -41,17 +41,16 @@ export default function ListItem({ variant, item }: ListItemProps) {
 
     case "location": {
       const { id, count, text } = item as GroupedData;
+      const filterHref = text
+        .replaceAll(" ", "-")
+        .replaceAll(",", "")
+        .replaceAll("_", "");
+      const href = `/locations/${filterHref}-${id}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
         : "No sightings yet!";
-      return (
-        <ListItemDetails
-          href={`/locations/${id}_${text}`}
-          text={text}
-          subtext={sightingText}
-        />
-      );
+      return <ListItemDetails href={href} text={text} subtext={sightingText} />;
     }
   }
 }

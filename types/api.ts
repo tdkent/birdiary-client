@@ -29,6 +29,7 @@ export const defaultCache: Cache = {
 
 export const apiRoutes = {
   birdDetails: (name: string) => "/birds/" + name,
+  locationDetails: (id: string) => "/sightings/locations/" + id,
   usersSightings: "/sightings",
   sightingByBird: (name: string, page: string, sortBy: string) =>
     `/sightings/bird/${name}?page=${page}&sortBy=${sortBy}`,
