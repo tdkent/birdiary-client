@@ -137,4 +137,5 @@ export type ListVariant =
   | "diaryDetail"
   | "lifelistSighting"
   | "location"
+  | "locationDetail"
   | "recentSighting";

@@ -58,7 +58,7 @@ export default async function LocationDetailsView({
       <LocationMap lat={location.lat} lng={location.lng} />
       <section>
         <List
-          variant="lifelistSighting"
+          variant="locationDetail"
           resource={resource}
           page={page}
           sortBy={sortBy}

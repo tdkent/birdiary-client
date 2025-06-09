@@ -6,6 +6,7 @@ import type {
   GroupedData,
 } from "@/types/models";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
+import CardItem from "@/components/pages/shared/CardItem";
 import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
@@ -52,5 +53,13 @@ export default function ListItem({ variant, item }: ListItemProps) {
         : "No sightings yet!";
       return <ListItemDetails href={href} text={text} subtext={sightingText} />;
     }
+
+    case "locationDetail": {
+      const sighting = item as Sighting;
+      return <CardItem sighting={sighting} />;
+    }
+
+    default:
+      throw new Error("Invalid variant");
   }
 }

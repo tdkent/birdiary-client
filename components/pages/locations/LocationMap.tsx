@@ -26,7 +26,7 @@ export default function LocationMap({ lat, lng }: LocationMapProps) {
 
   return (
     <section className="my-8 h-[400px] w-full">
-      <APIProvider apiKey={GOOGLE_API_KEY} onLoad={() => console.log("loaded")}>
+      <APIProvider apiKey={GOOGLE_API_KEY}>
         <Map
           defaultZoom={15}
           defaultCenter={{ lat, lng }}
