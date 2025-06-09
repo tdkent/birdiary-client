@@ -29,11 +29,14 @@ export const defaultCache: Cache = {
 
 export const apiRoutes = {
   birdDetails: (name: string) => "/birds/" + name,
+  locationDetails: (id: string) => "/sightings/locations/" + id,
   usersSightings: "/sightings",
   sightingByBird: (name: string, page: string, sortBy: string) =>
     `/sightings/bird/${name}?page=${page}&sortBy=${sortBy}`,
   sightingsByDate: (date: string, page: string, sortBy: string) =>
     `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
+  sightingsByLocation: (id: string, page: string, sortBy: string) =>
+    `/sightings/locations/${id}/all?page=${page}&sortBy=${sortBy}`,
   groupedSightings: (group: "date", page: string, sortBy: string) =>
     `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   userProfile: "/users/profile",

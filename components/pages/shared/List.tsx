@@ -18,7 +18,10 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type ListProps =
   | {
-      variant: Extract<ListVariant, "lifelistSighting" | "location">;
+      variant: Extract<
+        ListVariant,
+        "lifelistSighting" | "location" | "locationDetail"
+      >;
       page: string;
       sortBy: string;
       resource: string;
@@ -77,14 +80,9 @@ export default async function List({
   return (
     <>
       {variant === "birdpedia" && <FilterList startsWith={startsWith} />}
-      {variant === "lifelistSighting" ||
-        (variant === "location" && (
-          <SortItems
-            defaultOption={defaultOption}
-            options={sortOptions}
-            isSSR
-          />
-        ))}
+      {variant !== "birdpedia" && (
+        <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+      )}
       <FilterAndResultsText
         variant={variant}
         startsWith={startsWith}
