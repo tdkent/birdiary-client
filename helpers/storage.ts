@@ -101,6 +101,7 @@ export function mutateStorage(
   tag: "sightings",
   method: MutationParameters["method"],
   formValues: NewSightingFormValues,
+  route: string,
 ) {
   if (!window.localStorage.getItem(tag)) {
     window.localStorage.setItem(tag, "[]");
@@ -111,11 +112,18 @@ export function mutateStorage(
   switch (method) {
     case "POST": {
       if (tag === "sightings") {
-        addSighting(data, formValues as NewSightingFormValues);
+        addSighting(data, formValues);
         break;
       }
     }
 
+    case "PUT": {
+      if (tag === "sightings") {
+        const sightingId = parseInt(route.split("/")[2]);
+        editSighting(data, formValues, sightingId);
+        break;
+      }
+    }
     default:
       throw new Error("Invalid request method");
   }
@@ -134,6 +142,21 @@ function addSighting(data: Sighting[], formValues: NewSightingFormValues) {
   });
   window.localStorage.setItem("sightings", JSON.stringify(data));
   updateDiary(formValues.date);
+}
+
+function editSighting(
+  data: Sighting[],
+  formValues: NewSightingFormValues,
+  id: number,
+) {
+  // find sighting by id
+  const updateSighting = data.map((sighting) => {
+    if (sighting.id === id) {
+      return { ...sighting, ...formValues };
+    }
+    return sighting;
+  });
+  window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
 }
 
 function updateDiary(date: string) {
