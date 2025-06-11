@@ -39,6 +39,7 @@ export const apiRoutes = {
     `/sightings/locations/${id}/all?page=${page}&sortBy=${sortBy}`,
   groupedSightings: (group: "date", page: string, sortBy: string) =>
     `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
+  singleSighting: (id: number) => `/sightings/${id}`,
   userProfile: "/users/profile",
 } as const;
 
