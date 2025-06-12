@@ -9,6 +9,7 @@ import type {
 } from "@/types/models";
 import { apiRoutes, type QueryParameters } from "@/types/api";
 import { sortSightings } from "@/helpers/data";
+import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 // ======= QUERY =======
@@ -103,26 +104,14 @@ export function mutateStorage(
   formValues: NewSightingFormValues,
   route: string,
 ) {
-  if (!window.localStorage.getItem(tag)) {
-    window.localStorage.setItem(tag, "[]");
-  }
-
-  const data = JSON.parse(window.localStorage.getItem(tag)!);
-
   switch (method) {
     case "POST": {
-      if (tag === "sightings") {
-        addSighting(data, formValues);
-        break;
-      }
+      addSighting(formValues);
+      break;
     }
-
     case "PUT": {
-      if (tag === "sightings") {
-        const sightingId = parseInt(route.split("/")[2]);
-        editSighting(data, formValues, sightingId);
-        break;
-      }
+      editSighting(formValues, route);
+      break;
     }
     default:
       throw new Error("Invalid request method");
@@ -132,34 +121,46 @@ export function mutateStorage(
 // Note about `date`: dates are sent TO the server as a Date
 // `date` is returned FROM the server as a string
 
-function addSighting(data: Sighting[], formValues: NewSightingFormValues) {
-  data.push({
+function addSighting(formValues: NewSightingFormValues) {
+  if (!window.localStorage.getItem("sightings")) {
+    window.localStorage.setItem("sightings", "[]");
+  }
+  const sightings: Sighting[] = JSON.parse(
+    window.localStorage.getItem("sightings")!,
+  );
+  sightings.push({
     ...formValues,
     sightingId: uuidv4(),
-    id: data.length ? data[data.length - 1].id + 1 : 1,
+    id: sightings.length ? sightings[sightings.length - 1].id + 1 : 1,
     userId: "",
     locationId: null,
   });
-  window.localStorage.setItem("sightings", JSON.stringify(data));
-  updateDiary(formValues.date);
+  window.localStorage.setItem("sightings", JSON.stringify(sightings));
+  addToDiary(formValues.date);
 }
 
-function editSighting(
-  data: Sighting[],
-  formValues: NewSightingFormValues,
-  id: number,
-) {
-  // find sighting by id
-  const updateSighting = data.map((sighting) => {
+function editSighting(formValues: NewSightingFormValues, route: string) {
+  const id = parseInt(route.split("/")[2]);
+  const sightings: Sighting[] = JSON.parse(
+    window.localStorage.getItem("sightings")!,
+  );
+  let sightingDate: string = "";
+  const updateSighting = sightings.map((sighting) => {
     if (sighting.id === id) {
+      sightingDate = sighting.date;
       return { ...sighting, ...formValues };
     }
     return sighting;
   });
   window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
+
+  if (formValues.date === sightingDate) return;
+
+  addToDiary(formValues.date);
+  removeFromDiary(sightingDate);
 }
 
-function updateDiary(date: string) {
+function addToDiary(date: string) {
   if (!window.localStorage.getItem("diary")) {
     window.localStorage.setItem("diary", "[]");
   }
@@ -175,13 +176,28 @@ function updateDiary(date: string) {
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
-    const convertDateToInteger = Number(date.slice(0, 10).replaceAll("-", ""));
+    const id = convertSightingDateToInteger(date);
     const diaryEntry: GroupedData = {
-      id: convertDateToInteger,
+      id,
       text: date,
       count: 1,
     };
     diary.push(diaryEntry);
     window.localStorage.setItem("diary", JSON.stringify(diary));
   }
+}
+
+function removeFromDiary(date: string) {
+  const diary: GroupedData[] = JSON.parse(
+    window.localStorage.getItem("diary")!,
+  );
+  const updateDiary = diary
+    .map((entry) => {
+      if (entry.text === date) {
+        return { ...entry, count: --entry.count };
+      }
+      return entry;
+    })
+    .filter((entry) => entry.count > 0);
+  window.localStorage.setItem("diary", JSON.stringify(updateDiary));
 }

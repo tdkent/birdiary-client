@@ -55,3 +55,7 @@ export function createRelativeDate(date: string) {
   // Return original date string if a relative date cannot be made
   return date;
 }
+
+export function convertSightingDateToInteger(date: string) {
+  return Number(date.slice(0, 10).replaceAll("-", ""));
+}
