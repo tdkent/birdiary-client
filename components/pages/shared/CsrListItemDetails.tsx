@@ -6,9 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import type { SightingWithLocation } from "@/types/models";
 import { createLocaleString } from "@/helpers/dates";
+import Modal from "@/components/ui/Modal";
+import EditSightingForm from "@/components/forms/EditSightingForm";
 
 type CsrListItemDetailsProps =
   | {
@@ -84,7 +85,13 @@ export default function CsrListItemDetails({
               <p>{sighting.desc}</p>
             </CardContent>
             <CardFooter>
-              <Button variant="ghost">edit</Button>
+              <Modal
+                triggerText="edit"
+                title="Edit Sighting"
+                description="Update the details about one of your sightings."
+              >
+                <EditSightingForm sighting={sighting} />
+              </Modal>
             </CardFooter>
           </Card>
         </>

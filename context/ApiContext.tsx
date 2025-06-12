@@ -179,9 +179,7 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        //! Casting `formValues` to NewSightingFormValues will become an issue
-        //! when `formValues` needs to be a different type
-        mutateStorage(tag, method, formValues as NewSightingFormValues);
+        mutateStorage(tag, method, formValues as NewSightingFormValues, route);
         setSuccess(true);
       }
 
