@@ -99,7 +99,7 @@ export function queryStorage(
 // ======= MUTATE =======
 
 export function mutateStorage(
-  tag: "sightings",
+  tag: "sightings" | "locations",
   method: MutationParameters["method"],
   formValues: NewSightingFormValues,
   route: string,

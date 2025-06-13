@@ -7,6 +7,7 @@ import {
   sortByDateOptions,
 } from "@/types/models";
 import { type ExpectedServerError, apiRoutes } from "@/types/api";
+import EditLocation from "@/components/pages/locations/EditLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
@@ -28,7 +29,7 @@ export default async function LocationDetailsView({
     redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
   }
 
-  const locationId = name.split("-")[name.split("-").length - 1];
+  const locationId = Number(name.split("-")[name.split("-").length - 1]);
 
   const location: Location | ExpectedServerError =
     await getLocation(locationId);
@@ -54,6 +55,7 @@ export default async function LocationDetailsView({
     <>
       <header>
         <h1>{location.name}</h1>
+        <EditLocation location={location} locationId={locationId} />
       </header>
       <LocationMap lat={location.lat} lng={location.lng} />
       <section>
