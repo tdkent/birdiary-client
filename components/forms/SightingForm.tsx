@@ -113,6 +113,7 @@ export default function SightingForm() {
           {isSignedIn && (
             <>
               <LocationInput
+                variant="create"
                 form={form}
                 pending={pending}
                 setLocation={setLocation}
