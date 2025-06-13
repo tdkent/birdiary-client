@@ -8,18 +8,53 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp, EditLocationFormSchemaProp } from "@/types/api";
 import type { Location } from "@/types/models";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 
-type NameInputProps = {
-  form: SightingFormProp;
-  pending: boolean;
-  setLocation: Dispatch<SetStateAction<Location | undefined>>;
-};
+type NameInputProps =
+  | {
+      variant: "create";
+      form: SightingFormProp;
+      pending: boolean;
+      setLocation: Dispatch<SetStateAction<Location | undefined>>;
+    }
+  | {
+      variant: "update";
+      form: EditLocationFormSchemaProp;
+      pending?: never;
+      setLocation: Dispatch<SetStateAction<Location | undefined>>;
+    };
 
-export default function LocationInput({ form, ...rest }: NameInputProps) {
+export default function LocationInput({
+  form,
+  variant,
+  ...rest
+}: NameInputProps) {
+  if (variant === "update") {
+    const editForm = form as EditLocationFormSchemaProp;
+    return (
+      <>
+        <FormField
+          control={editForm.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Location</FormLabel>
+              <FormControl>
+                <APIProvider apiKey={GOOGLE_API_KEY}>
+                  <LocationAutocomplete field={field} {...rest} />
+                </APIProvider>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <FormField

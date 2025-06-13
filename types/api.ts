@@ -29,17 +29,18 @@ export const defaultCache: Cache = {
 
 export const apiRoutes = {
   birdDetails: (name: string) => "/birds/" + name,
-  locationDetails: (id: string) => "/sightings/locations/" + id,
+  locationDetails: (id: number) => "/sightings/locations/" + id,
   usersSightings: "/sightings",
   sightingByBird: (name: string, page: string, sortBy: string) =>
     `/sightings/bird/${name}?page=${page}&sortBy=${sortBy}`,
   sightingsByDate: (date: string, page: string, sortBy: string) =>
     `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
-  sightingsByLocation: (id: string, page: string, sortBy: string) =>
+  sightingsByLocation: (id: number, page: string, sortBy: string) =>
     `/sightings/locations/${id}/all?page=${page}&sortBy=${sortBy}`,
   groupedSightings: (group: "date", page: string, sortBy: string) =>
     `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   singleSighting: (id: number) => `/sightings/${id}`,
+  singleLocation: (id: number) => `/sightings/locations/${id}`,
   userProfile: "/users/profile",
 } as const;
 
@@ -52,9 +53,9 @@ export type QueryParameters = {
 // Capture all information needed for POST, PATCH, DELETE requests
 export type MutationParameters = {
   route: string;
-  tag: "sightings";
+  tag: "sightings" | "locations";
   method: "POST" | "PUT" | "DELETE";
-  tagsToUpdate: ["sightings"];
+  tagsToUpdate: ("sightings" | "locations")[];
 };
 
 export const sightingSchema = z.object({
@@ -66,6 +67,13 @@ export const sightingSchema = z.object({
 
 export type SightingForm = z.infer<typeof sightingSchema>;
 export type SightingFormProp = UseFormReturn<SightingForm>;
+
+export const editLocationSchema = z.object({
+  location: z.string().min(1),
+});
+
+export type EditLocationFormSchema = z.infer<typeof editLocationSchema>;
+export type EditLocationFormSchemaProp = UseFormReturn<EditLocationFormSchema>;
 
 // ======= RESPONSES =======
 

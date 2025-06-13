@@ -14,8 +14,10 @@ import type { SightingForm } from "@/types/api";
 import type { Location } from "@/types/models";
 
 type LocationAutocompleteProps = {
-  field: ControllerRenderProps<SightingForm, "location">;
-  pending: boolean;
+  field:
+    | ControllerRenderProps<SightingForm, "location">
+    | ControllerRenderProps<{ location: string }, "location">;
+  pending?: boolean;
   setLocation: Dispatch<SetStateAction<Location | undefined>>;
 };
 
