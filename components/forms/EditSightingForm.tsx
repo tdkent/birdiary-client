@@ -55,12 +55,10 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     },
   });
 
-  // False if default values of inputs have not been changed
   const isDirty = form.formState.isDirty;
 
   const currBirdName = form.getValues("commName");
 
-  // Syncronize error toast with API context error
   useEffect(() => {
     if (error) {
       toast({
@@ -75,7 +73,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     if (success) {
       toast({
         title: "Success",
-        description: "New sighting created",
+        description: "Sighting updated",
       });
     }
   }, [success, toast]);
@@ -121,6 +119,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
           {isSignedIn && (
             <>
               <LocationInput
+                variant="create"
                 form={form}
                 pending={pending}
                 setLocation={setEditLocation}
