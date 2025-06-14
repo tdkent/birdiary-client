@@ -10,6 +10,7 @@ import type { SightingWithLocation } from "@/types/models";
 import { createLocaleString } from "@/helpers/dates";
 import Modal from "@/components/ui/Modal";
 import EditSightingForm from "@/components/forms/EditSightingForm";
+import DeleteItem from "@/components/pages/shared/DeleteItem";
 
 type CsrListItemDetailsProps =
   | {
@@ -84,13 +85,20 @@ export default function CsrListItemDetails({
               {sighting.location && <p>{sighting.location.name}</p>}
               <p>{sighting.desc}</p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="justify-between">
               <Modal
                 triggerText="edit"
                 title="Edit Sighting"
                 description="Update the details about one of your sightings."
               >
                 <EditSightingForm sighting={sighting} />
+              </Modal>
+              <Modal
+                triggerText="delete"
+                title="Confirm Delete"
+                description="This will permanently delete one of your sightings."
+              >
+                <DeleteItem variant="sighting" item={sighting} />
               </Modal>
             </CardFooter>
           </Card>

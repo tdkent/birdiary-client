@@ -13,7 +13,6 @@ export default async function DiaryView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  console.log(page, sortBy);
 
   if (!page || !sortBy) {
     redirect(`/diary?page=1&sortBy=dateDesc`);
