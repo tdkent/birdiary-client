@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
@@ -8,9 +8,10 @@ import type { Sighting } from "@/types/models";
 type DeleteItemProps = {
   variant: "sighting";
   item: Sighting;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function DeleteItem({ item }: DeleteItemProps) {
+export default function DeleteItem({ item, setOpen }: DeleteItemProps) {
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
@@ -41,6 +42,7 @@ export default function DeleteItem({ item }: DeleteItemProps) {
 
   const onDelete = async () => {
     mutate({});
+    setOpen(false);
   };
 
   return (

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import {
   Card,
@@ -41,6 +42,8 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
@@ -87,6 +90,8 @@ export default function CsrListItemDetails({
             </CardContent>
             <CardFooter className="justify-between">
               <Modal
+                open={editModalOpen}
+                setOpen={setEditModalOpen}
                 triggerText="edit"
                 title="Edit Sighting"
                 description="Update the details about one of your sightings."
@@ -94,11 +99,17 @@ export default function CsrListItemDetails({
                 <EditSightingForm sighting={sighting} />
               </Modal>
               <Modal
+                open={deleteModalOpen}
+                setOpen={setDeleteModalOpen}
                 triggerText="delete"
                 title="Confirm Delete"
                 description="This will permanently delete one of your sightings."
               >
-                <DeleteItem variant="sighting" item={sighting} />
+                <DeleteItem
+                  variant="sighting"
+                  item={sighting}
+                  setOpen={setDeleteModalOpen}
+                />
               </Modal>
             </CardFooter>
           </Card>
