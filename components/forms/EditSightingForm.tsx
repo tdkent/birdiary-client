@@ -1,6 +1,12 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
@@ -24,9 +30,13 @@ import { AuthContext } from "@/context/AuthContext";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function EditSightingForm({ sighting }: EditSightingFormProps) {
+export default function EditSightingForm({
+  sighting,
+  setOpen,
+}: EditSightingFormProps) {
   const { commName, date, desc, location } = sighting;
   const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
@@ -55,12 +65,10 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     },
   });
 
-  // False if default values of inputs have not been changed
   const isDirty = form.formState.isDirty;
 
   const currBirdName = form.getValues("commName");
 
-  // Syncronize error toast with API context error
   useEffect(() => {
     if (error) {
       toast({
@@ -75,7 +83,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     if (success) {
       toast({
         title: "Success",
-        description: "New sighting created",
+        description: "Sighting updated",
       });
     }
   }, [success, toast]);
@@ -102,8 +110,8 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     };
 
     mutate(formValues);
-
     form.reset();
+    setOpen(false);
   }
 
   return (
@@ -121,6 +129,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
           {isSignedIn && (
             <>
               <LocationInput
+                variant="create"
                 form={form}
                 pending={pending}
                 setLocation={setEditLocation}

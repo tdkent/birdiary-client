@@ -113,6 +113,10 @@ export function mutateStorage(
       editSighting(formValues, route);
       break;
     }
+    case "DELETE": {
+      deleteSighting(route);
+      break;
+    }
     default:
       throw new Error("Invalid request method");
   }
@@ -158,6 +162,17 @@ function editSighting(formValues: NewSightingFormValues, route: string) {
 
   addToDiary(formValues.date);
   removeFromDiary(sightingDate);
+}
+
+function deleteSighting(route: string) {
+  const id = parseInt(route.split("/")[2]);
+  const sightings: Sighting[] = JSON.parse(
+    window.localStorage.getItem("sightings")!,
+  );
+  const { date } = sightings.find((sighting) => sighting.id === id)!;
+  const deleteSighting = sightings.filter((sighting) => sighting.id !== id);
+  window.localStorage.setItem("sightings", JSON.stringify(deleteSighting));
+  removeFromDiary(date);
 }
 
 function addToDiary(date: string) {

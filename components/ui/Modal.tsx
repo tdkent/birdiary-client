@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import {
   Dialog,
   DialogClose,
@@ -9,11 +9,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  // DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 type ModalProps = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   triggerText: string;
   buttonTrigger?: boolean;
   title: string;
@@ -22,8 +24,10 @@ type ModalProps = {
 };
 
 export default function Modal({
+  open,
+  setOpen,
   triggerText,
-  buttonTrigger,
+  // buttonTrigger,
   title,
   description,
   children,
@@ -51,34 +55,59 @@ export default function Modal({
   }, []);
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        {buttonTrigger ? (
-          <Button
-            variant="ghost"
-            className="w-fit p-0 hover:bg-transparent"
-            asChild
-          >
-            <span>{triggerText}</span>
-          </Button>
-        ) : (
-          triggerText
-        )}
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        {children}
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Cancel
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Button
+        variant="ghost"
+        className="w-fit p-0 hover:bg-transparent"
+        onClick={() => setOpen(true)}
+      >
+        <span>{triggerText}</span>
+      </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DialogHeader>
+          {children}
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Cancel
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+    // <Dialog>
+    //   <DialogTrigger>
+    //     {buttonTrigger ? (
+    //       <Button
+    //         variant="ghost"
+    //         className="w-fit p-0 hover:bg-transparent"
+    //         asChild
+    //       >
+    //         <span>{triggerText}</span>
+    //       </Button>
+    //     ) : (
+    //       triggerText
+    //     )}
+    //   </DialogTrigger>
+    //   <DialogContent>
+    //     <DialogHeader>
+    //       <DialogTitle>{title}</DialogTitle>
+    //       <DialogDescription>{description}</DialogDescription>
+    //     </DialogHeader>
+    //     {children}
+    //     <DialogFooter>
+    //       <DialogClose asChild>
+    //         <Button type="button" variant="secondary">
+    //           Cancel
+    //         </Button>
+    //       </DialogClose>
+    //     </DialogFooter>
+    //   </DialogContent>
+    // </Dialog>
   );
 }

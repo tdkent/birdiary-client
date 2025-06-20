@@ -97,7 +97,6 @@ export default function EditLocationForm({
       | ExpectedServerError
       | { message: "ok"; location: Location & { id: number } } =
       await editLocation(locationId, formValues.location);
-    console.log(result);
 
     if ("error" in result) {
       const msg = Array.isArray(result.message)

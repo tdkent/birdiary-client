@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import {
   Card,
@@ -10,6 +11,7 @@ import type { SightingWithLocation } from "@/types/models";
 import { createLocaleString } from "@/helpers/dates";
 import Modal from "@/components/ui/Modal";
 import EditSightingForm from "@/components/forms/EditSightingForm";
+import DeleteItem from "@/components/pages/shared/DeleteItem";
 
 type CsrListItemDetailsProps =
   | {
@@ -40,6 +42,8 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
@@ -84,13 +88,31 @@ export default function CsrListItemDetails({
               {sighting.location && <p>{sighting.location.name}</p>}
               <p>{sighting.desc}</p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="justify-between">
               <Modal
+                open={editModalOpen}
+                setOpen={setEditModalOpen}
                 triggerText="edit"
                 title="Edit Sighting"
                 description="Update the details about one of your sightings."
               >
-                <EditSightingForm sighting={sighting} />
+                <EditSightingForm
+                  sighting={sighting}
+                  setOpen={setEditModalOpen}
+                />
+              </Modal>
+              <Modal
+                open={deleteModalOpen}
+                setOpen={setDeleteModalOpen}
+                triggerText="delete"
+                title="Confirm Delete"
+                description="This will permanently delete one of your sightings."
+              >
+                <DeleteItem
+                  variant="sighting"
+                  item={sighting}
+                  setOpen={setDeleteModalOpen}
+                />
               </Modal>
             </CardFooter>
           </Card>
