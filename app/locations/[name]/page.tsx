@@ -8,6 +8,7 @@ import {
 } from "@/types/models";
 import { type ExpectedServerError, apiRoutes } from "@/types/api";
 import EditLocation from "@/components/pages/locations/EditLocation";
+import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
@@ -55,7 +56,10 @@ export default async function LocationDetailsView({
     <>
       <header>
         <h1>{location.name}</h1>
-        <EditLocation location={location} locationId={locationId} />
+        <div className="flex items-center space-x-4">
+          <EditLocation location={location} locationId={locationId} />
+          <DeleteLocation locationId={locationId} />
+        </div>
       </header>
       <LocationMap lat={location.lat} lng={location.lng} />
       <section>

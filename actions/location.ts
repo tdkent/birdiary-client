@@ -36,3 +36,20 @@ export async function editLocation(id: number, formValues: Location) {
     throw new Error(ErrorMessages.Default);
   }
 }
+
+export async function deleteLocation(id: number) {
+  try {
+    const token = await getCookie();
+    const response = await fetch(BASE_URL + apiRoutes.singleLocation(id), {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error(ErrorMessages.Default);
+  }
+}
