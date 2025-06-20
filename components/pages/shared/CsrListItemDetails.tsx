@@ -96,7 +96,10 @@ export default function CsrListItemDetails({
                 title="Edit Sighting"
                 description="Update the details about one of your sightings."
               >
-                <EditSightingForm sighting={sighting} />
+                <EditSightingForm
+                  sighting={sighting}
+                  setOpen={setEditModalOpen}
+                />
               </Modal>
               <Modal
                 open={deleteModalOpen}

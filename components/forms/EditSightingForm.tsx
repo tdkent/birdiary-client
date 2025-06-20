@@ -1,6 +1,12 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
@@ -24,9 +30,13 @@ import { AuthContext } from "@/context/AuthContext";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function EditSightingForm({ sighting }: EditSightingFormProps) {
+export default function EditSightingForm({
+  sighting,
+  setOpen,
+}: EditSightingFormProps) {
   const { commName, date, desc, location } = sighting;
   const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
@@ -100,8 +110,8 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     };
 
     mutate(formValues);
-
     form.reset();
+    setOpen(false);
   }
 
   return (
