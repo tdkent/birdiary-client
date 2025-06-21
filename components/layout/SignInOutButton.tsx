@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/AuthContext";
@@ -9,8 +9,10 @@ import Modal from "@/components/ui/Modal";
 
 export default function SignInOutButton() {
   const { isSignedIn, signOut } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
 
   async function handleSignOut() {
+    setOpen(false);
     signOut();
     await signOutAction();
   }
@@ -19,6 +21,8 @@ export default function SignInOutButton() {
     return (
       <>
         <Modal
+          open={open}
+          setOpen={setOpen}
           triggerText="Sign Out"
           buttonTrigger
           title="Sign Out"
