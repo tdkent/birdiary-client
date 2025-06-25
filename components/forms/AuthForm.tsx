@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,9 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { SignupFormSchema } from "@/lib/definitions";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
+import TransferStorage from "@/components/pages/auth/TransferStorage";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
@@ -92,6 +93,8 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
+
+        <TransferStorage pathname={pathname} />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
