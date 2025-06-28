@@ -21,22 +21,36 @@ import { SignupFormSchema } from "@/lib/definitions";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
 import TransferStorage from "@/components/pages/auth/TransferStorage";
+import type { AuthForm } from "@/types/api";
+import type { Sighting } from "@/types/models";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof SignupFormSchema>>({
+  const form = useForm<AuthForm>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       email: "",
       password: "",
+      transferStorage: false,
     },
   });
 
+  const sightingsInStorage = () => {
+    if (pathname !== "/signin") return null;
+    const sightingsInStorage = localStorage.getItem("sightings");
+    if (!sightingsInStorage) return null;
+    const parsedSightings: Sighting[] = JSON.parse(sightingsInStorage);
+    if (!parsedSightings.length) return null;
+    return parsedSightings;
+  };
+
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const err = await auth({ ...values, pathname });
+    const storageData = values.transferStorage ? sightingsInStorage() : null;
+
+    const err = await auth({ ...values, storageData, pathname });
 
     if (err) {
       return toast({
@@ -93,8 +107,7 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
-
-        <TransferStorage pathname={pathname} />
+        {!!sightingsInStorage() && <TransferStorage form={form} />}
         <Button type="submit">Submit</Button>
       </form>
     </Form>

@@ -10,4 +10,5 @@ export const SignupFormSchema = z.object({
       });
     }
   }),
+  transferStorage: z.boolean(),
 });
