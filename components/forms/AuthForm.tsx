@@ -48,7 +48,11 @@ export default function AuthForm() {
   };
 
   async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const storageData = values.transferStorage ? sightingsInStorage() : null;
+    const storageData = values.transferStorage
+      ? sightingsInStorage()!.map((s) => {
+          return { commName: s.commName, desc: s.desc, date: s.date };
+        })
+      : null;
 
     const err = await auth({ ...values, storageData, pathname });
 

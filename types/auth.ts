@@ -15,7 +15,8 @@ export type AuthParams = {
   email: string;
   password: string;
   pathname: "/signup" | "/signin";
-  storageData: Sighting[] | null;
+  // storageData: Pick<Sighting, "commName" | "date" | "desc">[] | null;
+  storageData: Pick<Sighting, "commName" | "date" | "desc">[] | null;
 };
 
 // Response object sent by server after signin
