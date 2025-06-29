@@ -25,13 +25,23 @@ type SightingsListProps =
       startsWith?: never;
     }
   | {
-      variant: "recentSighting" | "diaryDetail" | "birdDetail";
+      variant: "diaryDetail" | "birdDetail";
       route: QueryParameters["route"];
       tag: "sightings";
       page: string;
       sortBy: string;
       defaultOption: SortValues;
       sortOptions: SortOptions;
+      startsWith?: never;
+    }
+  | {
+      variant: "recentSighting";
+      route: QueryParameters["route"];
+      tag: "sightings";
+      page?: never;
+      sortBy?: never;
+      defaultOption?: never;
+      sortOptions?: never;
       startsWith?: never;
     };
 
