@@ -65,15 +65,15 @@ export default function AuthForm() {
     }
 
     if (pathname === "/signin") {
+      signIn();
       if (result!.count) {
         localStorage.removeItem("sightings");
         localStorage.removeItem("diary");
       }
-      signIn();
       toast({
         variant: "default",
         title: "Success",
-        description: "You are now signed in",
+        description: `You are signed in.${result!.count ? ` Transferred ${result!.count} sightings.` : ""}`,
       });
       redirect("/diary");
     } else {
