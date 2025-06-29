@@ -1,8 +1,7 @@
 import { caveat } from "@/lib/fonts";
 import QuickSightingForm from "@/components/forms/QuickSightingForm";
-import SightingForm from "@/components/forms/SightingForm";
+import DetailedSightingModal from "@/components/pages/home/DetailedSightingModal";
 import CsrList from "@/components/pages/shared/CsrList";
-import Modal from "@/components/ui/Modal";
 import { apiRoutes } from "@/types/api";
 
 export default function Home() {
@@ -22,13 +21,7 @@ export default function Home() {
           <h3>Spot a bird? Add it fast!</h3>
           <QuickSightingForm />
         </div>
-        <Modal
-          triggerText="+ Add detailed sighting"
-          title="Add New Sighting"
-          description="Add a new bird sighting to your diary."
-        >
-          <SightingForm />
-        </Modal>
+        <DetailedSightingModal />
       </section>
       <section className="my-4">
         <h2>Your Recent Sightings</h2>
