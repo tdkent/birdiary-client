@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,40 +16,64 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { SignupFormSchema } from "@/lib/definitions";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
+import TransferStorage from "@/components/pages/auth/TransferStorage";
+import type { AuthForm } from "@/types/api";
+import type { Sighting } from "@/types/models";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof SignupFormSchema>>({
+  const form = useForm<AuthForm>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       email: "",
       password: "",
+      transferStorage: false,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
-    const err = await auth({ ...values, pathname });
+  const sightingsInStorage = () => {
+    if (pathname !== "/signin") return null;
+    const sightingsInStorage = localStorage.getItem("sightings");
+    if (!sightingsInStorage) return null;
+    const parsedSightings: Sighting[] = JSON.parse(sightingsInStorage);
+    if (!parsedSightings.length) return null;
+    return parsedSightings;
+  };
 
-    if (err) {
+  async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
+    const storageData = values.transferStorage
+      ? sightingsInStorage()!.map((s) => {
+          return { commName: s.commName, desc: s.desc, date: s.date };
+        })
+      : null;
+
+    const result = await auth({ ...values, storageData, pathname });
+
+    if (result && "error" in result) {
       return toast({
         variant: "destructive",
         title: "An error occurred",
-        description: err.message,
+        description: result.message,
       });
     }
 
     if (pathname === "/signin") {
       signIn();
+      if (result!.count) {
+        localStorage.removeItem("sightings");
+        localStorage.removeItem("diary");
+      }
       toast({
         variant: "default",
         title: "Success",
-        description: "You are now signed in",
+        description: `You are signed in.${result!.count ? ` Transferred ${result!.count} sightings.` : ""}`,
       });
       redirect("/diary");
     } else {
@@ -92,6 +115,7 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
+        {!!sightingsInStorage() && <TransferStorage form={form} />}
         <Button type="submit">Submit</Button>
       </form>
     </Form>

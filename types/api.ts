@@ -5,6 +5,7 @@ import type {
   ListVariant,
   ListWithCount,
 } from "@/types/models";
+import { SignupFormSchema } from "@/lib/definitions";
 
 // ======= CACHE =======
 
@@ -64,6 +65,9 @@ export const sightingSchema = z.object({
   desc: z.string().max(150).optional(),
   location: z.string().optional(),
 });
+
+export type AuthForm = z.infer<typeof SignupFormSchema>;
+export type AuthFormProp = UseFormReturn<AuthForm>;
 
 export type SightingForm = z.infer<typeof sightingSchema>;
 export type SightingFormProp = UseFormReturn<SightingForm>;
