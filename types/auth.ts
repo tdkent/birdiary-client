@@ -15,10 +15,9 @@ export type AuthParams = {
   email: string;
   password: string;
   pathname: "/signup" | "/signin";
-  // storageData: Pick<Sighting, "commName" | "date" | "desc">[] | null;
   storageData: Pick<Sighting, "commName" | "date" | "desc">[] | null;
 };
 
 // Response object sent by server after signin
 // The id is used to create the session jwt
-export type AuthResponse = { id: string };
+export type AuthResponse = { id: string; count: number | null };

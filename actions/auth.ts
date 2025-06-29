@@ -41,6 +41,8 @@ export async function auth({ pathname, ...args }: AuthParams) {
       } else {
         throw new Error("Invalid data format in response object");
       }
+
+      return data;
     }
   } catch (error) {
     console.error(error);

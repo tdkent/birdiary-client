@@ -54,17 +54,21 @@ export default function AuthForm() {
         })
       : null;
 
-    const err = await auth({ ...values, storageData, pathname });
+    const result = await auth({ ...values, storageData, pathname });
 
-    if (err) {
+    if (result && "error" in result) {
       return toast({
         variant: "destructive",
         title: "An error occurred",
-        description: err.message,
+        description: result.message,
       });
     }
 
     if (pathname === "/signin") {
+      if (result!.count) {
+        localStorage.removeItem("sightings");
+        localStorage.removeItem("diary");
+      }
       signIn();
       toast({
         variant: "default",
