@@ -3,8 +3,9 @@ import { ErrorMessages } from "@/types/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function getUser() {
+  // ? Remove try/catch?
+  const token = await getCookie();
   try {
-    const token = await getCookie();
     const response = await fetch(BASE_URL + "/users/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
