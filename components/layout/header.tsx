@@ -1,4 +1,4 @@
-// Note: there is a rendering issue with Seperator and `items-center`
+// Note: there is a rendering issue with Separator and `items-center`
 // https://github.com/shadcn-ui/ui/issues/4818
 import { Separator } from "@/components/ui/separator";
 import Logo from "@/components/layout/Logo";
