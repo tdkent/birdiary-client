@@ -15,7 +15,7 @@ import List from "@/components/pages/shared/List";
 import { BASE_URL } from "@/constants/env";
 
 type LocationDetailsView = {
-  params: { name: string };
+  params: Promise<{ name: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
