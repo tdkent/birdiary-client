@@ -7,7 +7,7 @@ import { apiRoutes } from "@/types/api";
 import { type SortValues, sortByAlphaOptions } from "@/types/models";
 
 type DiaryParams = {
-  params: { date: string };
+  params: Promise<{ date: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
@@ -15,7 +15,6 @@ export default async function DiaryDetailsView({
   params,
   searchParams,
 }: DiaryParams) {
-  // Need to await params: https://nextjs.org/docs/messages/sync-dynamic-apis
   const { date } = await params;
   const { page, sortBy } = await searchParams;
 

@@ -23,7 +23,7 @@ import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 
 type BirdDetailsViewParams = {
-  params: { name: string };
+  params: Promise<{ name: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
