@@ -6,6 +6,7 @@ import type {
   ListWithCount,
 } from "@/types/models";
 import { SignupFormSchema } from "@/lib/definitions";
+import { BASE_URL } from "@/constants/env";
 
 // ======= CACHE =======
 
@@ -26,9 +27,10 @@ export const defaultCache: Cache = {
   locations: [],
 };
 
-// ======= REQUESTS =======
-
+/** Server request URLs */
 export const apiRoutes = {
+  signup: `${BASE_URL}/users/signup`,
+  signin: `${BASE_URL}/users/signin`,
   birdDetails: (name: string) => "/birds/" + name,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   usersSightings: "/sightings",
