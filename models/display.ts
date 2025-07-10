@@ -4,7 +4,9 @@ export type BirdWithCount = Bird & {
   count?: number;
 };
 
-export type SightingWithLocation = Sighting & {
+export type SightingWithBird = Sighting & { bird: Bird };
+
+export type SightingWithLocation = SightingWithBird & {
   location: Location | null;
 };
 
@@ -17,7 +19,7 @@ export type Group = {
 export type ListItem = Sighting | SightingWithLocation | BirdWithCount | Group;
 
 export type ListWithCount = {
-  items: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
+  data: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
   countOfRecords: number;
 };
 
@@ -36,4 +38,9 @@ export type UserWithSightingsCount = User & {
     totalSightings: number;
     totalDistinctSightings: number;
   };
+};
+
+export type CountOfRecords = { countOfRecords: number };
+export type List = {
+  data: SightingWithBird[] | SightingWithLocation[] | BirdWithCount[] | Group[];
 };

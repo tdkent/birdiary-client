@@ -20,8 +20,8 @@ import {
   type QueryParameters,
   type MutationParameters,
   type ExpectedServerError,
-  type CsrQuerySuccess,
   type MutationSuccess,
+  type ServerResponseWithList,
 } from "@/models/api";
 import type { NewSighting } from "@/models/form";
 import type { Group } from "@/models/display";
@@ -33,8 +33,8 @@ import { queryStorage, mutateStorage } from "@/helpers/storage";
 // Define the shape of the API Context object
 type Api = {
   useQuery: ({ route, tag }: QueryParameters) => {
-    count: number;
-    data: CsrQuerySuccess["data"]["items"];
+    count: ServerResponseWithList["countOfRecords"];
+    data: ServerResponseWithList["data"];
     error: string | null;
     pending: boolean;
   };
@@ -65,7 +65,7 @@ export default function ApiProvider({
   const [cache, setCache] = useState<Cache>(defaultCache);
 
   function useQuery({ route, tag }: QueryParameters) {
-    const [data, setData] = useState<CsrQuerySuccess["data"]["items"]>([]);
+    const [data, setData] = useState<ServerResponseWithList["data"]>([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
@@ -82,21 +82,18 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const data: CsrQuerySuccess | ExpectedServerError =
+            const result: ServerResponseWithList | ExpectedServerError =
               await response.json();
 
-            if ("error" in data) {
-              const msg = Array.isArray(data.message)
-                ? data.message.join(",")
-                : data.message;
-              throw new Error(`${data.error}: ${msg}`);
-            }
-
-            if ("items" in data.data) {
-              setData(data.data.items);
-              setCount(data.data.countOfRecords);
+            if ("error" in result) {
+              const error = result as ExpectedServerError;
+              const msg = Array.isArray(error.message)
+                ? error.message.join(",")
+                : error.message;
+              throw new Error(`${error.error}: ${msg}`);
             } else {
-              setData(data.data);
+              setData(result.data);
+              setCount(result.countOfRecords);
             }
           } catch (error) {
             if (error instanceof Error) {
@@ -109,7 +106,7 @@ export default function ApiProvider({
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as Sighting[] | Group[]) || []);
+          // setData((items as Sighting[] | Group[]) || []);
           setCount(countOfRecords);
         }
       }

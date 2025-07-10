@@ -4,7 +4,7 @@ import type {
   ListVariant,
   SightingWithLocation,
 } from "@/models/display";
-import type { Sighting } from "@/models/db";
+import type { SightingWithBird } from "@/models/display";
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
@@ -16,13 +16,16 @@ type CsrListItemProps = {
 export default function CsrListItem({ item, variant }: CsrListItemProps) {
   switch (variant) {
     case "recentSighting": {
-      const { commName, date } = item as Extract<ListItem, Sighting>;
+      const {
+        date,
+        bird: { id, commonName },
+      } = item as SightingWithBird;
 
       return (
         <CsrListItemDetails
           variant="list"
-          href={"/birds/" + commName.replace(" ", "_")}
-          text={commName}
+          href={`/birds/${id}-${commonName}`}
+          text={commonName}
           subtext={createRelativeDate(date)}
         />
       );

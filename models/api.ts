@@ -4,6 +4,7 @@ import type { Bird } from "@/models/db";
 import type { ListVariant, ListWithCount } from "@/models/display";
 import { SignupFormSchema } from "@/lib/definitions";
 import { BASE_URL } from "@/constants/env";
+import type { CountOfRecords, List } from "@/models/display";
 
 // ======= CACHE =======
 
@@ -94,12 +95,11 @@ export type MutationSuccess = {
   message: "ok";
 };
 
-export type CsrQuerySuccess = {
-  message: "ok";
-  data: ListWithCount;
-};
+export type CsrQuerySuccess = { data: ListWithCount };
 
 export type QuerySuccess = {
   message: "ok";
   data: ListWithCount | Bird;
 };
+
+export type ServerResponseWithList = List & CountOfRecords;
