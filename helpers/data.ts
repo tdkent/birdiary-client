@@ -1,11 +1,10 @@
 // Sorting and filtering functions
 import { DateTime } from "luxon";
-import type { GroupedData, SortValues, Sighting } from "@/models/models";
+import type { Group } from "@/models/display";
+import type { SortValues } from "@/models/form";
+import type { Sighting } from "@/models/db";
 
-export function sortSightings(
-  arr: Sighting[] | GroupedData[],
-  option: SortValues,
-) {
+export function sortSightings(arr: Sighting[] | Group[], option: SortValues) {
   switch (option) {
     // A - Z
     case "alphaAsc": {
@@ -35,8 +34,8 @@ export function sortSightings(
           const dateB = DateTime.fromISO(b.date).toMillis();
           return dateA - dateB;
         } else {
-          const diaryA = a as GroupedData;
-          const diaryB = b as GroupedData;
+          const diaryA = a as Group;
+          const diaryB = b as Group;
           const dateA = DateTime.fromISO(diaryA.text).toMillis();
           const dateB = DateTime.fromISO(diaryB.text).toMillis();
           return dateA - dateB;
@@ -51,8 +50,8 @@ export function sortSightings(
           const dateB = DateTime.fromISO(b.date).toMillis();
           return dateB - dateA;
         } else {
-          const diaryA = a as GroupedData;
-          const diaryB = b as GroupedData;
+          const diaryA = a as Group;
+          const diaryB = b as Group;
           const dateA = DateTime.fromISO(diaryA.text).toMillis();
           const dateB = DateTime.fromISO(diaryB.text).toMillis();
           return dateB - dateA;
@@ -61,8 +60,8 @@ export function sortSightings(
 
     // Most Sightings
     case "count": {
-      const groupedData = arr as GroupedData[];
-      return groupedData.sort((a, b) => {
+      const Group = arr as Group[];
+      return Group.sort((a, b) => {
         const dateA = DateTime.fromISO(a.text).toMillis();
         const dateB = DateTime.fromISO(b.text).toMillis();
         return b.count - a.count || dateB - dateA;

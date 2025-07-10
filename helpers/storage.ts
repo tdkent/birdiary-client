@@ -12,7 +12,7 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 // ======= QUERY =======
 
 type QueryStorageData = {
-  items: Sighting[] | GroupedData[];
+  items: Sighting[] | Group[];
   countOfRecords: number;
 };
 
@@ -41,10 +41,7 @@ export function queryStorage(
       const query = route.split("&");
       const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
-      const sightings = sortSightings(
-        data as GroupedData[],
-        sortBy as SortValues,
-      );
+      const sightings = sortSightings(data as Group[], sortBy as SortValues);
       const paginated = sightings.slice(
         RESULTS_PER_PAGE * (page - 1),
         RESULTS_PER_PAGE * page,
@@ -98,7 +95,7 @@ export function queryStorage(
 export function mutateStorage(
   tag: "sightings" | "locations",
   method: MutationParameters["method"],
-  formValues: NewSightingFormValues,
+  formValues: NewSighting,
   route: string,
 ) {
   switch (method) {
@@ -122,7 +119,7 @@ export function mutateStorage(
 // Note about `date`: dates are sent TO the server as a Date
 // `date` is returned FROM the server as a string
 
-function addSighting(formValues: NewSightingFormValues) {
+function addSighting(formValues: NewSighting) {
   if (!window.localStorage.getItem("sightings")) {
     window.localStorage.setItem("sightings", "[]");
   }
@@ -140,7 +137,7 @@ function addSighting(formValues: NewSightingFormValues) {
   addToDiary(formValues.date);
 }
 
-function editSighting(formValues: NewSightingFormValues, route: string) {
+function editSighting(formValues: NewSighting, route: string) {
   const id = parseInt(route.split("/")[2]);
   const sightings: Sighting[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
@@ -177,9 +174,7 @@ function addToDiary(date: string) {
     window.localStorage.setItem("diary", "[]");
   }
 
-  const diary: GroupedData[] = JSON.parse(
-    window.localStorage.getItem("diary")!,
-  );
+  const diary: Group[] = JSON.parse(window.localStorage.getItem("diary")!);
 
   const entryExists = diary.find((entry) => entry.text === date);
   if (entryExists) {
@@ -189,7 +184,7 @@ function addToDiary(date: string) {
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
     const id = convertSightingDateToInteger(date);
-    const diaryEntry: GroupedData = {
+    const diaryEntry: Group = {
       id,
       text: date,
       count: 1,
@@ -200,9 +195,7 @@ function addToDiary(date: string) {
 }
 
 function removeFromDiary(date: string) {
-  const diary: GroupedData[] = JSON.parse(
-    window.localStorage.getItem("diary")!,
-  );
+  const diary: Group[] = JSON.parse(window.localStorage.getItem("diary")!);
   const updateDiary = diary
     .map((entry) => {
       if (entry.text === date) {

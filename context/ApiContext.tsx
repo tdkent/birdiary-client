@@ -109,7 +109,7 @@ export default function ApiProvider({
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as Sighting[] | GroupedData[]) || []);
+          setData((items as Sighting[] | Group[]) || []);
           setCount(countOfRecords);
         }
       }
@@ -177,7 +177,7 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        mutateStorage(tag, method, formValues as NewSightingFormValues, route);
+        mutateStorage(tag, method, formValues as NewSighting, route);
         setSuccess(true);
       }
 
