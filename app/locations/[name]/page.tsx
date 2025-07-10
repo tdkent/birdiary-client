@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import { getLocation } from "@/actions/location";
+import type { Location } from "@/models/db";
 import {
-  type Location,
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
-} from "@/types/models";
-import { type ExpectedServerError, apiRoutes } from "@/types/api";
+} from "@/models/form";
+import { type ExpectedServerError, apiRoutes } from "@/models/api";
 import EditLocation from "@/components/pages/locations/EditLocation";
 import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";

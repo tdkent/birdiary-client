@@ -1,10 +1,10 @@
 import { getUser } from "@/actions/profile";
-import type { UserProfile } from "@/types/models";
-import type { ExpectedServerError } from "@/types/api";
+import type { User } from "@/models/db";
+import type { ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
 export default async function AccountView() {
-  const user: UserProfile | ExpectedServerError = await getUser();
+  const user: User | ExpectedServerError = await getUser();
 
   if ("error" in user) {
     const msg = Array.isArray(user.message)

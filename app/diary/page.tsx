@@ -4,8 +4,8 @@ import {
   type SortValues,
   sortByDateOptions,
   sortBySightingsCount,
-} from "@/types/models";
-import { apiRoutes } from "@/types/api";
+} from "@/models/form";
+import { apiRoutes } from "@/models/api";
 
 export default async function DiaryView({
   searchParams,

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import EditLocationForm from "@/components/forms/EditLocationForm";
-import type { Location } from "@/types/models";
+import type { Location } from "@/models/db";
 
 type EditLocationProps = {
   location: Location;

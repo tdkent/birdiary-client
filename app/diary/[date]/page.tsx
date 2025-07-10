@@ -3,8 +3,8 @@ import CsrList from "@/components/pages/shared/CsrList";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { createLocaleString } from "@/helpers/dates";
-import { apiRoutes } from "@/types/api";
-import { type SortValues, sortByAlphaOptions } from "@/types/models";
+import { apiRoutes } from "@/models/api";
+import { type SortValues, sortByAlphaOptions } from "@/models/form";
 
 type DiaryParams = {
   params: Promise<{ date: string }>;

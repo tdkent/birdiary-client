@@ -1,6 +1,6 @@
 // Sorting and filtering functions
 import { DateTime } from "luxon";
-import type { GroupedData, SortValues, Sighting } from "@/types/models";
+import type { GroupedData, SortValues, Sighting } from "@/models/models";
 
 export function sortSightings(
   arr: Sighting[] | GroupedData[],

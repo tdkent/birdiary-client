@@ -9,8 +9,9 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { NewSightingFormValues, Location } from "@/types/models";
-import { type SightingForm, sightingSchema } from "@/types/api";
+import type { Location } from "@/models/db";
+import type { NewSighting } from "@/models/form";
+import { type SightingForm, sightingSchema } from "@/models/api";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
@@ -86,7 +87,7 @@ export default function SightingForm() {
       });
     }
 
-    const formValues: NewSightingFormValues = {
+    const formValues: NewSighting = {
       commName: values.commName,
       date: createIsoUtcDate(values.date!),
       desc: values.desc!.trim(),

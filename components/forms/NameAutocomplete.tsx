@@ -1,7 +1,7 @@
 /* Renders a selectable list of birds */
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import birdNames from "@/data/birds";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp } from "@/models/api";
 
 type NameAutocompleteProps = {
   form: SightingFormProp;

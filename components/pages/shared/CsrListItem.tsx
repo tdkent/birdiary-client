@@ -1,10 +1,10 @@
 import type {
-  GroupedData,
+  Group,
   ListItem,
   ListVariant,
-  Sighting,
   SightingWithLocation,
-} from "@/types/models";
+} from "@/models/display";
+import type { Sighting } from "@/models/db";
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
@@ -29,7 +29,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diary": {
-      const { text, count } = item as Extract<ListItem, GroupedData>;
+      const { text, count } = item as Extract<ListItem, Group>;
 
       return (
         <CsrListItemDetails

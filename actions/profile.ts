@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/constants/env";
-import { ErrorMessages } from "@/types/api";
+import { ErrorMessages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function getUser() {

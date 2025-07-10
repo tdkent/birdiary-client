@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { SightingWithLocation } from "@/types/models";
+import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
 import Modal from "@/components/ui/Modal";
 import EditSightingForm from "@/components/forms/EditSightingForm";
@@ -86,7 +86,7 @@ export default function CsrListItemDetails({
             </CardHeader>
             <CardContent>
               {sighting.location && <p>{sighting.location.name}</p>}
-              <p>{sighting.desc}</p>
+              <p>{sighting.description}</p>
             </CardContent>
             <CardFooter className="justify-between">
               <Modal

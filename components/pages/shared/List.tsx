@@ -1,11 +1,7 @@
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError, QuerySuccess } from "@/types/api";
-import type {
-  ListVariant,
-  ListWithCount,
-  SortOptions,
-  SortValues,
-} from "@/types/models";
+import type { ExpectedServerError, QuerySuccess } from "@/models/api";
+import type { ListVariant, ListWithCount } from "@/models/display";
+import type { SortOptions, SortValues } from "@/models/form";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterList from "@/components/pages/shared/FilterList";

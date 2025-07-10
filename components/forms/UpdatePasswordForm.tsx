@@ -16,7 +16,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { updatePassword } from "@/actions/account";
-import type { MutationSuccess, ExpectedServerError } from "@/types/api";
+import type { MutationSuccess, ExpectedServerError } from "@/models/api";
 
 const formSchema = z
   .object({

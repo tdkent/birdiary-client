@@ -5,7 +5,7 @@ import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
-} from "@/types/models";
+} from "@/models/form";
 
 export default async function LifeListView({
   searchParams,

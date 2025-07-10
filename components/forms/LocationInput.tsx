@@ -8,8 +8,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { SightingFormProp, EditLocationFormSchemaProp } from "@/types/api";
-import type { Location } from "@/types/models";
+import type {
+  SightingFormProp,
+  EditLocationFormSchemaProp,
+} from "@/models/api";
+import type { Location } from "@/models/db";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 

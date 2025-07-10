@@ -1,5 +1,5 @@
 import { RESULTS_PER_PAGE } from "@/constants/constants";
-import { ListVariant } from "@/types/models";
+import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
   variant: ListVariant;

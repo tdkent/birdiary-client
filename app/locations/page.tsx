@@ -5,7 +5,7 @@ import {
   type SortValues,
   sortByAlphaOptions,
   sortBySightingsCount,
-} from "@/types/models";
+} from "@/models/form";
 
 export default async function LocationsView({
   searchParams,

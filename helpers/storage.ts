@@ -1,13 +1,10 @@
 // Functions to process data in local storage
 import { v4 as uuidv4 } from "uuid";
-import type { MutationParameters } from "@/types/api";
-import type {
-  NewSightingFormValues,
-  Sighting,
-  GroupedData,
-  SortValues,
-} from "@/types/models";
-import { apiRoutes, type QueryParameters } from "@/types/api";
+import type { MutationParameters } from "@/models/api";
+import type { NewSighting, SortValues } from "@/models/form";
+import type { Sighting } from "@/models/db";
+import type { Group } from "@/models/display";
+import { apiRoutes, type QueryParameters } from "@/models/api";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";

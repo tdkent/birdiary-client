@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { SetStateAction } from "react";
-import type { SortValues, SortOptions } from "@/types/models";
+import type { SortValues, SortOptions } from "@/models/models";
 
 type SortItemsProps =
   | {

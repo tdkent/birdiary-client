@@ -15,12 +15,9 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type {
-  NewSightingFormValues,
-  SightingWithLocation,
-  Location,
-} from "@/types/models";
-import { type SightingForm, sightingSchema, apiRoutes } from "@/types/api";
+import type { Location, Sighting } from "@/models/db";
+import type { NewSighting } from "@/models/form";
+import { type SightingForm, sightingSchema, apiRoutes } from "@/models/api";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
@@ -29,7 +26,7 @@ import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
 
 type EditSightingFormProps = {
-  sighting: SightingWithLocation;
+  sighting: Sighting;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -37,7 +34,7 @@ export default function EditSightingForm({
   sighting,
   setOpen,
 }: EditSightingFormProps) {
-  const { commName, date, desc, location } = sighting;
+  const { commonName, date, description, location } = sighting;
   const { isSignedIn } = useContext(AuthContext);
   // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
@@ -58,9 +55,9 @@ export default function EditSightingForm({
   const form = useForm<SightingForm>({
     resolver: zodResolver(sightingSchema),
     defaultValues: {
-      commName,
+      commonName,
       date: new Date(date),
-      desc,
+      description,
       location: location?.name,
     },
   });
@@ -102,7 +99,7 @@ export default function EditSightingForm({
       });
     }
 
-    const formValues: NewSightingFormValues = {
+    const formValues: NewSighting = {
       commName: values.commName,
       date: createIsoUtcDate(values.date!),
       desc: values.desc!.trim(),

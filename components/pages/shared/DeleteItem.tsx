@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
-import { apiRoutes } from "@/types/api";
-import type { Sighting } from "@/types/models";
+import { apiRoutes } from "@/models/api";
+import type { Sighting } from "@/models/db";
 
 type DeleteItemProps = {
   variant: "sighting";

@@ -1,8 +1,8 @@
-import { apiRoutes } from "@/types/api";
+import { apiRoutes } from "@/models/api";
 import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
-import { ErrorMessages } from "@/types/api";
-import type { Location } from "@/types/models";
+import { ErrorMessages } from "@/models/api";
+import type { Location } from "@/models/db";
 
 export async function getLocation(id: number) {
   try {

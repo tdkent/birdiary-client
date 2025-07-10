@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NameAutocomplete from "@/components/forms/NameAutocomplete";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp } from "@/models/api";
 
 type NameInputProps = {
   form: SightingFormProp;

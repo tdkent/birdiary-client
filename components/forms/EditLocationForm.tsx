@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 // import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 // import { useToast } from "@/hooks/use-toast";
-import type { Location } from "@/types/models";
+import type { Location } from "@/models/db";
 import {
   type EditLocationFormSchema,
   type ExpectedServerError,
   editLocationSchema,
   // apiRoutes,
-} from "@/types/api";
+} from "@/models/api";
 import LocationInput from "@/components/forms/LocationInput";
 import { editLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";

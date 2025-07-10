@@ -1,10 +1,7 @@
 import type { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import type {
-  BirdWithFamily,
-  ListVariant,
-  ListWithCount,
-} from "@/types/models";
+import type { Bird } from "@/models/db";
+import type { ListVariant, ListWithCount } from "@/models/display";
 import { SignupFormSchema } from "@/lib/definitions";
 import { BASE_URL } from "@/constants/env";
 
@@ -102,8 +99,7 @@ export type CsrQuerySuccess = {
   data: ListWithCount;
 };
 
-// export type QuerySuccess<T> = { data: T } & MutationSuccess;
 export type QuerySuccess = {
   message: "ok";
-  data: ListWithCount | BirdWithFamily;
+  data: ListWithCount | Bird;
 };

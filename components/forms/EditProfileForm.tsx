@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import type { UserProfile } from "@/types/models";
-import type { MutationSuccess, ExpectedServerError } from "@/types/api";
+import type { User } from "@/models/db";
+import type { MutationSuccess, ExpectedServerError } from "@/models/api";
 import { editUserProfile } from "@/actions/profile";
 
 const formSchema = z.object({
@@ -25,16 +25,16 @@ const formSchema = z.object({
 });
 
 type EditProfileFormProps = {
-  profile: UserProfile["profile"];
+  profile: User;
 };
 
 export default function EditProfileForm({ profile }: EditProfileFormProps) {
-  const { name, location } = profile;
+  const { name, locationId } = profile;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name,
-      location,
+      locationId,
     },
   });
 

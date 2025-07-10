@@ -22,12 +22,10 @@ import {
   type ExpectedServerError,
   type CsrQuerySuccess,
   type MutationSuccess,
-} from "@/types/api";
-import type {
-  NewSightingFormValues,
-  Sighting,
-  GroupedData,
-} from "@/types/models";
+} from "@/models/api";
+import type { NewSighting } from "@/models/form";
+import type { Group } from "@/models/display";
+import type { Sighting } from "@/models/db";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";

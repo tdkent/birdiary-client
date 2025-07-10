@@ -1,4 +1,4 @@
-import type { Sighting } from "@/types/models";
+import type { Sighting } from "@/models/db";
 
 // Manage application state from Context API
 export type AuthState = {
@@ -15,7 +15,7 @@ export type AuthParams = {
   email: string;
   password: string;
   pathname: "/signup" | "/signin";
-  storageData: Pick<Sighting, "commName" | "date" | "desc">[] | null;
+  storageData: Pick<Sighting, "birdId" | "date" | "description">[] | null;
 };
 
 // Response object sent by server after signin

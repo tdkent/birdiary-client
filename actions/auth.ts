@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
-import type { AuthParams, AuthResponse } from "@/types/auth";
-import { ExpectedServerError, ErrorMessages } from "@/types/api";
-import { apiRoutes } from "@/types/api";
+import type { AuthParams, AuthResponse } from "@/models/auth";
+import { ExpectedServerError, ErrorMessages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 
 /** Sign up or sign in a user */
 export async function auth({ pathname, ...args }: AuthParams) {

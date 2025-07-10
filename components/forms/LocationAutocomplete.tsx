@@ -10,8 +10,8 @@ import {
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { Input } from "@/components/ui/input";
 import type { ControllerRenderProps } from "react-hook-form";
-import type { SightingForm } from "@/types/api";
-import type { Location } from "@/types/models";
+import type { SightingForm } from "@/models/api";
+import type { Location } from "@/models/db";
 
 type LocationAutocompleteProps = {
   field:

@@ -9,8 +9,8 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { NewSightingFormValues } from "@/types/models";
-import { sightingSchema, type SightingForm } from "@/types/api";
+import type { NewSighting } from "@/models/form";
+import { sightingSchema, type SightingForm } from "@/models/api";
 import NameInput from "@/components/forms/NameInput";
 
 export default function QuickSightingForm() {
@@ -57,10 +57,10 @@ export default function QuickSightingForm() {
   }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
-    const formValues: NewSightingFormValues = {
-      commName: values.commName,
+    const formValues: NewSighting = {
+      commonName: values.commName,
       date: createIsoUtcDate(new Date()),
-      desc: "",
+      description: "",
     };
 
     mutate(formValues);

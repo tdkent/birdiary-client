@@ -1,8 +1,8 @@
 import EditProfileForm from "@/components/forms/EditProfileForm";
 import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
-import type { UserProfile } from "@/types/models";
-import type { ExpectedServerError } from "@/types/api";
+import type { User } from "@/models/db";
+import type { ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function EditProfileView() {
@@ -14,7 +14,7 @@ export default async function EditProfileView() {
     },
   });
 
-  const profileData: UserProfile | ExpectedServerError = await response.json();
+  const profileData: User | ExpectedServerError = await response.json();
 
   // Conditionally render expected server error
   if ("error" in profileData) {
@@ -38,7 +38,7 @@ export default async function EditProfileView() {
         </p>
       </header>
       <section className="my-8">
-        <EditProfileForm profile={profileData.profile} />
+        <EditProfileForm profile={profileData} />
       </section>
     </>
   );

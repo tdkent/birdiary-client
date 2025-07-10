@@ -2,7 +2,7 @@
 
 import { useEffect, useState, createContext } from "react";
 import { checkSession, getCookie } from "@/helpers/auth";
-import type { AuthState } from "@/types/auth";
+import type { AuthState } from "@/models/auth";
 
 export const AuthContext = createContext<AuthState>({
   isSignedIn: false,

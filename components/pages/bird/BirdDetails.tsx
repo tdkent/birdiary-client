@@ -1,23 +1,23 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
-import type { BirdWithFamily } from "@/types/models";
+import type { Bird } from "@/models/db";
 
 type BirdDetailsProps = {
-  bird: BirdWithFamily;
+  bird: Bird;
 };
 
 export default function BirdDetails({ bird }: BirdDetailsProps) {
   return (
     <>
       <section>
-        <h1>{bird.commName}</h1>
+        <h1>{bird.commonName}</h1>
 
         <figure className="w-full">
           <AspectRatio ratio={16 / 9}>
             {bird.imgUrl ? (
               <Image
                 src={bird.imgUrl}
-                alt={bird.commName}
+                alt={bird.commonName}
                 className="rounded-md object-cover"
                 fill
                 priority
@@ -30,13 +30,13 @@ export default function BirdDetails({ bird }: BirdDetailsProps) {
         </figure>
 
         <article>
-          <p>{bird.commName}</p>
+          <p>{bird.commonName}</p>
           <p>
-            <i>{bird.sciName}</i>
+            <i>{bird.scientificName}</i>
           </p>
-          <p>Family: {bird.family.name}</p>
+          <p>Family: {bird.family}</p>
           <p>Conservation Status: {bird.rarity}</p>
-          <p>{bird.desc}</p>
+          <p>{bird.description}</p>
         </article>
       </section>
     </>

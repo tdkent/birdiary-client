@@ -1,47 +1,47 @@
 import type {
-  Sighting,
   SightingWithLocation,
-  SingleBirdWithCount,
+  BirdWithCount,
   ListVariant,
-  GroupedData,
-} from "@/types/models";
+  Group,
+} from "@/models/display";
+import type { Sighting } from "@/models/db";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
 import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
   variant: ListVariant;
-  item: Sighting | SightingWithLocation | SingleBirdWithCount | GroupedData;
+  item: Sighting | SightingWithLocation | BirdWithCount | Group;
 };
 
 /** SSR component that renders a single item in List */
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
     case "birdpedia": {
-      const { commName, sciName, count } = item as SingleBirdWithCount;
+      const { commonName, scientificName, count } = item as BirdWithCount;
       return (
         <ListItemDetails
-          href={`/birds/${commName.replace(" ", "_")}`}
-          text={commName}
-          subtext={sciName}
+          href={`/birds/${commonName.replace(" ", "_")}`}
+          text={commonName}
+          subtext={scientificName}
           count={count}
         />
       );
     }
 
     case "lifelistSighting": {
-      const { commName, date } = item as Sighting;
+      const { commonName, date } = item as Sighting;
       return (
         <ListItemDetails
-          href={`/birds/${commName.replace(" ", "_")}`}
-          text={commName}
+          href={`/birds/${commonName.replace(" ", "_")}`}
+          text={commonName}
           subtext={`First observation: ${createLocaleString(date, "med")}`}
         />
       );
     }
 
     case "location": {
-      const { id, count, text } = item as GroupedData;
+      const { id, count, text } = item as Group;
       const filterHref = text
         .replaceAll(" ", "-")
         .replaceAll(",", "")

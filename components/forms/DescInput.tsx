@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp } from "@/models/api";
 
 type DescInputProps = {
   form: SightingFormProp;

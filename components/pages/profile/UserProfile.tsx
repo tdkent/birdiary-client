@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError } from "@/types/api";
-import type { UserProfile } from "@/types/models";
+import type { ExpectedServerError } from "@/models/api";
+import type { UserWithSightingsCount } from "@/models/display";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { BASE_URL } from "@/constants/env";
 import { createLocaleString } from "@/helpers/dates";
@@ -16,7 +16,8 @@ export default async function UserProfile() {
     },
   });
 
-  const profileData: UserProfile | ExpectedServerError = await response.json();
+  const profileData: UserWithSightingsCount | ExpectedServerError =
+    await response.json();
 
   // Conditionally render expected server error
   if ("error" in profileData) {
@@ -33,8 +34,9 @@ export default async function UserProfile() {
 
   const {
     createdAt,
-    profile: { name, location },
-    favoriteBird,
+    name,
+    locationId,
+    favoriteBirdId,
     count: { totalSightings, totalDistinctSightings },
   } = profileData;
 

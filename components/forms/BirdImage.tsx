@@ -3,19 +3,19 @@ import Image from "next/image";
 import { useDebounceCallback } from "usehooks-ts";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import type { BirdWithFamily } from "@/types/models";
+import type { Bird } from "@/models/db";
 import {
   ErrorMessages,
   type QuerySuccess,
   type ExpectedServerError,
-} from "@/types/api";
+} from "@/models/api";
 
 type BirdImageProps = {
   currBirdName: string;
 };
 
 export default function BirdImage({ currBirdName }: BirdImageProps) {
-  const [data, setData] = useState<BirdWithFamily>();
+  const [data, setData] = useState<Bird>();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currFetchedBird, setCurrFetchedBird] = useState<string | null>(null);
@@ -36,7 +36,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
         throw new Error(`${result.error}: ${msg}`);
       }
 
-      setData(result.data as BirdWithFamily);
+      setData(result.data as Bird);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -71,7 +71,12 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
   return (
     <>
       <figure>
-        <Image src={data.imgUrl} alt={data.commName} width={300} height={225} />
+        <Image
+          src={data.imgUrl}
+          alt={data.commonName}
+          width={300}
+          height={225}
+        />
         <figcaption className="text-xs">{data.imgAttr}</figcaption>
       </figure>
     </>

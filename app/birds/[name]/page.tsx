@@ -6,18 +6,13 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import {
-  // SingleBird,
-  SortValues,
-  // SortOptions,
-  BirdWithFamily,
-  sortByDateOptions,
-} from "@/types/models";
+import type { Bird } from "@/models/db";
+import { SortValues, sortByDateOptions } from "@/models/form";
 import {
   apiRoutes,
   type ExpectedServerError,
   type QuerySuccess,
-} from "@/types/api";
+} from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
@@ -70,7 +65,7 @@ export default async function BirdDetailsView({
   }
 
   const data = result as QuerySuccess;
-  const birdData = data.data as BirdWithFamily;
+  const birdData = data.data as Bird;
 
   return (
     <>
@@ -80,7 +75,7 @@ export default async function BirdDetailsView({
       <h2>Sightings</h2>
       <CsrList
         variant="birdDetail"
-        route={apiRoutes.sightingByBird(birdData.commName, page, sortBy)}
+        route={apiRoutes.sightingByBird(birdData.commonName, page, sortBy)}
         tag="sightings"
         page={page}
         sortBy={sortBy}
