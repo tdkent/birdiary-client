@@ -49,7 +49,7 @@ export default async function LocationDetailsView({
 
   const resource =
     BASE_URL + apiRoutes.sightingsByLocation(locationId, page, sortBy);
-  const defaultOption = sortBy as SortValues;
+  const defaultSortOption = sortBy as SortValues;
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
 
   return (
@@ -68,7 +68,7 @@ export default async function LocationDetailsView({
           resource={resource}
           page={page}
           sortBy={sortBy}
-          defaultOption={defaultOption}
+          defaultSortOption={defaultSortOption}
           sortOptions={sortOptions}
         />
       </section>

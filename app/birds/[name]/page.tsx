@@ -40,7 +40,14 @@ export default async function BirdDetailsView({
 
   const { page, sortBy } = await searchParams;
 
-  if (!page || !sortBy) {
+  const sortOptions = [...sortByDateOptions];
+
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
     redirect(`/birds/${name}?page=1&sortBy=dateDesc`);
   }
 
@@ -59,9 +66,6 @@ export default async function BirdDetailsView({
 
   const birdData = result as Bird;
 
-  const defaultOption = sortBy as SortValues;
-  const sortOptions = [...sortByDateOptions];
-
   return (
     <>
       <Suspense>
@@ -70,11 +74,11 @@ export default async function BirdDetailsView({
       <h2>Sightings</h2>
       <CsrList
         variant="birdDetail"
-        route={apiRoutes.sightingByBird(birdData.commonName, page, sortBy)}
+        route={apiRoutes.sightingsByBird(birdId, parseInt(page), sortBy)}
         tag="sightings"
         page={page}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={sortBy as SortValues}
         sortOptions={sortOptions}
       />
     </>

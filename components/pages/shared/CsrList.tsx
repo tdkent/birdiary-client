@@ -12,35 +12,34 @@ import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
-// Discriminated union type based on variant
 type SightingsListProps =
   | {
       variant: "diary";
-      route: QueryParameters["route"];
+      route: string;
       tag: "diary";
       page: string;
       sortBy: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
       variant: "diaryDetail" | "birdDetail";
-      route: QueryParameters["route"];
+      route: string;
       tag: "sightings";
       page: string;
       sortBy: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
       variant: "recentSighting";
-      route: QueryParameters["route"];
+      route: string;
       tag: "sightings";
       page?: never;
       sortBy?: never;
-      defaultOption?: never;
+      defaultSortOption?: never;
       sortOptions?: never;
       startsWith?: never;
     };
@@ -52,7 +51,7 @@ export default function CsrList({
   tag,
   page,
   sortBy,
-  defaultOption,
+  defaultSortOption,
   sortOptions,
   startsWith,
 }: SightingsListProps) {
@@ -120,7 +119,11 @@ export default function CsrList({
 
   return (
     <>
-      <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+      <SortItems
+        defaultSortOption={defaultSortOption}
+        options={sortOptions}
+        isSSR
+      />
       <FilterAndResultsText
         variant={variant}
         startsWith={startsWith}

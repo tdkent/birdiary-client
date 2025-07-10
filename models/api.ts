@@ -31,9 +31,9 @@ export const apiRoutes = {
   signin: `${BASE_URL}/users/signin`,
   getBird: (id: number) => `${BASE_URL}/birds/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
-  usersSightings: "/sightings",
-  sightingByBird: (name: string, page: string, sortBy: string) =>
-    `/sightings/bird/${name}?page=${page}&sortBy=${sortBy}`,
+  recentSightings: "/sightings",
+  sightingsByBird: (id: number, page: number, sortBy: string) =>
+    `/sightings?birdId=${id}&page=${page}&sortBy=${sortBy}`,
   sightingsByDate: (date: string, page: string, sortBy: string) =>
     `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
   sightingsByLocation: (id: number, page: string, sortBy: string) =>

@@ -19,7 +19,7 @@ export default async function LifeListView({
 
   const resource = `${BASE_URL}/sightings?groupBy=lifelist&page=${page}&sortBy=${sortBy}`;
 
-  const defaultOption: SortValues = "alphaAsc";
+  const defaultSortOption: SortValues = "alphaAsc";
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
 
   return (
@@ -36,7 +36,7 @@ export default async function LifeListView({
         resource={resource}
         page={page}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

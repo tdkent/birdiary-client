@@ -22,7 +22,7 @@ export default async function DiaryDetailsView({
     redirect(`/diary/${date}?page=1&sortBy=alphaAsc`);
   }
 
-  const defaultOption = sortBy as SortValues;
+  const defaultSortOption = sortBy as SortValues;
   const sortOptions = [...sortByAlphaOptions];
 
   return (
@@ -44,7 +44,7 @@ export default async function DiaryDetailsView({
         tag="sightings"
         page={page}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

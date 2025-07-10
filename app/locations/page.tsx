@@ -19,7 +19,7 @@ export default async function LocationsView({
 
   const resource = `${BASE_URL}/sightings?groupBy=location&page=${page}&sortBy=${sortBy}`;
 
-  const defaultOption: SortValues = "alphaAsc";
+  const defaultSortOption: SortValues = "alphaAsc";
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
   return (
     <>
@@ -32,7 +32,7 @@ export default async function LocationsView({
         resource={resource}
         page={page}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

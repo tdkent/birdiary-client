@@ -21,7 +21,7 @@ type ListProps =
       page: string;
       sortBy: string;
       resource: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
@@ -30,7 +30,7 @@ type ListProps =
       page: string;
       startsWith: string | undefined;
       resource: string;
-      defaultOption?: never;
+      defaultSortOption?: never;
       sortOptions?: never;
       sortBy?: never;
     };
@@ -42,7 +42,7 @@ export default async function List({
   sortBy,
   startsWith,
   resource,
-  defaultOption,
+  defaultSortOption,
   sortOptions,
 }: ListProps) {
   // Conditionally add 'auth' header to request
@@ -77,7 +77,11 @@ export default async function List({
     <>
       {variant === "birdpedia" && <FilterList startsWith={startsWith} />}
       {variant !== "birdpedia" && (
-        <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+        <SortItems
+          defaultSortOption={defaultSortOption}
+          options={sortOptions}
+          isSSR
+        />
       )}
       <FilterAndResultsText
         variant={variant}

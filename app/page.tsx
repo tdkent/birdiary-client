@@ -26,7 +26,7 @@ export default function Home() {
       <section className="my-4">
         <h2>Your Recent Sightings</h2>
         <CsrList
-          route={apiRoutes.usersSightings}
+          route={apiRoutes.recentSightings}
           tag="sightings"
           variant="recentSighting"
         />
