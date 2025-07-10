@@ -29,7 +29,7 @@ export const defaultCache: Cache = {
 export const apiRoutes = {
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
-  birdDetails: (name: string) => "/birds/" + name,
+  getBird: (id: number) => `${BASE_URL}/birds/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   usersSightings: "/sightings",
   sightingByBird: (name: string, page: string, sortBy: string) =>
@@ -102,4 +102,10 @@ export type QuerySuccess = {
   data: ListWithCount | Bird;
 };
 
+export type ServerResponseWithError = {
+  error: string;
+  statusCode: number;
+  message: Exclude<string | string[], "ok">;
+};
+export type ServerResponseWithObject = Bird;
 export type ServerResponseWithList = List & CountOfRecords;

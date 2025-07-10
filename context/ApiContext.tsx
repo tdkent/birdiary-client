@@ -19,13 +19,13 @@ import {
   type Cache,
   type QueryParameters,
   type MutationParameters,
-  type ExpectedServerError,
   type MutationSuccess,
   type ServerResponseWithList,
+  type ServerResponseWithError,
 } from "@/models/api";
 import type { NewSighting } from "@/models/form";
-import type { Group } from "@/models/display";
-import type { Sighting } from "@/models/db";
+// import type { Group } from "@/models/display";
+// import type { Sighting } from "@/models/db";
 import { getCookie } from "@/helpers/auth";
 import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
@@ -82,19 +82,19 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const result: ServerResponseWithList | ExpectedServerError =
+            const result: ServerResponseWithList | ServerResponseWithError =
               await response.json();
 
             if ("error" in result) {
-              const error = result as ExpectedServerError;
+              const error = result as ServerResponseWithError;
               const msg = Array.isArray(error.message)
                 ? error.message.join(",")
                 : error.message;
               throw new Error(`${error.error}: ${msg}`);
-            } else {
-              setData(result.data);
-              setCount(result.countOfRecords);
             }
+
+            setData(result.data);
+            setCount(result.countOfRecords);
           } catch (error) {
             if (error instanceof Error) {
               setError(error.message);
@@ -151,7 +151,7 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const data: ExpectedServerError | MutationSuccess =
+          const data: ServerResponseWithError | MutationSuccess =
             await response.json();
 
           if ("error" in data) {

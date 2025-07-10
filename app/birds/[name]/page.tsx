@@ -1,17 +1,13 @@
-// Fetch bird data from the server in RSC using name param
-// Fetch sightings data for bird from client
-
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
 import type { Bird } from "@/models/db";
 import { SortValues, sortByDateOptions } from "@/models/form";
 import {
   apiRoutes,
-  type ExpectedServerError,
-  type QuerySuccess,
+  type ServerResponseWithError,
+  type ServerResponseWithObject,
 } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
@@ -27,23 +23,13 @@ export default async function BirdDetailsView({
   searchParams,
 }: BirdDetailsViewParams) {
   const { name } = await params;
-  const { page, sortBy } = await searchParams;
 
-  if (!page || !sortBy) {
-    redirect(`/birds/${name}?page=1&sortBy=dateDesc`);
-  }
-
-  const defaultOption = sortBy as SortValues;
-  const sortOptions = [...sortByDateOptions];
-
-  // `name` param has an underscore "_" char in place of empty space " "
-  const filteredName = name.replace("_", " ");
-
-  const findBird = birdNames.find(
-    (name) => name.toLowerCase() === filteredName.toLowerCase(),
+  const filteredName = name.replaceAll("_", " ").toLowerCase();
+  const birdIdx = birdNames.findIndex(
+    (bird) => bird.toLowerCase() === filteredName,
   );
 
-  if (!findBird) {
+  if (!birdIdx) {
     return (
       <>
         <p>Could not find &apos;{filteredName}&apos;</p>
@@ -52,20 +38,29 @@ export default async function BirdDetailsView({
     );
   }
 
-  // Fetch bird data
-  const response = await fetch(BASE_URL + apiRoutes.birdDetails(findBird));
-  const result: QuerySuccess | ExpectedServerError = await response.json();
+  const { page, sortBy } = await searchParams;
 
-  if (!response.ok) {
-    const errorData = result as ExpectedServerError;
+  if (!page || !sortBy) {
+    redirect(`/birds/${name}?page=1&sortBy=dateDesc`);
+  }
+
+  const birdId = birdIdx + 1;
+  const response = await fetch(apiRoutes.getBird(birdId));
+  const result: ServerResponseWithObject | ServerResponseWithError =
+    await response.json();
+
+  if ("error" in result) {
+    const errorData = result as ServerResponseWithError;
     const msg = Array.isArray(errorData.message)
       ? errorData.message[0]
       : errorData.message;
     return <ErrorDisplay msg={msg} />;
   }
 
-  const data = result as QuerySuccess;
-  const birdData = data.data as Bird;
+  const birdData = result as Bird;
+
+  const defaultOption = sortBy as SortValues;
+  const sortOptions = [...sortByDateOptions];
 
   return (
     <>

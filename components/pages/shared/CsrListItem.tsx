@@ -18,13 +18,12 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     case "recentSighting": {
       const {
         date,
-        bird: { id, commonName },
+        bird: { commonName },
       } = item as SightingWithBird;
-
       return (
         <CsrListItemDetails
           variant="list"
-          href={`/birds/${id}-${commonName}`}
+          href={`/birds/${commonName.replaceAll(" ", "_")}`}
           text={commonName}
           subtext={createRelativeDate(date)}
         />
@@ -33,7 +32,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
 
     case "diary": {
       const { text, count } = item as Extract<ListItem, Group>;
-
       return (
         <CsrListItemDetails
           variant="list"
