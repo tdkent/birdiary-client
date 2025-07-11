@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
-import { BASE_URL } from "@/constants/env";
+import { apiRoutes } from "@/models/api";
 
 export default async function BirdsView({
   searchParams,
@@ -8,11 +8,16 @@ export default async function BirdsView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, startsWith } = await searchParams;
-  if (!page) {
+
+  if (!page || !parseInt(page) || parseInt(page) < 1) {
     redirect(`/birds?page=1${startsWith ? `&startsWith=${startsWith}` : ""}`);
   }
 
-  const resource = `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`;
+  if (startsWith && !!/[^A-Z$]/.test(startsWith)) {
+    redirect(`/birds?page=${page}`);
+  }
+
+  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -26,9 +31,9 @@ export default async function BirdsView({
       </header>
       <List
         variant="birdpedia"
-        page={page}
+        page={parsedPage}
         startsWith={startsWith}
-        resource={resource}
+        resource={apiRoutes.getBirds(parseInt(page), startsWith)}
       />
     </>
   );

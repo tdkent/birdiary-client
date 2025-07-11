@@ -29,7 +29,7 @@ export default async function BirdDetailsView({
     (bird) => bird.toLowerCase() === filteredName,
   );
 
-  if (!birdIdx) {
+  if (birdIdx === -1) {
     return (
       <>
         <p>Could not find &apos;{filteredName}&apos;</p>
@@ -39,7 +39,6 @@ export default async function BirdDetailsView({
   }
 
   const { page, sortBy } = await searchParams;
-
   const sortOptions = [...sortByDateOptions];
 
   if (

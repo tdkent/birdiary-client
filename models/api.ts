@@ -30,6 +30,8 @@ export const apiRoutes = {
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
   getBird: (id: number) => `${BASE_URL}/birds/${id}`,
+  getBirds: (page: number, startsWith: string | undefined) =>
+    `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   recentSightings: "/sightings",
   sightingsListByType: (

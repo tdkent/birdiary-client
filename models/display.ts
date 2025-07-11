@@ -1,11 +1,7 @@
 import type { Bird, Location, Sighting, User } from "@/models/db";
 
-export type BirdWithCount = Bird & {
-  count?: number;
-};
-
+export type BirdWithCount = Bird & { count?: number };
 export type SightingWithBird = Sighting & { bird: Bird };
-
 export type SightingWithLocation = SightingWithBird & {
   location: Location | null;
 };
