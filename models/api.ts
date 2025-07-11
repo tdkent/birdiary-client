@@ -33,21 +33,18 @@ export const apiRoutes = {
   getBirds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
-  recentSightings: "/sightings",
+  recentSightings: `${BASE_URL}/sightings`,
   sightingsListByType: (
     type: "birdId" | "dateId" | "locationId",
     id: number | string,
     page: number,
     sortBy: string,
-  ) => `/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
-  sightingsGroupByType: (group: "date", page: string, sortBy: string) =>
-    `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
-  sightingsByBird: (id: number, page: number, sortBy: string) =>
-    `/sightings?birdId=${id}&page=${page}&sortBy=${sortBy}`,
-  sightingsByDate: (date: string, page: string, sortBy: string) =>
-    `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
-  sightingsByLocation: (id: number, page: string, sortBy: string) =>
-    `/sightings/locations/${id}/all?page=${page}&sortBy=${sortBy}`,
+  ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
+  sightingsGroupByType: (
+    group: "date" | "lifelist",
+    page: number,
+    sortBy: string,
+  ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   singleSighting: (id: number) => `/sightings/${id}`,
   singleLocation: (id: number) => `/sightings/locations/${id}`,
   userProfile: "/users/profile",

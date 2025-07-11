@@ -3,6 +3,7 @@ import type {
   BirdWithCount,
   ListVariant,
   Group,
+  SightingWithBird,
 } from "@/models/display";
 import type { Sighting } from "@/models/db";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
@@ -30,7 +31,10 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "lifelistSighting": {
-      const { commonName, date } = item as Sighting;
+      const {
+        bird: { commonName },
+        date,
+      } = item as SightingWithBird;
       return (
         <ListItemDetails
           href={`/birds/${commonName.replace(" ", "_")}`}

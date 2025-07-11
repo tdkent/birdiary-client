@@ -78,7 +78,7 @@ export default function ApiProvider({
         if (token) {
           setPending(true);
           try {
-            const response = await fetch(BASE_URL + route, {
+            const response = await fetch(route, {
               headers: { Authorization: `Bearer ${token}` },
             });
 

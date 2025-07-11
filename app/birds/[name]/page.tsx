@@ -75,7 +75,12 @@ export default async function BirdDetailsView({
       <h2>Sightings</h2>
       <CsrList
         variant="birdDetail"
-        route={apiRoutes.sightingsByBird(birdId, parseInt(page), sortBy)}
+        route={apiRoutes.sightingsListByType(
+          "birdId",
+          birdId,
+          parseInt(page),
+          sortBy,
+        )}
         tag="sightings"
         page={parsedPage}
         sortBy={sortBy}
