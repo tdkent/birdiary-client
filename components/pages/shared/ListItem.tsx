@@ -5,14 +5,13 @@ import type {
   Group,
   SightingWithBird,
 } from "@/models/display";
-import type { Sighting } from "@/models/db";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
 import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
   variant: ListVariant;
-  item: Sighting | SightingWithLocation | BirdWithCount | Group;
+  item: SightingWithBird | SightingWithLocation | BirdWithCount | Group;
 };
 
 /** SSR component that renders a single item in List */
@@ -46,11 +45,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
 
     case "location": {
       const { id, count, text } = item as Group;
-      const filterHref = text
-        .replaceAll(" ", "-")
-        .replaceAll(",", "")
-        .replaceAll("_", "");
-      const href = `/locations/${filterHref}-${id}`;
+      const href = `/locations/${id} ${text}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
@@ -59,7 +54,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "locationDetail": {
-      const sighting = item as Sighting;
+      const sighting = item as SightingWithBird;
       return <CardItem sighting={sighting} />;
     }
 

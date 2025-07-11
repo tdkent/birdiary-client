@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
-import { BASE_URL } from "@/constants/env";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortBySightingsCount,
 } from "@/models/form";
+import { apiRoutes } from "@/models/api";
 
 export default async function LocationsView({
   searchParams,
@@ -13,14 +13,20 @@ export default async function LocationsView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  if (!page || !sortBy) {
+  const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
+
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    parseInt(page) < 1 ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
     redirect(`/locations?page=1&sortBy=alphaAsc`);
   }
 
-  const resource = `${BASE_URL}/sightings?groupBy=location&page=${page}&sortBy=${sortBy}`;
-
   const defaultSortOption: SortValues = "alphaAsc";
-  const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
+  const parsedPage = parseInt(page);
   return (
     <>
       <header className="flex flex-col gap-4">
@@ -29,8 +35,12 @@ export default async function LocationsView({
       </header>
       <List
         variant="location"
-        resource={resource}
-        page={page}
+        resource={apiRoutes.sightingsGroupByType(
+          "location",
+          parsedPage,
+          sortBy,
+        )}
+        page={parsedPage}
         sortBy={sortBy}
         defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}

@@ -12,7 +12,6 @@ import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
-import { BASE_URL } from "@/constants/env";
 
 type LocationDetailsView = {
   params: Promise<{ name: string }>;
@@ -26,11 +25,27 @@ export default async function LocationDetailsView({
   const { name } = await params;
   const { page, sortBy } = await searchParams;
 
-  if (!page || !sortBy) {
-    redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
+  const locationId = parseInt(name.split("%20")[0]);
+
+  if (!locationId || locationId < 1) {
+    return (
+      <>
+        <ErrorDisplay msg="The URL is invalid." />
+      </>
+    );
   }
 
-  const locationId = Number(name.split("-")[name.split("-").length - 1]);
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    parseInt(page) < 1 ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
+    redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
+  }
 
   const location: Location | ExpectedServerError =
     await getLocation(locationId);
@@ -47,10 +62,8 @@ export default async function LocationDetailsView({
     );
   }
 
-  const resource =
-    BASE_URL + apiRoutes.sightingsByLocation(locationId, page, sortBy);
   const defaultSortOption = sortBy as SortValues;
-  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -65,8 +78,13 @@ export default async function LocationDetailsView({
       <section>
         <List
           variant="locationDetail"
-          resource={resource}
-          page={page}
+          resource={apiRoutes.sightingsListByType(
+            "locationId",
+            locationId,
+            parsedPage,
+            sortBy,
+          )}
+          page={parsedPage}
           sortBy={sortBy}
           defaultSortOption={defaultSortOption}
           sortOptions={sortOptions}

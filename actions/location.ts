@@ -7,7 +7,7 @@ import type { Location } from "@/models/db";
 export async function getLocation(id: number) {
   try {
     const token = await getCookie();
-    const response = await fetch(BASE_URL + apiRoutes.locationDetails(id), {
+    const response = await fetch(apiRoutes.getLocation(id), {
       headers: {
         Authorization: `Bearer ${token}`,
       },

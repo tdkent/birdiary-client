@@ -32,6 +32,7 @@ export const apiRoutes = {
   getBird: (id: number) => `${BASE_URL}/birds/${id}`,
   getBirds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
+  getLocation: (id: number) => `${BASE_URL}/locations/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   recentSightings: `${BASE_URL}/sightings`,
   sightingsListByType: (
@@ -41,12 +42,11 @@ export const apiRoutes = {
     sortBy: string,
   ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
   sightingsGroupByType: (
-    group: "date" | "lifelist",
+    group: "date" | "lifelist" | "location",
     page: number,
     sortBy: string,
   ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   singleSighting: (id: number) => `/sightings/${id}`,
-  singleLocation: (id: number) => `/sightings/locations/${id}`,
   userProfile: "/users/profile",
 } as const;
 
