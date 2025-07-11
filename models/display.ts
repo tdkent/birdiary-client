@@ -1,4 +1,4 @@
-import type { Bird, Sighting, User } from "@/models/db";
+import type { Bird, Location, Sighting, User } from "@/models/db";
 
 export type BirdWithCount = Bird & {
   count?: number;

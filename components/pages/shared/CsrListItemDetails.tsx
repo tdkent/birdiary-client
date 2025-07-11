@@ -78,7 +78,9 @@ export default function CsrListItemDetails({
           <Card className="w-full">
             <CardHeader>
               <CardTitle>
-                {hybrid === "diaryDetail" && <h3>{sighting.commName}</h3>}
+                {hybrid === "diaryDetail" && (
+                  <h3>{sighting.bird.commonName}</h3>
+                )}
                 {hybrid === "birdDetail" && (
                   <h3>{createLocaleString(sighting.date, "med")}</h3>
                 )}

@@ -32,14 +32,20 @@ export const apiRoutes = {
   getBird: (id: number) => `${BASE_URL}/birds/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   recentSightings: "/sightings",
+  sightingsListByType: (
+    type: "birdId" | "dateId" | "locationId",
+    id: number | string,
+    page: number,
+    sortBy: string,
+  ) => `/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
+  sightingsGroupByType: (group: "date", page: string, sortBy: string) =>
+    `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   sightingsByBird: (id: number, page: number, sortBy: string) =>
     `/sightings?birdId=${id}&page=${page}&sortBy=${sortBy}`,
   sightingsByDate: (date: string, page: string, sortBy: string) =>
     `/sightings/date/${date}?page=${page}&sortBy=${sortBy}`,
   sightingsByLocation: (id: number, page: string, sortBy: string) =>
     `/sightings/locations/${id}/all?page=${page}&sortBy=${sortBy}`,
-  groupedSightings: (group: "date", page: string, sortBy: string) =>
-    `/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   singleSighting: (id: number) => `/sightings/${id}`,
   singleLocation: (id: number) => `/sightings/locations/${id}`,
   userProfile: "/users/profile",

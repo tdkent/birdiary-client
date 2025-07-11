@@ -55,8 +55,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diaryDetail": {
-      const sighting = item as Extract<ListItem, SightingWithLocation>;
-
+      const sighting = item as SightingWithLocation;
       return (
         <CsrListItemDetails
           variant="card"

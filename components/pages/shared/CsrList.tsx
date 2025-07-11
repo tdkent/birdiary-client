@@ -5,7 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
-import type { QueryParameters } from "@/models/api";
 import CsrListItem from "@/components/pages/shared/CsrListItem";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
@@ -17,7 +16,7 @@ type SightingsListProps =
       variant: "diary";
       route: string;
       tag: "diary";
-      page: string;
+      page: number;
       sortBy: string;
       defaultSortOption: SortValues;
       sortOptions: SortOptions;
@@ -27,7 +26,7 @@ type SightingsListProps =
       variant: "diaryDetail" | "birdDetail";
       route: string;
       tag: "sightings";
-      page: string;
+      page: number;
       sortBy: string;
       defaultSortOption: SortValues;
       sortOptions: SortOptions;
@@ -114,7 +113,7 @@ export default function CsrList({
     );
   }
 
-  const currentPage = +page;
+  const currentPage = page;
   const pages = Math.ceil(count / RESULTS_PER_PAGE);
 
   return (
