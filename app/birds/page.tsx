@@ -33,7 +33,7 @@ export default async function BirdsView({
         variant="birdpedia"
         page={parsedPage}
         startsWith={startsWith}
-        resource={apiRoutes.getBirds(parseInt(page), startsWith)}
+        resource={apiRoutes.birds(parseInt(page), startsWith)}
       />
     </>
   );

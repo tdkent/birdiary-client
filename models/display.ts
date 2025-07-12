@@ -5,6 +5,21 @@ export type SightingWithBird = Sighting & { bird: Bird };
 export type SightingWithLocation = SightingWithBird & {
   location: Location | null;
 };
+export type UserWithSightingsCount = User & {
+  count: {
+    totalSightings: number;
+    totalDistinctSightings: number;
+  };
+};
+
+export type UserProfile = User & {
+  bird: Bird | null;
+  location: Location | null;
+  count: {
+    totalSightings: number;
+    totalDistinctSightings: number;
+  };
+};
 
 export type Group = {
   id: number;
@@ -28,13 +43,6 @@ export type ListVariant =
   | "location"
   | "locationDetail"
   | "recentSighting";
-
-export type UserWithSightingsCount = User & {
-  count: {
-    totalSightings: number;
-    totalDistinctSightings: number;
-  };
-};
 
 export type CountOfRecords = { countOfRecords: number };
 export type List = {

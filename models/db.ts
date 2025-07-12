@@ -28,8 +28,8 @@ export type Sighting = {
 export type User = {
   id: number;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   name: string | null;
   locationId: number | null;
   favoriteBirdId: number | null;

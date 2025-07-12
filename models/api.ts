@@ -29,10 +29,11 @@ export const defaultCache: Cache = {
 export const apiRoutes = {
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
-  getBird: (id: number) => `${BASE_URL}/birds/${id}`,
-  getBirds: (page: number, startsWith: string | undefined) =>
+  bird: (id: number) => `${BASE_URL}/birds/${id}`,
+  birds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
-  getLocation: (id: number) => `${BASE_URL}/locations/${id}`,
+  location: (id: number) => `${BASE_URL}/locations/${id}`,
+  user: (id: number) => `${BASE_URL}/users/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
   recentSightings: `${BASE_URL}/sightings`,
   sightingsListByType: (

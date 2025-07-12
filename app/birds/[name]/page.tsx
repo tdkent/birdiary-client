@@ -52,7 +52,7 @@ export default async function BirdDetailsView({
   }
 
   const birdId = birdIdx + 1;
-  const response = await fetch(apiRoutes.getBird(birdId));
+  const response = await fetch(apiRoutes.bird(birdId));
   const result: ServerResponseWithObject | ServerResponseWithError =
     await response.json();
 

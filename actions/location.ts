@@ -1,5 +1,4 @@
 import { apiRoutes } from "@/models/api";
-import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
 import { ErrorMessages } from "@/models/api";
 import type { Location } from "@/models/db";
@@ -7,7 +6,7 @@ import type { Location } from "@/models/db";
 export async function getLocation(id: number) {
   try {
     const token = await getCookie();
-    const response = await fetch(apiRoutes.getLocation(id), {
+    const response = await fetch(apiRoutes.location(id), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -22,7 +21,7 @@ export async function getLocation(id: number) {
 export async function editLocation(id: number, formValues: Location) {
   try {
     const token = await getCookie();
-    const response = await fetch(BASE_URL + apiRoutes.singleLocation(id), {
+    const response = await fetch(apiRoutes.location(id), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +39,7 @@ export async function editLocation(id: number, formValues: Location) {
 export async function deleteLocation(id: number) {
   try {
     const token = await getCookie();
-    const response = await fetch(BASE_URL + apiRoutes.singleLocation(id), {
+    const response = await fetch(apiRoutes.location(id), {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
