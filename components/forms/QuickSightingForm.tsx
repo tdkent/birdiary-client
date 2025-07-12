@@ -9,63 +9,58 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { NewSighting } from "@/models/form";
-import { sightingSchema, type SightingForm } from "@/models/api";
+import type { CreateSightingDto } from "@/models/form";
+import { apiRoutes, Messages } from "@/models/api";
+import { sightingSchema, type SightingForm } from "@/models/form";
 import NameInput from "@/components/forms/NameInput";
+import birdNames from "@/data/birds";
 
 export default function QuickSightingForm() {
-  // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
 
-  // Hooks
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: "/sightings",
+    route: apiRoutes.sightings,
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "POST",
   });
 
-  // useForm is used with Zod
   const form = useForm<SightingForm>({
     resolver: zodResolver(sightingSchema),
     defaultValues: {
-      commName: "",
+      commonName: "",
     },
   });
 
-  // Syncronize error toast with API context error
   useEffect(() => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "An error occurred",
+        title: Messages.ErrorToastTitle,
         description: error,
       });
     }
   }, [error, toast]);
 
-  // Syncronize success toast with API context success
   useEffect(() => {
     if (success) {
       toast({
-        title: "Success",
-        description: "New sighting created",
+        title: Messages.Success,
+        description: Messages.NewSighting,
       });
     }
   }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
-    const formValues: NewSighting = {
-      commonName: values.commName,
+    const formValues: CreateSightingDto = {
+      birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoUtcDate(new Date()),
-      description: "",
+      description: null,
     };
-
     mutate(formValues);
-
-    form.resetField("commName");
+    form.resetField("commonName");
   }
 
   return (

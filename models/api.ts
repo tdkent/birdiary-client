@@ -1,8 +1,5 @@
-import type { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 import type { Bird } from "@/models/db";
 import type { ListVariant, ListWithCount } from "@/models/display";
-import { SignupFormSchema } from "@/lib/definitions";
 import { BASE_URL } from "@/constants/env";
 import type { CountOfRecords, List } from "@/models/display";
 
@@ -35,7 +32,7 @@ export const apiRoutes = {
   location: (id: number) => `${BASE_URL}/locations/${id}`,
   user: (id: number) => `${BASE_URL}/users/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
-  recentSightings: `${BASE_URL}/sightings`,
+  sightings: `${BASE_URL}/sightings`,
   sightingsListByType: (
     type: "birdId" | "dateId" | "locationId",
     id: number | string,
@@ -57,33 +54,12 @@ export type QueryParameters = {
   variant: ListVariant;
 };
 
-// Capture all information needed for POST, PATCH, DELETE requests
 export type MutationParameters = {
   route: string;
   tag: "sightings" | "locations";
   method: "POST" | "PUT" | "DELETE";
   tagsToUpdate: ("sightings" | "locations")[];
 };
-
-export const sightingSchema = z.object({
-  commName: z.string(),
-  date: z.date().optional(),
-  desc: z.string().max(150).optional(),
-  location: z.string().optional(),
-});
-
-export type AuthForm = z.infer<typeof SignupFormSchema>;
-export type AuthFormProp = UseFormReturn<AuthForm>;
-
-export type SightingForm = z.infer<typeof sightingSchema>;
-export type SightingFormProp = UseFormReturn<SightingForm>;
-
-export const editLocationSchema = z.object({
-  location: z.string().min(1),
-});
-
-export type EditLocationFormSchema = z.infer<typeof editLocationSchema>;
-export type EditLocationFormSchemaProp = UseFormReturn<EditLocationFormSchema>;
 
 // ======= RESPONSES =======
 
@@ -93,8 +69,11 @@ export type ExpectedServerError = {
   message: Exclude<string | string[], "ok">;
 };
 
-export enum ErrorMessages {
-  Default = "An unexpected error occurred. Please try again later.",
+export enum Messages {
+  ErrorToastTitle = "An error occurred",
+  Success = "Success",
+  NewSighting = "New sighting created!",
+  DefaultError = "An unexpected error occurred. Please try again later.",
 }
 
 export type MutationSuccess = {

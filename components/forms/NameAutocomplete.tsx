@@ -1,7 +1,7 @@
 /* Renders a selectable list of birds */
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import birdNames from "@/data/birds";
-import type { SightingFormProp } from "@/models/api";
+import type { SightingFormProp } from "@/models/form";
 
 type NameAutocompleteProps = {
   form: SightingFormProp;
@@ -18,7 +18,7 @@ export default function NameAutocomplete({
   const [filteredResults, setFilteredResults] = useState<string[]>([]);
 
   // Use watch() to track changes to `commName` input
-  const currInput = form.watch("commName");
+  const currInput = form.watch("commonName");
 
   // Track if input matches an allowed common name
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function NameAutocomplete({
           return (
             <li
               key={birdName}
-              onClick={() => form.setValue("commName", birdName)}
+              onClick={() => form.setValue("commonName", birdName)}
             >
               {birdName}
             </li>

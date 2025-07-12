@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NameAutocomplete from "@/components/forms/NameAutocomplete";
-import type { SightingFormProp } from "@/models/api";
+import { SightingFormProp } from "@/models/form";
 
 type NameInputProps = {
   form: SightingFormProp;
@@ -29,7 +29,7 @@ export default function NameInput({
     <>
       <FormField
         control={form.control}
-        name="commName"
+        name="commonName"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Common Name</FormLabel>
