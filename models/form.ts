@@ -1,5 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { Location } from "@/models/db";
 
 // Zod Schemas
 export const signupFormSchema = z.object({

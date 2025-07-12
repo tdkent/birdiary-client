@@ -10,46 +10,46 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
 import type { Location } from "@/models/db";
-import type { NewSighting } from "@/models/form";
-import { type SightingForm, sightingSchema } from "@/models/api";
+import {
+  sightingSchema,
+  type SightingForm,
+  type CreateSightingDto,
+} from "@/models/form";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
 import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
+import birdNames from "@/data/birds";
+import { apiRoutes } from "@/models/api";
 
 export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
-  // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
   const [location, setLocation] = useState<Location>();
 
-  // Hooks
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: "/sightings",
+    route: apiRoutes.sightings,
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "POST",
   });
 
-  // useForm is used with Zod
   const form = useForm<SightingForm>({
     resolver: zodResolver(sightingSchema),
     defaultValues: {
-      commName: "",
+      commonName: "",
       date: new Date(),
-      desc: "",
+      description: "",
       location: "",
     },
   });
 
-  // Fetch bird data if user has entered a valid name
-  const currBirdName = form.getValues("commName");
+  const currBirdName = form.getValues("commonName");
 
-  // Syncronize error toast with API context error
   useEffect(() => {
     if (error) {
       toast({
@@ -60,7 +60,6 @@ export default function SightingForm() {
     }
   }, [error, toast]);
 
-  // Syncronize success toast with API context success
   useEffect(() => {
     if (success) {
       toast({
@@ -70,11 +69,8 @@ export default function SightingForm() {
     }
   }, [success, toast]);
 
-  // Validate and submit the form
   async function onSubmit(values: SightingForm) {
-    // Validate the location
     let validatedLocation: Location | undefined = location;
-    // If input is empty, do not send a value
     if (!values.location) {
       validatedLocation = undefined;
     }
@@ -87,15 +83,14 @@ export default function SightingForm() {
       });
     }
 
-    const formValues: NewSighting = {
-      commName: values.commName,
+    const formValues: CreateSightingDto = {
+      birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoUtcDate(values.date!),
-      desc: values.desc!.trim(),
+      description: values.description ? values.description.trim() : null,
       location: validatedLocation,
     };
 
     mutate(formValues);
-
     form.reset();
   }
 
