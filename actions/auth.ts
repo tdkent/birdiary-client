@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
 import type { AuthParams, AuthResponse } from "@/models/auth";
-import { ExpectedServerError, ErrorMessages } from "@/models/api";
+import { ExpectedServerError, Messages } from "@/models/api";
 import { apiRoutes } from "@/models/api";
 
 /** Sign up or sign in a user */
@@ -41,7 +41,7 @@ export async function auth({ pathname, ...args }: AuthParams) {
     }
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }
 

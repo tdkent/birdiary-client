@@ -15,7 +15,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   defaultCache,
-  ErrorMessages,
+  Messages,
   type Cache,
   type QueryParameters,
   type MutationParameters,
@@ -23,11 +23,10 @@ import {
   type ServerResponseWithList,
   type ServerResponseWithError,
 } from "@/models/api";
-import type { NewSighting } from "@/models/form";
+import type { CreateSightingDto } from "@/models/form";
 // import type { Group } from "@/models/display";
 // import type { Sighting } from "@/models/db";
 import { getCookie } from "@/helpers/auth";
-import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
 
 // Define the shape of the API Context object
@@ -99,7 +98,7 @@ export default function ApiProvider({
             if (error instanceof Error) {
               setError(error.message);
             } else {
-              setError(ErrorMessages.Default);
+              setError(Messages.DefaultError);
             }
           } finally {
             setPending(false);
@@ -137,12 +136,11 @@ export default function ApiProvider({
     async function mutate<T>(formValues: T) {
       setSuccess(false);
       const token = await getCookie();
-      // If user is signed in send mutation to server
       if (token) {
         setError(null);
         setPending(true);
         try {
-          const response = await fetch(BASE_URL + route, {
+          const response = await fetch(route, {
             method,
             headers: {
               "Content-Type": "application/json",
@@ -166,7 +164,7 @@ export default function ApiProvider({
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(ErrorMessages.Default);
+            setError(Messages.DefaultError);
           }
         } finally {
           setPending(false);
@@ -174,7 +172,7 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        mutateStorage(tag, method, formValues as NewSighting, route);
+        mutateStorage(tag, method, formValues as CreateSightingDto, route);
         setSuccess(true);
       }
 

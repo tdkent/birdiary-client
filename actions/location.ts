@@ -1,6 +1,6 @@
 import { apiRoutes } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
-import { ErrorMessages } from "@/models/api";
+import { Messages } from "@/models/api";
 import type { Location } from "@/models/db";
 
 export async function getLocation(id: number) {
@@ -14,7 +14,7 @@ export async function getLocation(id: number) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }
 
@@ -32,7 +32,7 @@ export async function editLocation(id: number, formValues: Location) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }
 
@@ -49,6 +49,6 @@ export async function deleteLocation(id: number) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }

@@ -28,7 +28,7 @@ export function queryStorage(
 
   switch (true) {
     // Home ("/"): Recent sightings: sort by date (desc)
-    case route === apiRoutes.recentSightings: {
+    case route === apiRoutes.sightings: {
       const sightings = sortSightings(data as Sighting[], "dateDesc").slice(
         0,
         RESULTS_PER_PAGE,

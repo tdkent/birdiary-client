@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/constants/env";
-import { ErrorMessages } from "@/models/api";
+import { Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function getUser() {
@@ -14,7 +14,7 @@ export async function getUser() {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }
 
@@ -36,6 +36,6 @@ export async function editUserProfile(formData: {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }

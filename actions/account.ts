@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/constants/env";
-import { ErrorMessages } from "@/models/api";
+import { Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function updatePassword(
@@ -20,6 +20,6 @@ export async function updatePassword(
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }

@@ -5,7 +5,7 @@ import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
 import type { Bird } from "@/models/db";
 import {
-  ErrorMessages,
+  Messages,
   type QuerySuccess,
   type ExpectedServerError,
 } from "@/models/api";
@@ -41,7 +41,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError(ErrorMessages.Default);
+        setError(Messages.DefaultError);
       }
     } finally {
       setPending(false);
