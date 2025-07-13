@@ -32,6 +32,7 @@ export const apiRoutes = {
   location: (id: number) => `${BASE_URL}/locations/${id}`,
   user: (id: number) => `${BASE_URL}/users/${id}`,
   locationDetails: (id: number) => "/sightings/locations/" + id,
+  sighting: (id: number) => `${BASE_URL}/sightings/${id}`,
   sightings: `${BASE_URL}/sightings`,
   sightingsListByType: (
     type: "birdId" | "dateId" | "locationId",
@@ -44,7 +45,6 @@ export const apiRoutes = {
     page: number,
     sortBy: string,
   ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
-  singleSighting: (id: number) => `/sightings/${id}`,
   userProfile: "/users/profile",
 } as const;
 
@@ -57,7 +57,7 @@ export type QueryParameters = {
 export type MutationParameters = {
   route: string;
   tag: "sightings" | "locations";
-  method: "POST" | "PUT" | "DELETE";
+  method: "POST" | "PUT" | "PATCH" | "DELETE";
   tagsToUpdate: ("sightings" | "locations")[];
 };
 
