@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import Modal from "@/components/ui/Modal";
 import EditLocationForm from "@/components/forms/EditLocationForm";
 import type { Location } from "@/models/db";
+import { Messages } from "@/models/api";
 
 type EditLocationProps = {
   location: Location;
@@ -15,6 +17,30 @@ export default function EditLocation({
   locationId,
 }: EditLocationProps) {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: Messages.ErrorToastTitle,
+        description: error,
+      });
+    }
+  }, [error, toast]);
+
+  useEffect(() => {
+    if (success) {
+      toast({
+        title: Messages.Success,
+        description: "Location updated",
+      });
+    }
+  }, [success, toast]);
+
   return (
     <Modal
       open={open}
@@ -23,7 +49,13 @@ export default function EditLocation({
       title="Edit Location"
       description="Update location address and map."
     >
-      <EditLocationForm location={location} locationId={locationId} />
+      <EditLocationForm
+        location={location}
+        locationId={locationId}
+        setOpen={setOpen}
+        setError={setError}
+        setSuccess={setSuccess}
+      />
     </Modal>
   );
 }

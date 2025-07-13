@@ -73,6 +73,7 @@ export enum Messages {
   ErrorToastTitle = "An error occurred",
   Success = "Success",
   NewSighting = "New sighting created!",
+  SelectValidLocation = "Select a location from the dropdown menu",
   DefaultError = "An unexpected error occurred. Please try again later.",
 }
 

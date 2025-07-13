@@ -22,7 +22,7 @@ import DescInput from "@/components/forms/DescInput";
 import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 
 export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
@@ -79,7 +79,7 @@ export default function SightingForm() {
     else if (!location || location.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: "Select a location from the dropdown menu",
+        message: Messages.SelectValidLocation,
       });
     }
 

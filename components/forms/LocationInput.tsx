@@ -11,7 +11,7 @@ import {
 import type {
   SightingFormProp,
   EditLocationFormSchemaProp,
-} from "@/models/api";
+} from "@/models/form";
 import type { Location } from "@/models/db";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import LocationAutocomplete from "@/components/forms/LocationAutocomplete";

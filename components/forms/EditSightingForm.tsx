@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
 import type { Location } from "@/models/db";
 import type { CreateSightingDto } from "@/models/form";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import { sightingSchema, type SightingForm } from "@/models/form";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
@@ -76,7 +76,7 @@ export default function EditSightingForm({
     if (error) {
       toast({
         variant: "destructive",
-        title: "An error occurred",
+        title: Messages.ErrorToastTitle,
         description: error,
       });
     }
@@ -85,7 +85,7 @@ export default function EditSightingForm({
   useEffect(() => {
     if (success) {
       toast({
-        title: "Success",
+        title: Messages.Success,
         description: "Sighting updated",
       });
     }
@@ -101,7 +101,7 @@ export default function EditSightingForm({
     else if (!editLocation || editLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: "Select a location from the dropdown menu",
+        message: Messages.SelectValidLocation,
       });
     }
 

@@ -30,7 +30,7 @@ export const editLocationSchema = z.object({
 // Form types
 export type AuthForm = z.infer<typeof signupFormSchema>;
 export type SightingForm = z.infer<typeof sightingSchema>;
-export type EditLocationFormSchema = z.infer<typeof editLocationSchema>;
+export type LocationForm = z.infer<typeof editLocationSchema>;
 export type CreateSightingDto = {
   birdId: number;
   date: string;
@@ -41,7 +41,7 @@ export type CreateSightingDto = {
 // react-hook-form types
 export type AuthFormProp = UseFormReturn<AuthForm>;
 export type SightingFormProp = UseFormReturn<SightingForm>;
-export type EditLocationFormSchemaProp = UseFormReturn<EditLocationFormSchema>;
+export type EditLocationFormSchemaProp = UseFormReturn<LocationForm>;
 
 // Form controls
 //? Merge with SortValues
