@@ -1,44 +1,50 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError } from "@/types/api";
-import type { UserProfile } from "@/types/models";
+import { decrypt } from "@/lib/session";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { BASE_URL } from "@/constants/env";
+import { apiRoutes, ServerResponseWithError } from "@/models/api";
+import type { UserProfile } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
 
-export default async function UserProfile() {
+export default async function Profile() {
   const token = await getCookie();
+  const payload = await decrypt(token);
 
-  const response = await fetch(BASE_URL + "/users/profile", {
+  if (!payload) {
+    return (
+      <>
+        <ErrorDisplay msg="Invalid session data." />
+      </>
+    );
+  }
+
+  const response = await fetch(apiRoutes.user(payload.id as number), {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  const profileData: UserProfile | ExpectedServerError = await response.json();
+  const result: UserProfile | ServerResponseWithError = await response.json();
 
-  // Conditionally render expected server error
-  if ("error" in profileData) {
-    const msg = Array.isArray(profileData.message)
-      ? profileData.message.join(",")
-      : profileData.message;
-
+  if ("error" in result) {
+    const msg = Array.isArray(result.message)
+      ? result.message.join(",")
+      : result.message;
     return (
       <>
-        <ErrorDisplay msg={`${profileData.error}: ${msg}`} />
+        <ErrorDisplay msg={`${result.error}: ${msg}`} />
       </>
     );
   }
 
   const {
     createdAt,
-    profile: { name, location },
-    favoriteBird,
+    name,
+    location,
+    bird,
     count: { totalSightings, totalDistinctSightings },
-  } = profileData;
-
-  const { commName } = favoriteBird;
+  } = result;
 
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
@@ -54,7 +60,7 @@ export default async function UserProfile() {
             </div>
             <div className="flex gap-2.5">
               <dt>Location:</dt>
-              <dd>{location || "N/A"}</dd>
+              <dd>{location ? location.name : "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
               <dt>Account Created:</dt>
@@ -72,7 +78,7 @@ export default async function UserProfile() {
           <dl className="divide-y">
             <div className="flex gap-2.5">
               <dt>Favorite Bird:</dt>
-              <dd>{commName || "N/A"}</dd>
+              <dd>{bird ? bird.commonName : "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
               <dt>Total Sightings: {totalSightings}</dt>

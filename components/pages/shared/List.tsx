@@ -1,11 +1,9 @@
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError, QuerySuccess } from "@/types/api";
 import type {
-  ListVariant,
-  ListWithCount,
-  SortOptions,
-  SortValues,
-} from "@/types/models";
+  ServerResponseWithList,
+  ServerResponseWithError,
+} from "@/models/api";
+import type { SortOptions, SortValues } from "@/models/form";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterList from "@/components/pages/shared/FilterList";
@@ -14,27 +12,22 @@ import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
-// TODO: search input
-
 type ListProps =
   | {
-      variant: Extract<
-        ListVariant,
-        "lifelistSighting" | "location" | "locationDetail"
-      >;
-      page: string;
+      variant: "lifelistSighting" | "location" | "locationDetail";
+      page: number;
       sortBy: string;
       resource: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
-      variant: Extract<ListVariant, "birdpedia">;
-      page: string;
+      variant: "birdpedia";
+      page: number;
       startsWith: string | undefined;
       resource: string;
-      defaultOption?: never;
+      defaultSortOption?: never;
       sortOptions?: never;
       sortBy?: never;
     };
@@ -46,56 +39,56 @@ export default async function List({
   sortBy,
   startsWith,
   resource,
-  defaultOption,
+  defaultSortOption,
   sortOptions,
 }: ListProps) {
-  // Conditionally add 'auth' header to request
   const token = await getCookie();
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
   const response = await fetch(resource, { headers: requestHeaders });
-  const result: QuerySuccess | ExpectedServerError = await response.json();
+  const result: ServerResponseWithList | ServerResponseWithError =
+    await response.json();
 
-  // Conditionally render expected server error
   if ("error" in result) {
-    const msg = Array.isArray(result.message)
-      ? result.message.join(",")
-      : result.message;
+    const error = result as ServerResponseWithError;
+    const msg = Array.isArray(error.message)
+      ? error.message.join(",")
+      : error.message;
 
     return (
       <>
-        <ErrorDisplay msg={`${result.error}: ${msg}`} />
+        <ErrorDisplay msg={`${error.error}: ${msg}`} />
       </>
     );
   }
 
-  const data = result.data as ListWithCount;
-  const items = data.items;
-  const records = data.countOfRecords;
-  const currentPage = +page;
-  // The number of pages to render
+  const records = result.countOfRecords;
   const pages = Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
     <>
       {variant === "birdpedia" && <FilterList startsWith={startsWith} />}
       {variant !== "birdpedia" && (
-        <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+        <SortItems
+          defaultSortOption={defaultSortOption}
+          options={sortOptions}
+          isSSR
+        />
       )}
       <FilterAndResultsText
         variant={variant}
         startsWith={startsWith}
-        records={records}
+        records={result.countOfRecords}
         page={+page!}
       />
       <ul className="my-4">
-        {items.map((item) => {
+        {result.data.map((item) => {
           return <ListItem key={item.id} variant={variant} item={item} />;
         })}
       </ul>
       <PaginateList
-        currentPage={currentPage}
+        currentPage={page}
         finalPage={pages}
         startsWith={startsWith}
         sortBy={sortBy}

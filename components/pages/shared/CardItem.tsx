@@ -6,27 +6,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sighting } from "@/types/models";
 import { createLocaleString } from "@/helpers/dates";
+import { SightingWithBird } from "@/models/display";
 
 type CardItemProps = {
-  sighting: Sighting;
+  sighting: SightingWithBird;
 };
 
 export default function CardItem({ sighting }: CardItemProps) {
-  const { commName, desc, date } = sighting;
+  const {
+    bird: { commonName },
+    description,
+    date,
+  } = sighting;
   return (
     <>
       <li>
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
-              <h3>{commName}</h3>
+              <h3>{commonName}</h3>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p>{createLocaleString(date, "full")}</p>
-            <p>{desc}</p>
+            <p>{description}</p>
           </CardContent>
           <CardFooter>
             <Button variant="ghost">edit</Button>

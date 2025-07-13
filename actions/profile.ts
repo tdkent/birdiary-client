@@ -1,9 +1,8 @@
 import { BASE_URL } from "@/constants/env";
-import { ErrorMessages } from "@/types/api";
+import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function getUser() {
-  // ? Remove try/catch?
   const token = await getCookie();
   try {
     const response = await fetch(BASE_URL + "/users/profile", {
@@ -14,18 +13,21 @@ export async function getUser() {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }
 
-export async function editUserProfile(formData: {
-  name: string;
-  location: string;
-}) {
+export async function editUserProfile(
+  id: number,
+  formData: {
+    name: string;
+    location: string;
+  },
+) {
   try {
     const token = await getCookie();
-    const response = await fetch(BASE_URL + "/users/profile", {
-      method: "PUT",
+    const response = await fetch(apiRoutes.user(id), {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -36,6 +38,6 @@ export async function editUserProfile(formData: {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }

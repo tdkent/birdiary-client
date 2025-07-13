@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { deleteLocation } from "@/actions/location";
-import type { ExpectedServerError } from "@/types/api";
+import type { ExpectedServerError } from "@/models/api";
 
 type DeleteLocationProps = {
   locationId: number;

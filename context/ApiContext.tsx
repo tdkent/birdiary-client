@@ -15,28 +15,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   defaultCache,
-  ErrorMessages,
+  Messages,
   type Cache,
   type QueryParameters,
   type MutationParameters,
-  type ExpectedServerError,
-  type CsrQuerySuccess,
   type MutationSuccess,
-} from "@/types/api";
-import type {
-  NewSightingFormValues,
-  Sighting,
-  GroupedData,
-} from "@/types/models";
+  type ServerResponseWithList,
+  type ServerResponseWithError,
+} from "@/models/api";
+import type { CreateSightingDto } from "@/models/form";
+// import type { Group } from "@/models/display";
+// import type { Sighting } from "@/models/db";
 import { getCookie } from "@/helpers/auth";
-import { BASE_URL } from "@/constants/env";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
 
 // Define the shape of the API Context object
 type Api = {
   useQuery: ({ route, tag }: QueryParameters) => {
-    count: number;
-    data: CsrQuerySuccess["data"]["items"];
+    count: ServerResponseWithList["countOfRecords"];
+    data: ServerResponseWithList["data"];
     error: string | null;
     pending: boolean;
   };
@@ -67,7 +64,7 @@ export default function ApiProvider({
   const [cache, setCache] = useState<Cache>(defaultCache);
 
   function useQuery({ route, tag }: QueryParameters) {
-    const [data, setData] = useState<CsrQuerySuccess["data"]["items"]>([]);
+    const [data, setData] = useState<ServerResponseWithList["data"]>([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
@@ -80,38 +77,35 @@ export default function ApiProvider({
         if (token) {
           setPending(true);
           try {
-            const response = await fetch(BASE_URL + route, {
+            const response = await fetch(route, {
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const data: CsrQuerySuccess | ExpectedServerError =
+            const result: ServerResponseWithList | ServerResponseWithError =
               await response.json();
 
-            if ("error" in data) {
-              const msg = Array.isArray(data.message)
-                ? data.message.join(",")
-                : data.message;
-              throw new Error(`${data.error}: ${msg}`);
+            if ("error" in result) {
+              const error = result as ServerResponseWithError;
+              const msg = Array.isArray(error.message)
+                ? error.message.join(",")
+                : error.message;
+              throw new Error(`${error.error}: ${msg}`);
             }
 
-            if ("items" in data.data) {
-              setData(data.data.items);
-              setCount(data.data.countOfRecords);
-            } else {
-              setData(data.data);
-            }
+            setData(result.data);
+            setCount(result.countOfRecords);
           } catch (error) {
             if (error instanceof Error) {
               setError(error.message);
             } else {
-              setError(ErrorMessages.Default);
+              setError(Messages.DefaultError);
             }
           } finally {
             setPending(false);
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as Sighting[] | GroupedData[]) || []);
+          // setData((items as Sighting[] | Group[]) || []);
           setCount(countOfRecords);
         }
       }
@@ -142,12 +136,11 @@ export default function ApiProvider({
     async function mutate<T>(formValues: T) {
       setSuccess(false);
       const token = await getCookie();
-      // If user is signed in send mutation to server
       if (token) {
         setError(null);
         setPending(true);
         try {
-          const response = await fetch(BASE_URL + route, {
+          const response = await fetch(route, {
             method,
             headers: {
               "Content-Type": "application/json",
@@ -156,7 +149,7 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const data: ExpectedServerError | MutationSuccess =
+          const data: ServerResponseWithError | MutationSuccess =
             await response.json();
 
           if ("error" in data) {
@@ -171,7 +164,7 @@ export default function ApiProvider({
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(ErrorMessages.Default);
+            setError(Messages.DefaultError);
           }
         } finally {
           setPending(false);
@@ -179,7 +172,7 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        mutateStorage(tag, method, formValues as NewSightingFormValues, route);
+        mutateStorage(tag, method, formValues as CreateSightingDto, route);
         setSuccess(true);
       }
 

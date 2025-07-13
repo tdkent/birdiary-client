@@ -1,30 +1,39 @@
 import EditProfileForm from "@/components/forms/EditProfileForm";
-import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
-import type { UserProfile } from "@/types/models";
-import type { ExpectedServerError } from "@/types/api";
+import type { ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { apiRoutes } from "@/models/api";
+import { decrypt } from "@/lib/session";
+import { UserProfile } from "@/models/display";
 
 export default async function EditProfileView() {
   const token = await getCookie();
+  const payload = await decrypt(token);
 
-  const response = await fetch(BASE_URL + "/users/profile", {
+  if (!payload) {
+    return (
+      <>
+        <ErrorDisplay msg="Invalid session data." />
+      </>
+    );
+  }
+
+  const response = await fetch(apiRoutes.user(payload.id as number), {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  const profileData: UserProfile | ExpectedServerError = await response.json();
+  const result: UserProfile | ExpectedServerError = await response.json();
 
-  // Conditionally render expected server error
-  if ("error" in profileData) {
-    const msg = Array.isArray(profileData.message)
-      ? profileData.message.join(",")
-      : profileData.message;
+  if ("error" in result) {
+    const msg = Array.isArray(result.message)
+      ? result.message.join(",")
+      : result.message;
 
     return (
       <>
-        <ErrorDisplay msg={`${profileData.error}: ${msg}`} />
+        <ErrorDisplay msg={`${result.error}: ${msg}`} />
       </>
     );
   }
@@ -38,7 +47,7 @@ export default async function EditProfileView() {
         </p>
       </header>
       <section className="my-8">
-        <EditProfileForm profile={profileData.profile} />
+        <EditProfileForm user={result} />
       </section>
     </>
   );

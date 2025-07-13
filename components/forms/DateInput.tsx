@@ -17,7 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp } from "@/models/api";
 
 type DateInputProps = {
   form: SightingFormProp;
@@ -45,7 +45,7 @@ export default function DateInput({ form, pending }: DateInputProps) {
                     disabled={pending}
                     className={cn(
                       "w-[240px] pl-3 text-left font-normal",
-                      !field.value && "text-muted-foreground"
+                      !field.value && "text-muted-foreground",
                     )}
                   >
                     {field.value ? (

@@ -1,14 +1,14 @@
-import { BASE_URL } from "@/constants/env";
-import { ErrorMessages } from "@/types/api";
+import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function updatePassword(
+  id: number,
   currentPassword: string,
   newPassword: string,
 ) {
   try {
     const token = await getCookie();
-    const response = await fetch(BASE_URL + "/users/password", {
+    const response = await fetch(apiRoutes.userPassword(id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +20,6 @@ export async function updatePassword(
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(ErrorMessages.Default);
+    throw new Error(Messages.DefaultError);
   }
 }

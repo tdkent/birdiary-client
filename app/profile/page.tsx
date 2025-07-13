@@ -1,4 +1,4 @@
-import UserProfile from "@/components/pages/profile/UserProfile";
+import Profile from "@/components/pages/profile/Profile";
 export default function ProfileView() {
   return (
     <>
@@ -6,7 +6,7 @@ export default function ProfileView() {
         <h1>Profile</h1>
         <p>View and edit your personal information and privacy settings.</p>
       </header>
-      <UserProfile />
+      <Profile />
     </>
   );
 }

@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
-import { BASE_URL } from "@/constants/env";
+import { apiRoutes } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
-} from "@/types/models";
+} from "@/models/form";
 
 export default async function LifeListView({
   searchParams,
@@ -13,14 +13,20 @@ export default async function LifeListView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  if (!page || !sortBy) {
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    parseInt(page) < 1 ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
     redirect(`/lifelist?page=1&sortBy=alphaAsc`);
   }
 
-  const resource = `${BASE_URL}/sightings?groupBy=lifelist&page=${page}&sortBy=${sortBy}`;
-
-  const defaultOption: SortValues = "alphaAsc";
-  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+  const defaultSortOption: SortValues = "alphaAsc";
+  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -33,10 +39,14 @@ export default async function LifeListView({
       </header>
       <List
         variant="lifelistSighting"
-        resource={resource}
-        page={page}
+        resource={apiRoutes.sightingsGroupByType(
+          "lifelist",
+          parsedPage,
+          sortBy,
+        )}
+        page={parsedPage}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

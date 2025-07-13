@@ -4,43 +4,41 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
-import type { SortOptions, SortValues } from "@/types/models";
-import type { QueryParameters } from "@/types/api";
+import type { SortOptions, SortValues } from "@/models/form";
 import CsrListItem from "@/components/pages/shared/CsrListItem";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
-// Discriminated union type based on variant
 type SightingsListProps =
   | {
       variant: "diary";
-      route: QueryParameters["route"];
+      route: string;
       tag: "diary";
-      page: string;
+      page: number;
       sortBy: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
       variant: "diaryDetail" | "birdDetail";
-      route: QueryParameters["route"];
+      route: string;
       tag: "sightings";
-      page: string;
+      page: number;
       sortBy: string;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
     }
   | {
       variant: "recentSighting";
-      route: QueryParameters["route"];
+      route: string;
       tag: "sightings";
       page?: never;
       sortBy?: never;
-      defaultOption?: never;
+      defaultSortOption?: never;
       sortOptions?: never;
       startsWith?: never;
     };
@@ -52,7 +50,7 @@ export default function CsrList({
   tag,
   page,
   sortBy,
-  defaultOption,
+  defaultSortOption,
   sortOptions,
   startsWith,
 }: SightingsListProps) {
@@ -115,12 +113,16 @@ export default function CsrList({
     );
   }
 
-  const currentPage = +page;
+  const currentPage = page;
   const pages = Math.ceil(count / RESULTS_PER_PAGE);
 
   return (
     <>
-      <SortItems defaultOption={defaultOption} options={sortOptions} isSSR />
+      <SortItems
+        defaultSortOption={defaultSortOption}
+        options={sortOptions}
+        isSSR
+      />
       <FilterAndResultsText
         variant={variant}
         startsWith={startsWith}

@@ -2,7 +2,7 @@ import { caveat } from "@/lib/fonts";
 import QuickSightingForm from "@/components/forms/QuickSightingForm";
 import DetailedSightingModal from "@/components/pages/home/DetailedSightingModal";
 import CsrList from "@/components/pages/shared/CsrList";
-import { apiRoutes } from "@/types/api";
+import { apiRoutes } from "@/models/api";
 
 export default function Home() {
   return (
@@ -26,7 +26,7 @@ export default function Home() {
       <section className="my-4">
         <h2>Your Recent Sightings</h2>
         <CsrList
-          route={apiRoutes.usersSightings}
+          route={apiRoutes.sightings}
           tag="sightings"
           variant="recentSighting"
         />

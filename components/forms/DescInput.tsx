@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { SightingFormProp } from "@/types/api";
+import type { SightingFormProp } from "@/models/form";
 
 type DescInputProps = {
   form: SightingFormProp;
@@ -19,7 +19,7 @@ export default function DescInput({ form, pending }: DescInputProps) {
     <>
       <FormField
         control={form.control}
-        name="desc"
+        name="description"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Notes</FormLabel>

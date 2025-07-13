@@ -17,12 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SignupFormSchema } from "@/lib/definitions";
+import { signupFormSchema } from "@/models/form";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
 import TransferStorage from "@/components/pages/auth/TransferStorage";
-import type { AuthForm } from "@/types/api";
-import type { Sighting } from "@/types/models";
+import type { AuthForm } from "@/models/api";
+import type { Sighting } from "@/models/db";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
@@ -30,7 +30,7 @@ export default function AuthForm() {
   const { toast } = useToast();
 
   const form = useForm<AuthForm>({
-    resolver: zodResolver(SignupFormSchema),
+    resolver: zodResolver(signupFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -47,10 +47,10 @@ export default function AuthForm() {
     return parsedSightings;
   };
 
-  async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
+  async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     const storageData = values.transferStorage
       ? sightingsInStorage()!.map((s) => {
-          return { commName: s.commName, desc: s.desc, date: s.date };
+          return { commonName: s.commonName, desc: s.desc, date: s.date };
         })
       : null;
 

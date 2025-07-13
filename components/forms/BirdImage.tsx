@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDebounceCallback } from "usehooks-ts";
-import { BASE_URL } from "@/constants/env";
 import birdNames from "@/data/birds";
-import type { BirdWithFamily } from "@/types/models";
-import {
-  ErrorMessages,
-  type QuerySuccess,
-  type ExpectedServerError,
-} from "@/types/api";
+import type { Bird } from "@/models/db";
+import { Messages, apiRoutes, ServerResponseWithError } from "@/models/api";
 
 type BirdImageProps = {
   currBirdName: string;
 };
 
 export default function BirdImage({ currBirdName }: BirdImageProps) {
-  const [data, setData] = useState<BirdWithFamily>();
+  const [data, setData] = useState<Bird>();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currFetchedBird, setCurrFetchedBird] = useState<string | null>(null);
@@ -26,8 +21,9 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
     setError(null);
     setCurrFetchedBird(currBirdName);
     try {
-      const response = await fetch(BASE_URL + "/birds/" + currBirdName);
-      const result: QuerySuccess | ExpectedServerError = await response.json();
+      const birdId = birdNames.findIndex((name) => name === currBirdName) + 1;
+      const response = await fetch(apiRoutes.bird(birdId));
+      const result: Bird | ServerResponseWithError = await response.json();
 
       if ("error" in result) {
         const msg = Array.isArray(result.message)
@@ -35,13 +31,12 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
           : result.message;
         throw new Error(`${result.error}: ${msg}`);
       }
-
-      setData(result.data as BirdWithFamily);
+      setData(result);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError(ErrorMessages.Default);
+        setError(Messages.DefaultError);
       }
     } finally {
       setPending(false);
@@ -71,7 +66,12 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
   return (
     <>
       <figure>
-        <Image src={data.imgUrl} alt={data.commName} width={300} height={225} />
+        <Image
+          src={data.imgUrl}
+          alt={data.commonName}
+          width={300}
+          height={225}
+        />
         <figcaption className="text-xs">{data.imgAttr}</figcaption>
       </figure>
     </>

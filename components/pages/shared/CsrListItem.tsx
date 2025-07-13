@@ -1,10 +1,10 @@
 import type {
-  GroupedData,
+  Group,
   ListItem,
   ListVariant,
-  Sighting,
   SightingWithLocation,
-} from "@/types/models";
+} from "@/models/display";
+import type { SightingWithBird } from "@/models/display";
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
@@ -16,21 +16,22 @@ type CsrListItemProps = {
 export default function CsrListItem({ item, variant }: CsrListItemProps) {
   switch (variant) {
     case "recentSighting": {
-      const { commName, date } = item as Extract<ListItem, Sighting>;
-
+      const {
+        date,
+        bird: { commonName },
+      } = item as SightingWithBird;
       return (
         <CsrListItemDetails
           variant="list"
-          href={"/birds/" + commName.replace(" ", "_")}
-          text={commName}
+          href={`/birds/${commonName.replaceAll(" ", "_")}`}
+          text={commonName}
           subtext={createRelativeDate(date)}
         />
       );
     }
 
     case "diary": {
-      const { text, count } = item as Extract<ListItem, GroupedData>;
-
+      const { text, count } = item as Extract<ListItem, Group>;
       return (
         <CsrListItemDetails
           variant="list"
@@ -54,8 +55,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diaryDetail": {
-      const sighting = item as Extract<ListItem, SightingWithLocation>;
-
+      const sighting = item as SightingWithLocation;
       return (
         <CsrListItemDetails
           variant="card"

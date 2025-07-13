@@ -1,52 +1,51 @@
 import type {
-  Sighting,
   SightingWithLocation,
-  SingleBirdWithCount,
+  BirdWithCount,
   ListVariant,
-  GroupedData,
-} from "@/types/models";
+  Group,
+  SightingWithBird,
+} from "@/models/display";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
 import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
   variant: ListVariant;
-  item: Sighting | SightingWithLocation | SingleBirdWithCount | GroupedData;
+  item: SightingWithBird | SightingWithLocation | BirdWithCount | Group;
 };
 
 /** SSR component that renders a single item in List */
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
     case "birdpedia": {
-      const { commName, sciName, count } = item as SingleBirdWithCount;
+      const { commonName, scientificName, count } = item as BirdWithCount;
       return (
         <ListItemDetails
-          href={`/birds/${commName.replace(" ", "_")}`}
-          text={commName}
-          subtext={sciName}
+          href={`/birds/${commonName.replace(" ", "_")}`}
+          text={commonName}
+          subtext={scientificName}
           count={count}
         />
       );
     }
 
     case "lifelistSighting": {
-      const { commName, date } = item as Sighting;
+      const {
+        bird: { commonName },
+        date,
+      } = item as SightingWithBird;
       return (
         <ListItemDetails
-          href={`/birds/${commName.replace(" ", "_")}`}
-          text={commName}
+          href={`/birds/${commonName.replace(" ", "_")}`}
+          text={commonName}
           subtext={`First observation: ${createLocaleString(date, "med")}`}
         />
       );
     }
 
     case "location": {
-      const { id, count, text } = item as GroupedData;
-      const filterHref = text
-        .replaceAll(" ", "-")
-        .replaceAll(",", "")
-        .replaceAll("_", "");
-      const href = `/locations/${filterHref}-${id}`;
+      const { id, count, text } = item as Group;
+      const href = `/locations/${id} ${text}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
@@ -55,7 +54,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "locationDetail": {
-      const sighting = item as Sighting;
+      const sighting = item as SightingWithBird;
       return <CardItem sighting={sighting} />;
     }
 

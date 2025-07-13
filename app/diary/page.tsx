@@ -4,8 +4,8 @@ import {
   type SortValues,
   sortByDateOptions,
   sortBySightingsCount,
-} from "@/types/models";
-import { apiRoutes } from "@/types/api";
+} from "@/models/form";
+import { apiRoutes } from "@/models/api";
 
 export default async function DiaryView({
   searchParams,
@@ -14,12 +14,20 @@ export default async function DiaryView({
 }) {
   const { page, sortBy } = await searchParams;
 
-  if (!page || !sortBy) {
+  const sortOptions = [...sortByDateOptions, sortBySightingsCount];
+
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    parseInt(page) < 1 ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
     redirect(`/diary?page=1&sortBy=dateDesc`);
   }
 
-  const defaultOption = sortBy as SortValues;
-  const sortOptions = [...sortByDateOptions, sortBySightingsCount];
+  const defaultSortOption = sortBy as SortValues;
+  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -28,12 +36,12 @@ export default async function DiaryView({
         <p>Your sightings grouped by date.</p>
       </header>
       <CsrList
-        route={apiRoutes.groupedSightings("date", page, sortBy)}
+        route={apiRoutes.sightingsGroupByType("date", page, sortBy)}
         variant="diary"
         tag="diary"
-        page={page}
+        page={parsedPage}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

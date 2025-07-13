@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
-import { apiRoutes } from "@/types/api";
-import type { Sighting } from "@/types/models";
+import { apiRoutes } from "@/models/api";
+import type { SightingWithLocation } from "@/models/display";
 
 type DeleteItemProps = {
   variant: "sighting";
-  item: Sighting;
+  item: SightingWithLocation;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -15,7 +15,7 @@ export default function DeleteItem({ item, setOpen }: DeleteItemProps) {
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: apiRoutes.singleSighting(item.id),
+    route: apiRoutes.sighting(item.id),
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "DELETE",

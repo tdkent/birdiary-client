@@ -15,18 +15,18 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type {
-  NewSightingFormValues,
-  SightingWithLocation,
-  Location,
-} from "@/types/models";
-import { type SightingForm, sightingSchema, apiRoutes } from "@/types/api";
+import type { Location } from "@/models/db";
+import type { CreateSightingDto } from "@/models/form";
+import { apiRoutes, Messages } from "@/models/api";
+import { sightingSchema, type SightingForm } from "@/models/form";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
 import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
+import { SightingWithLocation } from "@/models/display";
+import birdNames from "@/data/birds";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
@@ -37,43 +37,46 @@ export default function EditSightingForm({
   sighting,
   setOpen,
 }: EditSightingFormProps) {
-  const { commName, date, desc, location } = sighting;
+  const {
+    bird: { commonName },
+    date,
+    description,
+    location,
+  } = sighting;
   const { isSignedIn } = useContext(AuthContext);
-  // Check if input matches an allowed common bird name
   const [isMatching, setIsMatching] = useState(false);
   const [editLocation, setEditLocation] = useState<Location | undefined>(
     sighting.location ?? undefined,
   );
 
-  // Hooks
   const { toast } = useToast();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: apiRoutes.singleSighting(sighting.id),
+    route: apiRoutes.sighting(sighting.id),
     tag: "sightings",
     tagsToUpdate: ["sightings"],
-    method: "PUT",
+    method: "PATCH",
   });
 
   const form = useForm<SightingForm>({
     resolver: zodResolver(sightingSchema),
     defaultValues: {
-      commName,
+      commonName,
       date: new Date(date),
-      desc,
-      location: location?.name,
+      description: description || "",
+      location: location?.name || "",
     },
   });
 
   const isDirty = form.formState.isDirty;
 
-  const currBirdName = form.getValues("commName");
+  const currBirdName = form.getValues("commonName");
 
   useEffect(() => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "An error occurred",
+        title: Messages.ErrorToastTitle,
         description: error,
       });
     }
@@ -82,7 +85,7 @@ export default function EditSightingForm({
   useEffect(() => {
     if (success) {
       toast({
-        title: "Success",
+        title: Messages.Success,
         description: "Sighting updated",
       });
     }
@@ -98,14 +101,14 @@ export default function EditSightingForm({
     else if (!editLocation || editLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: "Select a location from the dropdown menu",
+        message: Messages.SelectValidLocation,
       });
     }
 
-    const formValues: NewSightingFormValues = {
-      commName: values.commName,
+    const formValues: CreateSightingDto = {
+      birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoUtcDate(values.date!),
-      desc: values.desc!.trim(),
+      description: values.description ? values.description.trim() : null,
       location: validatedLocation,
     };
 

@@ -3,8 +3,8 @@ import CsrList from "@/components/pages/shared/CsrList";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { createLocaleString } from "@/helpers/dates";
-import { apiRoutes } from "@/types/api";
-import { type SortValues, sortByAlphaOptions } from "@/types/models";
+import { apiRoutes } from "@/models/api";
+import { type SortValues, sortByAlphaOptions } from "@/models/form";
 
 type DiaryParams = {
   params: Promise<{ date: string }>;
@@ -16,14 +16,22 @@ export default async function DiaryDetailsView({
   searchParams,
 }: DiaryParams) {
   const { date } = await params;
+  const sortOptions = [...sortByAlphaOptions];
+
   const { page, sortBy } = await searchParams;
 
-  if (!page || !sortBy) {
+  if (
+    !page ||
+    !sortBy ||
+    !parseInt(page) ||
+    parseInt(page) < 1 ||
+    !sortOptions.find((option) => option.value === sortBy)
+  ) {
     redirect(`/diary/${date}?page=1&sortBy=alphaAsc`);
   }
 
-  const defaultOption = sortBy as SortValues;
-  const sortOptions = [...sortByAlphaOptions];
+  const defaultSortOption = sortBy as SortValues;
+  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -39,12 +47,17 @@ export default async function DiaryDetailsView({
         </Link>
       </header>
       <CsrList
-        route={apiRoutes.sightingsByDate(date, page, sortBy)}
+        route={apiRoutes.sightingsListByType(
+          "dateId",
+          date,
+          parsedPage,
+          sortBy,
+        )}
         variant="diaryDetail"
         tag="sightings"
-        page={page}
+        page={parsedPage}
         sortBy={sortBy}
-        defaultOption={defaultOption}
+        defaultSortOption={defaultSortOption}
         sortOptions={sortOptions}
       />
     </>

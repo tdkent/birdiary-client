@@ -9,27 +9,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { SetStateAction } from "react";
-import type { SortValues, SortOptions } from "@/types/models";
+import type { SortValues, SortOptions } from "@/models/form";
 
 type SortItemsProps =
   | {
       isSSR?: never;
       setSort: (value: SetStateAction<SortValues>) => void;
       options: SortOptions;
-      defaultOption?: never;
+      defaultSortOption?: never;
     }
   | {
       isSSR: true;
       setSort?: never;
       options: SortOptions;
-      defaultOption: SortValues;
+      defaultSortOption: SortValues;
     };
 
 /**  Generic <select> element to sort items */
 export default function SortItems({
   setSort,
   options,
-  defaultOption,
+  defaultSortOption,
   isSSR,
 }: SortItemsProps) {
   const router = useRouter();
@@ -57,7 +57,7 @@ export default function SortItems({
 
   return (
     <>
-      <Select onValueChange={handleChange} defaultValue={defaultOption}>
+      <Select onValueChange={handleChange} defaultValue={defaultSortOption}>
         <SelectTrigger className="mb-4 mt-8 w-1/2">
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
