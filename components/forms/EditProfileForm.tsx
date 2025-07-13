@@ -15,26 +15,24 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import type { User } from "@/models/db";
 import type { MutationSuccess, ExpectedServerError } from "@/models/api";
 import { editUserProfile } from "@/actions/profile";
+import { UserProfile } from "@/models/display";
 
 const formSchema = z.object({
   name: z.string().max(24),
   location: z.string().max(120),
 });
 
-type EditProfileFormProps = {
-  profile: User;
-};
+type EditProfileFormProps = { user: UserProfile };
 
-export default function EditProfileForm({ profile }: EditProfileFormProps) {
-  const { name, locationId } = profile;
+export default function EditProfileForm({ user }: EditProfileFormProps) {
+  const { name, location } = user;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name,
-      locationId,
+      name: name || "",
+      location: location ? location.name : "",
     },
   });
 
@@ -45,7 +43,7 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response: MutationSuccess | ExpectedServerError =
-      await editUserProfile(values);
+      await editUserProfile(user.id, values);
 
     if ("error" in response) {
       return toast({

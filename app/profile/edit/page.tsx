@@ -1,10 +1,10 @@
 import EditProfileForm from "@/components/forms/EditProfileForm";
 import { getCookie } from "@/helpers/auth";
-import type { User } from "@/models/db";
 import type { ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { apiRoutes } from "@/models/api";
 import { decrypt } from "@/lib/session";
+import { UserProfile } from "@/models/display";
 
 export default async function EditProfileView() {
   const token = await getCookie();
@@ -24,7 +24,7 @@ export default async function EditProfileView() {
     },
   });
 
-  const result: User | ExpectedServerError = await response.json();
+  const result: UserProfile | ExpectedServerError = await response.json();
 
   if ("error" in result) {
     const msg = Array.isArray(result.message)
@@ -47,7 +47,7 @@ export default async function EditProfileView() {
         </p>
       </header>
       <section className="my-8">
-        <EditProfileForm profile={result} />
+        <EditProfileForm user={result} />
       </section>
     </>
   );

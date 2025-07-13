@@ -18,6 +18,10 @@ import { Input } from "@/components/ui/input";
 import { updatePassword } from "@/actions/account";
 import type { MutationSuccess, ExpectedServerError } from "@/models/api";
 
+type UpdatePasswordFormProps = {
+  id: number;
+};
+
 const formSchema = z
   .object({
     currentPassword: z.string().trim().min(8).max(36),
@@ -33,7 +37,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function UpdatePasswordForm() {
+export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +51,7 @@ export default function UpdatePasswordForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response: MutationSuccess | ExpectedServerError =
-      await updatePassword(values.currentPassword, values.newPassword);
+      await updatePassword(id, values.currentPassword, values.newPassword);
 
     if ("error" in response) {
       return toast({

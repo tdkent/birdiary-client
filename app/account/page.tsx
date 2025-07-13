@@ -8,7 +8,7 @@ export default async function AccountView() {
   const token = await getCookie();
   const payload = await decrypt(token);
 
-  if (!payload) {
+  if (!payload || !payload.id) {
     return (
       <>
         <ErrorDisplay msg="Invalid session data." />
@@ -46,7 +46,7 @@ export default async function AccountView() {
         <h2>Email &amp; Password</h2>
         <p>Email: {result.email}</p>
         <h3>Update Password</h3>
-        <UpdatePasswordForm />
+        <UpdatePasswordForm id={result.id} />
       </section>
     </>
   );
