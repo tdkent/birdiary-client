@@ -63,7 +63,7 @@ export default function DesktopNav() {
         )}
 
         <NavigationMenuItem>
-          {isSignedIn ? (
+          {isSignedIn && (
             <>
               <NavigationMenuTrigger>
                 <CircleUserRound className="h-4 w-4" />
@@ -89,12 +89,6 @@ export default function DesktopNav() {
                 </NavigationMenuList>
               </NavigationMenuContent>
             </>
-          ) : (
-            <NavigationMenuLink asChild>
-              <Link href="/profile" className={navigationMenuTriggerStyle()}>
-                Profile
-              </Link>
-            </NavigationMenuLink>
           )}
         </NavigationMenuItem>
       </NavigationMenuList>
