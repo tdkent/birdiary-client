@@ -49,7 +49,7 @@ export const mobile: {
     label: "Profile",
     href: "profile",
     icon: CircleUserRound,
-    type: "public",
+    type: "protected",
   },
   {
     label: "Account",
