@@ -1,32 +1,29 @@
-// Sorting and filtering functions
 import { DateTime } from "luxon";
-import type { Group } from "@/models/display";
+import type { Group, SightingInStorage } from "@/models/display";
 import type { SortValues } from "@/models/form";
-import type { Sighting } from "@/models/db";
 
-export function sortSightings(arr: Sighting[] | Group[], option: SortValues) {
+/** Sort and filter storage data */
+export function sortSightings(
+  arr: SightingInStorage[] | Group[],
+  option: SortValues,
+) {
   switch (option) {
-    // A - Z
     case "alphaAsc": {
-      const sightings = arr as Sighting[];
+      const sightings = arr as SightingInStorage[];
       return sightings.sort((a, b) => {
-        if (a.commName < b.commName) return -1;
-        if (a.commName > b.commName) return 1;
+        if (a.bird.commonName < b.bird.commonName) return -1;
+        if (a.bird.commonName > b.bird.commonName) return 1;
         return 0;
       });
     }
-
-    // Z - A
     case "alphaDesc": {
-      const sightings = arr as Sighting[];
+      const sightings = arr as SightingInStorage[];
       return sightings.sort((a, b) => {
-        if (a.commName > b.commName) return -1;
-        if (a.commName < b.commName) return 1;
+        if (a.bird.commonName > b.bird.commonName) return -1;
+        if (a.bird.commonName < b.bird.commonName) return 1;
         return 0;
       });
     }
-
-    // Oldest - Newest
     case "dateAsc":
       return arr.sort((a, b) => {
         if ("date" in a && "date" in b) {
@@ -41,8 +38,6 @@ export function sortSightings(arr: Sighting[] | Group[], option: SortValues) {
           return dateA - dateB;
         }
       });
-
-    // Newest - Oldest
     case "dateDesc":
       return arr.sort((a, b) => {
         if ("date" in a && "date" in b) {
@@ -57,17 +52,14 @@ export function sortSightings(arr: Sighting[] | Group[], option: SortValues) {
           return dateB - dateA;
         }
       });
-
-    // Most Sightings
     case "count": {
-      const Group = arr as Group[];
-      return Group.sort((a, b) => {
+      const group = arr as Group[];
+      return group.sort((a, b) => {
         const dateA = DateTime.fromISO(a.text).toMillis();
         const dateB = DateTime.fromISO(b.text).toMillis();
         return b.count - a.count || dateB - dateA;
       });
     }
-
     default:
       return arr;
   }

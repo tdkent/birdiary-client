@@ -1,22 +1,19 @@
 // Functions to process data in local storage
-import { v4 as uuidv4 } from "uuid";
 import type { MutationParameters } from "@/models/api";
-import type { NewSighting, SortValues } from "@/models/form";
-import type { Sighting } from "@/models/db";
-import type { Group } from "@/models/display";
+import type { CreateSightingDto, SortValues } from "@/models/form";
+import type { Group, SightingInStorage } from "@/models/display";
 import { apiRoutes, type QueryParameters } from "@/models/api";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
-
-// ======= QUERY =======
+import birdNames from "@/data/birds";
 
 type QueryStorageData = {
-  items: Sighting[] | Group[];
+  items: SightingInStorage[] | Group[];
   countOfRecords: number;
 };
 
-/** Query and filter data in storage based on provided route */
+/** Query, filter, and sort data in storage based on route */
 export function queryStorage(
   route: string,
   key: QueryParameters["tag"],
@@ -25,19 +22,18 @@ export function queryStorage(
     window.localStorage.setItem(key, "[]");
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
-
   switch (true) {
     // Home ("/"): Recent sightings: sort by date (desc)
     case route === apiRoutes.sightings: {
-      const sightings = sortSightings(data as Sighting[], "dateDesc").slice(
-        0,
-        RESULTS_PER_PAGE,
-      );
+      const sightings = sortSightings(
+        data as SightingInStorage[],
+        "dateDesc",
+      ).slice(0, RESULTS_PER_PAGE);
       return { items: sightings, countOfRecords: sightings.length };
     }
 
     // Diary ("/diary"): sort by selected option
-    case route.startsWith("/sightings?groupBy=date"): {
+    case route.includes("/sightings?groupBy=date"): {
       const query = route.split("&");
       const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
@@ -50,12 +46,12 @@ export function queryStorage(
     }
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
-    case route.startsWith("/sightings/date/"): {
-      const date = route.split("?")[0].slice(-10);
+    case route.includes("/sightings?dateId="): {
+      const date = route.split("dateId=")[1].slice(0, 10);
       const query = route.split("&");
-      const page = Number(query[0].split("?")[1].slice(5));
-      const sortBy = query[1].slice(7);
-      const sightings = data as Sighting[];
+      const page = Number(query[1].slice(5));
+      const sortBy = query[2].slice(7);
+      const sightings = data as SightingInStorage[];
       const filterByDate = sightings.filter(
         (sighting) => sighting.date.slice(0, 10) === date,
       );
@@ -68,14 +64,14 @@ export function queryStorage(
     }
 
     // Bird Details ("/birds/:name"): filter by name parameter in route string
-    case route.startsWith("/sightings/bird/"): {
-      const queries = route.split("?");
-      const name = queries[0].split("/")[3];
-      const page = Number(queries[1].split("&")[0].slice(5));
-      const sortBy = queries[1].split("&")[1].slice(7);
-      const sightings = data as Sighting[];
+    case route.includes("/sightings?birdId="): {
+      const queries = route.split("?")[1].split("&");
+      const birdId = Number(queries[0].slice(7));
+      const page = Number(queries[1].slice(5));
+      const sortBy = queries[2].slice(7);
+      const sightings = data as SightingInStorage[];
       const filterByBird = sightings.filter(
-        (sighting) => sighting.commName === name,
+        (sighting) => sighting.birdId === birdId,
       );
       const sorted = sortSightings(filterByBird, sortBy as SortValues);
       const paginated = sorted.slice(
@@ -90,12 +86,11 @@ export function queryStorage(
   }
 }
 
-// ======= MUTATE =======
-
+/** Mutate sighting data in storage based on method */
 export function mutateStorage(
   tag: "sightings" | "locations",
   method: MutationParameters["method"],
-  formValues: NewSighting,
+  formValues: CreateSightingDto,
   route: string,
 ) {
   switch (method) {
@@ -103,7 +98,7 @@ export function mutateStorage(
       addSighting(formValues);
       break;
     }
-    case "PUT": {
+    case "PATCH": {
       editSighting(formValues, route);
       break;
     }
@@ -116,30 +111,28 @@ export function mutateStorage(
   }
 }
 
-// Note about `date`: dates are sent TO the server as a Date
-// `date` is returned FROM the server as a string
+// Note: dates are sent to server as Date, returned from server as string.
 
-function addSighting(formValues: NewSighting) {
+function addSighting(formValues: CreateSightingDto) {
   if (!window.localStorage.getItem("sightings")) {
     window.localStorage.setItem("sightings", "[]");
   }
-  const sightings: Sighting[] = JSON.parse(
+  const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
+
   sightings.push({
     ...formValues,
-    sightingId: uuidv4(),
     id: sightings.length ? sightings[sightings.length - 1].id + 1 : 1,
-    userId: "",
-    locationId: null,
+    bird: { commonName: birdNames[formValues.birdId - 1] },
   });
   window.localStorage.setItem("sightings", JSON.stringify(sightings));
   addToDiary(formValues.date);
 }
 
-function editSighting(formValues: NewSighting, route: string) {
-  const id = parseInt(route.split("/")[2]);
-  const sightings: Sighting[] = JSON.parse(
+function editSighting(formValues: CreateSightingDto, route: string) {
+  const id = Number(route.split("/")[route.split("/").length - 1]);
+  const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
   let sightingDate: string = "";
@@ -151,16 +144,14 @@ function editSighting(formValues: NewSighting, route: string) {
     return sighting;
   });
   window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
-
   if (formValues.date === sightingDate) return;
-
   addToDiary(formValues.date);
   removeFromDiary(sightingDate);
 }
 
 function deleteSighting(route: string) {
-  const id = parseInt(route.split("/")[2]);
-  const sightings: Sighting[] = JSON.parse(
+  const id = Number(route.split("/")[route.split("/").length - 1]);
+  const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
   const { date } = sightings.find((sighting) => sighting.id === id)!;

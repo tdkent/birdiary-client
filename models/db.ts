@@ -22,7 +22,7 @@ export type Sighting = {
   birdId: number;
   locationId: number | null;
   date: string;
-  description: string;
+  description: string | null;
 };
 
 export type User = {

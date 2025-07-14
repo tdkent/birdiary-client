@@ -28,6 +28,7 @@ import type { CreateSightingDto } from "@/models/form";
 // import type { Sighting } from "@/models/db";
 import { getCookie } from "@/helpers/auth";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
+import { Group, SightingInStorage } from "@/models/display";
 
 // Define the shape of the API Context object
 type Api = {
@@ -105,7 +106,7 @@ export default function ApiProvider({
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          // setData((items as Sighting[] | Group[]) || []);
+          setData((items as SightingInStorage[] | Group[]) || []);
           setCount(countOfRecords);
         }
       }
