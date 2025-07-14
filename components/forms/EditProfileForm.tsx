@@ -27,12 +27,12 @@ import { Messages } from "@/models/api";
 type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
-  const { name } = user;
+  const { name, zipcode } = user;
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
       name: name || "",
-      zipcode: "",
+      zipcode: String(zipcode) || "",
     },
   });
 

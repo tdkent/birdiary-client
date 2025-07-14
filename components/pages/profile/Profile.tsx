@@ -41,7 +41,7 @@ export default async function Profile() {
   const {
     createdAt,
     name,
-    location,
+    address,
     bird,
     count: { totalSightings, totalDistinctSightings },
   } = result;
@@ -56,11 +56,11 @@ export default async function Profile() {
           <dl className="divide-y">
             <div className="flex gap-2.5">
               <dt>Name:</dt>
-              <dd>{name || "N/A"}</dd>
+              <dd>{name ?? "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
               <dt>Location:</dt>
-              <dd>{location ? location.name : "N/A"}</dd>
+              <dd>{address ?? "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
               <dt>Account Created:</dt>
