@@ -1,15 +1,16 @@
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Location } from "@/models/db";
+import { Messages } from "@/models/api";
 
 // Zod Schemas
 export const signupFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z.string().email({ message: Messages.EmailValidationError }),
   password: z.string().superRefine((val, ctx) => {
     if (val.length < 8 || val.length > 36) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Passwords must 8-36 characters.",
+        message: Messages.PasswordValidationError,
       });
     }
   }),
@@ -25,6 +26,15 @@ export const sightingSchema = z.object({
 
 export const editLocationSchema = z.object({
   location: z.string().min(1),
+});
+
+export const editProfileSchema = z.object({
+  name: z.string().max(24).optional(),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}$/, { message: Messages.ZipCodeValidationError })
+    .optional()
+    .or(z.literal("")),
 });
 
 // Form types

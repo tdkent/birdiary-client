@@ -71,10 +71,14 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
-  ErrorToastTitle = "An error occurred",
-  Success = "Success",
+  ToastErrorTitle = "Error!",
+  ToastSuccessTitle = "Success!",
   NewSighting = "New sighting created!",
-  SelectValidLocation = "Select a location from the dropdown menu",
+  EmailValidationError = "Please enter a valid email address.",
+  PasswordValidationError = "Passwords must 8-36 characters.",
+  InvalidLocationError = "Select a location from the dropdown menu.",
+  ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
+  ZipCodeNoResultsError = "The provided zip code did not return any results.",
   DefaultError = "An unexpected error occurred. Please try again later.",
 }
 
