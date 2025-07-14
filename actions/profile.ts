@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/constants/env";
 import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
+import { UserProfile } from "@/models/display";
 
 export async function getUser() {
   const token = await getCookie();
@@ -19,10 +20,7 @@ export async function getUser() {
 
 export async function editUserProfile(
   id: number,
-  formData: {
-    name: string;
-    location: string;
-  },
+  reqBody: Pick<UserProfile, "name" | "zipcode" | "address">,
 ) {
   try {
     const token = await getCookie();
@@ -32,7 +30,7 @@ export async function editUserProfile(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(reqBody),
     });
 
     return response.json();
