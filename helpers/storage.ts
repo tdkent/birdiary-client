@@ -1,11 +1,6 @@
 // Functions to process data in local storage
 import type { MutationParameters } from "@/models/api";
-import type {
-  CreateSightingDto,
-  SightingForm,
-  SortValues,
-} from "@/models/form";
-import type { Sighting } from "@/models/db";
+import type { CreateSightingDto, SortValues } from "@/models/form";
 import type { Group, SightingInStorage } from "@/models/display";
 import { apiRoutes, type QueryParameters } from "@/models/api";
 import { sortSightings } from "@/helpers/data";
@@ -13,14 +8,12 @@ import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import birdNames from "@/data/birds";
 
-// ======= QUERY =======
-
 type QueryStorageData = {
   items: SightingInStorage[] | Group[];
   countOfRecords: number;
 };
 
-/** Query and filter data in storage based on provided route */
+/** Query, filter, and sort data in storage based on route */
 export function queryStorage(
   route: string,
   key: QueryParameters["tag"],
@@ -93,8 +86,7 @@ export function queryStorage(
   }
 }
 
-// ======= MUTATE =======
-
+/** Mutate sighting data in storage based on method */
 export function mutateStorage(
   tag: "sightings" | "locations",
   method: MutationParameters["method"],
@@ -138,9 +130,9 @@ function addSighting(formValues: CreateSightingDto) {
   addToDiary(formValues.date);
 }
 
-function editSighting(formValues: SightingForm, route: string) {
-  const id = parseInt(route.split("/")[2]);
-  const sightings: Sighting[] = JSON.parse(
+function editSighting(formValues: CreateSightingDto, route: string) {
+  const id = Number(route.split("/")[route.split("/").length - 1]);
+  const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
   let sightingDate: string = "";
@@ -152,16 +144,14 @@ function editSighting(formValues: SightingForm, route: string) {
     return sighting;
   });
   window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
-
   if (formValues.date === sightingDate) return;
-
   addToDiary(formValues.date);
   removeFromDiary(sightingDate);
 }
 
 function deleteSighting(route: string) {
-  const id = parseInt(route.split("/")[2]);
-  const sightings: Sighting[] = JSON.parse(
+  const id = Number(route.split("/")[route.split("/").length - 1]);
+  const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
   const { date } = sightings.find((sighting) => sighting.id === id)!;
