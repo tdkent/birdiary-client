@@ -1,27 +1,29 @@
 // Sorting and filtering functions
 import { DateTime } from "luxon";
-import type { Group } from "@/models/display";
+import type { Group, SightingInStorage } from "@/models/display";
 import type { SortValues } from "@/models/form";
-import type { Sighting } from "@/models/db";
 
-export function sortSightings(arr: Sighting[] | Group[], option: SortValues) {
+export function sortSightings(
+  arr: SightingInStorage[] | Group[],
+  option: SortValues,
+) {
   switch (option) {
     // A - Z
     case "alphaAsc": {
-      const sightings = arr as Sighting[];
+      const sightings = arr as SightingInStorage[];
       return sightings.sort((a, b) => {
-        if (a.commName < b.commName) return -1;
-        if (a.commName > b.commName) return 1;
+        if (a.bird.commonName < b.bird.commonName) return -1;
+        if (a.bird.commonName > b.bird.commonName) return 1;
         return 0;
       });
     }
 
     // Z - A
     case "alphaDesc": {
-      const sightings = arr as Sighting[];
+      const sightings = arr as SightingInStorage[];
       return sightings.sort((a, b) => {
-        if (a.commName > b.commName) return -1;
-        if (a.commName < b.commName) return 1;
+        if (a.bird.commonName > b.bird.commonName) return -1;
+        if (a.bird.commonName < b.bird.commonName) return 1;
         return 0;
       });
     }

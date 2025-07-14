@@ -5,6 +5,10 @@ export type SightingWithBird = Sighting & { bird: Bird };
 export type SightingWithLocation = SightingWithBird & {
   location: Location | null;
 };
+export type SightingInStorage = Pick<
+  Sighting,
+  "id" | "birdId" | "date" | "description"
+> & { bird: { commonName: string } };
 export type UserWithSightingsCount = User & {
   count: {
     totalSightings: number;
@@ -46,5 +50,10 @@ export type ListVariant =
 
 export type CountOfRecords = { countOfRecords: number };
 export type List = {
-  data: SightingWithBird[] | SightingWithLocation[] | BirdWithCount[] | Group[];
+  data:
+    | SightingWithBird[]
+    | SightingWithLocation[]
+    | SightingInStorage[]
+    | BirdWithCount[]
+    | Group[];
 };
