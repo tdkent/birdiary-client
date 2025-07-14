@@ -31,11 +31,12 @@ export const editLocationSchema = z.object({
 export type AuthForm = z.infer<typeof signupFormSchema>;
 export type SightingForm = z.infer<typeof sightingSchema>;
 export type LocationForm = z.infer<typeof editLocationSchema>;
+export type CreateLocationDto = Pick<Location, "lat" | "lng" | "name">;
 export type CreateSightingDto = {
   birdId: number;
   date: string;
   description: string | null;
-  location?: Location;
+  location?: CreateLocationDto;
 };
 
 // react-hook-form types
