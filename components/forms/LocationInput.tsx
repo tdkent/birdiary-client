@@ -11,8 +11,8 @@ import {
 import type {
   SightingFormProp,
   EditLocationFormSchemaProp,
+  CreateLocationDto,
 } from "@/models/form";
-import type { Location } from "@/models/db";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 
@@ -21,13 +21,13 @@ type NameInputProps =
       variant: "create";
       form: SightingFormProp;
       pending: boolean;
-      setLocation: Dispatch<SetStateAction<Location | undefined>>;
+      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     }
   | {
       variant: "update";
       form: EditLocationFormSchemaProp;
       pending?: never;
-      setLocation: Dispatch<SetStateAction<Location | undefined>>;
+      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     };
 
 export default function LocationInput({

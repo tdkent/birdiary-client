@@ -9,11 +9,11 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { Location } from "@/models/db";
 import {
   sightingSchema,
   type SightingForm,
   type CreateSightingDto,
+  type CreateLocationDto,
 } from "@/models/form";
 import BirdImage from "@/components/forms/BirdImage";
 import NameInput from "@/components/forms/NameInput";
@@ -27,7 +27,7 @@ import { apiRoutes, Messages } from "@/models/api";
 export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
   const [isMatching, setIsMatching] = useState(false);
-  const [location, setLocation] = useState<Location>();
+  const [location, setLocation] = useState<CreateLocationDto>();
 
   const { toast } = useToast();
   const { useMutation } = useApi();
@@ -70,7 +70,7 @@ export default function SightingForm() {
   }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
-    let validatedLocation: Location | undefined = location;
+    let validatedLocation: CreateLocationDto | undefined = location;
     if (!values.location) {
       validatedLocation = undefined;
     }

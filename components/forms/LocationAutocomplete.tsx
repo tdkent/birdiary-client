@@ -10,15 +10,14 @@ import {
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { Input } from "@/components/ui/input";
 import type { ControllerRenderProps } from "react-hook-form";
-import type { SightingForm } from "@/models/api";
-import type { Location } from "@/models/db";
+import type { SightingForm, CreateLocationDto } from "@/models/form";
 
 type LocationAutocompleteProps = {
   field:
     | ControllerRenderProps<SightingForm, "location">
     | ControllerRenderProps<{ location: string }, "location">;
   pending?: boolean;
-  setLocation: Dispatch<SetStateAction<Location | undefined>>;
+  setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
 };
 
 export default function LocationAutocomplete({
