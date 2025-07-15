@@ -32,7 +32,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
       name: name || "",
-      zipcode: String(zipcode) || "",
+      zipcode: zipcode || "",
     },
   });
 
@@ -68,7 +68,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
     const reqBody: Pick<UserProfile, "name" | "zipcode" | "address"> = {
       name: values.name || null,
-      zipcode: Number(values.zipcode) || null,
+      zipcode: values.zipcode || null,
       address: (address as string) || null,
     };
 
