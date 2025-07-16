@@ -67,13 +67,16 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-4xl;
+    @apply mb-8 mt-4 text-4xl;
   }
   h2 {
-    @apply text-xl font-semibold;
+    @apply mb-4 mt-8 text-2xl;
   }
   h3 {
-    @apply text-lg font-semibold;
+    @apply mb-4 mt-12 text-2xl;
+  }
+  p {
+    @apply mb-4;
   }
   ul.sighting-list {
     @apply my-4 divide-y;
