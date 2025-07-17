@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDebounceCallback } from "usehooks-ts";
+import {
+  CircleAlert,
+  Image as ImageIcon,
+  ImageOff,
+  LoaderCircle,
+} from "lucide-react";
 import birdNames from "@/data/birds";
 import type { Bird } from "@/models/db";
 import { Messages, apiRoutes, ServerResponseWithError } from "@/models/api";
@@ -51,29 +57,67 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
     }
   }, [currFetchedBird, currBirdName, debounced]);
 
-  if (pending) {
-    return <p>Fetching bird...</p>;
-  }
+  return (
+    <>
+      <figure className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 rounded border">
+        <BirdImageContent data={data} pending={pending} error={error} />
+      </figure>
+    </>
+  );
+}
 
+type BirdImageContentProps = {
+  data: Bird | undefined;
+  pending: boolean;
+  error: string | null;
+};
+
+function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <>
+        <CircleAlert strokeWidth={1} size={28} />
+        <span className="text-xs">Error loading image</span>
+      </>
+    );
   }
 
-  if (!data || !data.imgUrl) {
-    return <p>No image to show</p>;
+  if (!data) {
+    return (
+      <>
+        <ImageIcon strokeWidth={1} size={28} />
+        <span className="text-xs">Waiting to fetch image&hellip;</span>
+      </>
+    );
+  }
+
+  if (pending) {
+    return (
+      <>
+        <LoaderCircle strokeWidth={1} size={28} className="animate-spin" />
+        <span className="text-xs">Fetching image&hellip;</span>
+      </>
+    );
+  }
+
+  if (!data.imgUrl) {
+    return (
+      <>
+        <ImageOff strokeWidth={1} size={28} />
+        <span className="text-xs">No image available</span>
+      </>
+    );
   }
 
   return (
     <>
-      <figure>
-        <Image
-          src={data.imgUrl}
-          alt={data.commonName}
-          width={300}
-          height={225}
-        />
-        <figcaption className="text-xs">{data.imgAttr}</figcaption>
-      </figure>
+      <Image
+        src={data.imgUrl}
+        alt={data.commonName}
+        fill
+        quality={30}
+        className="object-cover"
+      />
     </>
   );
 }
