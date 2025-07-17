@@ -6,8 +6,8 @@ export default function NewView() {
       <header>
         <h1>Add a new bird sighting</h1>
         <p>
-          Add a new sighting to your birdwatching diary, including a date and
-          description. Logged in users can also add a location.
+          Add a new sighting with date and description to your birdwatching
+          diary. Signed-in users may also add a location.
         </p>
       </header>
       <section className="my-12">

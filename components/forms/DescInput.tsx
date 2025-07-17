@@ -21,19 +21,17 @@ export default function DescInput({ form, pending }: DescInputProps) {
         control={form.control}
         name="description"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Notes</FormLabel>
-            <FormDescription>
-              Add somes notes about your sighting (max 150 characters).
-            </FormDescription>
+          <FormItem className="form-item">
+            <FormLabel>Description</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
                 disabled={pending}
-                rows={4}
+                rows={5}
                 className="resize-none"
               />
             </FormControl>
+            <FormDescription>150 characters remaining</FormDescription>
             <FormMessage />
           </FormItem>
         )}

@@ -31,8 +31,10 @@ export default function NameInput({
         control={form.control}
         name="commonName"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Common Name</FormLabel>
+          <FormItem className="form-item">
+            <FormLabel className="required-input">
+              Common name of bird
+            </FormLabel>
             <FormControl>
               <Input {...field} disabled={pending} />
             </FormControl>

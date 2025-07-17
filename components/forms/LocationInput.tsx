@@ -43,8 +43,8 @@ export default function LocationInput({
           control={editForm.control}
           name="location"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
+            <FormItem className="form-item">
+              <FormLabel>Location of sighting</FormLabel>
               <FormControl>
                 <APIProvider apiKey={GOOGLE_API_KEY}>
                   <LocationAutocomplete field={field} {...rest} />
@@ -64,8 +64,8 @@ export default function LocationInput({
         control={form.control}
         name="location"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Location</FormLabel>
+          <FormItem className="form-item">
+            <FormLabel>Location of sighting</FormLabel>
             <FormControl>
               <APIProvider apiKey={GOOGLE_API_KEY}>
                 <LocationAutocomplete field={field} {...rest} />

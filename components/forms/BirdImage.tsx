@@ -86,7 +86,7 @@ function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
     return (
       <>
         <ImageIcon strokeWidth={1} size={28} />
-        <span className="text-xs">Waiting to fetch image&hellip;</span>
+        <span className="text-xs">Waiting to fetch image</span>
       </>
     );
   }
@@ -95,7 +95,7 @@ function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
     return (
       <>
         <LoaderCircle strokeWidth={1} size={28} className="animate-spin" />
-        <span className="text-xs">Fetching image&hellip;</span>
+        <span className="text-xs">Fetching image</span>
       </>
     );
   }

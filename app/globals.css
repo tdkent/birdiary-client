@@ -78,11 +78,32 @@
   p {
     @apply mb-4;
   }
+
+  form {
+    @apply my-8;
+  }
+
+  .form-item {
+    @apply my-6;
+  }
+
+  .form-item label {
+    @apply px-2 text-xs;
+  }
+
+  .form-item input {
+    @apply py-6 text-base;
+  }
+
   ul.sighting-list {
     @apply my-4 divide-y;
   }
   ul.sighting-list li {
     @apply flex items-center justify-between px-4 py-4 hover:bg-slate-900;
+  }
+
+  .required-input {
+    @apply after:pl-0.5 after:text-base after:text-destructive after:content-['*'];
   }
 }
 

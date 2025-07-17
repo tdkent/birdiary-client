@@ -79,7 +79,7 @@ export default function SightingForm() {
     else if (!location || location.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.SelectValidLocation,
+        message: Messages.InvalidLocationError,
       });
     }
 
@@ -118,7 +118,7 @@ export default function SightingForm() {
           )}
           <DescInput form={form} pending={pending} />
           <Button disabled={pending || !isMatching} className="w-full">
-            {pending ? <Loader2 className="animate-spin" /> : "Add Sighting"}
+            {pending ? <Loader2 className="animate-spin" /> : "Submit"}
           </Button>
         </form>
       </Form>

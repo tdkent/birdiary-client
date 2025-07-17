@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { SightingFormProp } from "@/models/api";
+import type { SightingFormProp } from "@/models/form";
 
 type DateInputProps = {
   form: SightingFormProp;
@@ -34,17 +33,18 @@ export default function DateInput({ form, pending }: DateInputProps) {
         control={form.control}
         name="date"
         render={({ field }) => (
-          <FormItem className="flex flex-col">
-            <FormLabel>Date</FormLabel>
-            <FormDescription>The date of your bird sighting.</FormDescription>
+          <FormItem className="form-item">
+            <FormLabel className="required-input">
+              Date of bird sighting
+            </FormLabel>
             <Popover modal>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
-                    variant={"outline"}
+                    // variant={"outline"}
                     disabled={pending}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
+                      "w-full border bg-transparent px-3 py-6 text-left text-base font-normal hover:bg-transparent",
                       !field.value && "text-muted-foreground",
                     )}
                   >
