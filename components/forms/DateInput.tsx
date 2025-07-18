@@ -41,7 +41,7 @@ export default function DateInput({ form, pending }: DateInputProps) {
                   <Button
                     disabled={pending}
                     className={cn(
-                      "w-full border bg-transparent px-3 py-6 text-left text-base font-normal hover:bg-transparent",
+                      "w-full border bg-transparent px-3 py-6 text-left text-base font-normal text-foreground hover:bg-transparent",
                       !field.value && "text-muted-foreground",
                     )}
                   >
