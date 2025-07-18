@@ -83,18 +83,6 @@
     @apply my-8;
   }
 
-  .form-item {
-    @apply my-6;
-  }
-
-  .form-item label {
-    @apply px-1 text-sm;
-  }
-
-  .form-item input {
-    @apply py-6 text-base;
-  }
-
   ul.sighting-list {
     @apply my-4 divide-y;
   }

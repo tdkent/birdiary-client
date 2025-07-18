@@ -37,9 +37,9 @@ export default function DescInput({ form, pending }: DescInputProps) {
             <FormDescription
               className={`${remainingLength < 0 && "text-destructive"} px-1 text-sm`}
             >
-              {remainingLength >= 0
-                ? `${DESCRIPTION_LENGTH - length} characters remaining`
-                : `${length - DESCRIPTION_LENGTH} characters too many!`}
+              {remainingLength < 0
+                ? `${length - DESCRIPTION_LENGTH} character${remainingLength < -1 ? "s" : ""} too many!`
+                : `${DESCRIPTION_LENGTH - length} character${remainingLength > 1 ? "s" : ""} remaining`}
             </FormDescription>
             <FormMessage />
           </FormItem>

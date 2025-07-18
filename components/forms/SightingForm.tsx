@@ -117,7 +117,7 @@ export default function SightingForm() {
             </>
           )}
           <DescInput form={form} pending={pending} />
-          <Button disabled={pending || !isMatching}>
+          <Button disabled={pending}>
             {pending ? (
               <>
                 <PendingIcon />
