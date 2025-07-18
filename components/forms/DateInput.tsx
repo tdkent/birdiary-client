@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -23,10 +23,8 @@ type DateInputProps = {
   pending: boolean;
 };
 
-// Note: `modal` attribute in Popover is required for click events to
-// work properly when Popover is wrapped in a Dialog component
-
 export default function DateInput({ form, pending }: DateInputProps) {
+  const [calendarOpen, setCalendarOpen] = useState(false);
   return (
     <>
       <FormField
@@ -37,11 +35,10 @@ export default function DateInput({ form, pending }: DateInputProps) {
             <FormLabel className="required-input">
               Date of bird sighting
             </FormLabel>
-            <Popover modal>
+            <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
-                    // variant={"outline"}
                     disabled={pending}
                     className={cn(
                       "w-full border bg-transparent px-3 py-6 text-left text-base font-normal hover:bg-transparent",
@@ -61,7 +58,10 @@ export default function DateInput({ form, pending }: DateInputProps) {
                 <Calendar
                   mode="single"
                   selected={field.value}
-                  onSelect={field.onChange}
+                  onSelect={(date) => {
+                    form.setValue("date", date);
+                    setCalendarOpen(false);
+                  }}
                   disabled={(date) =>
                     date > new Date() || date < new Date("1950-01-01")
                   }
