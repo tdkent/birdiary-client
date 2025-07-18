@@ -40,7 +40,7 @@ export default function Home() {
       </section>
       <section>
         <h3>Ready to get started?</h3>
-        <Button asChild className="my-2 w-full p-6 text-lg text-foreground">
+        <Button asChild>
           <Link href="/new">
             <Plus />
             Add a new sighting

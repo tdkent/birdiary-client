@@ -73,5 +73,5 @@ export default function LocationAutocomplete({
     });
   }, [field, placeAutocomplete, setLocation]);
 
-  return <Input {...field} ref={inputRef} disabled={pending} />;
+  return <Input placeholder="" {...field} ref={inputRef} disabled={pending} />;
 }
