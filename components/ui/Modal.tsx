@@ -58,10 +58,11 @@ export default function Modal({
     <>
       <Button
         variant="ghost"
+        size="sm"
         className="w-fit p-0 hover:bg-transparent"
         onClick={() => setOpen(true)}
       >
-        <span>{triggerText}</span>
+        {triggerText}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
