@@ -35,7 +35,7 @@ export default function DescInput({ form, pending }: DescInputProps) {
               />
             </FormControl>
             <FormDescription
-              className={`${remainingLength < 0 && "text-destructive"}`}
+              className={`${remainingLength < 0 && "text-destructive"} px-2 text-xs`}
             >
               {remainingLength >= 0
                 ? `${DESCRIPTION_LENGTH - length} characters remaining`

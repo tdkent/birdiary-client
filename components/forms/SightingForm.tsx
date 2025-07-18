@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
@@ -23,6 +22,7 @@ import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { apiRoutes, Messages } from "@/models/api";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
@@ -117,8 +117,15 @@ export default function SightingForm() {
             </>
           )}
           <DescInput form={form} pending={pending} />
-          <Button disabled={pending || !isMatching} className="w-full">
-            {pending ? <Loader2 className="animate-spin" /> : "Submit"}
+          <Button disabled={pending || !isMatching}>
+            {pending ? (
+              <>
+                <PendingIcon />
+                Submitting
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </Form>

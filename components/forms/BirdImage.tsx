@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDebounceCallback } from "usehooks-ts";
-import {
-  CircleAlert,
-  Image as ImageIcon,
-  ImageOff,
-  LoaderCircle,
-} from "lucide-react";
+import { CircleAlert, Image as ImageIcon, ImageOff } from "lucide-react";
 import birdNames from "@/data/birds";
 import type { Bird } from "@/models/db";
 import { Messages, apiRoutes, ServerResponseWithError } from "@/models/api";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 type BirdImageProps = {
   currBirdName: string;
@@ -94,7 +90,7 @@ function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
   if (pending) {
     return (
       <>
-        <LoaderCircle strokeWidth={1} size={28} className="animate-spin" />
+        <PendingIcon />
         <span className="text-xs">Fetching image</span>
       </>
     );
