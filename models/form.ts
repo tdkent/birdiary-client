@@ -2,6 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Location } from "@/models/db";
 import { Messages } from "@/models/api";
+import { DESCRIPTION_LENGTH } from "@/constants/constants";
 
 // Zod Schemas
 export const signupFormSchema = z.object({
@@ -20,7 +21,7 @@ export const signupFormSchema = z.object({
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date().optional(),
-  description: z.string().max(150).optional(),
+  description: z.string().max(DESCRIPTION_LENGTH).optional(),
   location: z.string().optional(),
 });
 

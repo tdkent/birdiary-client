@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import type { SightingFormProp } from "@/models/form";
+import { DESCRIPTION_LENGTH } from "@/constants/constants";
 
 type DescInputProps = {
   form: SightingFormProp;
@@ -15,6 +16,8 @@ type DescInputProps = {
 };
 
 export default function DescInput({ form, pending }: DescInputProps) {
+  const length = form.watch("description")!.length;
+  const remainingLength = DESCRIPTION_LENGTH - length;
   return (
     <>
       <FormField
@@ -31,7 +34,13 @@ export default function DescInput({ form, pending }: DescInputProps) {
                 className="resize-none"
               />
             </FormControl>
-            <FormDescription>150 characters remaining</FormDescription>
+            <FormDescription
+              className={`${remainingLength < 0 && "text-destructive"}`}
+            >
+              {remainingLength >= 0
+                ? `${DESCRIPTION_LENGTH - length} characters remaining`
+                : `${length - DESCRIPTION_LENGTH} characters too many!`}
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
