@@ -1,21 +1,15 @@
-import { quicksand } from "@/lib/fonts";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import Slideshow from "@/components/pages/home/Slideshow";
+import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 
 export default function Home() {
   return (
     <div>
       <header>
-        <h1 className={`${quicksand.className}`}>
-          Quickly log your bird sightings and build your birding diary
-        </h1>
-        <h2 className={`${quicksand.className}`}>
-          Birdiary is a free website. An account is not required.
-        </h2>
+        <h1>Quickly log your bird sightings and build your birding diary</h1>
       </header>
-      <Slideshow />
+      <BirdOfTheDay />
       <section>
         <h3>Create your birding diary</h3>
         <p>
@@ -29,13 +23,12 @@ export default function Home() {
         <h3>Go further with an account</h3>
         <p>
           Interested in more? Create a free account to permanently store
-          unlimited <span className="after:content-['*']">data</span>, keep
-          track of your birdwatching life list, and add location data to your
-          sightings.{" "}
+          unlimited data, keep track of your birdwatching life list, and add
+          location data to your sightings.{" "}
           <Link href="/plans" className="underline hover:no-underline">
-            View plans
-          </Link>{" "}
-          to learn more.
+            View plans and accounts
+          </Link>
+          .
         </p>
       </section>
       <section>
@@ -46,14 +39,6 @@ export default function Home() {
             Add a new sighting
           </Link>
         </Button>
-      </section>
-      <section className="mt-16">
-        <p className="rounded border p-4 text-sm before:content-['*']">
-          If you do not have an account or are not signed in, your sighting and
-          diary data is stored in your browser and not our database. This limits
-          the total amount of data you can store, and your data may be lost if
-          your browser&apos;s data cache is deleted.
-        </p>
       </section>
     </div>
   );
