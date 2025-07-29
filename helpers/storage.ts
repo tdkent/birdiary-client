@@ -2,7 +2,7 @@
 import type { MutationParameters } from "@/models/api";
 import type { CreateSightingDto, SortValues } from "@/models/form";
 import type { Group, SightingInStorage } from "@/models/display";
-import { apiRoutes, type QueryParameters } from "@/models/api";
+import type { QueryParameters } from "@/models/api";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
@@ -23,15 +23,6 @@ export function queryStorage(
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
   switch (true) {
-    // Home ("/"): Recent sightings: sort by date (desc)
-    case route === apiRoutes.sightings: {
-      const sightings = sortSightings(
-        data as SightingInStorage[],
-        "dateDesc",
-      ).slice(0, RESULTS_PER_PAGE);
-      return { items: sightings, countOfRecords: sightings.length };
-    }
-
     // Diary ("/diary"): sort by selected option
     case route.includes("/sightings?groupBy=date"): {
       const query = route.split("&");
@@ -79,6 +70,22 @@ export function queryStorage(
         RESULTS_PER_PAGE * page,
       );
       return { items: paginated, countOfRecords: filterByBird.length };
+    }
+
+    // Sightings ("/sightings"): all sightings, sort by date or bird name
+    case route.split("api")[1].startsWith("/sightings"): {
+      const queries = route.split("?")[1].split("&");
+      const page = Number(queries[0].slice(5));
+      const sortBy = queries[1].slice(7);
+      const sorted = sortSightings(
+        data as SightingInStorage[],
+        sortBy as SortValues,
+      );
+      const paginated = sorted.slice(
+        RESULTS_PER_PAGE * (page - 1),
+        RESULTS_PER_PAGE * page,
+      );
+      return { items: paginated, countOfRecords: data.length };
     }
 
     default:
