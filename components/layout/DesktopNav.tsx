@@ -36,6 +36,14 @@ export default function DesktopNav() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
+            <Link href="/sightings" className={navigationMenuTriggerStyle()}>
+              Sightings
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
             <Link href="/birds" className={navigationMenuTriggerStyle()}>
               Birdpedia
             </Link>
