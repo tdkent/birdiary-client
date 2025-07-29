@@ -14,7 +14,6 @@ export default async function SightingsView({
 }) {
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
-  const defaultSortOption = sortBy as SortValues;
 
   if (
     !page ||
@@ -23,9 +22,10 @@ export default async function SightingsView({
     parseInt(page) < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
-    redirect(`/sightings?page=1&sortBy=${defaultSortOption}`);
+    redirect(`/sightings?page=1&sortBy=dateDesc`);
   }
 
+  const defaultSortOption = sortBy as SortValues;
   const parsedPage = parseInt(page);
 
   return (
