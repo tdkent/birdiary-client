@@ -5,7 +5,7 @@ import {
   LucideIcon,
   MapPinned,
   NotebookPen,
-  Scroll,
+  Notebook,
   UserPen,
 } from "lucide-react";
 
@@ -28,22 +28,22 @@ export const mobile: {
     type: "public",
   },
   {
-    label: "Birdpedia",
-    href: "birds",
-    icon: Bird,
+    label: "Sightings",
+    href: "sightings",
+    icon: Notebook,
     type: "public",
-  },
-  {
-    label: "Lifelist",
-    href: "lifelist",
-    icon: Scroll,
-    type: "protected",
   },
   {
     label: "Locations",
     href: "locations",
     icon: MapPinned,
     type: "protected",
+  },
+  {
+    label: "Birdpedia",
+    href: "birds",
+    icon: Bird,
+    type: "public",
   },
   {
     label: "Profile",

@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkSession } from "@/helpers/auth";
 
-const protectedRoutes = [
-  "/account",
-  "/lifelist",
-  "/locations",
-  "/profile",
-  "/sightings",
-];
+const protectedRoutes = ["/account", "/lifelist", "/locations", "/profile"];
 const authRoutes = ["/signin", "/signup"];
 
 export default async function middleware(req: NextRequest) {

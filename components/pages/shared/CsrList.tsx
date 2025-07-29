@@ -11,7 +11,7 @@ import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 
-type SightingsListProps =
+type CsrListProps =
   | {
       variant: "diary";
       route: string;
@@ -23,23 +23,13 @@ type SightingsListProps =
       startsWith?: never;
     }
   | {
-      variant: "diaryDetail" | "birdDetail";
+      variant: "sighting" | "diaryDetail" | "birdDetail";
       route: string;
       tag: "sightings";
       page: number;
       sortBy: string;
       defaultSortOption: SortValues;
       sortOptions: SortOptions;
-      startsWith?: never;
-    }
-  | {
-      variant: "recentSighting";
-      route: string;
-      tag: "sightings";
-      page?: never;
-      sortBy?: never;
-      defaultSortOption?: never;
-      sortOptions?: never;
       startsWith?: never;
     };
 
@@ -53,7 +43,7 @@ export default function CsrList({
   defaultSortOption,
   sortOptions,
   startsWith,
-}: SightingsListProps) {
+}: CsrListProps) {
   const { toast } = useToast();
   const { useQuery } = useApi();
   const {
@@ -87,7 +77,7 @@ export default function CsrList({
 
   if (!items.length) {
     switch (variant) {
-      case "recentSighting":
+      case "sighting":
         return <p>You haven&apos;t added any sightings!</p>;
 
       case "diary":
@@ -99,18 +89,6 @@ export default function CsrList({
       default:
         return <p>Nothing to show!</p>;
     }
-  }
-
-  if (variant === "recentSighting") {
-    return (
-      <>
-        <ul className="my-4">
-          {items.map((item, idx) => {
-            return <CsrListItem key={idx} variant={variant} item={item} />;
-          })}
-        </ul>
-      </>
-    );
   }
 
   const currentPage = page;

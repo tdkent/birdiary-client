@@ -30,7 +30,7 @@ export type Group = {
   count: number;
 };
 
-export type ListItem = Sighting | SightingWithLocation | BirdWithCount | Group;
+// export type ListItem = SightingWithBird | SightingWithLocation | BirdWithCount | Group;
 
 export type ListWithCount = {
   data: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
@@ -45,7 +45,7 @@ export type ListVariant =
   | "lifelistSighting"
   | "location"
   | "locationDetail"
-  | "recentSighting";
+  | "sighting";
 
 export type CountOfRecords = { countOfRecords: number };
 export type List = {

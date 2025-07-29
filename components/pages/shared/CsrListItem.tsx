@@ -1,7 +1,9 @@
 import type {
+  BirdWithCount,
   Group,
-  ListItem,
+  // ListItem,
   ListVariant,
+  SightingInStorage,
   SightingWithLocation,
 } from "@/models/display";
 import type { SightingWithBird } from "@/models/display";
@@ -9,13 +11,18 @@ import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
 type CsrListItemProps = {
-  item: ListItem;
+  item:
+    | SightingWithBird
+    | SightingWithLocation
+    | SightingInStorage
+    | BirdWithCount
+    | Group;
   variant: ListVariant;
 };
 
 export default function CsrListItem({ item, variant }: CsrListItemProps) {
   switch (variant) {
-    case "recentSighting": {
+    case "sighting": {
       const {
         date,
         bird: { commonName },
@@ -31,7 +38,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diary": {
-      const { text, count } = item as Extract<ListItem, Group>;
+      const { text, count } = item as Group;
       return (
         <CsrListItemDetails
           variant="list"
@@ -43,7 +50,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "birdDetail": {
-      const sighting = item as Extract<ListItem, SightingWithLocation>;
+      const sighting = item as SightingWithLocation;
 
       return (
         <CsrListItemDetails
