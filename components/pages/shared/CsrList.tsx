@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 import Pending from "@/components/pages/shared/Pending";
+import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import CsrListItem from "@/components/pages/shared/CsrListItem";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
@@ -67,27 +68,8 @@ export default function CsrList({
     }
   }, [error, toast]);
 
-  if (pending || !items)
-    return <Pending variant="list" listSize={RESULTS_PER_PAGE} />;
-
   if (error) {
     return <p>An error occurred!</p>;
-  }
-
-  if (!items.length) {
-    switch (variant) {
-      case "sighting":
-        return <p>You haven&apos;t added any sightings!</p>;
-
-      case "diary":
-        return <p>No diary entries yet. Add some sightings!</p>;
-
-      case "birdDetail":
-        return <p>You have not observed this bird yet!</p>;
-
-      default:
-        return <p>Nothing to show!</p>;
-    }
   }
 
   const currentPage = page;
@@ -106,17 +88,25 @@ export default function CsrList({
         records={count}
         page={+page!}
       />
-      <ul className="my-4">
-        {items.map((item, idx) => {
-          return <CsrListItem key={idx} variant={variant} item={item} />;
-        })}
-      </ul>
-      <PaginateList
-        currentPage={currentPage}
-        finalPage={pages}
-        sortBy={sortBy}
-        startsWith={startsWith}
-      />
+      {pending || !items ? (
+        <Pending variant="list" listSize={RESULTS_PER_PAGE} />
+      ) : !items.length ? (
+        <NoResultsDisplay variant={variant} />
+      ) : (
+        <ul className="my-4">
+          {items.map((item, idx) => {
+            return <CsrListItem key={idx} variant={variant} item={item} />;
+          })}
+        </ul>
+      )}
+      {count > 0 && (
+        <PaginateList
+          currentPage={currentPage}
+          finalPage={pages}
+          sortBy={sortBy}
+          startsWith={startsWith}
+        />
+      )}
     </>
   );
 }
