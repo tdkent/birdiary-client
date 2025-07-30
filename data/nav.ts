@@ -1,11 +1,11 @@
 import {
   Bird,
   CircleUserRound,
-  House,
   LucideIcon,
   MapPinned,
   NotebookPen,
   Notebook,
+  Plus,
   UserPen,
 } from "lucide-react";
 
@@ -16,9 +16,9 @@ export const mobile: {
   type: "public" | "protected";
 }[] = [
   {
-    label: "Home",
-    href: "",
-    icon: House,
+    label: "New Sighting",
+    href: "new",
+    icon: Plus,
     type: "public",
   },
   {
@@ -58,16 +58,3 @@ export const mobile: {
     type: "protected",
   },
 ];
-
-export const desktopSublinks = {
-  user: [
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Account",
-      href: "/account",
-    },
-  ],
-};
