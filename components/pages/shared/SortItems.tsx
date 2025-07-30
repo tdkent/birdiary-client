@@ -8,33 +8,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SetStateAction } from "react";
 import type { SortValues, SortOptions } from "@/models/form";
 
 type SortItemsProps =
   | {
       isSSR?: never;
-      setSort: (value: SetStateAction<SortValues>) => void;
-      options: SortOptions;
-      defaultSortOption?: never;
-      pending?: never;
-      count?: never;
-    }
-  | {
-      isSSR: true;
-      setSort?: never;
       options: SortOptions;
       defaultSortOption: SortValues;
       pending: boolean;
       count: number;
+    }
+  | {
+      isSSR: true;
+      options: SortOptions;
+      defaultSortOption: SortValues;
+      pending?: never;
+      count?: never;
     };
 
 /**  Generic <select> element to sort items */
 export default function SortItems({
-  setSort,
   options,
   defaultSortOption,
-  isSSR,
   pending,
   count,
 }: SortItemsProps) {
@@ -54,12 +49,8 @@ export default function SortItems({
   }
 
   const handleChange = (value: SortValues) => {
-    if (isSSR) {
-      const url = `${pathname}?page=1&sortBy=${value}`;
-      router.push(url);
-    } else {
-      setSort(value);
-    }
+    const url = `${pathname}?page=1&sortBy=${value}`;
+    router.push(url);
   };
 
   return (

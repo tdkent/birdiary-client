@@ -82,7 +82,6 @@ export default function CsrList({
         options={sortOptions}
         pending={pending}
         count={count}
-        isSSR
       />
       <FilterAndResultsText
         variant={variant}
