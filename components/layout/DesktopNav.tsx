@@ -9,10 +9,11 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, Plus } from "lucide-react";
 import { desktopSublinks as sublinks } from "@/data/nav";
 import { AuthContext } from "@/context/AuthContext";
 
+/** Desktop navigation links */
 export default function DesktopNav() {
   const { isSignedIn } = useContext(AuthContext);
   return (
@@ -20,8 +21,12 @@ export default function DesktopNav() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/" className={navigationMenuTriggerStyle()}>
-              Home
+            <Link
+              href="/new"
+              className={`${navigationMenuTriggerStyle()} flex items-center gap-1 rounded-md border`}
+            >
+              <Plus size={12} />
+              New
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -42,24 +47,6 @@ export default function DesktopNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link href="/birds" className={navigationMenuTriggerStyle()}>
-              Birdpedia
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        {isSignedIn && (
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link href="/lifelist" className={navigationMenuTriggerStyle()}>
-                Lifelist
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        )}
-
         {isSignedIn && (
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
@@ -69,6 +56,14 @@ export default function DesktopNav() {
             </NavigationMenuLink>
           </NavigationMenuItem>
         )}
+
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link href="/birds" className={navigationMenuTriggerStyle()}>
+              Birdpedia
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
 
         <NavigationMenuItem>
           {isSignedIn && (
