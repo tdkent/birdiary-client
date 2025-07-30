@@ -68,8 +68,9 @@ export default async function List({
 
   return (
     <>
-      {variant === "birdpedia" && <FilterList startsWith={startsWith} />}
-      {variant !== "birdpedia" && (
+      {variant === "birdpedia" ? (
+        <FilterList startsWith={startsWith} />
+      ) : (
         <SortItems
           defaultSortOption={defaultSortOption}
           options={sortOptions}
