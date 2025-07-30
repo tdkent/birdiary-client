@@ -10,7 +10,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { CircleUserRound, Plus } from "lucide-react";
-import { desktopSublinks as sublinks } from "@/data/nav";
 import { AuthContext } from "@/context/AuthContext";
 
 /** Desktop navigation links */
@@ -72,24 +71,24 @@ export default function DesktopNav() {
                 <CircleUserRound className="h-4 w-4" />
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <NavigationMenuList className="flex flex-col items-start justify-start border">
-                  {sublinks.user.map(({ label, href }) => {
-                    return (
-                      <NavigationMenuItem key={label}>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={href}
-                            className={navigationMenuTriggerStyle()}
-                          >
-                            <span className="flex items-center gap-2">
-                              {label}
-                            </span>
-                          </Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    );
-                  })}
-                </NavigationMenuList>
+                <ul className="w-24 p-0.5 text-sm">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/profile"
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Profile
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/account"
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Account
+                    </Link>
+                  </NavigationMenuLink>
+                </ul>
               </NavigationMenuContent>
             </>
           )}

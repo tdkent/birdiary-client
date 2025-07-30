@@ -58,16 +58,3 @@ export const mobile: {
     type: "protected",
   },
 ];
-
-export const desktopSublinks = {
-  user: [
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Account",
-      href: "/account",
-    },
-  ],
-};
