@@ -17,12 +17,16 @@ type SortItemsProps =
       setSort: (value: SetStateAction<SortValues>) => void;
       options: SortOptions;
       defaultSortOption?: never;
+      pending?: never;
+      count?: never;
     }
   | {
       isSSR: true;
       setSort?: never;
       options: SortOptions;
       defaultSortOption: SortValues;
+      pending: boolean;
+      count: number;
     };
 
 /**  Generic <select> element to sort items */
@@ -31,9 +35,12 @@ export default function SortItems({
   options,
   defaultSortOption,
   isSSR,
+  pending,
+  count,
 }: SortItemsProps) {
   const router = useRouter();
   const pathname = usePathname();
+
   if (!options) {
     return (
       <>
@@ -57,8 +64,14 @@ export default function SortItems({
 
   return (
     <>
-      <Select onValueChange={handleChange} defaultValue={defaultSortOption}>
-        <SelectTrigger className="mb-4 mt-8 w-1/2">
+      <Select
+        onValueChange={handleChange}
+        defaultValue={defaultSortOption}
+        disabled={pending || !count || count < 1}
+      >
+        <SelectTrigger
+          className={`mb-4 mt-8 w-1/2 ${(pending || !count || count < 1) && "text-foreground/50"}`}
+        >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
         <SelectContent>

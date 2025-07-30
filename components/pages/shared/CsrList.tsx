@@ -80,6 +80,8 @@ export default function CsrList({
       <SortItems
         defaultSortOption={defaultSortOption}
         options={sortOptions}
+        pending={pending}
+        count={count}
         isSSR
       />
       <FilterAndResultsText
