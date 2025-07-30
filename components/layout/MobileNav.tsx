@@ -71,18 +71,12 @@ export function MobileNav() {
                   <li>
                     <div className="py-3">
                       <SheetClose asChild>
-                        <Link href={`/${href}`}>
-                          <span
-                            className={`flex items-center gap-2.5 ${href === "new" && `w-fit rounded-md border bg-green-600 px-4 py-2 font-semibold`}`}
-                          >
-                            {Icon && (
-                              <Icon
-                                className="h-3 w-3"
-                                strokeWidth={href === "new" ? 4 : 2}
-                              />
-                            )}
-                            {label}
-                          </span>
+                        <Link
+                          href={`/${href}`}
+                          className={`flex w-fit items-center gap-2 ${href === "new" && `new-sighting-btn-colors rounded-md border px-4 py-2`}`}
+                        >
+                          {Icon && <Icon className="h-3 w-3" />}
+                          {label}
                         </Link>
                       </SheetClose>
                     </div>
