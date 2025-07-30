@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
+import Pending from "@/components/pages/shared/Pending";
 import CsrListItem from "@/components/pages/shared/CsrListItem";
 import SortItems from "@/components/pages/shared/SortItems";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
@@ -67,9 +67,8 @@ export default function CsrList({
     }
   }, [error, toast]);
 
-  if (pending || !items) {
-    return <Loader2 />;
-  }
+  if (pending || !items)
+    return <Pending variant="list" listSize={RESULTS_PER_PAGE} />;
 
   if (error) {
     return <p>An error occurred!</p>;

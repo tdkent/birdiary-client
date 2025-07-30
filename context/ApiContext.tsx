@@ -29,6 +29,7 @@ import type { CreateSightingDto } from "@/models/form";
 import { getCookie } from "@/helpers/auth";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
+import { delay } from "@/helpers/api";
 
 // Define the shape of the API Context object
 type Api = {
@@ -77,6 +78,7 @@ export default function ApiProvider({
 
         if (token) {
           setPending(true);
+          await delay(10000);
           try {
             const response = await fetch(route, {
               headers: { Authorization: `Bearer ${token}` },
