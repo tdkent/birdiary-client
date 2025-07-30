@@ -67,7 +67,7 @@ export default function ApiProvider({
 
   function useQuery({ route, tag }: QueryParameters) {
     const [data, setData] = useState<ServerResponseWithList["data"]>([]);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
@@ -78,7 +78,7 @@ export default function ApiProvider({
 
         if (token) {
           setPending(true);
-          await delay(10000);
+          await delay(3000);
           try {
             const response = await fetch(route, {
               headers: { Authorization: `Bearer ${token}` },
