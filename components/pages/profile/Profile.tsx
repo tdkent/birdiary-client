@@ -7,6 +7,7 @@ import { apiRoutes, ServerResponseWithError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
 
+/** Fetch and display user's profile data */
 export default async function Profile() {
   const token = await getCookie();
   const payload = await decrypt(token);

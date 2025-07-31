@@ -1,4 +1,8 @@
+import { Suspense } from "react";
 import Profile from "@/components/pages/profile/Profile";
+import Pending from "@/components/pages/shared/Pending";
+
+/** View of user's basic profile information */
 export default function ProfileView() {
   return (
     <>
@@ -6,7 +10,9 @@ export default function ProfileView() {
         <h1>Profile</h1>
         <p>View and edit your personal information and privacy settings.</p>
       </header>
-      <Profile />
+      <Suspense fallback={<Pending variant="profile" />}>
+        <Profile />
+      </Suspense>
     </>
   );
 }
