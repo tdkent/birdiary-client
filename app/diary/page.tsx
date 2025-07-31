@@ -35,7 +35,7 @@ export default async function DiaryView({
         <p>Your sightings grouped by date.</p>
       </header>
       <CsrList
-        route={apiRoutes.sightingsGroupByType("date", parsedPage, sortBy)}
+        route={apiRoutes.getSightingsGroupByType("date", parsedPage, sortBy)}
         variant="diary"
         pendingVariant="listSingleRow"
         tag="diary"

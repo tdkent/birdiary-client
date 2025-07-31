@@ -24,30 +24,29 @@ export const defaultCache: Cache = {
 
 /** Server request URLs */
 export const apiRoutes = {
-  signup: `${BASE_URL}/users/signup`,
-  signin: `${BASE_URL}/users/signin`,
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
   birds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
-  location: (id: number) => `${BASE_URL}/locations/${id}`,
-  locationDetails: (id: number) => "/sightings/locations/" + id,
-  sighting: (id: number) => `${BASE_URL}/sightings/${id}`,
-  sightings: (page: number, sortBy: string) =>
+  getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
-  user: (id: number) => `${BASE_URL}/users/${id}`,
-  userPassword: (id: number) => `${BASE_URL}/users/${id}/password`,
-  sightingsListByType: (
+  getSightingsGroupByType: (
+    group: "date" | "lifelist" | "location",
+    page: number,
+    sortBy: string,
+  ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
+  getSightingsListByType: (
     type: "birdId" | "dateId" | "locationId",
     id: number | string,
     page: number,
     sortBy: string,
   ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
-  sightingsGroupByType: (
-    group: "date" | "lifelist" | "location",
-    page: number,
-    sortBy: string,
-  ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
-  userProfile: "/users/profile",
+  location: (id: number) => `${BASE_URL}/locations/${id}`,
+  sighting: (id: number) => `${BASE_URL}/sightings/${id}`,
+  sightings: `${BASE_URL}/sightings`,
+  signup: `${BASE_URL}/users/signup`,
+  signin: `${BASE_URL}/users/signin`,
+  user: (id: number) => `${BASE_URL}/users/${id}`,
+  userPassword: (id: number) => `${BASE_URL}/users/${id}/password`,
 } as const;
 
 export type QueryParameters = {

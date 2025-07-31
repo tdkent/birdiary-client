@@ -47,7 +47,7 @@ export default async function DiaryDetailsView({
         </Link>
       </header>
       <CsrList
-        route={apiRoutes.sightingsListByType(
+        route={apiRoutes.getSightingsListByType(
           "dateId",
           date,
           parsedPage,

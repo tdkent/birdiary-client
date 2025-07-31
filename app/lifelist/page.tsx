@@ -50,7 +50,7 @@ export default async function LifeListView({
       >
         <List
           variant="lifelistSighting"
-          resource={apiRoutes.sightingsGroupByType(
+          resource={apiRoutes.getSightingsGroupByType(
             "lifelist",
             parsedPage,
             sortBy,

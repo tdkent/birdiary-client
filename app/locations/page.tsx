@@ -46,7 +46,7 @@ export default async function LocationsView({
       >
         <List
           variant="location"
-          resource={apiRoutes.sightingsGroupByType(
+          resource={apiRoutes.getSightingsGroupByType(
             "location",
             parsedPage,
             sortBy,

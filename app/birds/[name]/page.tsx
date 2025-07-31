@@ -58,7 +58,7 @@ export default async function BirdDetailsView({
       <CsrList
         variant="birdDetail"
         pendingVariant="card"
-        route={apiRoutes.sightingsListByType(
+        route={apiRoutes.getSightingsListByType(
           "birdId",
           birdId,
           parseInt(page),
