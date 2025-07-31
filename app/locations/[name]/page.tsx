@@ -62,7 +62,7 @@ export default async function LocationDetailsView({
         >
           <List
             variant="locationDetail"
-            resource={apiRoutes.sightingsListByType(
+            resource={apiRoutes.getSightingsListByType(
               "locationId",
               locationId,
               parsedPage,
