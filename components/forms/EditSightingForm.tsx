@@ -76,7 +76,7 @@ export default function EditSightingForm({
     if (error) {
       toast({
         variant: "destructive",
-        title: Messages.ErrorToastTitle,
+        title: Messages.ToastErrorTitle,
         description: error,
       });
     }
@@ -85,7 +85,7 @@ export default function EditSightingForm({
   useEffect(() => {
     if (success) {
       toast({
-        title: Messages.Success,
+        title: Messages.ToastSuccessTitle,
         description: "Sighting updated",
       });
     }
@@ -101,7 +101,7 @@ export default function EditSightingForm({
     else if (!editLocation || editLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.SelectValidLocation,
+        message: Messages.InvalidLocationError,
       });
     }
 

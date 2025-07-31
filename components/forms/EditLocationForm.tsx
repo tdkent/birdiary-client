@@ -47,7 +47,7 @@ export default function EditLocationForm({
     if (!updatedLocation || updatedLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.SelectValidLocation,
+        message: Messages.InvalidLocationError,
       });
     }
 

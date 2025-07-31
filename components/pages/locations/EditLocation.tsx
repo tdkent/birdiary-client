@@ -26,7 +26,7 @@ export default function EditLocation({
     if (error) {
       toast({
         variant: "destructive",
-        title: Messages.ErrorToastTitle,
+        title: Messages.ToastErrorTitle,
         description: error,
       });
     }
@@ -35,7 +35,7 @@ export default function EditLocation({
   useEffect(() => {
     if (success) {
       toast({
-        title: Messages.Success,
+        title: Messages.ToastSuccessTitle,
         description: "Location updated",
       });
     }
