@@ -2,6 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 type PendingProps = {
   variant:
+    | "account"
     | "bird"
     | "card"
     | "cardWithControls"
@@ -17,6 +18,26 @@ type PendingProps = {
 /** Loading UI that renders while async actions are pending. */
 export default function Pending({ variant, listSize }: PendingProps) {
   switch (variant) {
+    case "account": {
+      return (
+        <>
+          <div className="mb-4 mt-8 flex flex-col gap-4">
+            <Skeleton className="h-6 w-3/5" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-6 w-3/5" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </>
+      );
+    }
+
     case "bird": {
       return (
         <>
