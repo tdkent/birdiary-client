@@ -32,6 +32,7 @@ export default function SortItems({
   defaultSortOption,
   pending,
   count,
+  isSSR,
 }: SortItemsProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -58,10 +59,10 @@ export default function SortItems({
       <Select
         onValueChange={handleChange}
         defaultValue={defaultSortOption}
-        disabled={pending || !count || count < 1}
+        disabled={isSSR ? false : pending || !count || count < 1}
       >
         <SelectTrigger
-          className={`mb-4 mt-8 w-1/2 ${(pending || !count || count < 1) && "text-foreground/50"}`}
+          className={`mb-4 mt-8 w-1/2 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
         >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
