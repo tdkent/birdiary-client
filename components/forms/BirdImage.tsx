@@ -90,7 +90,7 @@ function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
   if (pending) {
     return (
       <>
-        <PendingIcon />
+        <PendingIcon strokeWidth={1} size={28} />
         <span className="text-xs">Fetching image</span>
       </>
     );
