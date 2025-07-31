@@ -1,6 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
+import Pending from "@/components/pages/shared/Pending";
 import { apiRoutes } from "@/models/api";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default async function BirdsView({
   searchParams,
@@ -29,12 +32,21 @@ export default async function BirdsView({
           as rated by the ABA.
         </p>
       </header>
-      <List
-        variant="birdpedia"
-        page={parsedPage}
-        startsWith={startsWith}
-        resource={apiRoutes.birds(parseInt(page), startsWith)}
-      />
+      <Suspense
+        fallback={
+          <Pending
+            variant="listDoubleRowWithControls"
+            listSize={RESULTS_PER_PAGE}
+          />
+        }
+      >
+        <List
+          variant="birdpedia"
+          page={parsedPage}
+          startsWith={startsWith}
+          resource={apiRoutes.birds(parseInt(page), startsWith)}
+        />
+      </Suspense>
     </>
   );
 }

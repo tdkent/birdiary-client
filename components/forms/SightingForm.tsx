@@ -120,7 +120,7 @@ export default function SightingForm() {
           <Button disabled={pending || !isMatching}>
             {pending ? (
               <>
-                <PendingIcon />
+                <PendingIcon strokeWidth={1} size={28} />
                 Submitting
               </>
             ) : (

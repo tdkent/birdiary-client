@@ -8,32 +8,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SetStateAction } from "react";
 import type { SortValues, SortOptions } from "@/models/form";
 
 type SortItemsProps =
   | {
       isSSR?: never;
-      setSort: (value: SetStateAction<SortValues>) => void;
       options: SortOptions;
-      defaultSortOption?: never;
+      defaultSortOption: SortValues;
+      pending: boolean;
+      count: number;
     }
   | {
       isSSR: true;
-      setSort?: never;
       options: SortOptions;
       defaultSortOption: SortValues;
+      pending?: never;
+      count?: never;
     };
 
 /**  Generic <select> element to sort items */
 export default function SortItems({
-  setSort,
   options,
   defaultSortOption,
+  pending,
+  count,
   isSSR,
 }: SortItemsProps) {
   const router = useRouter();
   const pathname = usePathname();
+
   if (!options) {
     return (
       <>
@@ -47,18 +50,20 @@ export default function SortItems({
   }
 
   const handleChange = (value: SortValues) => {
-    if (isSSR) {
-      const url = `${pathname}?page=1&sortBy=${value}`;
-      router.push(url);
-    } else {
-      setSort(value);
-    }
+    const url = `${pathname}?page=1&sortBy=${value}`;
+    router.push(url);
   };
 
   return (
     <>
-      <Select onValueChange={handleChange} defaultValue={defaultSortOption}>
-        <SelectTrigger className="mb-4 mt-8 w-1/2">
+      <Select
+        onValueChange={handleChange}
+        defaultValue={defaultSortOption}
+        disabled={isSSR ? false : pending || !count || count < 1}
+      >
+        <SelectTrigger
+          className={`mb-4 mt-8 w-1/2 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
+        >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
         <SelectContent>

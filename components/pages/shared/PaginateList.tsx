@@ -1,8 +1,5 @@
 "use client";
 
-// Paginate a list of items using shadcn Pagination components
-// Pagination items are conditionally rendered based on the
-// current page and the number of pages remaining.
 import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -21,6 +18,7 @@ type PaginateListProps = {
   sortBy: string | undefined;
 };
 
+/** Paginate a list of items based on current page and number of pages remaining */
 export default function PaginateList({
   currentPage,
   finalPage,
@@ -36,14 +34,13 @@ export default function PaginateList({
 
   // TODO: change number of buttons based on screen size
 
-  // Remaining length of list
   const remainingPages = finalPage - currentPage + 1;
-  // If total pages OR total remaining pages <= 5
+
+  // If total pages OR total remaining pages <= 5, map remaining pages to array
+  // Base off `finalPage` instead of `currentPage` to avoid deviation
   if (finalPage <= MOBILE_PAGINATION_PAGES || remainingPages <= 5) {
     const rowLength =
       finalPage < MOBILE_PAGINATION_PAGES ? finalPage : MOBILE_PAGINATION_PAGES;
-    // Map remaining pages to array
-    // Base off `finalPage` instead of `currentPage` to avoid deviation
     const pages: number[] = [];
     for (let i = rowLength; i > 0; i--) {
       const page = finalPage - i + 1;
@@ -51,7 +48,7 @@ export default function PaginateList({
     }
     return (
       <>
-        <Pagination>
+        <Pagination className="mt-8">
           <PaginationContent>
             <PaginationItem>
               <PaginationLink
@@ -103,7 +100,7 @@ export default function PaginateList({
 
   return (
     <>
-      <Pagination>
+      <Pagination className="mt-8">
         <PaginationContent>
           <PaginationItem>
             <PaginationLink

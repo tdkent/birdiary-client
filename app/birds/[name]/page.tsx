@@ -2,16 +2,11 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import birdNames from "@/data/birds";
-import type { Bird } from "@/models/db";
 import { SortValues, sortByDateOptions } from "@/models/form";
-import {
-  apiRoutes,
-  type ServerResponseWithError,
-  type ServerResponseWithObject,
-} from "@/models/api";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { apiRoutes } from "@/models/api";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
+import Pending from "@/components/pages/shared/Pending";
 
 type BirdDetailsViewParams = {
   params: Promise<{ name: string }>;
@@ -52,29 +47,17 @@ export default async function BirdDetailsView({
   }
 
   const birdId = birdIdx + 1;
-  const response = await fetch(apiRoutes.bird(birdId));
-  const result: ServerResponseWithObject | ServerResponseWithError =
-    await response.json();
-
-  if ("error" in result) {
-    const errorData = result as ServerResponseWithError;
-    const msg = Array.isArray(errorData.message)
-      ? errorData.message[0]
-      : errorData.message;
-    return <ErrorDisplay msg={msg} />;
-  }
-
-  const birdData = result as Bird;
   const parsedPage = parseInt(page);
 
   return (
     <>
-      <Suspense>
-        <BirdDetails bird={birdData} />
+      <Suspense fallback={<Pending variant="bird" />}>
+        <BirdDetails birdId={birdId} />
       </Suspense>
       <h2>Sightings</h2>
       <CsrList
         variant="birdDetail"
+        pendingVariant="card"
         route={apiRoutes.sightingsListByType(
           "birdId",
           birdId,

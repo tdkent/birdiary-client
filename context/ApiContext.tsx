@@ -66,7 +66,7 @@ export default function ApiProvider({
 
   function useQuery({ route, tag }: QueryParameters) {
     const [data, setData] = useState<ServerResponseWithList["data"]>([]);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 

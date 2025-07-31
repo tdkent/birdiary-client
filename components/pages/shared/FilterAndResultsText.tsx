@@ -14,6 +14,16 @@ export default function FilterAndResultsText({
   page,
   variant,
 }: FilterByTextProps) {
+  if (records === 0) {
+    return (
+      <>
+        <div className="my-6 flex flex-col gap-2 border-y py-4">
+          <p className="m-0 text-sm italic">Showing 0 of 0 results</p>
+        </div>
+      </>
+    );
+  }
+
   const filterText = startsWith
     ? `Filtered by: '${startsWith}'`
     : "No filter applied";
@@ -23,15 +33,19 @@ export default function FilterAndResultsText({
 
   return (
     <>
-      <div className="my-6 flex flex-col gap-2 border-y py-2">
-        {variant === "birdpedia" && <p>{filterText}</p>}
-        <p className="italic">
+      <div className="my-6 flex flex-col gap-2 border-y py-4">
+        {variant === "birdpedia" && (
+          <span className="text-sm">{filterText}</span>
+        )}
+        <span className="text-sm italic">
           Showing{" "}
           <span className="font-semibold">
-            {minResult} - {maxResult}
+            {minResult} - {maxResult > 0 ? maxResult : "?"}
           </span>{" "}
-          of <span className="font-semibold">{records}</span> results
-        </p>
+          of{" "}
+          <span className="font-semibold">{records > 0 ? records : "?"}</span>{" "}
+          results
+        </span>
       </div>
     </>
   );
