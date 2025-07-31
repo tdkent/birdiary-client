@@ -145,7 +145,7 @@ export default function EditSightingForm({
             className="w-full"
           >
             {pending ? (
-              <PendingIcon strokeWidth={1} size={16} />
+              <PendingIcon strokeWidth={1} size={28} />
             ) : (
               "Update Sighting"
             )}
