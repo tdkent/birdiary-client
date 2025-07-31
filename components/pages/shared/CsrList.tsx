@@ -15,6 +15,7 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 type CsrListProps =
   | {
       variant: "diary";
+      pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
       route: string;
       tag: "diary";
       page: number;
@@ -25,6 +26,7 @@ type CsrListProps =
     }
   | {
       variant: "sighting" | "diaryDetail" | "birdDetail";
+      pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
       route: string;
       tag: "sightings";
       page: number;
@@ -38,6 +40,7 @@ type CsrListProps =
 export default function CsrList({
   route,
   variant,
+  pendingVariant,
   tag,
   page,
   sortBy,
@@ -90,7 +93,7 @@ export default function CsrList({
         page={+page!}
       />
       {pending || !items ? (
-        <Pending variant="list" listSize={RESULTS_PER_PAGE} />
+        <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
       ) : !items.length ? (
         <NoResultsDisplay variant={variant} />
       ) : (

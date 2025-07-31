@@ -33,7 +33,12 @@ export default async function BirdsView({
         </p>
       </header>
       <Suspense
-        fallback={<Pending variant="list" listSize={RESULTS_PER_PAGE} />}
+        fallback={
+          <Pending
+            variant="listDoubleRowWithControls"
+            listSize={RESULTS_PER_PAGE}
+          />
+        }
       >
         <List
           variant="birdpedia"

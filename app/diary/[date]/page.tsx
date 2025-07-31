@@ -54,6 +54,7 @@ export default async function DiaryDetailsView({
           sortBy,
         )}
         variant="diaryDetail"
+        pendingVariant="card"
         tag="sightings"
         page={parsedPage}
         sortBy={sortBy}

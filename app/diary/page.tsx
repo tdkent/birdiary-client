@@ -13,7 +13,6 @@ export default async function DiaryView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
 
   if (
@@ -38,6 +37,7 @@ export default async function DiaryView({
       <CsrList
         route={apiRoutes.sightingsGroupByType("date", parsedPage, sortBy)}
         variant="diary"
+        pendingVariant="listSingleRow"
         tag="diary"
         page={parsedPage}
         sortBy={sortBy}
