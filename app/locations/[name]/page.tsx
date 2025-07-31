@@ -1,16 +1,12 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { getLocation } from "@/actions/location";
-import type { Location } from "@/models/db";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
-import { type ExpectedServerError, apiRoutes } from "@/models/api";
-import EditLocation from "@/components/pages/locations/EditLocation";
-import DeleteLocation from "@/components/pages/locations/DeleteLocation";
-import LocationMap from "@/components/pages/locations/LocationMap";
+import { apiRoutes } from "@/models/api";
+import LocationDetails from "@/components/pages/locations/LocationDetails";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
@@ -50,34 +46,14 @@ export default async function LocationDetailsView({
     redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
   }
 
-  const location: Location | ExpectedServerError =
-    await getLocation(locationId);
-
-  if ("error" in location) {
-    const msg = Array.isArray(location.message)
-      ? location.message.join(",")
-      : location.message;
-
-    return (
-      <>
-        <ErrorDisplay msg={`${location.error}: ${msg}`} />
-      </>
-    );
-  }
-
   const defaultSortOption = sortBy as SortValues;
   const parsedPage = parseInt(page);
 
   return (
     <>
-      <header>
-        <h1>{location.name}</h1>
-        <div className="flex items-center space-x-4">
-          <EditLocation location={location} locationId={locationId} />
-          <DeleteLocation locationId={locationId} />
-        </div>
-      </header>
-      <LocationMap lat={location.lat} lng={location.lng} />
+      <Suspense fallback={<Pending variant="location" />}>
+        <LocationDetails locationId={locationId} />
+      </Suspense>
       <section>
         <Suspense
           fallback={

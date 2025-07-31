@@ -7,7 +7,8 @@ type PendingProps = {
     | "cardWithControls"
     | "listDoubleRowWithControls"
     | "listSingleRow"
-    | "listDoubleRow";
+    | "listDoubleRow"
+    | "location";
   listSize?: number;
 };
 
@@ -89,6 +90,18 @@ export default function Pending({ variant, listSize }: PendingProps) {
             {new Array(listSize).fill(null).map((_, i) => {
               return <Skeleton key={i} className="h-5 w-full" />;
             })}
+          </div>
+        </>
+      );
+    }
+
+    case "location": {
+      return (
+        <>
+          <div className="mb-4 mt-8 flex flex-col gap-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-48 w-full" />
           </div>
         </>
       );
