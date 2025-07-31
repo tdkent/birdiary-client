@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
 import { apiRoutes } from "@/models/api";
@@ -6,6 +7,8 @@ import {
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
+import Pending from "@/components/pages/shared/Pending";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default async function LifeListView({
   searchParams,
@@ -37,18 +40,22 @@ export default async function LifeListView({
           observed.
         </p>
       </header>
-      <List
-        variant="lifelistSighting"
-        resource={apiRoutes.sightingsGroupByType(
-          "lifelist",
-          parsedPage,
-          sortBy,
-        )}
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={defaultSortOption}
-        sortOptions={sortOptions}
-      />
+      <Suspense
+        fallback={<Pending variant="list" listSize={RESULTS_PER_PAGE} />}
+      >
+        <List
+          variant="lifelistSighting"
+          resource={apiRoutes.sightingsGroupByType(
+            "lifelist",
+            parsedPage,
+            sortBy,
+          )}
+          page={parsedPage}
+          sortBy={sortBy}
+          defaultSortOption={defaultSortOption}
+          sortOptions={sortOptions}
+        />
+      </Suspense>
     </>
   );
 }
