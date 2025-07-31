@@ -1,9 +1,10 @@
 import type {
   SightingWithLocation,
+  SightingWithBird,
+  SightingInStorage,
   BirdWithCount,
   ListVariant,
   Group,
-  SightingWithBird,
 } from "@/models/display";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
@@ -11,7 +12,12 @@ import { createLocaleString } from "@/helpers/dates";
 
 type ListItemProps = {
   variant: ListVariant;
-  item: SightingWithBird | SightingWithLocation | BirdWithCount | Group;
+  item:
+    | SightingWithBird
+    | SightingWithLocation
+    | SightingInStorage
+    | BirdWithCount
+    | Group;
 };
 
 /** SSR component that renders a single item in List */
