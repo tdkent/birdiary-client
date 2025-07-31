@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import PendingIcon from "@/components/forms/PendingIcon";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
@@ -144,7 +144,11 @@ export default function EditSightingForm({
             disabled={pending || !isMatching || !isDirty}
             className="w-full"
           >
-            {pending ? <Loader2 className="animate-spin" /> : "Update Sighting"}
+            {pending ? (
+              <PendingIcon strokeWidth={1} size={16} />
+            ) : (
+              "Update Sighting"
+            )}
           </Button>
         </form>
       </Form>
