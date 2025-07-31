@@ -4,6 +4,7 @@ type PendingProps = {
   variant:
     | "bird"
     | "card"
+    | "cardWithControls"
     | "listDoubleRowWithControls"
     | "listSingleRow"
     | "listDoubleRow";
@@ -33,6 +34,20 @@ export default function Pending({ variant, listSize }: PendingProps) {
       return (
         <>
           <div className="mb-4 mt-8 flex flex-col gap-4">
+            {new Array(listSize).fill(null).map((_, i) => {
+              return <Skeleton key={i} className="h-48 w-full" />;
+            })}
+          </div>
+        </>
+      );
+    }
+
+    case "cardWithControls": {
+      return (
+        <>
+          <div className="mb-4 mt-8 flex flex-col gap-4">
+            <Skeleton className="h-10 w-1/2" />
+            <Skeleton className="h-12 w-full" />
             {new Array(listSize).fill(null).map((_, i) => {
               return <Skeleton key={i} className="h-48 w-full" />;
             })}

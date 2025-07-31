@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getLocation } from "@/actions/location";
 import type { Location } from "@/models/db";
@@ -12,6 +13,8 @@ import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
+import Pending from "@/components/pages/shared/Pending";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type LocationDetailsView = {
   params: Promise<{ name: string }>;
@@ -76,19 +79,25 @@ export default async function LocationDetailsView({
       </header>
       <LocationMap lat={location.lat} lng={location.lng} />
       <section>
-        <List
-          variant="locationDetail"
-          resource={apiRoutes.sightingsListByType(
-            "locationId",
-            locationId,
-            parsedPage,
-            sortBy,
-          )}
-          page={parsedPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
-        />
+        <Suspense
+          fallback={
+            <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
+          }
+        >
+          <List
+            variant="locationDetail"
+            resource={apiRoutes.sightingsListByType(
+              "locationId",
+              locationId,
+              parsedPage,
+              sortBy,
+            )}
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        </Suspense>
       </section>
     </>
   );

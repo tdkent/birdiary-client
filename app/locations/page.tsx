@@ -1,11 +1,14 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import List from "@/components/pages/shared/List";
+import Pending from "@/components/pages/shared/Pending";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortBySightingsCount,
 } from "@/models/form";
 import { apiRoutes } from "@/models/api";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 export default async function LocationsView({
   searchParams,
@@ -33,18 +36,27 @@ export default async function LocationsView({
         <h1>Locations</h1>
         <p>A list of all the locations where you have observed birds.</p>
       </header>
-      <List
-        variant="location"
-        resource={apiRoutes.sightingsGroupByType(
-          "location",
-          parsedPage,
-          sortBy,
-        )}
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={defaultSortOption}
-        sortOptions={sortOptions}
-      />
+      <Suspense
+        fallback={
+          <Pending
+            variant="listDoubleRowWithControls"
+            listSize={RESULTS_PER_PAGE}
+          />
+        }
+      >
+        <List
+          variant="location"
+          resource={apiRoutes.sightingsGroupByType(
+            "location",
+            parsedPage,
+            sortBy,
+          )}
+          page={parsedPage}
+          sortBy={sortBy}
+          defaultSortOption={defaultSortOption}
+          sortOptions={sortOptions}
+        />
+      </Suspense>
     </>
   );
 }
