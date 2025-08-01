@@ -21,8 +21,8 @@ import { signupFormSchema } from "@/models/form";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
 import TransferStorage from "@/components/pages/auth/TransferStorage";
-import type { AuthForm } from "@/models/api";
-import type { Sighting } from "@/models/db";
+import type { AuthForm } from "@/models/form";
+import type { SightingInStorage } from "@/models/display";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
@@ -42,7 +42,7 @@ export default function AuthForm() {
     if (pathname !== "/signin") return null;
     const sightingsInStorage = localStorage.getItem("sightings");
     if (!sightingsInStorage) return null;
-    const parsedSightings: Sighting[] = JSON.parse(sightingsInStorage);
+    const parsedSightings: SightingInStorage[] = JSON.parse(sightingsInStorage);
     if (!parsedSightings.length) return null;
     return parsedSightings;
   };
@@ -50,7 +50,12 @@ export default function AuthForm() {
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     const storageData = values.transferStorage
       ? sightingsInStorage()!.map((s) => {
-          return { commonName: s.commonName, desc: s.desc, date: s.date };
+          return {
+            id: s.id,
+            birdId: s.birdId,
+            description: s.description,
+            date: s.date,
+          };
         })
       : null;
 

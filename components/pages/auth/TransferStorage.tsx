@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Info } from "lucide-react";
-import type { AuthFormProp } from "@/models/api";
+import type { AuthFormProp } from "@/models/form";
 
 type TransferStorageType = {
   form: AuthFormProp;

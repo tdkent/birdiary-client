@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { Location } from "@/models/db";
 import { Messages, type ServerResponseWithError } from "@/models/api";
-import { editLocationSchema, type LocationForm } from "@/models/form";
+import {
+  editLocationSchema,
+  type LocationForm,
+  type CreateLocationDto,
+} from "@/models/form";
 import LocationInput from "@/components/forms/LocationInput";
 import { editLocation } from "@/actions/location";
 
@@ -27,9 +31,9 @@ export default function EditLocationForm({
   setError,
   setSuccess,
 }: EditLocationFormProps) {
-  const [updatedLocation, setUpdatedLocation] = useState<Location | undefined>(
-    location ?? undefined,
-  );
+  const [updatedLocation, setUpdatedLocation] = useState<
+    CreateLocationDto | undefined
+  >(location ?? undefined);
   const router = useRouter();
   const form = useForm<LocationForm>({
     resolver: zodResolver(editLocationSchema),
@@ -47,11 +51,11 @@ export default function EditLocationForm({
     if (!updatedLocation || updatedLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.SelectValidLocation,
+        message: Messages.InvalidLocationError,
       });
     }
 
-    const formValues: { location: Location } = {
+    const formValues: { location: CreateLocationDto } = {
       location: updatedLocation,
     };
 
