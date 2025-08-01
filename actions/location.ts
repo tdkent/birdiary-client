@@ -1,7 +1,7 @@
 import { apiRoutes } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 import { Messages } from "@/models/api";
-import type { Location } from "@/models/db";
+import type { CreateLocationDto } from "@/models/form";
 
 export async function getLocation(id: number) {
   try {
@@ -18,7 +18,7 @@ export async function getLocation(id: number) {
   }
 }
 
-export async function editLocation(id: number, formValues: Location) {
+export async function editLocation(id: number, formValues: CreateLocationDto) {
   try {
     const token = await getCookie();
     const response = await fetch(apiRoutes.location(id), {

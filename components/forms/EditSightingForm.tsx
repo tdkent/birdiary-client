@@ -15,8 +15,7 @@ import PendingIcon from "@/components/forms/PendingIcon";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { createIsoUtcDate } from "@/helpers/dates";
-import type { Location } from "@/models/db";
-import type { CreateSightingDto } from "@/models/form";
+import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
 import { apiRoutes, Messages } from "@/models/api";
 import { sightingSchema, type SightingForm } from "@/models/form";
 import BirdImage from "@/components/forms/BirdImage";
@@ -45,9 +44,9 @@ export default function EditSightingForm({
   } = sighting;
   const { isSignedIn } = useContext(AuthContext);
   const [isMatching, setIsMatching] = useState(false);
-  const [editLocation, setEditLocation] = useState<Location | undefined>(
-    sighting.location ?? undefined,
-  );
+  const [editLocation, setEditLocation] = useState<
+    CreateLocationDto | undefined
+  >(sighting.location ?? undefined);
 
   const { toast } = useToast();
   const { useMutation } = useApi();
@@ -92,7 +91,7 @@ export default function EditSightingForm({
   }, [success, toast]);
 
   async function onSubmit(values: SightingForm) {
-    let validatedLocation: Location | undefined = editLocation;
+    let validatedLocation: CreateLocationDto | undefined = editLocation;
     if (!values.location) {
       validatedLocation = undefined;
     }
