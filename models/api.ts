@@ -1,5 +1,9 @@
 import type { Bird } from "@/models/db";
-import type { ListVariant, ListWithCount } from "@/models/display";
+import type {
+  ListVariant,
+  ListWithCount,
+  SightingWithLocation,
+} from "@/models/display";
 import { BASE_URL } from "@/constants/env";
 import type { CountOfRecords, List } from "@/models/display";
 
@@ -98,5 +102,5 @@ export type ServerResponseWithError = {
   statusCode: number;
   message: Exclude<string | string[], "ok">;
 };
-export type ServerResponseWithObject = Bird;
+export type ServerResponseWithObject = Bird | SightingWithLocation;
 export type ServerResponseWithList = List & CountOfRecords;
