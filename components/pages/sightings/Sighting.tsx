@@ -1,4 +1,5 @@
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import BirdImage from "@/components/pages/shared/BirdImage";
 import {
   type ServerResponseWithError,
   type ServerResponseWithObject,
@@ -20,6 +21,11 @@ export default async function Sighting({ sightingId }: { sightingId: number }) {
   }
 
   const sighting = result as SightingWithLocation;
-  console.log(sighting);
-  return <>{sightingId}</>;
+  return (
+    <>
+      <section>
+        <BirdImage bird={sighting.bird} />
+      </section>
+    </>
+  );
 }
