@@ -17,13 +17,11 @@ import type { CountOfRecords, List } from "@/models/display";
 export type Cache = {
   sightings: Array<() => void>;
   diary: Array<() => void>;
-  locations: Array<() => void>;
 };
 
 export const defaultCache: Cache = {
   sightings: [],
   diary: [],
-  locations: [],
 };
 
 /** Server request URLs */
@@ -61,9 +59,9 @@ export type QueryParameters = {
 
 export type MutationParameters = {
   route: string;
-  tag: "sightings" | "locations";
+  tag: "sightings";
   method: "POST" | "PUT" | "PATCH" | "DELETE";
-  tagsToUpdate: ("sightings" | "locations")[];
+  tagsToUpdate: "sightings"[];
 };
 
 // ======= RESPONSES =======
