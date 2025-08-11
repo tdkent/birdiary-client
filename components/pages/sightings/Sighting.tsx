@@ -10,9 +10,12 @@ import {
   ServerResponseWithError,
   ServerResponseWithObject,
 } from "@/models/api";
-import type { SightingInStorage, SightingWithLocation } from "@/models/display";
-import BirdImage from "@/components/forms/BirdImage";
+import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
+import BirdImage from "@/components/forms/BirdImage";
+import DeleteItem from "@/components/pages/shared/DeleteItem";
+import Modal from "@/components/ui/Modal";
+import { getCookie } from "@/helpers/auth";
 
 type SightingProps = {
   sightingId: number;
@@ -20,12 +23,11 @@ type SightingProps = {
 
 /** Fetch and display sighting data. */
 export default function Sighting({ sightingId }: SightingProps) {
-  const { token } = useContext(AuthContext);
-  const [data, setData] = useState<
-    SightingWithLocation | SightingInStorage | null
-  >(null);
+  const { isSignedIn } = useContext(AuthContext);
+  const [data, setData] = useState<SightingWithLocation | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { toast } = useToast();
   const route = apiRoutes.sighting(sightingId);
@@ -33,6 +35,7 @@ export default function Sighting({ sightingId }: SightingProps) {
   useEffect(() => {
     async function query() {
       setError(null);
+      const token = await getCookie();
       if (token) {
         setPending(true);
         try {
@@ -68,14 +71,14 @@ export default function Sighting({ sightingId }: SightingProps) {
         }
         const data = JSON.parse(
           window.localStorage.getItem("sightings")!,
-        ) as SightingInStorage[];
+        ) as SightingWithLocation[];
         const sighting = data.find((s) => s.id === sightingId);
         if (!sighting) return setError("Resource not found");
         setData(sighting);
       }
     }
     query();
-  }, [route, sightingId, token]);
+  }, [route, sightingId]);
 
   useEffect(() => {
     if (error) {
@@ -100,42 +103,6 @@ export default function Sighting({ sightingId }: SightingProps) {
     return <p>Loading...</p>;
   }
 
-  if (!token) {
-    const { bird, date, description } = data as SightingInStorage;
-    return (
-      <>
-        <section>
-          <BirdImage currBirdName={bird.commonName} />
-          <h2>{bird.commonName}</h2>
-          <dl className="my-8 flex flex-col gap-6">
-            <div>
-              <dt className="text-xs font-semibold uppercase">Date</dt>
-              <dd className="">{createLocaleString(date, "full")}</dd>
-              <Link
-                href={`/diary/${date.slice(0, 10)}`}
-                className="text-sm italic hover:underline"
-              >
-                View diary
-              </Link>
-            </div>
-            <div>
-              <dt className="text-xs font-semibold uppercase">Description</dt>
-              {description ? (
-                <>
-                  <dd>{description}</dd>
-                </>
-              ) : (
-                <>
-                  <dd className="italic">No description provided</dd>
-                </>
-              )}
-            </div>
-          </dl>
-        </section>
-      </>
-    );
-  }
-
   const { bird, date, description, location } = data as SightingWithLocation;
   return (
     <>
@@ -153,24 +120,28 @@ export default function Sighting({ sightingId }: SightingProps) {
               View diary
             </Link>
           </div>
-          <div>
-            <dt className="text-xs font-semibold uppercase">Location</dt>
-            {location ? (
-              <>
-                <dd>{location.name}</dd>
-                <Link
-                  href={`/locations/${location.id} ${location.name}`}
-                  className="text-sm italic hover:underline"
-                >
-                  View location
-                </Link>
-              </>
-            ) : (
-              <>
-                <dd className="italic">No location provided</dd>
-              </>
-            )}
-          </div>
+          {isSignedIn && (
+            <>
+              <div>
+                <dt className="text-xs font-semibold uppercase">Location</dt>
+                {location ? (
+                  <>
+                    <dd>{location.name}</dd>
+                    <Link
+                      href={`/locations/${location.id} ${location.name}`}
+                      className="text-sm italic hover:underline"
+                    >
+                      View location
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <dd className="italic">No location provided</dd>
+                  </>
+                )}
+              </div>
+            </>
+          )}
           <div>
             <dt className="text-xs font-semibold uppercase">Description</dt>
             {description ? (
@@ -184,6 +155,15 @@ export default function Sighting({ sightingId }: SightingProps) {
             )}
           </div>
         </dl>
+        <Modal
+          open={open}
+          setOpen={setOpen}
+          triggerText="delete"
+          title="Confirm Delete"
+          description="This will permanently delete one of your sightings."
+        >
+          <DeleteItem item={data} setOpen={setOpen} routeTo="/sightings" />
+        </Modal>
       </section>
     </>
   );
