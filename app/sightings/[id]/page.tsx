@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Sighting from "@/components/pages/sightings/Sighting";
 
@@ -21,9 +20,7 @@ export default async function SightingView({
           View and edit the details of one of your sightings.
         </p>
       </header>
-      <Suspense fallback={"Loading..."}>
-        <Sighting sightingId={parsedId} />
-      </Suspense>
+      <Sighting sightingId={parsedId} />
     </>
   );
 }
