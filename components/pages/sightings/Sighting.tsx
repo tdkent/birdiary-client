@@ -70,8 +70,7 @@ export default function Sighting({ sightingId }: SightingProps) {
           window.localStorage.getItem("sightings")!,
         ) as SightingInStorage[];
         const sighting = data.find((s) => s.id === sightingId);
-        // TODO: handle if no sighting
-        if (!sighting) return;
+        if (!sighting) return setError("Resource not found");
         setData(sighting);
       }
     }
@@ -89,7 +88,12 @@ export default function Sighting({ sightingId }: SightingProps) {
   }, [error, toast]);
 
   if (error) {
-    return <p>An error occurred!</p>;
+    return (
+      <>
+        <p>An error occurred!</p>
+        <p>{error}</p>
+      </>
+    );
   }
 
   if (!data || pending) {
