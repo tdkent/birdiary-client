@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/AuthContext";
 import {
   apiRoutes,
@@ -155,18 +156,23 @@ export default function Sighting({ sightingId }: SightingProps) {
             )}
           </div>
         </dl>
-        <Modal
-          buttonSize="lg"
-          buttonStyles="w-full"
-          buttonVariant="destructive"
-          description="This will permanently delete one of your sightings."
-          open={open}
-          setOpen={setOpen}
-          title="Confirm Delete"
-          triggerText="Delete"
-        >
-          <DeleteItem item={data} setOpen={setOpen} routeTo="/sightings" />
-        </Modal>
+        <div className="flex flex-col gap-4">
+          <Button asChild className="w-full" size="lg" variant="secondary">
+            <Link href={`/sightings/${sightingId}/edit`}>Edit</Link>
+          </Button>
+          <Modal
+            buttonSize="lg"
+            buttonStyles="w-full"
+            buttonVariant="destructive"
+            description="This will permanently delete one of your sightings."
+            open={open}
+            setOpen={setOpen}
+            title="Confirm Delete"
+            triggerText="Delete"
+          >
+            <DeleteItem item={data} setOpen={setOpen} routeTo="/sightings" />
+          </Modal>
+        </div>
       </section>
     </>
   );
