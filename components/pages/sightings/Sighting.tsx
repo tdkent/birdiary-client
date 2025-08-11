@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import {
   apiRoutes,
@@ -10,6 +11,8 @@ import {
 } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import { getCookie } from "@/helpers/auth";
+import BirdImage from "@/components/forms/BirdImage";
+import { createLocaleString } from "@/helpers/dates";
 
 type SightingProps = {
   sightingId: number;
@@ -79,14 +82,59 @@ export default function Sighting({ sightingId }: SightingProps) {
     return <p>An error occurred!</p>;
   }
 
-  if (pending) {
+  if (!data || pending) {
     return <p>Loading...</p>;
   }
 
-  const sighting = data as SightingWithLocation;
+  const { bird, date, description, location } = data as SightingWithLocation;
   return (
     <>
-      <section>{/* <BirdImage bird={sighting.bird} /> */}</section>
+      <section>
+        <BirdImage currBirdName={bird.commonName} />
+        <h2>{bird.commonName}</h2>
+        <dl className="my-8 flex flex-col gap-6">
+          <div>
+            <dt className="text-xs font-semibold uppercase">Date</dt>
+            <dd className="">{createLocaleString(date, "full")}</dd>
+            <Link
+              href={`/diary/${date.slice(0, 10)}`}
+              className="text-sm italic hover:underline"
+            >
+              View diary
+            </Link>
+          </div>
+          <div>
+            <dt className="text-xs font-semibold uppercase">Location</dt>
+            {location ? (
+              <>
+                <dd>{location.name}</dd>
+                <Link
+                  href={`/locations/${location.id} ${location.name}`}
+                  className="text-sm italic hover:underline"
+                >
+                  View location
+                </Link>
+              </>
+            ) : (
+              <>
+                <dd className="italic">No location provided</dd>
+              </>
+            )}
+          </div>
+          <div>
+            <dt className="text-xs font-semibold uppercase">Description</dt>
+            {description ? (
+              <>
+                <dd>{description}</dd>
+              </>
+            ) : (
+              <>
+                <dd className="italic">No description provided</dd>
+              </>
+            )}
+          </div>
+        </dl>
+      </section>
     </>
   );
 }
