@@ -92,23 +92,29 @@ export default function CsrListItemDetails({
             </CardContent>
             <CardFooter className="justify-between">
               <Modal
+                buttonSize="sm"
+                buttonStyles="w-full p-0 hover:bg-transparent"
+                buttonVariant="ghost"
+                description="Update the details about one of your sightings."
                 open={editModalOpen}
                 setOpen={setEditModalOpen}
-                triggerText="edit"
                 title="Edit Sighting"
-                description="Update the details about one of your sightings."
+                triggerText="edit"
               >
                 <EditSightingForm
-                  sighting={sighting}
                   setOpen={setEditModalOpen}
+                  sighting={sighting}
                 />
               </Modal>
               <Modal
+                buttonSize="sm"
+                buttonStyles="w-full p-0 hover:bg-transparent"
+                buttonVariant="ghost"
+                description="This will permanently delete one of your sightings."
                 open={deleteModalOpen}
                 setOpen={setDeleteModalOpen}
-                triggerText="delete"
                 title="Confirm Delete"
-                description="This will permanently delete one of your sightings."
+                triggerText="delete"
               >
                 <DeleteItem item={sighting} setOpen={setDeleteModalOpen} />
               </Modal>

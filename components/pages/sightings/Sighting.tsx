@@ -156,11 +156,14 @@ export default function Sighting({ sightingId }: SightingProps) {
           </div>
         </dl>
         <Modal
+          buttonSize="lg"
+          buttonStyles="w-full"
+          buttonVariant="destructive"
+          description="This will permanently delete one of your sightings."
           open={open}
           setOpen={setOpen}
-          triggerText="delete"
           title="Confirm Delete"
-          description="This will permanently delete one of your sightings."
+          triggerText="Delete"
         >
           <DeleteItem item={data} setOpen={setOpen} routeTo="/sightings" />
         </Modal>

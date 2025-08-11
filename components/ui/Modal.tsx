@@ -14,23 +14,35 @@ import {
 import { Button } from "@/components/ui/button";
 
 type ModalProps = {
+  buttonSize: "default" | "sm" | "lg" | "icon" | null | undefined;
+  buttonStyles: string;
+  buttonVariant:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+  children: React.ReactNode;
+  description: string;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  triggerText: string;
-  buttonTrigger?: boolean;
   title: string;
-  description: string;
-  children: React.ReactNode;
+  triggerText: string;
 };
 
 export default function Modal({
+  buttonSize,
+  buttonStyles,
+  buttonVariant,
+  children,
+  description,
   open,
   setOpen,
-  triggerText,
-  // buttonTrigger,
   title,
-  description,
-  children,
+  triggerText,
 }: ModalProps) {
   // This effect is needed to manage clicks inside the Place Autocomplete dropdown.
   // Although the dropdown appears to be inside the <Dialog>, it is actually outside
@@ -57,9 +69,9 @@ export default function Modal({
   return (
     <>
       <Button
-        variant="ghost"
-        size="sm"
-        className="w-fit p-0 hover:bg-transparent"
+        className={buttonStyles}
+        variant={buttonVariant}
+        size={buttonSize}
         onClick={() => setOpen(true)}
       >
         {triggerText}
@@ -81,34 +93,5 @@ export default function Modal({
         </DialogContent>
       </Dialog>
     </>
-    // <Dialog>
-    //   <DialogTrigger>
-    //     {buttonTrigger ? (
-    //       <Button
-    //         variant="ghost"
-    //         className="w-fit p-0 hover:bg-transparent"
-    //         asChild
-    //       >
-    //         <span>{triggerText}</span>
-    //       </Button>
-    //     ) : (
-    //       triggerText
-    //     )}
-    //   </DialogTrigger>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle>{title}</DialogTitle>
-    //       <DialogDescription>{description}</DialogDescription>
-    //     </DialogHeader>
-    //     {children}
-    //     <DialogFooter>
-    //       <DialogClose asChild>
-    //         <Button type="button" variant="secondary">
-    //           Cancel
-    //         </Button>
-    //       </DialogClose>
-    //     </DialogFooter>
-    //   </DialogContent>
-    // </Dialog>
   );
 }
