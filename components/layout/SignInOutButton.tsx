@@ -21,18 +21,20 @@ export default function SignInOutButton() {
     return (
       <>
         <Modal
+          buttonSize="sm"
+          buttonStyles="w-full p-0 hover:bg-transparent"
+          buttonVariant="ghost"
+          description="Are you sure you want to sign out?"
           open={open}
           setOpen={setOpen}
-          triggerText="Sign Out"
-          buttonTrigger
           title="Sign Out"
-          description="Are you sure you want to sign out?"
+          triggerText="Sign Out"
         >
           <div>
             <Button
               className="w-full"
-              variant="destructive"
               onClick={handleSignOut}
+              variant="destructive"
             >
               Sign Out
             </Button>

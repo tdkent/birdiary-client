@@ -1,5 +1,9 @@
 import type { Bird } from "@/models/db";
-import type { ListVariant, ListWithCount } from "@/models/display";
+import type {
+  ListVariant,
+  ListWithCount,
+  SightingWithLocation,
+} from "@/models/display";
 import { BASE_URL } from "@/constants/env";
 import type { CountOfRecords, List } from "@/models/display";
 
@@ -13,13 +17,11 @@ import type { CountOfRecords, List } from "@/models/display";
 export type Cache = {
   sightings: Array<() => void>;
   diary: Array<() => void>;
-  locations: Array<() => void>;
 };
 
 export const defaultCache: Cache = {
   sightings: [],
   diary: [],
-  locations: [],
 };
 
 /** Server request URLs */
@@ -57,9 +59,9 @@ export type QueryParameters = {
 
 export type MutationParameters = {
   route: string;
-  tag: "sightings" | "locations";
+  tag: "sightings";
   method: "POST" | "PUT" | "PATCH" | "DELETE";
-  tagsToUpdate: ("sightings" | "locations")[];
+  tagsToUpdate: "sightings"[];
 };
 
 // ======= RESPONSES =======
@@ -98,5 +100,5 @@ export type ServerResponseWithError = {
   statusCode: number;
   message: Exclude<string | string[], "ok">;
 };
-export type ServerResponseWithObject = Bird;
+export type ServerResponseWithObject = Bird | SightingWithLocation;
 export type ServerResponseWithList = List & CountOfRecords;

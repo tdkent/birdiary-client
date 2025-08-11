@@ -9,11 +9,14 @@ export default function DetailedSightingModal() {
   return (
     <>
       <Modal
+        buttonSize="sm"
+        buttonStyles="w-full p-0 hover:bg-transparent"
+        buttonVariant="ghost"
+        description="Add a new bird sighting to your diary."
         open={open}
         setOpen={setOpen}
-        triggerText="+ Add detailed sighting"
         title="Add New Sighting"
-        description="Add a new bird sighting to your diary."
+        triggerText="+ Add detailed sighting"
       >
         <SightingForm />
       </Modal>

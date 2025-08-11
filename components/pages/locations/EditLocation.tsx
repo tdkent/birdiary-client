@@ -43,11 +43,14 @@ export default function EditLocation({
 
   return (
     <Modal
+      buttonSize="sm"
+      buttonStyles="w-full p-0 hover:bg-transparent"
+      buttonVariant="ghost"
+      description="Update location address and map."
       open={open}
       setOpen={setOpen}
-      triggerText="edit"
       title="Edit Location"
-      description="Update location address and map."
+      triggerText="edit"
     >
       <EditLocationForm
         location={location}

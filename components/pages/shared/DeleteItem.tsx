@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
@@ -6,13 +7,18 @@ import { apiRoutes } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 
 type DeleteItemProps = {
-  variant: "sighting";
+  routeTo?: "/sightings";
   item: SightingWithLocation;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function DeleteItem({ item, setOpen }: DeleteItemProps) {
+export default function DeleteItem({
+  routeTo,
+  item,
+  setOpen,
+}: DeleteItemProps) {
   const { toast } = useToast();
+  const router = useRouter();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: apiRoutes.sighting(item.id),
@@ -37,8 +43,9 @@ export default function DeleteItem({ item, setOpen }: DeleteItemProps) {
         title: "Success",
         description: "Sighting deleted",
       });
+      if (routeTo) router.replace(routeTo);
     }
-  }, [success, toast]);
+  }, [router, routeTo, success, toast]);
 
   const onDelete = async () => {
     mutate({});
