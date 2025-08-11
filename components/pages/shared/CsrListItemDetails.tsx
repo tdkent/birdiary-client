@@ -110,11 +110,7 @@ export default function CsrListItemDetails({
                 title="Confirm Delete"
                 description="This will permanently delete one of your sightings."
               >
-                <DeleteItem
-                  variant="sighting"
-                  item={sighting}
-                  setOpen={setDeleteModalOpen}
-                />
+                <DeleteItem item={sighting} setOpen={setDeleteModalOpen} />
               </Modal>
             </CardFooter>
           </Card>
