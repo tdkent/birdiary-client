@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -141,6 +142,9 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
             ) : (
               "Update Sighting"
             )}
+          </Button>
+          <Button asChild className="w-full" variant="secondary">
+            <Link href={`/sightings/${sighting.id}`}>Cancel</Link>
           </Button>
         </form>
       </Form>
