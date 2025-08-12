@@ -146,7 +146,11 @@ function editSighting(formValues: CreateSightingDto, route: string) {
   const updateSighting = sightings.map((sighting) => {
     if (sighting.id === id) {
       sightingDate = sighting.date;
-      return { ...sighting, ...formValues };
+      return {
+        ...sighting,
+        ...formValues,
+        bird: { commonName: birdNames[formValues.birdId - 1] },
+      };
     }
     return sighting;
   });
