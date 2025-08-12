@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  type Dispatch,
-  type SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
@@ -29,13 +25,9 @@ import birdNames from "@/data/birds";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
-  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function EditSightingForm({
-  sighting,
-  setOpen,
-}: EditSightingFormProps) {
+export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   const {
     bird: { commonName },
     date,
@@ -49,6 +41,8 @@ export default function EditSightingForm({
   >(sighting.location ?? undefined);
 
   const { toast } = useToast();
+  const router = useRouter();
+
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: apiRoutes.sighting(sighting.id),
@@ -87,8 +81,9 @@ export default function EditSightingForm({
         title: Messages.ToastSuccessTitle,
         description: "Sighting updated",
       });
+      router.replace(`/sightings/${sighting.id}`);
     }
-  }, [success, toast]);
+  }, [router, sighting.id, success, toast]);
 
   async function onSubmit(values: SightingForm) {
     let validatedLocation: CreateLocationDto | undefined = editLocation;
@@ -113,7 +108,6 @@ export default function EditSightingForm({
 
     mutate(formValues);
     form.reset();
-    setOpen(false);
   }
 
   return (
@@ -148,6 +142,9 @@ export default function EditSightingForm({
             ) : (
               "Update Sighting"
             )}
+          </Button>
+          <Button asChild className="w-full" variant="secondary">
+            <Link href={`/sightings/${sighting.id}`}>Cancel</Link>
           </Button>
         </form>
       </Form>
