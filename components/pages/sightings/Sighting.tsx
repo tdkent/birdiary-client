@@ -104,7 +104,7 @@ export default function Sighting({ sightingId }: SightingProps) {
     return <p>Loading...</p>;
   }
 
-  const { bird, date, description, location } = data as SightingWithLocation;
+  const { bird, date, description, location } = data;
   return (
     <>
       <section>

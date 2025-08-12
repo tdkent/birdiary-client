@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  type Dispatch,
-  type SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
@@ -29,13 +23,9 @@ import birdNames from "@/data/birds";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
-  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function EditSightingForm({
-  sighting,
-  setOpen,
-}: EditSightingFormProps) {
+export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   const {
     bird: { commonName },
     date,
@@ -113,7 +103,6 @@ export default function EditSightingForm({
 
     mutate(formValues);
     form.reset();
-    setOpen(false);
   }
 
   return (

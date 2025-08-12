@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import {
 import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
 import Modal from "@/components/ui/Modal";
-import EditSightingForm from "@/components/forms/EditSightingForm";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
 
 type CsrListItemDetailsProps =
@@ -42,7 +42,6 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
-  const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
@@ -91,21 +90,14 @@ export default function CsrListItemDetails({
               <p>{sighting.description}</p>
             </CardContent>
             <CardFooter className="justify-between">
-              <Modal
-                buttonSize="sm"
-                buttonStyles="w-full p-0 hover:bg-transparent"
-                buttonVariant="ghost"
-                description="Update the details about one of your sightings."
-                open={editModalOpen}
-                setOpen={setEditModalOpen}
-                title="Edit Sighting"
-                triggerText="edit"
+              <Button
+                asChild
+                className="p-0 hover:bg-transparent"
+                size="sm"
+                variant="ghost"
               >
-                <EditSightingForm
-                  setOpen={setEditModalOpen}
-                  sighting={sighting}
-                />
-              </Modal>
+                <Link href={`/sightings/${sighting.id}/edit`}>edit</Link>
+              </Button>
               <Modal
                 buttonSize="sm"
                 buttonStyles="w-full p-0 hover:bg-transparent"
