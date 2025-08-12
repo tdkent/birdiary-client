@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useApi } from "@/context/ApiContext";
@@ -39,6 +40,8 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   >(sighting.location ?? undefined);
 
   const { toast } = useToast();
+  const router = useRouter();
+
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: apiRoutes.sighting(sighting.id),
@@ -77,8 +80,9 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
         title: Messages.ToastSuccessTitle,
         description: "Sighting updated",
       });
+      router.replace(`/sightings/${sighting.id}`);
     }
-  }, [success, toast]);
+  }, [router, sighting.id, success, toast]);
 
   async function onSubmit(values: SightingForm) {
     let validatedLocation: CreateLocationDto | undefined = editLocation;
