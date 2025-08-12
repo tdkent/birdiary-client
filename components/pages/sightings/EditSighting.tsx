@@ -12,6 +12,7 @@ import {
 } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import { getCookie } from "@/helpers/auth";
+import Pending from "@/components/pages/shared/Pending";
 
 type EditSightingProps = {
   sightingId: number;
@@ -93,14 +94,16 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   }
 
   if (!data || pending) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <Pending variant="sightingForm" />
+      </>
+    );
   }
-
-  const sighting = data;
 
   return (
     <>
-      <EditSightingForm sighting={sighting} />
+      <EditSightingForm sighting={data} />
     </>
   );
 }

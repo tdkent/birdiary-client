@@ -11,7 +11,9 @@ type PendingProps = {
     | "listDoubleRow"
     | "location"
     | "profile"
-    | "profileForm";
+    | "profileForm"
+    | "sighting"
+    | "sightingForm";
   listSize?: number;
 };
 
@@ -156,6 +158,42 @@ export default function Pending({ variant, listSize }: PendingProps) {
             <Skeleton className="h-12 w-full" />
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </>
+      );
+    }
+
+    case "sighting": {
+      return (
+        <>
+          <div className="mb-4 mt-8 flex flex-col gap-4">
+            <Skeleton className="h-48 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </>
+      );
+    }
+
+    case "sightingForm": {
+      return (
+        <>
+          <div className="mb-4 mt-8 flex flex-col gap-4">
+            <Skeleton className="h-48 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-36 w-full" />
             <Skeleton className="h-12 w-full" />
             <Skeleton className="h-12 w-full" />
           </div>

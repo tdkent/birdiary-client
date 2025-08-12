@@ -17,6 +17,8 @@ import BirdImage from "@/components/forms/BirdImage";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
 import Modal from "@/components/ui/Modal";
 import { getCookie } from "@/helpers/auth";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import Pending from "@/components/pages/shared/Pending";
 
 type SightingProps = {
   sightingId: number;
@@ -94,14 +96,17 @@ export default function Sighting({ sightingId }: SightingProps) {
   if (error) {
     return (
       <>
-        <p>An error occurred!</p>
-        <p>{error}</p>
+        <ErrorDisplay msg={error} />
       </>
     );
   }
 
   if (!data || pending) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <Pending variant="sighting" />
+      </>
+    );
   }
 
   const { bird, date, description, location } = data;
