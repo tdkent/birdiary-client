@@ -9,6 +9,7 @@ import type {
 import type { SightingWithBird } from "@/models/display";
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
+import { formatBirdNameToUrl } from "@/helpers/data";
 
 type CsrListItemProps = {
   item:
@@ -30,7 +31,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       return (
         <CsrListItemDetails
           variant="list"
-          href={`/birds/${commonName.replaceAll(" ", "_")}`}
+          href={`/birds/${formatBirdNameToUrl(commonName)}`}
           text={commonName}
           subtext={createRelativeDate(date)}
         />
