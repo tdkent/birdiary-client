@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
-import Modal from "@/components/ui/Modal";
-import DeleteItem from "@/components/pages/shared/DeleteItem";
+// import Modal from "@/components/ui/Modal";
+// import DeleteItem from "@/components/pages/shared/DeleteItem";
 
 type CsrListItemDetailsProps =
   | {
@@ -42,7 +42,7 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
@@ -96,9 +96,17 @@ export default function CsrListItemDetails({
                 size="sm"
                 variant="ghost"
               >
-                <Link href={`/sightings/${sighting.id}/edit`}>edit</Link>
+                <Link href={`/sightings/${sighting.id}`}>View details</Link>
               </Button>
-              <Modal
+              {/* <Button
+                asChild
+                className="p-0 hover:bg-transparent"
+                size="sm"
+                variant="ghost"
+              >
+                <Link href={`/sightings/${sighting.id}/edit`}>edit</Link>
+              </Button> */}
+              {/* <Modal
                 buttonSize="sm"
                 buttonStyles="w-full p-0 hover:bg-transparent"
                 buttonVariant="ghost"
@@ -109,7 +117,7 @@ export default function CsrListItemDetails({
                 triggerText="delete"
               >
                 <DeleteItem item={sighting} setOpen={setDeleteModalOpen} />
-              </Modal>
+              </Modal> */}
             </CardFooter>
           </Card>
         </>
