@@ -43,7 +43,7 @@ type Api = {
     error: string | null;
     pending: boolean;
     mutate: <T>(body: T) => void;
-    data: Sighting | null;
+    data: Sighting | SightingInStorage | null;
   };
 };
 
@@ -133,7 +133,7 @@ export default function ApiProvider({
     tagsToUpdate,
   }: MutationParameters) {
     const [success, setSuccess] = useState(false);
-    const [data, setData] = useState<Sighting | null>(null);
+    const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
@@ -177,7 +177,13 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        mutateStorage(tag, method, formValues as CreateSightingDto, route);
+        const result: SightingInStorage = mutateStorage(
+          tag,
+          method,
+          formValues as CreateSightingDto,
+          route,
+        );
+        setData(result);
         setSuccess(true);
       }
 

@@ -102,16 +102,13 @@ export function mutateStorage(
 ) {
   switch (method) {
     case "POST": {
-      addSighting(formValues);
-      break;
+      return addSighting(formValues);
     }
     case "PATCH": {
-      editSighting(formValues, route);
-      break;
+      return editSighting(formValues, route);
     }
     case "DELETE": {
-      deleteSighting(route);
-      break;
+      return deleteSighting(route);
     }
     default:
       throw new Error("Invalid request method");
@@ -128,13 +125,15 @@ function addSighting(formValues: CreateSightingDto) {
     window.localStorage.getItem("sightings")!,
   );
 
-  sightings.push({
+  const sighting = {
     ...formValues,
     id: sightings.length ? sightings[sightings.length - 1].id + 1 : 1,
     bird: { commonName: birdNames[formValues.birdId - 1] },
-  });
+  };
+  sightings.push(sighting);
   window.localStorage.setItem("sightings", JSON.stringify(sightings));
   addToDiary(formValues.date);
+  return sighting;
 }
 
 function editSighting(formValues: CreateSightingDto, route: string) {
@@ -155,9 +154,11 @@ function editSighting(formValues: CreateSightingDto, route: string) {
     return sighting;
   });
   window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
-  if (formValues.date === sightingDate) return;
+  const updatedSighting = updateSighting.find((s) => s.id === id)!;
+  if (formValues.date === sightingDate) return updatedSighting;
   addToDiary(formValues.date);
   removeFromDiary(sightingDate);
+  return updatedSighting;
 }
 
 function deleteSighting(route: string) {
@@ -165,10 +166,11 @@ function deleteSighting(route: string) {
   const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
-  const { date } = sightings.find((sighting) => sighting.id === id)!;
+  const deletedSighting = sightings.find((sighting) => sighting.id === id)!;
   const deleteSighting = sightings.filter((sighting) => sighting.id !== id);
   window.localStorage.setItem("sightings", JSON.stringify(deleteSighting));
-  removeFromDiary(date);
+  removeFromDiary(deletedSighting.date);
+  return deletedSighting;
 }
 
 function addToDiary(date: string) {
