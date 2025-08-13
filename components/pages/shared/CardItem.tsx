@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { createLocaleString } from "@/helpers/dates";
 import { SightingWithBird } from "@/models/display";
+import Link from "next/link";
 
 type CardItemProps = {
   sighting: SightingWithBird;
@@ -18,6 +19,7 @@ export default function CardItem({ sighting }: CardItemProps) {
     bird: { commonName },
     description,
     date,
+    id,
   } = sighting;
   return (
     <>
@@ -33,7 +35,9 @@ export default function CardItem({ sighting }: CardItemProps) {
             <p>{description}</p>
           </CardContent>
           <CardFooter>
-            <Button variant="ghost">edit</Button>
+            <Button asChild>
+              <Link href={`/sightings/${id}`}>View details</Link>
+            </Button>
           </CardFooter>
         </Card>
       </li>
