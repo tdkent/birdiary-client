@@ -67,7 +67,7 @@ export function sortSightings(
 
 /** Format bird name from standard to URL. */
 export function formatBirdNameToUrl(commonName: string) {
-  return commonName.replaceAll(" ", "_");
+  return commonName.replaceAll(" ", "_").replaceAll(`'`, "");
 }
 
 /** Format bird name from URL to standard. */

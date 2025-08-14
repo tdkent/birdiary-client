@@ -22,7 +22,7 @@ export default async function BirdDetailsView({
 
   const formattedName = formatUrlToBirdName(name).toLowerCase();
   const birdIdx = birdNames.findIndex(
-    (bird) => bird.toLowerCase() === formattedName,
+    (bird) => bird.replaceAll(`'`, "").toLowerCase() === formattedName,
   );
 
   if (birdIdx === -1) {
