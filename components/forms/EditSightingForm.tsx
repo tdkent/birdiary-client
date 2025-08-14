@@ -55,7 +55,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     resolver: zodResolver(sightingSchema),
     defaultValues: {
       commonName,
-      date: new Date(date),
+      date: new Date(date) || new Date(),
       description: description || "",
       location: location?.name || "",
     },
