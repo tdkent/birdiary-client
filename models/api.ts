@@ -84,10 +84,6 @@ export enum Messages {
   DefaultError = "An unexpected error occurred. Please try again later.",
 }
 
-export type MutationSuccess = {
-  message: "ok";
-};
-
 export type CsrQuerySuccess = { data: ListWithCount };
 
 export type QuerySuccess = {

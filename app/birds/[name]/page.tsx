@@ -7,6 +7,7 @@ import { apiRoutes } from "@/models/api";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
+import { formatUrlToBirdName } from "@/helpers/data";
 
 type BirdDetailsViewParams = {
   params: Promise<{ name: string }>;
@@ -19,15 +20,15 @@ export default async function BirdDetailsView({
 }: BirdDetailsViewParams) {
   const { name } = await params;
 
-  const filteredName = name.replaceAll("_", " ").toLowerCase();
+  const formattedName = formatUrlToBirdName(name).toLowerCase();
   const birdIdx = birdNames.findIndex(
-    (bird) => bird.toLowerCase() === filteredName,
+    (bird) => bird.replaceAll(`'`, "").toLowerCase() === formattedName,
   );
 
   if (birdIdx === -1) {
     return (
       <>
-        <p>Could not find &apos;{filteredName}&apos;</p>
+        <p>Could not find &apos;{formattedName}&apos;</p>
         <Link href="/birds">See all birds</Link>
       </>
     );

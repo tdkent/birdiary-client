@@ -24,13 +24,14 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
   switch (variant) {
     case "sighting": {
       const {
-        date,
         bird: { commonName },
+        date,
+        id,
       } = item as SightingWithBird;
       return (
         <CsrListItemDetails
           variant="list"
-          href={`/birds/${commonName.replaceAll(" ", "_")}`}
+          href={`/sightings/${id}`}
           text={commonName}
           subtext={createRelativeDate(date)}
         />

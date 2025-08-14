@@ -13,13 +13,13 @@
 // Create a generic `request` function to use for fetch requests
 
 import { createContext, useContext, useEffect, useState } from "react";
+import type { Sighting } from "@/models/db";
 import {
   defaultCache,
   Messages,
   type Cache,
   type QueryParameters,
   type MutationParameters,
-  type MutationSuccess,
   type ServerResponseWithList,
   type ServerResponseWithError,
 } from "@/models/api";
@@ -43,6 +43,7 @@ type Api = {
     error: string | null;
     pending: boolean;
     mutate: <T>(body: T) => void;
+    data: Sighting | SightingInStorage | null;
   };
 };
 
@@ -54,6 +55,7 @@ export const ApiContext = createContext<Api>({
     error: null,
     pending: false,
     mutate: () => {},
+    data: null,
   }),
 });
 
@@ -131,6 +133,7 @@ export default function ApiProvider({
     tagsToUpdate,
   }: MutationParameters) {
     const [success, setSuccess] = useState(false);
+    const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
@@ -150,16 +153,17 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const data: ServerResponseWithError | MutationSuccess =
+          const result: Sighting | ServerResponseWithError =
             await response.json();
 
-          if ("error" in data) {
-            const msg = Array.isArray(data.message)
-              ? data.message.join(",")
-              : data.message;
-            throw new Error(`${data.error}: ${msg}`);
+          if ("error" in result) {
+            const msg = Array.isArray(result.message)
+              ? result.message.join(",")
+              : result.message;
+            throw new Error(`${result.error}: ${msg}`);
           }
 
+          setData(result);
           setSuccess(true);
         } catch (error) {
           if (error instanceof Error) {
@@ -173,7 +177,13 @@ export default function ApiProvider({
       }
       // Otherwise send mutation to browser storage
       else {
-        mutateStorage(tag, method, formValues as CreateSightingDto, route);
+        const result: SightingInStorage = mutateStorage(
+          tag,
+          method,
+          formValues as CreateSightingDto,
+          route,
+        );
+        setData(result);
         setSuccess(true);
       }
 
@@ -183,7 +193,7 @@ export default function ApiProvider({
       tagsToUpdate.forEach((tag) => cache[tag].forEach((query) => query()));
     }
 
-    return { success, error, pending, mutate };
+    return { success, data, error, pending, mutate };
   }
 
   const value: Api = {

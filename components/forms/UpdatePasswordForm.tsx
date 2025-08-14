@@ -16,7 +16,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { updatePassword } from "@/actions/account";
-import type { MutationSuccess, ExpectedServerError } from "@/models/api";
+import type { ExpectedServerError } from "@/models/api";
+import type { User } from "@/models/db";
 
 type UpdatePasswordFormProps = {
   id: number;
@@ -50,8 +51,11 @@ export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response: MutationSuccess | ExpectedServerError =
-      await updatePassword(id, values.currentPassword, values.newPassword);
+    const response: User | ExpectedServerError = await updatePassword(
+      id,
+      values.currentPassword,
+      values.newPassword,
+    );
 
     if ("error" in response) {
       return toast({

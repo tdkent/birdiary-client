@@ -19,6 +19,7 @@ import Modal from "@/components/ui/Modal";
 import { getCookie } from "@/helpers/auth";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
+import { formatBirdNameToUrl } from "@/helpers/data";
 
 type SightingProps = {
   sightingId: number;
@@ -114,8 +115,17 @@ export default function Sighting({ sightingId }: SightingProps) {
     <>
       <section>
         <BirdImage currBirdName={bird.commonName} />
-        <h2>{bird.commonName}</h2>
         <dl className="my-8 flex flex-col gap-6">
+          <div>
+            <dt className="text-xs font-semibold uppercase">Species</dt>
+            <dd className="">{bird.commonName}</dd>
+            <Link
+              href={`/birds/${formatBirdNameToUrl(bird.commonName)}`}
+              className="text-sm italic hover:underline"
+            >
+              View bird
+            </Link>
+          </div>
           <div>
             <dt className="text-xs font-semibold uppercase">Date</dt>
             <dd className="">{createLocaleString(date, "full")}</dd>
