@@ -59,7 +59,7 @@ export default function DateInput({ form, pending }: DateInputProps) {
                   mode="single"
                   selected={field.value}
                   onSelect={(date) => {
-                    form.setValue("date", date);
+                    form.setValue("date", date!, { shouldDirty: true });
                     setCalendarOpen(false);
                   }}
                   disabled={(date) =>
