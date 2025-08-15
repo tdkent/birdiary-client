@@ -47,8 +47,8 @@ export const apiRoutes = {
   sightings: `${BASE_URL}/sightings`,
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
-  user: (id: number) => `${BASE_URL}/users/${id}`,
-  userPassword: (id: number) => `${BASE_URL}/users/${id}/password`,
+  userProfile: `${BASE_URL}/users/profile`,
+  userPassword: `${BASE_URL}/users/password`,
 } as const;
 
 export type QueryParameters = {
