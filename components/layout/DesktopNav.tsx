@@ -2,11 +2,9 @@ import { useContext } from "react";
 import Link from "next/link";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { CircleUserRound, Plus } from "lucide-react";
@@ -64,35 +62,15 @@ export default function DesktopNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          {isSignedIn && (
-            <>
-              <NavigationMenuTrigger>
+        {isSignedIn && (
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link href="/profile" className={navigationMenuTriggerStyle()}>
                 <CircleUserRound className="h-4 w-4" />
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="w-24 p-0.5 text-sm">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/profile"
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Profile
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/account"
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Account
-                    </Link>
-                  </NavigationMenuLink>
-                </ul>
-              </NavigationMenuContent>
-            </>
-          )}
-        </NavigationMenuItem>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
     </NavigationMenu>
   );

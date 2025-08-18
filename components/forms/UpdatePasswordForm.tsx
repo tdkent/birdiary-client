@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { updatePassword } from "@/actions/account";
+import { updatePassword } from "@/actions/profile";
 import type { ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 
