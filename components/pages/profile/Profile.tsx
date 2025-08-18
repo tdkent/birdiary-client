@@ -5,6 +5,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { apiRoutes, ServerResponseWithError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
+import TransferStorageData from "@/components/pages/profile/TransferStorageData";
 
 /** Fetch and display user's profile and account data */
 export default async function Profile() {
@@ -65,7 +66,7 @@ export default async function Profile() {
           </div>
         </section>
         <section>
-          <h3>Sighting Stats</h3>
+          <h3>Sightings Data</h3>
           <dl className="divide-y">
             <div className="flex gap-2.5">
               <dt>Favorite Bird:</dt>
@@ -80,9 +81,10 @@ export default async function Profile() {
               <dd>{totalDistinctSightings}</dd>
             </div>
           </dl>
+          <TransferStorageData />
         </section>
         <section>
-          <h3>Account Info</h3>
+          <h3>Account Details</h3>
           <div className="flex gap-2.5">
             <dt>Account Created:</dt>
             <dd>{accountCreatedDate}</dd>

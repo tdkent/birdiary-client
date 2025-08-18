@@ -49,6 +49,7 @@ export const apiRoutes = {
   signin: `${BASE_URL}/users/signin`,
   userProfile: `${BASE_URL}/users/profile`,
   userPassword: `${BASE_URL}/users/password`,
+  userStorage: `${BASE_URL}/users/transferstorage`,
 } as const;
 
 export type QueryParameters = {
@@ -73,15 +74,15 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
+  DefaultError = "An unexpected error occurred. Please try again later.",
+  EmailValidationError = "Please enter a valid email address.",
+  InvalidLocationError = "Select a location from the dropdown menu.",
+  NewSighting = "New sighting created!",
+  PasswordValidationError = "Passwords must 8-36 characters.",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
-  NewSighting = "New sighting created!",
-  EmailValidationError = "Please enter a valid email address.",
-  PasswordValidationError = "Passwords must 8-36 characters.",
-  InvalidLocationError = "Select a location from the dropdown menu.",
   ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
   ZipCodeNoResultsError = "The provided zip code did not return any results.",
-  DefaultError = "An unexpected error occurred. Please try again later.",
 }
 
 export type CsrQuerySuccess = { data: ListWithCount };
