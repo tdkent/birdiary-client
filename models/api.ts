@@ -79,6 +79,8 @@ export enum Messages {
   InvalidLocationError = "Select a location from the dropdown menu.",
   NewSighting = "New sighting created!",
   PasswordValidationError = "Passwords must 8-36 characters.",
+  SignIn = "You are signed in.",
+  SignUp = "Your account has been created.",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
   ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
