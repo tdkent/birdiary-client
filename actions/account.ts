@@ -2,13 +2,12 @@ import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
 
 export async function updatePassword(
-  id: number,
   currentPassword: string,
   newPassword: string,
 ) {
   try {
     const token = await getCookie();
-    const response = await fetch(apiRoutes.userPassword(id), {
+    const response = await fetch(apiRoutes.userPassword, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 import { BASE_URL } from "@/constants/env";
 import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
-import { UserProfile } from "@/models/display";
+import type { SightingInStorage, UserProfile } from "@/models/display";
 
 export async function getUser() {
   const token = await getCookie();
@@ -24,7 +24,7 @@ export async function editUserProfile(
 ) {
   try {
     const token = await getCookie();
-    const response = await fetch(apiRoutes.user(id), {
+    const response = await fetch(apiRoutes.userProfile, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -33,6 +33,24 @@ export async function editUserProfile(
       body: JSON.stringify(reqBody),
     });
 
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.DefaultError);
+  }
+}
+
+export async function transferStorageData(storageData: SightingInStorage[]) {
+  try {
+    const token = await getCookie();
+    const response = await fetch(apiRoutes.userStorage, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(storageData),
+    });
     return response.json();
   } catch (error) {
     console.error(error);
