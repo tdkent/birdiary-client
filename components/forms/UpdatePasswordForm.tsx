@@ -19,10 +19,6 @@ import { updatePassword } from "@/actions/account";
 import type { ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 
-type UpdatePasswordFormProps = {
-  id: number;
-};
-
 const formSchema = z
   .object({
     currentPassword: z.string().trim().min(8).max(36),
@@ -38,7 +34,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
+export default function UpdatePasswordForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +48,6 @@ export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response: User | ExpectedServerError = await updatePassword(
-      id,
       values.currentPassword,
       values.newPassword,
     );
