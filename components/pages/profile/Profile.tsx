@@ -13,7 +13,7 @@ export default async function Profile() {
   const token = await getCookie();
   if (!token) return <ErrorDisplay msg="Invalid session data." />;
 
-  const response = await fetch(apiRoutes.userProfile, {
+  const response = await fetch(apiRoutes.user, {
     headers: { Authorization: `Bearer ${token}` },
   });
 

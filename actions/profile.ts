@@ -24,7 +24,7 @@ export async function editUserProfile(
 ) {
   try {
     const token = await getCookie();
-    const response = await fetch(apiRoutes.userProfile, {
+    const response = await fetch(apiRoutes.user, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +72,23 @@ export async function updatePassword(
       },
       body: JSON.stringify({ currentPassword, newPassword }),
     });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.DefaultError);
+  }
+}
 
+export async function deleteAccount() {
+  try {
+    const token = await getCookie();
+    const response = await fetch(apiRoutes.user, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.json();
   } catch (error) {
     console.error(error);

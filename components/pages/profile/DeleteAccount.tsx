@@ -1,11 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
+import { deleteAccount } from "@/actions/profile";
+import { signOut } from "@/actions/auth";
+import { Messages } from "@/models/api";
 
 export default function DeleteAccount() {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  const handleClick = async () => {
+    const result = await deleteAccount();
+
+    if ("error" in result) {
+      return toast({
+        variant: "destructive",
+        title: Messages.ToastErrorTitle,
+        description: result.message,
+      });
+    }
+
+    signOut();
+  };
+
   return (
     <>
       <div className="my-8 rounded-md border border-destructive p-2">
@@ -23,7 +42,9 @@ export default function DeleteAccount() {
           title="Delete Account"
           triggerText="Delete account"
         >
-          <Button variant="destructive">Delete account</Button>
+          <Button variant="destructive" onClick={handleClick}>
+            Delete account
+          </Button>
         </Modal>
       </div>
     </>

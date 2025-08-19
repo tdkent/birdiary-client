@@ -47,7 +47,7 @@ export const apiRoutes = {
   sightings: `${BASE_URL}/sightings`,
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
-  userProfile: `${BASE_URL}/users/profile`,
+  user: `${BASE_URL}/users`,
   userPassword: `${BASE_URL}/users/password`,
   userStorage: `${BASE_URL}/users/transferstorage`,
 } as const;
