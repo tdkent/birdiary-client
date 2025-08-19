@@ -6,6 +6,7 @@ import { apiRoutes, ServerResponseWithError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
 import TransferStorageData from "@/components/pages/profile/TransferStorageData";
+import DeleteAccount from "@/components/pages/profile/DeleteAccount";
 
 /** Fetch and display user's profile and account data */
 export default async function Profile() {
@@ -98,13 +99,7 @@ export default async function Profile() {
               <Link href="/profile/updatepassword">Update Password</Link>
             </Button>
           </div>
-          <div className="my-8 rounded-md border border-destructive p-2">
-            <h4 className="text-xl font-semibold text-destructive">
-              Delete Account
-            </h4>
-            <p>Permanently delete your account and all sighting data.</p>
-            <Button variant="destructive">Delete account</Button>
-          </div>
+          <DeleteAccount />
         </section>
       </div>
     </>
