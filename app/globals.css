@@ -67,13 +67,13 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply mb-8 mt-4 text-4xl;
+    @apply font-heading mb-8 mt-4 text-[40px] font-light leading-tight;
   }
   h2 {
-    @apply mb-4 mt-8 text-2xl;
+    @apply font-heading mb-4 mt-8 text-2xl font-light leading-tight;
   }
   h3 {
-    @apply mb-4 mt-12 text-2xl;
+    @apply font-heading mb-4 mt-12 text-2xl font-light leading-tight;
   }
   p {
     @apply mb-4;

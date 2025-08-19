@@ -56,6 +56,9 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
+      fontFamily: {
+        heading: ["Open Sans", "sans-serif"],
+      },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
