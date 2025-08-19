@@ -6,7 +6,6 @@ import {
   NotebookPen,
   Notebook,
   Plus,
-  UserPen,
 } from "lucide-react";
 
 export const mobile: {
@@ -49,12 +48,6 @@ export const mobile: {
     label: "Profile",
     href: "profile",
     icon: CircleUserRound,
-    type: "protected",
-  },
-  {
-    label: "Account",
-    href: "account",
-    icon: UserPen,
     type: "protected",
   },
 ];

@@ -19,7 +19,7 @@ export default async function EditProfile() {
     );
   }
 
-  const response = await fetch(apiRoutes.user(payload.id as number), {
+  const response = await fetch(apiRoutes.user, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -20,9 +20,8 @@ import { Button } from "@/components/ui/button";
 import { signupFormSchema } from "@/models/form";
 import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
-import TransferStorage from "@/components/pages/auth/TransferStorage";
 import type { AuthForm } from "@/models/form";
-import type { SightingInStorage } from "@/models/display";
+import { Messages } from "@/models/api";
 
 export default function AuthForm() {
   const { signIn } = useContext(AuthContext);
@@ -34,58 +33,33 @@ export default function AuthForm() {
     defaultValues: {
       email: "",
       password: "",
-      transferStorage: false,
     },
   });
 
-  const sightingsInStorage = () => {
-    if (pathname !== "/signin") return null;
-    const sightingsInStorage = localStorage.getItem("sightings");
-    if (!sightingsInStorage) return null;
-    const parsedSightings: SightingInStorage[] = JSON.parse(sightingsInStorage);
-    if (!parsedSightings.length) return null;
-    return parsedSightings;
-  };
-
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
-    const storageData = values.transferStorage
-      ? sightingsInStorage()!.map((s) => {
-          return {
-            id: s.id,
-            birdId: s.birdId,
-            description: s.description,
-            date: s.date,
-          };
-        })
-      : null;
-
-    const result = await auth({ ...values, storageData, pathname });
+    const result = await auth({ ...values, pathname });
 
     if (result && "error" in result) {
       return toast({
         variant: "destructive",
-        title: "An error occurred",
+        title: Messages.ToastErrorTitle,
         description: result.message,
       });
     }
 
     if (pathname === "/signin") {
       signIn();
-      if (result!.count) {
-        localStorage.removeItem("sightings");
-        localStorage.removeItem("diary");
-      }
       toast({
         variant: "default",
-        title: "Success",
-        description: `You are signed in.${result!.count ? ` Transferred ${result!.count} sightings.` : ""}`,
+        title: Messages.ToastSuccessTitle,
+        description: Messages.SignIn,
       });
       redirect("/diary");
     } else {
       toast({
         variant: "default",
-        title: "Success",
-        description: "Your account has been created",
+        title: Messages.ToastSuccessTitle,
+        description: Messages.SignUp,
       });
       redirect("/signin");
     }
@@ -120,7 +94,6 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
-        {!!sightingsInStorage() && <TransferStorage form={form} />}
         <Button type="submit">Submit</Button>
       </form>
     </Form>

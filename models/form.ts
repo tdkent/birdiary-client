@@ -15,7 +15,6 @@ export const signupFormSchema = z.object({
       });
     }
   }),
-  transferStorage: z.boolean(),
 });
 
 export const sightingSchema = z.object({

@@ -47,8 +47,9 @@ export const apiRoutes = {
   sightings: `${BASE_URL}/sightings`,
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
-  user: (id: number) => `${BASE_URL}/users/${id}`,
-  userPassword: (id: number) => `${BASE_URL}/users/${id}/password`,
+  user: `${BASE_URL}/users`,
+  userPassword: `${BASE_URL}/users/password`,
+  userStorage: `${BASE_URL}/users/transferstorage`,
 } as const;
 
 export type QueryParameters = {
@@ -73,15 +74,17 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
+  DefaultError = "An unexpected error occurred. Please try again later.",
+  EmailValidationError = "Please enter a valid email address.",
+  InvalidLocationError = "Select a location from the dropdown menu.",
+  NewSighting = "New sighting created!",
+  PasswordValidationError = "Passwords must 8-36 characters.",
+  SignIn = "You are signed in.",
+  SignUp = "Your account has been created.",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
-  NewSighting = "New sighting created!",
-  EmailValidationError = "Please enter a valid email address.",
-  PasswordValidationError = "Passwords must 8-36 characters.",
-  InvalidLocationError = "Select a location from the dropdown menu.",
   ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
   ZipCodeNoResultsError = "The provided zip code did not return any results.",
-  DefaultError = "An unexpected error occurred. Please try again later.",
 }
 
 export type CsrQuerySuccess = { data: ListWithCount };

@@ -15,13 +15,9 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { updatePassword } from "@/actions/account";
+import { updatePassword } from "@/actions/profile";
 import type { ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
-
-type UpdatePasswordFormProps = {
-  id: number;
-};
 
 const formSchema = z
   .object({
@@ -38,7 +34,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
+export default function UpdatePasswordForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +48,6 @@ export default function UpdatePasswordForm({ id }: UpdatePasswordFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response: User | ExpectedServerError = await updatePassword(
-      id,
       values.currentPassword,
       values.newPassword,
     );

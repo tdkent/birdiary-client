@@ -1,29 +1,20 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCookie } from "@/helpers/auth";
-import { decrypt } from "@/lib/session";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { apiRoutes, ServerResponseWithError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
+import TransferStorageData from "@/components/pages/profile/TransferStorageData";
+import DeleteAccount from "@/components/pages/profile/DeleteAccount";
 
-/** Fetch and display user's profile data */
+/** Fetch and display user's profile and account data */
 export default async function Profile() {
   const token = await getCookie();
-  const payload = await decrypt(token);
+  if (!token) return <ErrorDisplay msg="Invalid session data." />;
 
-  if (!payload) {
-    return (
-      <>
-        <ErrorDisplay msg="Invalid session data." />
-      </>
-    );
-  }
-
-  const response = await fetch(apiRoutes.user(payload.id as number), {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const response = await fetch(apiRoutes.user, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   const result: UserProfile | ServerResponseWithError = await response.json();
@@ -40,20 +31,21 @@ export default async function Profile() {
   }
 
   const {
-    createdAt,
-    name,
     address,
     bird,
     count: { totalSightings, totalDistinctSightings },
+    createdAt,
+    email,
+    name,
   } = result;
 
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
   return (
     <>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col">
         <section>
-          <h2>Basic Info</h2>
+          <h3>Profile Details</h3>
           <dl className="divide-y">
             <div className="flex gap-2.5">
               <dt>Name:</dt>
@@ -64,32 +56,50 @@ export default async function Profile() {
               <dd>{address ?? "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
-              <dt>Account Created:</dt>
-              <dd>{accountCreatedDate}</dd>
+              <dt>Bio:</dt>
+              <dd>N/A</dd>
             </div>
           </dl>
-          <div className="my-4">
-            <Button variant="secondary" asChild>
+          <div className="mt-6">
+            <Button variant="outline" asChild>
               <Link href="/profile/edit">Edit Profile</Link>
             </Button>
           </div>
         </section>
         <section>
-          <h3>{name ? name + "'s" : "Your"} Sighting Stats</h3>
+          <h3>Sightings Data</h3>
           <dl className="divide-y">
             <div className="flex gap-2.5">
               <dt>Favorite Bird:</dt>
               <dd>{bird ? bird.commonName : "N/A"}</dd>
             </div>
             <div className="flex gap-2.5">
-              <dt>Total Sightings: {totalSightings}</dt>
-              <dd></dd>
+              <dt>Total Sightings:</dt>
+              <dd>{totalSightings}</dd>
             </div>
             <div className="flex gap-2.5">
-              <dt>Total Species: {totalDistinctSightings}</dt>
-              <dd></dd>
+              <dt>Life List Species:</dt>
+              <dd>{totalDistinctSightings}</dd>
             </div>
           </dl>
+          <TransferStorageData />
+        </section>
+        <section>
+          <h3>Account Details</h3>
+          <div className="flex gap-2.5">
+            <dt>Account Created:</dt>
+            <dd>{accountCreatedDate}</dd>
+          </div>
+          <div className="flex gap-2.5">
+            <dt>Email:</dt>
+            <dd>{email}</dd>
+          </div>
+          <div className="mt-6">
+            <Button variant="outline" asChild>
+              <Link href="/profile/updatepassword">Update Password</Link>
+            </Button>
+          </div>
+          <DeleteAccount />
         </section>
       </div>
     </>
