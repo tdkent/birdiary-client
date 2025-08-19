@@ -63,7 +63,7 @@ export function MobileNav() {
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
           </SheetDescription>
         </SheetHeader>
-        <nav className="mt-4">
+        <nav className="mt-4 text-xl">
           <ul className="flex flex-col">
             {navLinks.map(({ label, href, icon: Icon }, idx) => {
               return (
@@ -73,9 +73,11 @@ export function MobileNav() {
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center gap-2 ${href === "new" && `new-sighting-btn-colors rounded-md border px-4 py-2`}`}
+                          className={`flex w-fit items-center ${href === "new" ? "gap-1" : "gap-4"} ${href === "new" && `new-sighting-btn-colors rounded-md border px-4 py-2`}`}
                         >
-                          {Icon && <Icon className="h-3 w-3" />}
+                          {Icon && (
+                            <Icon className="h-5 w-5" strokeWidth={1.5} />
+                          )}
                           {label}
                         </Link>
                       </SheetClose>
