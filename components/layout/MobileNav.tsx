@@ -41,7 +41,7 @@ export function MobileNav() {
             <SheetClose asChild>
               <Link href="/">
                 <div className="flex items-center justify-center gap-4 md:gap-4">
-                  <div className="relative h-12 w-12 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
+                  <div className="relative h-14 w-14 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
                     <Image
                       src="/icon/blue-jay-icon.webp"
                       alt="Blue Jay"
@@ -51,7 +51,7 @@ export function MobileNav() {
                     />
                   </div>
                   <span
-                    className={`${caveat.className} text-4xl antialiased md:text-5xl`}
+                    className={`${caveat.className} text-5xl antialiased md:text-6xl`}
                   >
                     Birdiary
                   </span>
