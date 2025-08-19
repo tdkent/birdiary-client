@@ -45,7 +45,7 @@ export default function SignInOutButton() {
   }
 
   return (
-    <Button size="sm" variant="link" className="w-fit p-0" asChild>
+    <Button size="default" variant="link" className="w-fit p-0" asChild>
       <Link href="/signin" className="text-black dark:text-white">
         Sign In
       </Link>

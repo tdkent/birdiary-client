@@ -7,7 +7,7 @@ export default function Logo() {
   return (
     <>
       <Link href="/" className="flex items-center gap-2 md:gap-4">
-        <div className="relative h-12 w-12 rounded-full border-2 border-blue-300 sm:h-16 sm:w-16">
+        <div className="relative h-16 w-16 rounded-full border-2 border-blue-300 sm:h-16 sm:w-16">
           <Image
             src="/icon/blue-jay-icon.webp"
             alt="Blue Jay"
