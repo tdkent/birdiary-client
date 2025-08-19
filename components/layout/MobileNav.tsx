@@ -36,12 +36,12 @@ export function MobileNav() {
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
           <SheetTitle
-            className={`${caveat.className} mt-12 text-4xl antialiased`}
+            className={`${caveat.className} mt-12 font-normal antialiased`}
           >
             <SheetClose asChild>
               <Link href="/">
                 <div className="flex items-center justify-center gap-4 md:gap-4">
-                  <div className="relative h-14 w-14 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
+                  <div className="relative h-16 w-16 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
                     <Image
                       src="/icon/blue-jay-icon.webp"
                       alt="Blue Jay"
