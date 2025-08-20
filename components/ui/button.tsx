@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "my-4 new-sighting-btn-colors",
+        default: "my-4",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -18,11 +18,12 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-foreground hover:text-primary w-fit",
+        new: "btn-new",
       },
       size: {
-        default: "h-10 py-6 text-xl",
+        default: "h-10 py-6 text-lg",
         sm: "h-9 rounded-md text-sm",
-        lg: "h-11 rounded-md",
+        lg: "h-12 rounded-md p-6 font-semibold text-lg",
         icon: "h-10 w-10",
       },
     },

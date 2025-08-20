@@ -94,12 +94,8 @@
     @apply after:pl-0.5 after:text-base after:text-destructive after:content-['*'];
   }
 
-  .new-sighting-btn-colors {
+  .btn-new {
     @apply bg-primary text-background hover:bg-primary/90 disabled:opacity-80 disabled:hover:bg-primary/100 dark:text-foreground;
-  }
-
-  .block-btn {
-    @apply px-6 font-semibold;
   }
 }
 

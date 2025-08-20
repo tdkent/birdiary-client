@@ -33,9 +33,9 @@ export default function Home() {
           .
         </p>
       </section>
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-6">
         <h2>Ready to get started?</h2>
-        <Button asChild className="block-btn">
+        <Button asChild variant="new" size="lg">
           <Link href="/new">
             <Plus strokeWidth={2.5} size={18} />
             Add a new sighting
