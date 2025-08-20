@@ -1,18 +1,19 @@
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import SightingForm from "@/components/forms/SightingForm";
 
 export default function NewView() {
   return (
     <>
-      <header>
-        <h1>Add a new bird sighting</h1>
-        <p>
-          Add a new sighting with date and description to your birdwatching
-          diary. Signed-in users may also add a location.
-        </p>
-      </header>
-      <section className="my-12">
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Add a new bird sighting"
+          descriptionText="Add a new sighting with date and description to your birdwatching diary. 
+          Signed-in users may also add a location."
+          useSeparator
+        />
         <SightingForm />
-      </section>
+      </ViewWrapper>
     </>
   );
 }

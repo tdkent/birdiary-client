@@ -41,15 +41,17 @@ export default function NameAutocomplete({
               const curr = currInput.trim().replace(regex, "").toLowerCase();
               return name.includes(curr);
             })
-            // Limit to 6 search results
+            // Limit to 10 search results
             .slice(0, 6)
         : [];
     setFilteredResults(filteredNames);
   }, [currInput, isMatching]);
 
+  if (!filteredResults.length) return null;
+
   return (
     <>
-      <ul>
+      <ul className="absolute w-full rounded-md border bg-background px-4 py-2 hover:cursor-pointer">
         {filteredResults.map((birdName) => {
           return (
             <li

@@ -105,7 +105,6 @@ export default function SightingForm() {
 
   return (
     <>
-      <BirdImage currBirdName={currBirdName} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <NameInput
@@ -114,6 +113,7 @@ export default function SightingForm() {
             isMatching={isMatching}
             setIsMatching={setIsMatching}
           />
+          {/* <BirdImage currBirdName={currBirdName} /> */}
           <DateInput form={form} pending={pending} />
           {isSignedIn && (
             <>
@@ -126,7 +126,7 @@ export default function SightingForm() {
             </>
           )}
           <DescInput form={form} pending={pending} />
-          <Button disabled={pending || !isMatching}>
+          <Button variant="new" size="lg" disabled={pending || !isMatching}>
             {pending ? (
               <>
                 <PendingIcon strokeWidth={1} size={28} />
