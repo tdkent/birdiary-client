@@ -12,7 +12,7 @@ export default function NoResultsDisplay({ variant }: { variant: string }) {
         <div className="my-10 flex flex-col gap-2">
           <p className="text-center italic">No diary entries yet!</p>
           <Button asChild>
-            <Link href="/new">
+            <Link href="/newsighting">
               <Plus />
               Add a new sighting
             </Link>

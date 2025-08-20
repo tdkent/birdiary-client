@@ -38,7 +38,7 @@ export default function HomeView() {
         <section className="flex flex-col gap-6">
           <h2>Ready to get started?</h2>
           <Button asChild variant="new" size="lg">
-            <Link href="/new">
+            <Link href="/newsighting">
               <Plus strokeWidth={2.5} size={18} />
               Add a new sighting
             </Link>

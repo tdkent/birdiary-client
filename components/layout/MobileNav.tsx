@@ -73,7 +73,7 @@ export function MobileNav() {
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center ${href === "new" ? "gap-1" : "gap-4"} ${href === "new" && `btn-new rounded-md border px-4 py-2`}`}
+                          className={`flex w-fit items-center ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2" : "gap-4"}`}
                         >
                           {Icon && (
                             <Icon className="h-5 w-5" strokeWidth={1.5} />
