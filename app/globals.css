@@ -78,11 +78,6 @@
   p {
     @apply text-xl leading-normal;
   }
-
-  form {
-    @apply my-8;
-  }
-
   ul.sighting-list {
     @apply my-4 divide-y;
   }
@@ -96,6 +91,10 @@
 
   .btn-new {
     @apply bg-primary text-background hover:bg-primary/90 disabled:opacity-80 disabled:hover:bg-primary/100 dark:text-foreground;
+  }
+
+  .link-inline {
+    @apply text-primary underline hover:no-underline;
   }
 }
 

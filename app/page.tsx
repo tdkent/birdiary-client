@@ -9,7 +9,10 @@ export default function HomeView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="Quickly log your bird sightings and build your birding diary" />
+        <ViewHeader
+          headingText="Quickly log your bird sightings and build your birding diary"
+          useSeparator
+        />
         <section className="flex flex-col gap-6">
           <h2>Create your birding diary</h2>
           <p>
@@ -26,10 +29,7 @@ export default function HomeView() {
             Interested in more? Create a free account to permanently store
             unlimited data, keep track of your birdwatching life list, and add
             location data to your sightings.{" "}
-            <Link
-              href="/plans"
-              className="text-primary underline hover:no-underline"
-            >
+            <Link href="/plans" className="link-inline">
               View plans and accounts
             </Link>
             .

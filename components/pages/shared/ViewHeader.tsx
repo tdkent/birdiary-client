@@ -2,20 +2,22 @@
 import { Separator } from "@/components/ui/separator";
 
 type ViewHeaderProps = {
-  headingText: string;
   descriptionText?: string;
+  headingText: string;
+  useSeparator?: boolean;
 };
 export default function ViewHeader({
-  headingText,
   descriptionText,
+  headingText,
+  useSeparator,
 }: ViewHeaderProps) {
   return (
     <>
       <header className="flex flex-col gap-6">
         <h1>{headingText}</h1>
-        {descriptionText && <p className="text-base">{descriptionText}</p>}
+        {descriptionText && <p className="text-lg">{descriptionText}</p>}
       </header>
-      <Separator className="mx-auto w-4/5" />
+      {useSeparator && <Separator className="mx-auto w-4/5" />}
     </>
   );
 }
