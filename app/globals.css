@@ -67,16 +67,16 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-heading mb-8 mt-4 text-[40px] font-light leading-tight;
+    @apply font-heading text-[40px] font-light leading-tight;
   }
   h2 {
-    @apply font-heading mb-4 mt-8 text-2xl font-light leading-tight;
+    @apply font-heading text-[32px] font-light leading-tight;
   }
   h3 {
-    @apply font-heading mb-4 mt-12 text-2xl font-light leading-tight;
+    @apply font-heading text-2xl font-light leading-tight;
   }
   p {
-    @apply mb-4;
+    @apply text-xl leading-normal;
   }
 
   form {
@@ -96,6 +96,10 @@
 
   .new-sighting-btn-colors {
     @apply bg-primary text-background hover:bg-primary/90 disabled:opacity-80 disabled:hover:bg-primary/100 dark:text-foreground;
+  }
+
+  .block-btn {
+    @apply px-6 font-semibold;
   }
 }
 

@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       <header>
         <h1>Quickly log your bird sightings and build your birding diary</h1>
       </header>
-      <BirdOfTheDay />
-      <section>
-        <h3>Create your birding diary</h3>
+      <Separator className="mx-auto w-4/5" />
+      <section className="flex flex-col gap-6">
+        <h2>Create your birding diary</h2>
         <p>
           Spot a bird? Pick from our database of more than 800 North American
           bird species, and log the sighting details.
@@ -20,7 +21,8 @@ export default function Home() {
           Your sightings will be used to create your birding diary, tracking
           your sightings by date and species.
         </p>
-        <h3>Go further with an account</h3>
+        <BirdOfTheDay />
+        <h2>Go further with an account</h2>
         <p>
           Interested in more? Create a free account to permanently store
           unlimited data, keep track of your birdwatching life list, and add
@@ -31,11 +33,11 @@ export default function Home() {
           .
         </p>
       </section>
-      <section>
-        <h3>Ready to get started?</h3>
-        <Button asChild>
+      <section className="flex flex-col gap-2">
+        <h2>Ready to get started?</h2>
+        <Button asChild className="block-btn">
           <Link href="/new">
-            <Plus />
+            <Plus strokeWidth={2.5} size={18} />
             Add a new sighting
           </Link>
         </Button>
