@@ -102,8 +102,31 @@
   }
 }
 
-/* Places Autocomplete container */
+/* Places Autocomplete */
 .pac-container {
-  /* Enable pointer events that <Dialog> prevents by default */
-  pointer-events: auto !important;
+  pointer-events: auto !important; /* Enable pointer events that <Dialog> prevents by default */
+  background: hsl(var(--background));
+  border-width: 1px;
+  border-color: hsl(var(--input));
+  border-radius: 6px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-family: "Quicksand", "sans serif";
+}
+
+.pac-item {
+  color: hsl(var(--foreground));
+  border: none;
+  font-size: 0.875rem;
+  padding: 0 1rem;
+}
+
+.pac-item-query {
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+}
+
+div.pac-container.pac-logo.hdpi::after,
+span.pac-icon.pac-icon-marker {
+  display: none;
 }
