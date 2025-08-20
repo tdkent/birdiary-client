@@ -1,12 +1,21 @@
-import AuthContainer from "@/components/pages/auth/AuthContainer";
+import Link from "next/link";
+import AuthForm from "@/components/forms/AuthForm";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 
 export default function SignUpView() {
   return (
-    <AuthContainer
-      title="Create a new account"
-      footerText="Already have an account?"
-      footerLinkHref="/signin"
-      footerLinkLabel="Sign in"
-    />
+    <>
+      <ViewWrapper>
+        <ViewHeader headingText="Create a new account" />
+        <AuthForm />
+        <p className="text-base">
+          Already have an account?{" "}
+          <Link href="/signin" className="link-inline">
+            Sign in
+          </Link>
+        </p>
+      </ViewWrapper>
+    </>
   );
 }
