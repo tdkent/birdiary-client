@@ -177,7 +177,6 @@ export default function Sighting({ sightingId }: SightingProps) {
           </Button>
           <Modal
             buttonSize="lg"
-            buttonStyles="w-full"
             buttonVariant="destructive"
             description="This will permanently delete one of your sightings."
             open={open}

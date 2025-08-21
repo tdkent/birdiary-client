@@ -10,7 +10,6 @@ export default function DetailedSightingModal() {
     <>
       <Modal
         buttonSize="sm"
-        buttonStyles="w-full p-0 hover:bg-transparent"
         buttonVariant="ghost"
         description="Add a new bird sighting to your diary."
         open={open}

@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 
 type ModalProps = {
   buttonSize: "default" | "sm" | "lg" | "icon" | null | undefined;
-  buttonStyles: string;
   buttonVariant:
     | "link"
     | "default"
@@ -35,7 +34,6 @@ type ModalProps = {
 
 export default function Modal({
   buttonSize,
-  buttonStyles,
   buttonVariant,
   children,
   description,
@@ -69,7 +67,6 @@ export default function Modal({
   return (
     <>
       <Button
-        className={buttonStyles}
         variant={buttonVariant}
         size={buttonSize}
         onClick={() => setOpen(true)}

@@ -38,7 +38,6 @@ export default function DeleteAccount() {
         <Modal
           buttonSize="default"
           buttonVariant="destructive"
-          buttonStyles=""
           description="Warning: this action will immediately and permanently delete your account and sightings data."
           open={open}
           setOpen={setOpen}

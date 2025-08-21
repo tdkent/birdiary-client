@@ -59,7 +59,6 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
   return (
     <Modal
       buttonSize="sm"
-      buttonStyles="w-full p-0 hover:bg-transparent"
       buttonVariant="ghost"
       description="Removes selected location from account and related sightings."
       open={open}
