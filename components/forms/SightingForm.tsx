@@ -15,7 +15,7 @@ import {
   type CreateSightingDto,
   type CreateLocationDto,
 } from "@/models/form";
-import BirdImage from "@/components/forms/BirdImage";
+import FormBirdImage from "@/components/forms/FormBirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
@@ -113,7 +113,6 @@ export default function SightingForm() {
             isMatching={isMatching}
             setIsMatching={setIsMatching}
           />
-          {/* <BirdImage currBirdName={currBirdName} /> */}
           <DateInput form={form} pending={pending} />
           {isSignedIn && (
             <>
@@ -126,6 +125,7 @@ export default function SightingForm() {
             </>
           )}
           <DescInput form={form} pending={pending} />
+          <FormBirdImage currBirdName={currBirdName} />
           <Button variant="new" size="lg" disabled={pending || !isMatching}>
             {pending ? (
               <>

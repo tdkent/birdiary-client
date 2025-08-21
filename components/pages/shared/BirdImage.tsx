@@ -22,7 +22,7 @@ export default function BirdImage({ bird }: BirdImageProps) {
             <p>No image</p>
           )}
         </AspectRatio>
-        <figcaption className="text-xs">{bird.imgAttr}</figcaption>
+        <figcaption className="text-xs">{bird.imgAttribute}</figcaption>
       </figure>
     </>
   );

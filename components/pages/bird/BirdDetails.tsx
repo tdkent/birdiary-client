@@ -45,7 +45,7 @@ export default async function BirdDetails({ birdId }: BirdDetailsProps) {
               <p>No image</p>
             )}
           </AspectRatio>
-          <figcaption className="text-xs">{bird.imgAttr}</figcaption>
+          <figcaption className="text-xs">{bird.imgAttribute}</figcaption>
         </figure>
 
         <article>
