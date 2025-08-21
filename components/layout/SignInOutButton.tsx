@@ -22,7 +22,6 @@ export default function SignInOutButton() {
       <>
         <Modal
           buttonSize="sm"
-          buttonStyles="w-full p-0 hover:bg-transparent"
           buttonVariant="ghost"
           description="Are you sure you want to sign out?"
           open={open}
@@ -41,10 +40,8 @@ export default function SignInOutButton() {
   }
 
   return (
-    <Button size="default" variant="link" className="w-fit p-0" asChild>
-      <Link href="/signin" className="text-black dark:text-white">
-        Sign In
-      </Link>
+    <Button size="sm" variant="ghost" asChild>
+      <Link href="/signin">Sign In</Link>
     </Button>
   );
 }
