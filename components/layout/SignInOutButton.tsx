@@ -31,11 +31,7 @@ export default function SignInOutButton() {
           triggerText="Sign Out"
         >
           <div>
-            <Button
-              className="w-full"
-              onClick={handleSignOut}
-              variant="destructive"
-            >
+            <Button onClick={handleSignOut} variant="destructive">
               Sign Out
             </Button>
           </div>

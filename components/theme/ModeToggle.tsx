@@ -14,8 +14,9 @@ export default function DarkMode() {
     <>
       <Button
         variant="ghost"
+        size="icon"
         onClick={handleToggle}
-        className="w-fit hover:bg-transparent"
+        className="hover:bg-transparent"
         aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
       >
         <Sun
