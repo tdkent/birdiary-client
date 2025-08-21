@@ -126,6 +126,12 @@
   font-size: 0.875rem;
 }
 
+.pac-item:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+  cursor: pointer;
+}
+
 div.pac-container.pac-logo.hdpi::after,
 span.pac-icon.pac-icon-marker {
   display: none;

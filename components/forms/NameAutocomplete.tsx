@@ -51,13 +51,13 @@ export default function NameAutocomplete({
 
   return (
     <>
-      <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2 hover:cursor-pointer">
+      <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2">
         {filteredResults.map((birdName) => {
           return (
             <li
               key={birdName}
               onClick={() => form.setValue("commonName", birdName)}
-              className="px-4 py-1 hover:bg-accent hover:text-accent-foreground"
+              className="px-4 py-1 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
             >
               {birdName}
             </li>
