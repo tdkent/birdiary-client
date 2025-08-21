@@ -57,7 +57,7 @@ export default function NameAutocomplete({
             <li
               key={birdName}
               onClick={() => form.setValue("commonName", birdName)}
-              className="px-4 py-1 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
+              className="list-hover px-4 py-1"
             >
               {birdName}
             </li>

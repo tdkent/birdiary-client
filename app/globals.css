@@ -82,12 +82,12 @@
   p {
     @apply text-xl leading-normal;
   }
-  ul.sighting-list {
+  /* ul.sighting-list {
     @apply my-4 divide-y;
   }
   ul.sighting-list li {
     @apply flex items-center justify-between px-4 py-4 hover:bg-slate-900;
-  }
+  } */
 
   .required-input {
     @apply after:pl-0.5 after:text-base after:text-destructive after:content-['*'];
@@ -99,6 +99,10 @@
 
   .link-inline {
     @apply text-primary underline hover:no-underline;
+  }
+
+  .list-hover {
+    @apply hover:cursor-pointer hover:bg-accent hover:text-accent-foreground;
   }
 }
 

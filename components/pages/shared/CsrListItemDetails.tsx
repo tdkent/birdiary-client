@@ -48,7 +48,7 @@ export default function CsrListItemDetails({
       const sightingCount = count && count > 0 ? count : null;
       return (
         <>
-          <li className="my-4">
+          <li className="list-hover px-2 py-4">
             <Link href={href}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">

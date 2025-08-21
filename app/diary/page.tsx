@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
 import {
   type SortValues,
@@ -30,20 +32,22 @@ export default async function DiaryView({
 
   return (
     <>
-      <header>
-        <h1>My Diary</h1>
-        <p>Your sightings grouped by date.</p>
-      </header>
-      <CsrList
-        route={apiRoutes.getSightingsGroupByType("date", parsedPage, sortBy)}
-        variant="diary"
-        pendingVariant="listSingleRow"
-        tag="diary"
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={defaultSortOption}
-        sortOptions={sortOptions}
-      />
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Diary"
+          descriptionText="Your sightings grouped by date."
+        />
+        <CsrList
+          route={apiRoutes.getSightingsGroupByType("date", parsedPage, sortBy)}
+          variant="diary"
+          pendingVariant="listSingleRow"
+          tag="diary"
+          page={parsedPage}
+          sortBy={sortBy}
+          defaultSortOption={defaultSortOption}
+          sortOptions={sortOptions}
+        />
+      </ViewWrapper>
     </>
   );
 }

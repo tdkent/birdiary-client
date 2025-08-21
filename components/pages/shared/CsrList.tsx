@@ -80,37 +80,39 @@ export default function CsrList({
 
   return (
     <>
-      <SortItems
-        defaultSortOption={defaultSortOption}
-        options={sortOptions}
-        pending={pending}
-        count={count}
-      />
-      <FilterAndResultsText
-        variant={variant}
-        startsWith={startsWith}
-        records={count}
-        page={+page!}
-      />
-      {pending || !items ? (
-        <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
-      ) : !items.length ? (
-        <NoResultsDisplay variant={variant} />
-      ) : (
-        <ul className="my-4">
-          {items.map((item, idx) => {
-            return <CsrListItem key={idx} variant={variant} item={item} />;
-          })}
-        </ul>
-      )}
-      {count > 0 && (
-        <PaginateList
-          currentPage={currentPage}
-          finalPage={pages}
-          sortBy={sortBy}
-          startsWith={startsWith}
+      <section>
+        <SortItems
+          defaultSortOption={defaultSortOption}
+          options={sortOptions}
+          pending={pending}
+          count={count}
         />
-      )}
+        <FilterAndResultsText
+          variant={variant}
+          startsWith={startsWith}
+          records={count}
+          page={+page!}
+        />
+        {pending || !items ? (
+          <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
+        ) : !items.length ? (
+          <NoResultsDisplay variant={variant} />
+        ) : (
+          <ul className="my-8 divide-y">
+            {items.map((item, idx) => {
+              return <CsrListItem key={idx} variant={variant} item={item} />;
+            })}
+          </ul>
+        )}
+        {count > 0 && (
+          <PaginateList
+            currentPage={currentPage}
+            finalPage={pages}
+            sortBy={sortBy}
+            startsWith={startsWith}
+          />
+        )}
+      </section>
     </>
   );
 }
