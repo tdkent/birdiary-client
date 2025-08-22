@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import CsrListItem from "@/components/pages/shared/CsrListItem";
@@ -72,7 +73,7 @@ export default function CsrList({
   }, [error, toast]);
 
   if (error) {
-    return <p>An error occurred!</p>;
+    return <ErrorDisplay msg={error} showReloadBtn />;
   }
 
   const currentPage = page;
