@@ -114,7 +114,7 @@ export default function Sighting({ sightingId }: SightingProps) {
   return (
     <>
       <section className="flex flex-col gap-4">
-        {/* <BirdImage currBirdName={bird.commonName} /> */}
+        <BirdImage currBirdName={bird.commonName} />
         <dl className="my-8 flex flex-col gap-8 px-2">
           <div className="flex flex-col gap-1">
             <dt className="text-sm font-semibold uppercase">Species</dt>

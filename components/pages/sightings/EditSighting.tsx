@@ -13,6 +13,8 @@ import {
 import type { SightingWithLocation } from "@/models/display";
 import { getCookie } from "@/helpers/auth";
 import Pending from "@/components/pages/shared/Pending";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type EditSightingProps = {
   sightingId: number;
@@ -103,7 +105,12 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
 
   return (
     <>
-      <EditSightingForm sighting={data} />
+      <div className="flex flex-col gap-4">
+        <EditSightingForm sighting={data} />
+        <Button asChild size="lg" variant="secondary">
+          <Link href={`/sightings/${data.id}`}>Cancel</Link>
+        </Button>
+      </div>
     </>
   );
 }
