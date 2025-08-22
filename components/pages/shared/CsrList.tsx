@@ -96,7 +96,7 @@ export default function CsrList({
         {pending || !items ? (
           <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
         ) : !items.length ? (
-          <NoResultsDisplay text="No diary entries to show." />
+          <NoResultsDisplay />
         ) : (
           <ul className="my-8 divide-y">
             {items.map((item, idx) => {

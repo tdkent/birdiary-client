@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
+import NewSightingButton from "@/components/pages/shared/NewSightingButton";
 
 export default function HomeView() {
   return (
@@ -37,12 +36,7 @@ export default function HomeView() {
         </section>
         <section className="flex flex-col gap-6">
           <h2>Ready to get started?</h2>
-          <Button asChild variant="new" size="lg">
-            <Link href="/newsighting">
-              <Plus strokeWidth={2.5} size={18} />
-              Add a new sighting
-            </Link>
-          </Button>
+          <NewSightingButton />
         </section>
       </ViewWrapper>
     </>
