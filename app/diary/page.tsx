@@ -35,7 +35,7 @@ export default async function DiaryView({
       <ViewWrapper>
         <ViewHeader
           headingText="Diary"
-          descriptionText="Your sightings grouped by date."
+          descriptionText="View a list of your sightings grouped by date."
         />
         <CsrList
           route={apiRoutes.getSightingsGroupByType("date", parsedPage, sortBy)}
