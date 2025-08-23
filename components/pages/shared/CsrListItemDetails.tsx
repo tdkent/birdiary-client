@@ -45,7 +45,7 @@ export default function CsrListItemDetails({
             <Link href={href}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
-                  <span className="font-medium">{text}</span>
+                  <span className="font-semibold">{text}</span>
                   <span className="text-sm italic">{subtext ?? countText}</span>
                 </div>
               </div>
