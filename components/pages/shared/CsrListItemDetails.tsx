@@ -67,7 +67,7 @@ export default function CsrListItemDetails({
         <>
           <li>
             <Link className="group" href={`/sightings/${sighting.id}`}>
-              <Card className="group-hover:list-hover w-full pb-6 hover:scale-[1.025]">
+              <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
                 <CardHeader>
                   <CardTitle>
                     {hybrid === "diaryDetail" && (
@@ -97,7 +97,7 @@ export default function CsrListItemDetails({
                     {sighting.description ?? "No description"}
                   </p>
                 </CardContent>
-                <span className="absolute bottom-2 right-4 hidden text-sm group-hover:block">
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100">
                   view details
                 </span>
               </Card>
