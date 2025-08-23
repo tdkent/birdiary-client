@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import { createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
@@ -35,32 +35,29 @@ export default async function DiaryDetailsView({
 
   return (
     <>
-      <header className="flex flex-col space-y-4">
-        <h1>{createLocaleString(date, "med")}</h1>
-        <p>
-          The details of your birding diary for{" "}
-          {createLocaleString(date, "huge")}.
-        </p>
-        <Link href="/diary" className="flex items-center gap-2">
-          <ChevronLeft />
-          Back to diary
-        </Link>
-      </header>
-      <CsrList
-        route={apiRoutes.getSightingsListByType(
-          "dateId",
-          date,
-          parsedPage,
-          sortBy,
-        )}
-        variant="diaryDetail"
-        pendingVariant="card"
-        tag="sightings"
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={defaultSortOption}
-        sortOptions={sortOptions}
-      />
+      <ViewWrapper>
+        <ViewHeader
+          backLinkHref="diary"
+          backLinkText="Back to diary"
+          headingText="Diary Details"
+          descriptionText={`View your birding diary for ${createLocaleString(date, "huge")}.`}
+        />
+        <CsrList
+          route={apiRoutes.getSightingsListByType(
+            "dateId",
+            date,
+            parsedPage,
+            sortBy,
+          )}
+          variant="diaryDetail"
+          pendingVariant="card"
+          tag="sightings"
+          page={parsedPage}
+          sortBy={sortBy}
+          defaultSortOption={defaultSortOption}
+          sortOptions={sortOptions}
+        />
+      </ViewWrapper>
     </>
   );
 }
