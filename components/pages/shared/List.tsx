@@ -68,32 +68,34 @@ export default async function List({
 
   return (
     <>
-      {variant === "birdpedia" ? (
-        <FilterList startsWith={startsWith} />
-      ) : (
-        <SortItems
-          defaultSortOption={defaultSortOption}
-          options={sortOptions}
-          isSSR
+      <section>
+        {variant === "birdpedia" ? (
+          <FilterList startsWith={startsWith} />
+        ) : (
+          <SortItems
+            defaultSortOption={defaultSortOption}
+            options={sortOptions}
+            isSSR
+          />
+        )}
+        <FilterAndResultsText
+          variant={variant}
+          startsWith={startsWith}
+          records={result.countOfRecords}
+          page={+page!}
         />
-      )}
-      <FilterAndResultsText
-        variant={variant}
-        startsWith={startsWith}
-        records={result.countOfRecords}
-        page={+page!}
-      />
-      <ul className="my-4">
-        {result.data.map((item) => {
-          return <ListItem key={item.id} variant={variant} item={item} />;
-        })}
-      </ul>
-      <PaginateList
-        currentPage={page}
-        finalPage={pages}
-        startsWith={startsWith}
-        sortBy={sortBy}
-      />
+        <ul className="my-8 divide-y">
+          {result.data.map((item) => {
+            return <ListItem key={item.id} variant={variant} item={item} />;
+          })}
+        </ul>
+        <PaginateList
+          currentPage={page}
+          finalPage={pages}
+          startsWith={startsWith}
+          sortBy={sortBy}
+        />
+      </section>
     </>
   );
 }

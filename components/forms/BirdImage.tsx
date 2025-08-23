@@ -64,6 +64,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
               fill
               quality={30}
               className="object-cover"
+              priority
             />
           </div>
           <figcaption className="px-1 text-xs italic">
