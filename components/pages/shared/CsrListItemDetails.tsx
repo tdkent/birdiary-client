@@ -33,28 +33,21 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
-  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
+      const countText = sightingCount
+        ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
+        : "";
       return (
         <>
-          <li className="list-hover px-2 py-4">
+          <li className="list-hover px-4 py-4 hover:scale-[1.025]">
             <Link href={href}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="font-medium">{text}</span>
-                  {subtext && <span className="text-sm italic">{subtext}</span>}
+                  <span className="text-sm italic">{subtext ?? countText}</span>
                 </div>
-                {sightingCount && (
-                  <div>
-                    <span className="text-sm">
-                      {sightingCount > 1
-                        ? `${sightingCount} sightings`
-                        : "1 sighting"}
-                    </span>
-                  </div>
-                )}
               </div>
             </Link>
           </li>
