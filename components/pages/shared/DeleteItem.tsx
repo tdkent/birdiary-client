@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
 import { apiRoutes } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 type DeleteItemProps = {
   routeTo?: "/sightings";
@@ -54,8 +55,14 @@ export default function DeleteItem({
 
   return (
     <>
-      <Button onClick={onDelete} variant="destructive" disabled={pending}>
-        {pending ? "Deleting..." : "Delete"}
+      <Button
+        className="mt-4"
+        onClick={onDelete}
+        size="lg"
+        variant="destructive"
+        disabled={pending}
+      >
+        {pending ? <PendingIcon strokeWidth={1.5} size={40} /> : "Delete"}
       </Button>
     </>
   );

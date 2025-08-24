@@ -45,10 +45,11 @@ export default function DeleteAccount() {
           triggerText="Delete account"
         >
           <Button
-            variant="destructive"
-            onClick={handleClick}
+            className={`${pending && "bg-destructive/90"} mt-4`}
             disabled={pending}
-            className={`${pending && "bg-destructive/90"}`}
+            size="lg"
+            onClick={handleClick}
+            variant="destructive"
           >
             {pending ? (
               <PendingIcon strokeWidth={1.5} size={40} />

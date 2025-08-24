@@ -29,11 +29,14 @@ export default function SignInOutButton() {
           title="Sign Out"
           triggerText="Sign Out"
         >
-          <div>
-            <Button onClick={handleSignOut} variant="destructive">
-              Sign Out
-            </Button>
-          </div>
+          <Button
+            className="mt-4"
+            onClick={handleSignOut}
+            size="lg"
+            variant="destructive"
+          >
+            Sign Out
+          </Button>
         </Modal>
       </>
     );
