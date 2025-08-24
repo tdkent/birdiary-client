@@ -27,7 +27,7 @@ export default function FilterList({ startsWith }: FilterListProps) {
           router.push(`/birds?page=1&startsWith=${value}`)
         }
       >
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="mb-4 mt-8 w-3/5">
           <SelectValue placeholder={startsWith ?? "Filter by name"} />
         </SelectTrigger>
         <SelectContent>

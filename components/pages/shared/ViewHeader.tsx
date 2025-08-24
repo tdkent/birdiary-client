@@ -29,9 +29,9 @@ export default function ViewHeader({
     <>
       <header className="flex flex-col gap-6">
         <h1>{headingText}</h1>
-        {descriptionText && <p className="text-lg">{descriptionText}</p>}
+        {descriptionText && <p className="text-xl">{descriptionText}</p>}
         {backLinkHref && (
-          <Link href={`/${backLinkHref}`} className="link-inline">
+          <Link href={`/${backLinkHref}`} className="link-inline text-base">
             {backLinkText}
           </Link>
         )}

@@ -41,12 +41,12 @@ export default function CsrListItemDetails({
         : "";
       return (
         <>
-          <li className="list-hover px-4 py-4 hover:scale-[1.025]">
+          <li className="list-hover px-4 py-4 text-lg hover:scale-[1.025]">
             <Link href={href}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="font-semibold">{text}</span>
-                  <span className="text-sm italic">{subtext ?? countText}</span>
+                  <span className="italic">{subtext ?? countText}</span>
                 </div>
               </div>
             </Link>

@@ -62,7 +62,7 @@ export default function SortItems({
         disabled={isSSR ? false : pending || !count || count < 1}
       >
         <SelectTrigger
-          className={`mb-4 mt-8 w-1/2 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
+          className={`mb-4 mt-8 w-3/5 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
         >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
