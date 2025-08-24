@@ -52,16 +52,17 @@ export default async function BirdDetailsView({
         <ViewHeader
           backLinkHref="birds"
           backLinkText="Back to Birdpedia"
-          headingText={currBirdName}
           descriptionText="Information on this species, along with your recorded observations"
+          headingText={currBirdName}
         />
         <Suspense fallback={<Pending variant="bird" />}>
           <BirdDetails birdId={birdId} currBirdName={currBirdName} />
         </Suspense>
         <Separator className="mx-auto w-4/5" />
-        <h2>Sightings</h2>
         <CsrList
-          variant="birdDetail"
+          defaultSortOption={sortBy as SortValues}
+          headingText="Sightings"
+          page={parsedPage}
           pendingVariant="card"
           route={apiRoutes.getSightingsListByType(
             "birdId",
@@ -69,11 +70,10 @@ export default async function BirdDetailsView({
             parseInt(page),
             sortBy,
           )}
-          tag="sightings"
-          page={parsedPage}
           sortBy={sortBy}
-          defaultSortOption={sortBy as SortValues}
           sortOptions={sortOptions}
+          tag="sightings"
+          variant="birdDetail"
         />
       </ViewWrapper>
     </>

@@ -15,39 +15,42 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type CsrListProps =
   | {
-      variant: "diary";
+      defaultSortOption: SortValues;
+      headingText?: never;
+      page: number;
       pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
       route: string;
-      tag: "diary";
-      page: number;
       sortBy: string;
-      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
+      tag: "diary";
+      variant: "diary";
     }
   | {
-      variant: "sighting" | "diaryDetail" | "birdDetail";
+      defaultSortOption: SortValues;
+      headingText?: string;
       pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
       route: string;
-      tag: "sightings";
       page: number;
       sortBy: string;
-      defaultSortOption: SortValues;
       sortOptions: SortOptions;
       startsWith?: never;
+      tag: "sightings";
+      variant: "sighting" | "diaryDetail" | "birdDetail";
     };
 
 /** CSR component that renders a list of items */
 export default function CsrList({
-  route,
-  variant,
-  pendingVariant,
-  tag,
-  page,
-  sortBy,
   defaultSortOption,
+  headingText,
+  page,
+  pendingVariant,
+  route,
+  sortBy,
   sortOptions,
   startsWith,
+  tag,
+  variant,
 }: CsrListProps) {
   const { toast } = useToast();
   const { useQuery } = useApi();
@@ -82,6 +85,7 @@ export default function CsrList({
   return (
     <>
       <section>
+        {headingText && <h2 className="mb-10">{headingText}</h2>}
         <SortItems
           defaultSortOption={defaultSortOption}
           options={sortOptions}

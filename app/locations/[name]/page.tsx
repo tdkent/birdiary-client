@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 import {
   type SortValues,
   sortByAlphaOptions,
@@ -65,27 +66,27 @@ export default async function LocationDetailsView({
         <Suspense fallback={<Pending variant="location" />}>
           <LocationDetails locationId={locationId} />
         </Suspense>
-        <section>
-          <Suspense
-            fallback={
-              <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
-            }
-          >
-            <List
-              variant="locationDetail"
-              resource={apiRoutes.getSightingsListByType(
-                "locationId",
-                locationId,
-                parsedPage,
-                sortBy,
-              )}
-              page={parsedPage}
-              sortBy={sortBy}
-              defaultSortOption={defaultSortOption}
-              sortOptions={sortOptions}
-            />
-          </Suspense>
-        </section>
+        <Separator className="mx-auto w-4/5" />
+        <Suspense
+          fallback={
+            <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
+          }
+        >
+          <List
+            defaultSortOption={defaultSortOption}
+            headingText="Sightings"
+            page={parsedPage}
+            resource={apiRoutes.getSightingsListByType(
+              "locationId",
+              locationId,
+              parsedPage,
+              sortBy,
+            )}
+            sortBy={sortBy}
+            sortOptions={sortOptions}
+            variant="locationDetail"
+          />
+        </Suspense>
       </ViewWrapper>
     </>
   );
