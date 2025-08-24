@@ -62,14 +62,18 @@ export default function SortItems({
         disabled={isSSR ? false : pending || !count || count < 1}
       >
         <SelectTrigger
-          className={`mb-4 mt-8 w-3/5 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
+          className={`w-[70%] py-6 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"}`}
         >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
         <SelectContent>
           {options.map(({ value, text }) => {
             return (
-              <SelectItem key={value} value={value}>
+              <SelectItem
+                className="hover:cursor-pointer"
+                key={value}
+                value={value}
+              >
                 {text}
               </SelectItem>
             );
