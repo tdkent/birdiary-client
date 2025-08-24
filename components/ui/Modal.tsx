@@ -82,7 +82,7 @@ export default function Modal({
           {children}
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button type="button" size="lg" variant="secondary">
                 Cancel
               </Button>
             </DialogClose>

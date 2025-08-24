@@ -6,6 +6,8 @@ import {
   sortByDateOptions,
 } from "@/models/form";
 import { apiRoutes } from "@/models/api";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import LocationDetails from "@/components/pages/locations/LocationDetails";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
@@ -24,7 +26,9 @@ export default async function LocationDetailsView({
   const { name } = await params;
   const { page, sortBy } = await searchParams;
 
-  const locationId = parseInt(name.split("%20")[0]);
+  const decodedUri = decodeURIComponent(name);
+  const locationId = parseInt(decodedUri.split(" ")[0]);
+  const locationName = decodedUri.split(" ").slice(1).join(" ");
 
   if (!locationId || locationId < 1) {
     return (
@@ -51,30 +55,38 @@ export default async function LocationDetailsView({
 
   return (
     <>
-      <Suspense fallback={<Pending variant="location" />}>
-        <LocationDetails locationId={locationId} />
-      </Suspense>
-      <section>
-        <Suspense
-          fallback={
-            <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
-          }
-        >
-          <List
-            variant="locationDetail"
-            resource={apiRoutes.getSightingsListByType(
-              "locationId",
-              locationId,
-              parsedPage,
-              sortBy,
-            )}
-            page={parsedPage}
-            sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
-            sortOptions={sortOptions}
-          />
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Location Details"
+          descriptionText={locationName}
+          backLinkHref="locations"
+          backLinkText="Back to Locations"
+        />
+        <Suspense fallback={<Pending variant="location" />}>
+          <LocationDetails locationId={locationId} />
         </Suspense>
-      </section>
+        <section>
+          <Suspense
+            fallback={
+              <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
+            }
+          >
+            <List
+              variant="locationDetail"
+              resource={apiRoutes.getSightingsListByType(
+                "locationId",
+                locationId,
+                parsedPage,
+                sortBy,
+              )}
+              page={parsedPage}
+              sortBy={sortBy}
+              defaultSortOption={defaultSortOption}
+              sortOptions={sortOptions}
+            />
+          </Suspense>
+        </section>
+      </ViewWrapper>
     </>
   );
 }

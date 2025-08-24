@@ -43,8 +43,8 @@ export default function EditLocation({
 
   return (
     <Modal
-      buttonSize="sm"
-      buttonVariant="ghost"
+      buttonSize="lg"
+      buttonVariant="secondary"
       description="Update location address and map."
       open={open}
       setOpen={setOpen}

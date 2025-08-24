@@ -25,22 +25,24 @@ export default function LocationMap({ lat, lng }: LocationMapProps) {
   }
 
   return (
-    <section className="my-8 h-[400px] w-full">
-      <APIProvider apiKey={GOOGLE_API_KEY}>
-        <Map
-          defaultZoom={15}
-          defaultCenter={{ lat, lng }}
-          mapId={GOOGLE_LOCATION_MAP_ID}
-        >
-          <AdvancedMarker position={{ lat, lng }}>
-            <Pin
-              background={"#FBBC04"}
-              glyphColor={"#000"}
-              borderColor={"#000"}
-            />
-          </AdvancedMarker>
-        </Map>
-      </APIProvider>
-    </section>
+    <>
+      <div className="aspect-square w-full">
+        <APIProvider apiKey={GOOGLE_API_KEY}>
+          <Map
+            defaultZoom={12}
+            defaultCenter={{ lat, lng }}
+            mapId={GOOGLE_LOCATION_MAP_ID}
+          >
+            <AdvancedMarker position={{ lat, lng }}>
+              <Pin
+                background={"#FBBC04"}
+                glyphColor={"#000"}
+                borderColor={"#000"}
+              />
+            </AdvancedMarker>
+          </Map>
+        </APIProvider>
+      </div>
+    </>
   );
 }
