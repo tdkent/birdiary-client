@@ -44,7 +44,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
         <ListItemDetails
           href={`/birds/${formatBirdNameToUrl(commonName)}`}
           text={commonName}
-          subtext={`First observation: ${createLocaleString(date, "med")}`}
+          subtext={createLocaleString(date, "med")}
         />
       );
     }
