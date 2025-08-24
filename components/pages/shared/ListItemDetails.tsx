@@ -17,7 +17,7 @@ export default function ListItemDetails({
         <Link href={href}>
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="font-semibold">{text}</span>
+              <span className="line-clamp-1 font-semibold">{text}</span>
               <span className="italic">{subtext}</span>
             </div>
           </div>
