@@ -1,5 +1,4 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
+import BirdImage from "@/components/forms/BirdImage";
 import type { Bird } from "@/models/db";
 import {
   apiRoutes,
@@ -10,9 +9,13 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type BirdDetailsProps = {
   birdId: number;
+  currBirdName: string;
 };
 
-export default async function BirdDetails({ birdId }: BirdDetailsProps) {
+export default async function BirdDetails({
+  birdId,
+  currBirdName,
+}: BirdDetailsProps) {
   const response = await fetch(apiRoutes.bird(birdId));
   const result: ServerResponseWithObject | ServerResponseWithError =
     await response.json();
@@ -29,34 +32,29 @@ export default async function BirdDetails({ birdId }: BirdDetailsProps) {
   return (
     <>
       <section>
-        <h1>{bird.commonName}</h1>
-
-        <figure className="w-full">
-          <AspectRatio ratio={16 / 9}>
-            {bird.imgUrl ? (
-              <Image
-                src={bird.imgUrl}
-                alt={bird.commonName}
-                className="rounded-md object-cover"
-                fill
-                priority
-              />
-            ) : (
-              <p>No image</p>
-            )}
-          </AspectRatio>
-          <figcaption className="text-xs">{bird.imgAttribute}</figcaption>
-        </figure>
-
-        <article>
-          <p>{bird.commonName}</p>
-          <p>
-            <i>{bird.scientificName}</i>
-          </p>
-          <p>Family: {bird.family}</p>
-          <p>Conservation Status: {bird.rarity}</p>
-          <p>{bird.description}</p>
-        </article>
+        <BirdImage currBirdName={currBirdName} />
+        <dl className="mt-8 flex flex-col gap-8 px-2">
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Common Name</dt>
+            <dd className="text-xl">{bird.commonName}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Scientific Name</dt>
+            <dd className="text-xl italic">{bird.scientificName}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Family</dt>
+            <dd className="text-xl">{bird.family}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Occurrence</dt>
+            <dd className="text-xl">{bird.rarity}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Description</dt>
+            <dd className="text-xl">{bird.description}</dd>
+          </div>
+        </dl>
       </section>
     </>
   );

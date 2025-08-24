@@ -117,7 +117,7 @@ export default function Sighting({ sightingId }: SightingProps) {
         <BirdImage currBirdName={bird.commonName} />
         <dl className="my-8 flex flex-col gap-8 px-2">
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Species</dt>
+            <dt className="text-sm font-semibold uppercase">Common Name</dt>
             <dd className="text-xl">{bird.commonName}</dd>
             <Link
               href={`/birds/${formatBirdNameToUrl(bird.commonName)}`}
