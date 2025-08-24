@@ -88,7 +88,9 @@ export default async function List({
           records={result.countOfRecords}
           page={+page!}
         />
-        <ul className="my-8 divide-y">
+        <ul
+          className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4"}`}
+        >
           {result.data.map((item) => {
             return <ListItem key={item.id} variant={variant} item={item} />;
           })}

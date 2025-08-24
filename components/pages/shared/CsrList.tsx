@@ -104,7 +104,7 @@ export default function CsrList({
           <NoResultsDisplay />
         ) : (
           <ul
-            className={`my-8 ${["diary", "sighting"].includes(variant) && "divide-y"} ${variant === "diaryDetail" && "flex flex-col gap-4"}`}
+            className={`my-8 ${["diary", "sighting"].includes(variant) && "divide-y"} ${["birdDetail", "diaryDetail"].includes(variant) && "flex flex-col gap-4"}`}
           >
             {items.map((item, idx) => {
               return <CsrListItem key={idx} variant={variant} item={item} />;
