@@ -30,13 +30,15 @@ export default function DeleteAccount() {
 
   return (
     <>
-      <div className="my-8 rounded-md border border-destructive p-2">
-        <h4 className="text-xl font-semibold text-destructive">
+      <div className="my-8 rounded-md border border-destructive p-4">
+        <h4 className="text-lg font-semibold text-destructive">
           Delete Account
         </h4>
-        <p>Permanently delete your account and all sighting data.</p>
+        <p className="my-6 text-base">
+          Permanently delete your account and all sighting data.
+        </p>
         <Modal
-          buttonSize="default"
+          buttonSize="lg"
           buttonVariant="destructive"
           description="Warning: this action will immediately and permanently delete your account and sightings data."
           open={open}

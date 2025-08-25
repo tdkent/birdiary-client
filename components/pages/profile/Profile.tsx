@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { getCookie } from "@/helpers/auth";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { apiRoutes, ServerResponseWithError } from "@/models/api";
@@ -43,62 +44,62 @@ export default async function Profile() {
 
   return (
     <>
-      <div className="flex flex-col">
-        <section>
-          <h3>Profile Details</h3>
+      <div className="flex flex-col gap-10">
+        <section className="flex flex-col gap-4">
+          <h2 className="text-2xl">Profile Details</h2>
           <dl className="divide-y">
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Name:</dt>
               <dd>{name ?? "N/A"}</dd>
             </div>
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Location:</dt>
               <dd>{address ?? "N/A"}</dd>
             </div>
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Bio:</dt>
               <dd>N/A</dd>
             </div>
           </dl>
-          <div className="mt-6">
-            <Button variant="outline" asChild>
-              <Link href="/profile/edit">Edit Profile</Link>
-            </Button>
-          </div>
+          <Button variant="secondary" size="lg" asChild>
+            <Link href="/profile/edit">Edit Profile</Link>
+          </Button>
         </section>
-        <section>
+        <Separator className="mx-auto w-4/5" />
+        <section className="flex flex-col gap-4">
           <h3>Sightings Data</h3>
           <dl className="divide-y">
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Favorite Bird:</dt>
               <dd>{bird ? bird.commonName : "N/A"}</dd>
             </div>
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Total Sightings:</dt>
               <dd>{totalSightings}</dd>
             </div>
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5 py-2">
               <dt>Life List Species:</dt>
               <dd>{totalDistinctSightings}</dd>
             </div>
           </dl>
           <TransferStorageData />
+          <Separator className="mx-auto w-4/5" />
         </section>
-        <section>
+        <section className="flex flex-col gap-4">
           <h3>Account Details</h3>
-          <div className="flex gap-2.5">
-            <dt>Account Created:</dt>
-            <dd>{accountCreatedDate}</dd>
-          </div>
-          <div className="flex gap-2.5">
-            <dt>Email:</dt>
-            <dd>{email}</dd>
-          </div>
-          <div className="mt-6">
-            <Button variant="outline" asChild>
-              <Link href="/profile/updatepassword">Update Password</Link>
-            </Button>
-          </div>
+          <dl className="divide-y">
+            <div className="flex gap-2.5 py-2">
+              <dt>Account Created:</dt>
+              <dd>{accountCreatedDate}</dd>
+            </div>
+            <div className="flex gap-2.5 py-2">
+              <dt>Email:</dt>
+              <dd>{email}</dd>
+            </div>
+          </dl>
+          <Button size="lg" variant="secondary" asChild>
+            <Link href="/profile/updatepassword">Update Password</Link>
+          </Button>
           <DeleteAccount />
         </section>
       </div>
