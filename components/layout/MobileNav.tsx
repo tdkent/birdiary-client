@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Sheet,
   SheetClose,
@@ -18,6 +17,7 @@ import { Separator } from "../ui/separator";
 import { caveat } from "@/lib/fonts";
 import { AuthContext } from "@/context/AuthContext";
 import { mobile as mobileNavLinks } from "@/data/nav";
+import Logo from "@/components/layout/Logo";
 
 export function MobileNav() {
   const { isSignedIn } = useContext(AuthContext);
@@ -39,24 +39,7 @@ export function MobileNav() {
             className={`${caveat.className} mt-12 font-normal antialiased`}
           >
             <SheetClose asChild>
-              <Link href="/">
-                <div className="flex items-center justify-center gap-4 md:gap-4">
-                  <div className="relative h-16 w-16 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
-                    <Image
-                      src="/icon/blue-jay-icon.webp"
-                      alt="Blue Jay"
-                      fill
-                      sizes="(max-width: 768px) 48px, 64px"
-                      className="rounded-full object-cover"
-                    />
-                  </div>
-                  <span
-                    className={`${caveat.className} text-5xl antialiased md:text-6xl`}
-                  >
-                    Birdiary
-                  </span>
-                </div>
-              </Link>
+              <Logo logoStyles="h-14 w-14" textStyles="text-4xl" />
             </SheetClose>
           </SheetTitle>
           <SheetDescription>
