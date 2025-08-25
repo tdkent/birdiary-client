@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import AuthProvider from "@/context/AuthContext";
 import ApiProvider from "@/context/ApiContext";
+import LogoProvider from "@/context/LogoContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -29,14 +30,16 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ApiProvider>
-              <div className="min-h-[calc(100vh-80px)]">
-                <Header />
-                <main className="mx-auto max-w-[1024px] py-10 pl-4 pr-6">
-                  {children}
-                </main>
-                <Toaster />
-              </div>
-              <Footer />
+              <LogoProvider>
+                <div className="min-h-[calc(100vh-80px)]">
+                  <Header />
+                  <main className="mx-auto max-w-[1024px] py-10 pl-4 pr-6">
+                    {children}
+                  </main>
+                  <Toaster />
+                </div>
+                <Footer />
+              </LogoProvider>
             </ApiProvider>
           </AuthProvider>
         </ThemeProvider>
