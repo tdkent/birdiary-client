@@ -1,3 +1,75 @@
-export default function Footer() {
-  return <footer className="h-20 border-t">&copy; 2025, Birdiary</footer>;
+import Link from "next/link";
+import { getCookie } from "@/helpers/auth";
+
+export const footerLinks: {
+  label: string;
+  href: string;
+  protected: boolean;
+}[] = [
+  {
+    label: "Home",
+    href: "",
+    protected: false,
+  },
+  {
+    label: "New Sighting",
+    href: "newsighting",
+    protected: false,
+  },
+  {
+    label: "Diary",
+    href: "diary",
+    protected: false,
+  },
+  {
+    label: "Sightings",
+    href: "sightings",
+    protected: false,
+  },
+  {
+    label: "Life List",
+    href: "lifelist",
+    protected: true,
+  },
+  {
+    label: "Locations",
+    href: "locations",
+    protected: true,
+  },
+  {
+    label: "Birdpedia",
+    href: "birds",
+    protected: false,
+  },
+  {
+    label: "Profile",
+    href: "profile",
+    protected: true,
+  },
+];
+
+export default async function Footer() {
+  const token = await getCookie();
+  const showProtected = token
+    ? footerLinks
+    : footerLinks.filter((link) => !link.protected);
+  return (
+    <footer className="flex flex-col gap-8 border-t p-4">
+      <div className="flex flex-col gap-2">
+        <span className="text-base font-semibold uppercase">Sitemap</span>
+        <ul className="flex flex-col gap-2">
+          {showProtected.map(({ href, label }) => {
+            return (
+              <>
+                <li>
+                  <Link href={`/${href}`}>{label}</Link>
+                </li>
+              </>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="text-sm">&copy; 2025, Birdiary</div>
+    </footer>
+  );
 }
