@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function ErrorBoundary({
   error,
-  reset,
 }: {
   error: Error;
   reset: () => void;
@@ -15,10 +14,8 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div>
-      <h2>Sorry, an unexpected error occurred</h2>
-      <p>Error message: {error.message}</p>
-      <Button onClick={reset}>Try again</Button>
-    </div>
+    <>
+      <ErrorDisplay msg={error.message} showReloadBtn />
+    </>
   );
 }
