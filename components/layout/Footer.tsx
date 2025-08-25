@@ -56,7 +56,7 @@ export default async function Footer() {
     : footerLinks.filter((link) => !link.protected);
   return (
     <footer className="flex flex-col gap-8 border-t px-6 py-8">
-      <Logo />
+      <Logo logoStyles="w-12 h-12" textStyles="text-3xl" />
       <div className="flex flex-col gap-2">
         <span className="text-base font-semibold uppercase">Sitemap</span>
         <ul className="flex flex-col gap-2">

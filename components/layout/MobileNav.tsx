@@ -39,7 +39,7 @@ export function MobileNav() {
             className={`${caveat.className} mt-12 font-normal antialiased`}
           >
             <SheetClose asChild>
-              <Logo />
+              <Logo logoStyles="h-14 w-14" textStyles="text-4xl" />
             </SheetClose>
           </SheetTitle>
           <SheetDescription>
