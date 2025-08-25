@@ -14,33 +14,36 @@ import { RESULTS_PER_PAGE } from "@/constants/constants";
 
 type ListProps =
   | {
-      variant: "lifelistSighting" | "location" | "locationDetail";
-      page: number;
-      sortBy: string;
-      resource: string;
       defaultSortOption: SortValues;
+      headingText?: string;
+      page: number;
+      resource: string;
+      sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
+      variant: "lifelistSighting" | "location" | "locationDetail";
     }
   | {
-      variant: "birdpedia";
-      page: number;
-      startsWith: string | undefined;
-      resource: string;
       defaultSortOption?: never;
+      headingText?: never;
+      page: number;
+      resource: string;
       sortOptions?: never;
       sortBy?: never;
+      startsWith: string | undefined;
+      variant: "birdpedia";
     };
 
 /** SSR component that renders a list of items */
 export default async function List({
-  variant,
-  page,
-  sortBy,
-  startsWith,
-  resource,
   defaultSortOption,
+  headingText,
+  page,
+  resource,
+  sortBy,
   sortOptions,
+  startsWith,
+  variant,
 }: ListProps) {
   const token = await getCookie();
   const requestHeaders: { Authorization?: string } = {};
@@ -68,32 +71,37 @@ export default async function List({
 
   return (
     <>
-      {variant === "birdpedia" ? (
-        <FilterList startsWith={startsWith} />
-      ) : (
-        <SortItems
-          defaultSortOption={defaultSortOption}
-          options={sortOptions}
-          isSSR
+      <section>
+        {headingText && <h2 className="mb-10">{headingText}</h2>}
+        {variant === "birdpedia" ? (
+          <FilterList startsWith={startsWith} />
+        ) : (
+          <SortItems
+            defaultSortOption={defaultSortOption}
+            options={sortOptions}
+            isSSR
+          />
+        )}
+        <FilterAndResultsText
+          variant={variant}
+          startsWith={startsWith}
+          records={result.countOfRecords}
+          page={+page!}
         />
-      )}
-      <FilterAndResultsText
-        variant={variant}
-        startsWith={startsWith}
-        records={result.countOfRecords}
-        page={+page!}
-      />
-      <ul className="my-4">
-        {result.data.map((item) => {
-          return <ListItem key={item.id} variant={variant} item={item} />;
-        })}
-      </ul>
-      <PaginateList
-        currentPage={page}
-        finalPage={pages}
-        startsWith={startsWith}
-        sortBy={sortBy}
-      />
+        <ul
+          className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4"}`}
+        >
+          {result.data.map((item) => {
+            return <ListItem key={item.id} variant={variant} item={item} />;
+          })}
+        </ul>
+        <PaginateList
+          currentPage={page}
+          finalPage={pages}
+          startsWith={startsWith}
+          sortBy={sortBy}
+        />
+      </section>
     </>
   );
 }

@@ -113,71 +113,70 @@ export default function Sighting({ sightingId }: SightingProps) {
   const { bird, date, description, location } = data;
   return (
     <>
-      <section>
+      <section className="flex flex-col gap-4">
         <BirdImage currBirdName={bird.commonName} />
-        <dl className="my-8 flex flex-col gap-6">
-          <div>
-            <dt className="text-xs font-semibold uppercase">Species</dt>
-            <dd className="">{bird.commonName}</dd>
+        <dl className="my-8 flex flex-col gap-8 px-2">
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Common Name</dt>
+            <dd className="text-xl">{bird.commonName}</dd>
             <Link
               href={`/birds/${formatBirdNameToUrl(bird.commonName)}`}
-              className="text-sm italic hover:underline"
+              className="italic hover:underline"
             >
               View bird
             </Link>
           </div>
-          <div>
-            <dt className="text-xs font-semibold uppercase">Date</dt>
-            <dd className="">{createLocaleString(date, "full")}</dd>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Date</dt>
+            <dd className="text-xl">{createLocaleString(date, "full")}</dd>
             <Link
               href={`/diary/${date.slice(0, 10)}`}
-              className="text-sm italic hover:underline"
+              className="italic hover:underline"
             >
               View diary
             </Link>
           </div>
           {isSignedIn && (
             <>
-              <div>
-                <dt className="text-xs font-semibold uppercase">Location</dt>
+              <div className="flex flex-col gap-1">
+                <dt className="text-sm font-semibold uppercase">Location</dt>
                 {location ? (
                   <>
-                    <dd>{location.name}</dd>
+                    <dd className="text-xl">{location.name}</dd>
                     <Link
                       href={`/locations/${location.id} ${location.name}`}
-                      className="text-sm italic hover:underline"
+                      className="italic hover:underline"
                     >
                       View location
                     </Link>
                   </>
                 ) : (
                   <>
-                    <dd className="italic">No location provided</dd>
+                    <dd className="text-lg italic">No location provided</dd>
                   </>
                 )}
               </div>
             </>
           )}
-          <div>
-            <dt className="text-xs font-semibold uppercase">Description</dt>
+          <div className="flex flex-col gap-1">
+            <dt className="text-sm font-semibold uppercase">Description</dt>
             {description ? (
               <>
-                <dd>{description}</dd>
+                <dd className="text-lg">{description}</dd>
               </>
             ) : (
               <>
-                <dd className="italic">No description provided</dd>
+                <dd className="text-lg italic">No description provided</dd>
               </>
             )}
           </div>
         </dl>
         <div className="flex flex-col gap-4">
-          <Button asChild className="w-full" size="lg" variant="secondary">
+          <Button asChild size="lg" variant="secondary">
             <Link href={`/sightings/${sightingId}/edit`}>Edit</Link>
           </Button>
           <Modal
             buttonSize="lg"
-            buttonStyles="w-full"
             buttonVariant="destructive"
             description="This will permanently delete one of your sightings."
             open={open}

@@ -36,6 +36,9 @@ export default function AuthForm() {
     },
   });
 
+  const email = form.getValues().email;
+  const password = form.getValues().password;
+
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     const result = await auth({ ...values, pathname });
 
@@ -67,7 +70,7 @@ export default function AuthForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -94,7 +97,14 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          size="lg"
+          variant="new"
+          disabled={!email || !password}
+        >
+          Submit
+        </Button>
       </form>
     </Form>
   );

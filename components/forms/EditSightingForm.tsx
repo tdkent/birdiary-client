@@ -1,7 +1,6 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,7 @@ import { createIsoUtcDate } from "@/helpers/dates";
 import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
 import { apiRoutes, Messages } from "@/models/api";
 import { sightingSchema, type SightingForm } from "@/models/form";
-import BirdImage from "@/components/forms/BirdImage";
+import FormBirdImage from "@/components/forms/FormBirdImage";
 import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
@@ -112,7 +111,6 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   return (
     <>
-      <BirdImage currBirdName={currBirdName} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <NameInput
@@ -133,18 +131,13 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
             </>
           )}
           <DescInput form={form} pending={pending} />
+          <FormBirdImage currBirdName={currBirdName} />
           <Button
             disabled={pending || !isMatching || !isDirty}
-            className="w-full"
+            size="lg"
+            variant="new"
           >
-            {pending ? (
-              <PendingIcon strokeWidth={1} size={28} />
-            ) : (
-              "Update Sighting"
-            )}
-          </Button>
-          <Button asChild className="w-full" variant="secondary">
-            <Link href={`/sightings/${sighting.id}`}>Cancel</Link>
+            {pending ? <PendingIcon strokeWidth={1} size={28} /> : "Update"}
           </Button>
         </form>
       </Form>

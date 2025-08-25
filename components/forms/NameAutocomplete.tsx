@@ -41,20 +41,23 @@ export default function NameAutocomplete({
               const curr = currInput.trim().replace(regex, "").toLowerCase();
               return name.includes(curr);
             })
-            // Limit to 6 search results
-            .slice(0, 6)
+            // Limit to 10 search results
+            .slice(0, 10)
         : [];
     setFilteredResults(filteredNames);
   }, [currInput, isMatching]);
 
+  if (!filteredResults.length) return null;
+
   return (
     <>
-      <ul>
+      <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2">
         {filteredResults.map((birdName) => {
           return (
             <li
               key={birdName}
               onClick={() => form.setValue("commonName", birdName)}
+              className="list-hover px-4 py-1"
             >
               {birdName}
             </li>

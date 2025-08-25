@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import { apiRoutes } from "@/models/api";
@@ -24,29 +26,27 @@ export default async function BirdsView({
 
   return (
     <>
-      <header className="flex flex-col gap-4">
-        <h1>Birdpedia</h1>
-        <h2>Browse more than 800 species of North American birds!</h2>
-        <p>
-          The Birdpedia page includes all bird species listed as Common or Rare,
-          as rated by the ABA.
-        </p>
-      </header>
-      <Suspense
-        fallback={
-          <Pending
-            variant="listDoubleRowWithControls"
-            listSize={RESULTS_PER_PAGE}
-          />
-        }
-      >
-        <List
-          variant="birdpedia"
-          page={parsedPage}
-          startsWith={startsWith}
-          resource={apiRoutes.birds(parseInt(page), startsWith)}
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Birdpedia"
+          descriptionText="Browse 838 species of North American birds."
         />
-      </Suspense>
+        <Suspense
+          fallback={
+            <Pending
+              variant="listDoubleRowWithControls"
+              listSize={RESULTS_PER_PAGE}
+            />
+          }
+        >
+          <List
+            variant="birdpedia"
+            page={parsedPage}
+            startsWith={startsWith}
+            resource={apiRoutes.birds(parseInt(page), startsWith)}
+          />
+        </Suspense>
+      </ViewWrapper>
     </>
   );
 }

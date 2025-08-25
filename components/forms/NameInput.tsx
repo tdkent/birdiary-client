@@ -27,27 +27,29 @@ export default function NameInput({
 }: NameInputProps) {
   return (
     <>
-      <FormField
-        control={form.control}
-        name="commonName"
-        render={({ field }) => (
-          <FormItem className="form-item">
-            <FormLabel className="required-input">
-              Common name of bird
-            </FormLabel>
-            <FormControl>
-              <Input {...field} disabled={pending} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="relative z-50">
+        <FormField
+          control={form.control}
+          name="commonName"
+          render={({ field }) => (
+            <FormItem className="form-item mb-0.5 pb-0">
+              <FormLabel className="required-input">
+                Common name of bird
+              </FormLabel>
+              <FormControl>
+                <Input {...field} disabled={pending} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <NameAutocomplete
-        form={form}
-        setIsMatching={setIsMatching}
-        isMatching={isMatching}
-      />
+        <NameAutocomplete
+          form={form}
+          setIsMatching={setIsMatching}
+          isMatching={isMatching}
+        />
+      </div>
     </>
   );
 }

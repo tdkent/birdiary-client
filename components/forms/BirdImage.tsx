@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDebounceCallback } from "usehooks-ts";
-import { CircleAlert, Image as ImageIcon, ImageOff } from "lucide-react";
+import { CircleAlert, Image as ImageIcon } from "lucide-react";
 import birdNames from "@/data/birds";
 import type { Bird } from "@/models/db";
 import { Messages, apiRoutes, ServerResponseWithError } from "@/models/api";
@@ -53,67 +55,47 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
     }
   }, [currFetchedBird, currBirdName, debounced]);
 
-  return (
-    <>
-      <figure className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 rounded border">
-        <BirdImageContent data={data} pending={pending} error={error} />
-      </figure>
-    </>
-  );
-}
-
-type BirdImageContentProps = {
-  data: Bird | undefined;
-  pending: boolean;
-  error: string | null;
-};
-
-function BirdImageContent({ data, pending, error }: BirdImageContentProps) {
-  if (error) {
+  if (data && data.imgUrl) {
     return (
       <>
-        <CircleAlert strokeWidth={1} size={28} />
-        <span className="text-xs">Error loading image</span>
-      </>
-    );
-  }
-
-  if (!data) {
-    return (
-      <>
-        <ImageIcon strokeWidth={1} size={28} />
-        <span className="text-xs">Waiting to fetch image</span>
-      </>
-    );
-  }
-
-  if (pending) {
-    return (
-      <>
-        <PendingIcon strokeWidth={1} size={28} />
-        <span className="text-xs">Fetching image</span>
-      </>
-    );
-  }
-
-  if (!data.imgUrl) {
-    return (
-      <>
-        <ImageOff strokeWidth={1} size={28} />
-        <span className="text-xs">No image available</span>
+        <figure className="flex flex-col gap-1">
+          <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
+            <Image
+              src={data.imgUrl}
+              alt={data.commonName}
+              fill
+              quality={30}
+              className="object-cover"
+              priority
+            />
+          </div>
+          <figcaption className="px-1 text-xs italic">
+            {data.scientificName}. &copy; {data.imgAttribute ?? "Public Domain"}
+          </figcaption>
+        </figure>
       </>
     );
   }
 
   return (
     <>
-      <Image
-        src={data.imgUrl}
-        alt={data.commonName}
-        fill
-        quality={30}
-        className="object-cover"
-      />
+      <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
+        {pending ? (
+          <PendingIcon strokeWidth={1} size={32} />
+        ) : error ? (
+          <>
+            <CircleAlert strokeWidth={1} size={28} />
+            <span className="text-sm">An error occurred.</span>
+          </>
+        ) : !data ? (
+          <ImageIcon strokeWidth={1} size={32} />
+        ) : (
+          <>
+            <CircleAlert strokeWidth={1} size={28} />
+            <span className="text-sm">No image available</span>
+          </>
+        )}
+      </div>
     </>
   );
 }

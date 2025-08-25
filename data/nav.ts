@@ -16,7 +16,7 @@ export const mobile: {
 }[] = [
   {
     label: "New Sighting",
-    href: "new",
+    href: "newsighting",
     icon: Plus,
     type: "public",
   },

@@ -19,7 +19,7 @@ export default function DesktopNav() {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link
-              href="/new"
+              href="/newsighting"
               className={`${navigationMenuTriggerStyle()} flex items-center gap-1 rounded-md border`}
             >
               <Plus size={12} />

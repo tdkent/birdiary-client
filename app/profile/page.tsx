@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import Profile from "@/components/pages/profile/Profile";
 import Pending from "@/components/pages/shared/Pending";
 
@@ -6,13 +8,15 @@ import Pending from "@/components/pages/shared/Pending";
 export default function ProfileView() {
   return (
     <>
-      <header className="flex flex-col gap-4">
-        <h1>Profile</h1>
-        <p>View profile information and account settings.</p>
-      </header>
-      <Suspense fallback={<Pending variant="profile" />}>
-        <Profile />
-      </Suspense>
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Profile"
+          descriptionText="View profile information and account settings."
+        />
+        <Suspense fallback={<Pending variant="profile" />}>
+          <Profile />
+        </Suspense>
+      </ViewWrapper>
     </>
   );
 }

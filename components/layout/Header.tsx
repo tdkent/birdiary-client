@@ -10,20 +10,20 @@ import SignInOutButton from "@/components/layout/SignInOutButton";
  */
 export default function Header() {
   return (
-    <header className="flex h-16 items-center justify-between border-b px-4 sm:h-[88px] sm:px-6">
-      <Logo />
+    <header className="flex h-20 items-center justify-between border-b px-6 sm:h-[88px] sm:px-6">
+      <Logo isHeader />
       <div className="flex items-center gap-4">
         <ResponsiveNav />
         <Separator
           decorative
           orientation="vertical"
-          className="min-h-8 bg-gray-700"
+          className="min-h-10 bg-gray-700"
         />
         <SignInOutButton />
         <Separator
           decorative
           orientation="vertical"
-          className="min-h-8 bg-gray-700"
+          className="min-h-10 bg-gray-700"
         />
         <DarkMode />
       </div>

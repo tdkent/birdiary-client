@@ -3,11 +3,16 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { CircleQuestionMark } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -45,6 +50,7 @@ export default function UpdatePasswordForm() {
   });
 
   const { toast } = useToast();
+  const isDirty = form.formState.isDirty;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response: User | ExpectedServerError = await updatePassword(
@@ -70,7 +76,7 @@ export default function UpdatePasswordForm() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="currentPassword"
@@ -89,13 +95,20 @@ export default function UpdatePasswordForm() {
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Password</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>New Password</FormLabel>
+                <Popover>
+                  <PopoverTrigger className="pr-1 text-sm">
+                    <CircleQuestionMark strokeWidth={1.5} size={20} />
+                  </PopoverTrigger>
+                  <PopoverContent className="text-sm">
+                    Passwords must be 8-36 characters.
+                  </PopoverContent>
+                </Popover>
+              </div>
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
-              <FormDescription>
-                Passwords must be 8-36 characters.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -113,7 +126,9 @@ export default function UpdatePasswordForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" size="lg" variant="new" disabled={!isDirty}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

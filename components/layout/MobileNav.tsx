@@ -31,17 +31,17 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger>
-        <AlignJustify />
+        <AlignJustify className="size-7" strokeWidth={1.5} />
       </SheetTrigger>
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
           <SheetTitle
-            className={`${caveat.className} mt-12 text-4xl antialiased`}
+            className={`${caveat.className} mt-12 font-normal antialiased`}
           >
             <SheetClose asChild>
               <Link href="/">
                 <div className="flex items-center justify-center gap-4 md:gap-4">
-                  <div className="relative h-12 w-12 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
+                  <div className="relative h-16 w-16 rounded-full border-2 border-blue-300 md:h-16 md:w-16">
                     <Image
                       src="/icon/blue-jay-icon.webp"
                       alt="Blue Jay"
@@ -51,7 +51,7 @@ export function MobileNav() {
                     />
                   </div>
                   <span
-                    className={`${caveat.className} text-4xl antialiased md:text-5xl`}
+                    className={`${caveat.className} text-5xl antialiased md:text-6xl`}
                   >
                     Birdiary
                   </span>
@@ -63,7 +63,7 @@ export function MobileNav() {
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
           </SheetDescription>
         </SheetHeader>
-        <nav className="mt-4">
+        <nav className="mt-4 text-xl">
           <ul className="flex flex-col">
             {navLinks.map(({ label, href, icon: Icon }, idx) => {
               return (
@@ -73,9 +73,11 @@ export function MobileNav() {
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center gap-2 ${href === "new" && `new-sighting-btn-colors rounded-md border px-4 py-2`}`}
+                          className={`flex w-fit items-center ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2" : "gap-4"}`}
                         >
-                          {Icon && <Icon className="h-3 w-3" />}
+                          {Icon && (
+                            <Icon className="h-5 w-5" strokeWidth={1.5} />
+                          )}
                           {label}
                         </Link>
                       </SheetClose>

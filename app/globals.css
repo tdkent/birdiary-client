@@ -46,7 +46,7 @@
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
@@ -67,40 +67,76 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply mb-8 mt-4 text-4xl;
+    @apply font-playful text-5xl font-light leading-tight;
   }
   h2 {
-    @apply mb-4 mt-8 text-2xl;
+    @apply font-playful text-4xl font-light leading-tight;
   }
   h3 {
-    @apply mb-4 mt-12 text-2xl;
-  }
-  p {
-    @apply mb-4;
+    @apply font-heading text-2xl font-light leading-tight;
   }
 
   form {
-    @apply my-8;
+    @apply relative flex flex-col gap-8;
   }
-
-  ul.sighting-list {
+  p {
+    @apply text-xl leading-normal;
+  }
+  /* ul.sighting-list {
     @apply my-4 divide-y;
   }
   ul.sighting-list li {
     @apply flex items-center justify-between px-4 py-4 hover:bg-slate-900;
-  }
+  } */
 
   .required-input {
     @apply after:pl-0.5 after:text-base after:text-destructive after:content-['*'];
   }
 
-  .new-sighting-btn-colors {
+  .btn-new {
     @apply bg-primary text-background hover:bg-primary/90 disabled:opacity-80 disabled:hover:bg-primary/100 dark:text-foreground;
+  }
+
+  .link-inline {
+    @apply text-primary underline hover:no-underline;
+  }
+
+  .list-hover {
+    @apply hover:cursor-pointer hover:bg-accent hover:text-accent-foreground;
   }
 }
 
-/* Places Autocomplete container */
+/* Places Autocomplete */
 .pac-container {
-  /* Enable pointer events that <Dialog> prevents by default */
-  pointer-events: auto !important;
+  pointer-events: auto !important; /* Enable pointer events that <Dialog> prevents by default */
+  background: hsl(var(--background));
+  border-width: 1px;
+  border-color: hsl(var(--input));
+  border-radius: 6px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-family: "Quicksand", "sans serif";
+}
+
+.pac-item {
+  color: hsl(var(--foreground));
+  border: none;
+  font-size: 0.875rem;
+  padding: 0 1rem;
+}
+
+.pac-item-query {
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+}
+
+.pac-item:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+  cursor: pointer;
+}
+
+div.pac-container.pac-logo.hdpi::after,
+span.pac-icon.pac-icon-marker {
+  display: none;
 }

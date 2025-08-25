@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import {
@@ -32,31 +34,33 @@ export default async function LocationsView({
   const parsedPage = parseInt(page);
   return (
     <>
-      <header className="flex flex-col gap-4">
-        <h1>Locations</h1>
-        <p>A list of all the locations where you have observed birds.</p>
-      </header>
-      <Suspense
-        fallback={
-          <Pending
-            variant="listDoubleRowWithControls"
-            listSize={RESULTS_PER_PAGE}
-          />
-        }
-      >
-        <List
-          variant="location"
-          resource={apiRoutes.getSightingsGroupByType(
-            "location",
-            parsedPage,
-            sortBy,
-          )}
-          page={parsedPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Locations"
+          descriptionText="A list of all the locations where you have observed birds."
         />
-      </Suspense>
+        <Suspense
+          fallback={
+            <Pending
+              variant="listDoubleRowWithControls"
+              listSize={RESULTS_PER_PAGE}
+            />
+          }
+        >
+          <List
+            variant="location"
+            resource={apiRoutes.getSightingsGroupByType(
+              "location",
+              parsedPage,
+              sortBy,
+            )}
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        </Suspense>
+      </ViewWrapper>
     </>
   );
 }

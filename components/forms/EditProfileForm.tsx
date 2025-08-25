@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +22,12 @@ import { editProfileSchema } from "@/models/form";
 import { editUserProfile } from "@/actions/profile";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import { Messages } from "@/models/api";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CircleQuestionMark } from "lucide-react";
 
 type EditProfileFormProps = { user: UserProfile };
 
@@ -92,7 +97,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -111,10 +116,18 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           name="zipcode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Zip Code</FormLabel>
-              <FormDescription>
-                Enter a valid 5-digit U.S. ZIP code to generate your location.
-              </FormDescription>
+              <div className="flex items-center justify-between">
+                <FormLabel>Zip Code</FormLabel>
+                <Popover>
+                  <PopoverTrigger className="pr-1 text-sm">
+                    <CircleQuestionMark strokeWidth={1.5} size={20} />
+                  </PopoverTrigger>
+                  <PopoverContent className="text-sm">
+                    Enter a valid 5-digit U.S. ZIP code to generate your
+                    location.
+                  </PopoverContent>
+                </Popover>
+              </div>
               <FormControl>
                 <APIProvider apiKey={GOOGLE_API_KEY}>
                   <Input placeholder="10001" {...field} />
@@ -124,7 +137,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={!isDirty}>
+        <Button type="submit" disabled={!isDirty} size="lg" variant="new">
           Submit
         </Button>
       </form>

@@ -43,9 +43,8 @@ export default function EditLocation({
 
   return (
     <Modal
-      buttonSize="sm"
-      buttonStyles="w-full p-0 hover:bg-transparent"
-      buttonVariant="ghost"
+      buttonSize="lg"
+      buttonVariant="secondary"
       description="Update location address and map."
       open={open}
       setOpen={setOpen}

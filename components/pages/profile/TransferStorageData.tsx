@@ -47,9 +47,9 @@ export default function TransferStorageData() {
 
   return (
     <>
-      <div className="my-8 rounded-md border p-2">
+      <div className="my-6 rounded-md border p-4">
         <div className="flex items-center justify-between">
-          <h4 className="text-xl">Transfer Browser Data</h4>
+          <h4 className="text-lg">Transfer Browser Data</h4>
           <Popover>
             <PopoverTrigger className="text-sm">
               <CircleQuestionMark strokeWidth={1.5} size={20} />
@@ -62,14 +62,19 @@ export default function TransferStorageData() {
             </PopoverContent>
           </Popover>
         </div>
-        <p className="my-6">
+        <p className="my-6 text-base">
           You have{" "}
           <span className="font-semibold">{parsedSightings.length}</span>{" "}
           sightings saved in your browser ready to be transferred to your
           account. Transfer them now?
         </p>
         <div>
-          <Button onClick={handleClick} disabled={pending}>
+          <Button
+            onClick={handleClick}
+            disabled={pending}
+            size="lg"
+            variant="new"
+          >
             {pending ? (
               <PendingIcon strokeWidth={1.5} size={32} />
             ) : (

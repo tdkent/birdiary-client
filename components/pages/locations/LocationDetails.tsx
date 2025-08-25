@@ -27,14 +27,13 @@ export default async function LocationDetails({
   }
   return (
     <>
-      <header>
-        <h1>{location.name}</h1>
-        <div className="flex items-center space-x-4">
+      <section>
+        <LocationMap lat={location.lat} lng={location.lng} />
+        <div className="my-8 flex flex-col gap-4">
           <EditLocation location={location} locationId={locationId} />
           <DeleteLocation locationId={locationId} />
         </div>
-      </header>
-      <LocationMap lat={location.lat} lng={location.lng} />
+      </section>
     </>
   );
 }

@@ -1,9 +1,11 @@
 import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 import birdNames from "@/data/birds";
 import { SortValues, sortByDateOptions } from "@/models/form";
 import { apiRoutes } from "@/models/api";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
@@ -25,14 +27,7 @@ export default async function BirdDetailsView({
     (bird) => bird.replaceAll(`'`, "").toLowerCase() === formattedName,
   );
 
-  if (birdIdx === -1) {
-    return (
-      <>
-        <p>Could not find &apos;{formattedName}&apos;</p>
-        <Link href="/birds">See all birds</Link>
-      </>
-    );
-  }
+  if (birdIdx === -1) notFound();
 
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByDateOptions];
@@ -48,29 +43,39 @@ export default async function BirdDetailsView({
   }
 
   const birdId = birdIdx + 1;
+  const currBirdName = birdNames[birdIdx];
   const parsedPage = parseInt(page);
 
   return (
     <>
-      <Suspense fallback={<Pending variant="bird" />}>
-        <BirdDetails birdId={birdId} />
-      </Suspense>
-      <h2>Sightings</h2>
-      <CsrList
-        variant="birdDetail"
-        pendingVariant="card"
-        route={apiRoutes.getSightingsListByType(
-          "birdId",
-          birdId,
-          parseInt(page),
-          sortBy,
-        )}
-        tag="sightings"
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={sortBy as SortValues}
-        sortOptions={sortOptions}
-      />
+      <ViewWrapper>
+        <ViewHeader
+          backLinkHref="birds"
+          backLinkText="Go to birdpedia"
+          descriptionText="Information on this species, along with your recorded observations"
+          headingText={currBirdName}
+        />
+        <Suspense fallback={<Pending variant="bird" />}>
+          <BirdDetails birdId={birdId} currBirdName={currBirdName} />
+        </Suspense>
+        <Separator className="mx-auto w-4/5" />
+        <CsrList
+          defaultSortOption={sortBy as SortValues}
+          headingText="Sightings"
+          page={parsedPage}
+          pendingVariant="card"
+          route={apiRoutes.getSightingsListByType(
+            "birdId",
+            birdId,
+            parseInt(page),
+            sortBy,
+          )}
+          sortBy={sortBy}
+          sortOptions={sortOptions}
+          tag="sightings"
+          variant="birdDetail"
+        />
+      </ViewWrapper>
     </>
   );
 }

@@ -1,11 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CalendarIcon } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createLocaleString } from "@/helpers/dates";
 import { SightingWithBird } from "@/models/display";
 import Link from "next/link";
@@ -24,22 +18,33 @@ export default function CardItem({ sighting }: CardItemProps) {
   return (
     <>
       <li>
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>
-              <h3>{commonName}</h3>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>{createLocaleString(date, "full")}</p>
-            <p>{description}</p>
-          </CardContent>
-          <CardFooter>
-            <Button asChild>
-              <Link href={`/sightings/${id}`}>View details</Link>
-            </Button>
-          </CardFooter>
-        </Card>
+        <Link className="group" href={`/sightings/${id}`}>
+          <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
+            <CardHeader>
+              <CardTitle>
+                <h3 className="line-clamp-1 text-lg font-semibold">
+                  {commonName}
+                </h3>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-2.5">
+              <p className={`flex items-center gap-1.5 text-base`}>
+                <CalendarIcon strokeWidth={1} size={20} />
+                <span className="line-clamp-1">
+                  {createLocaleString(date, "med")}
+                </span>
+              </p>
+              <p
+                className={`line-clamp-1 text-base ${!description && "italic"}`}
+              >
+                {description ?? "No description"}
+              </p>
+            </CardContent>
+            <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100">
+              view details
+            </span>
+          </Card>
+        </Link>
       </li>
     </>
   );

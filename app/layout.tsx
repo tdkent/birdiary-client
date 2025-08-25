@@ -31,7 +31,7 @@ export default function RootLayout({
             <ApiProvider>
               <div className="min-h-[calc(100vh-80px)]">
                 <Header />
-                <main className="mx-auto max-w-[1024px] px-5 py-10">
+                <main className="mx-auto max-w-[1024px] py-10 pl-4 pr-6">
                   {children}
                 </main>
                 <Toaster />

@@ -83,13 +83,13 @@ export default function EditLocationForm({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
           <LocationInput
             variant="update"
             form={form}
             setLocation={setUpdatedLocation}
           />
-          <Button disabled={!isDirty} className="w-full">
+          <Button disabled={!isDirty} size="lg" variant="new">
             Update Location
           </Button>
         </form>

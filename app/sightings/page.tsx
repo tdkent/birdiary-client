@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
 import { apiRoutes } from "@/models/api";
 import {
@@ -30,20 +32,22 @@ export default async function SightingsView({
 
   return (
     <>
-      <header>
-        <h1>My Sightings</h1>
-        <p>View a list of all your sightings sorted by date or bird.</p>
-      </header>
-      <CsrList
-        variant="sighting"
-        pendingVariant="listDoubleRow"
-        route={apiRoutes.getSightings(parsedPage, sortBy)}
-        tag="sightings"
-        page={parsedPage}
-        sortBy={sortBy}
-        defaultSortOption={defaultSortOption}
-        sortOptions={sortOptions}
-      />
+      <ViewWrapper>
+        <ViewHeader
+          headingText="Sightings"
+          descriptionText="View a list of all your sightings sorted by date or bird."
+        />
+        <CsrList
+          variant="sighting"
+          pendingVariant="listDoubleRow"
+          route={apiRoutes.getSightings(parsedPage, sortBy)}
+          tag="sightings"
+          page={parsedPage}
+          sortBy={sortBy}
+          defaultSortOption={defaultSortOption}
+          sortOptions={sortOptions}
+        />
+      </ViewWrapper>
     </>
   );
 }

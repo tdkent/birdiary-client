@@ -1,17 +1,8 @@
-// import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { MapPin } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
-// import Modal from "@/components/ui/Modal";
-// import DeleteItem from "@/components/pages/shared/DeleteItem";
 
 type CsrListItemDetailsProps =
   | {
@@ -42,28 +33,21 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
-  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
+      const countText = sightingCount
+        ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
+        : "";
       return (
         <>
-          <li className="my-4">
+          <li className="list-hover px-4 py-4 text-lg hover:scale-[1.025]">
             <Link href={href}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
-                  <span className="font-medium">{text}</span>
-                  {subtext && <span className="text-sm italic">{subtext}</span>}
+                  <span className="font-semibold">{text}</span>
+                  <span className="italic">{subtext ?? countText}</span>
                 </div>
-                {sightingCount && (
-                  <div>
-                    <span className="text-sm">
-                      {sightingCount > 1
-                        ? `${sightingCount} sightings`
-                        : "1 sighting"}
-                    </span>
-                  </div>
-                )}
               </div>
             </Link>
           </li>
@@ -74,52 +58,41 @@ export default function CsrListItemDetails({
     case "card": {
       return (
         <>
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>
-                {hybrid === "diaryDetail" && (
-                  <h3>{sighting.bird.commonName}</h3>
-                )}
-                {hybrid === "birdDetail" && (
-                  <h3>{createLocaleString(sighting.date, "med")}</h3>
-                )}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {sighting.location && <p>{sighting.location.name}</p>}
-              <p>{sighting.description}</p>
-            </CardContent>
-            <CardFooter className="justify-between">
-              <Button
-                asChild
-                className="p-0 hover:bg-transparent"
-                size="sm"
-                variant="ghost"
-              >
-                <Link href={`/sightings/${sighting.id}`}>View details</Link>
-              </Button>
-              {/* <Button
-                asChild
-                className="p-0 hover:bg-transparent"
-                size="sm"
-                variant="ghost"
-              >
-                <Link href={`/sightings/${sighting.id}/edit`}>edit</Link>
-              </Button> */}
-              {/* <Modal
-                buttonSize="sm"
-                buttonStyles="w-full p-0 hover:bg-transparent"
-                buttonVariant="ghost"
-                description="This will permanently delete one of your sightings."
-                open={deleteModalOpen}
-                setOpen={setDeleteModalOpen}
-                title="Confirm Delete"
-                triggerText="delete"
-              >
-                <DeleteItem item={sighting} setOpen={setDeleteModalOpen} />
-              </Modal> */}
-            </CardFooter>
-          </Card>
+          <li>
+            <Link className="group" href={`/sightings/${sighting.id}`}>
+              <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
+                <CardHeader>
+                  <CardTitle>
+                    <h3 className="line-clamp-1 text-lg font-semibold">
+                      {hybrid === "diaryDetail"
+                        ? sighting.bird.commonName
+                        : createLocaleString(sighting.date, "med")}
+                    </h3>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-2.5">
+                  <p
+                    className={`flex items-center gap-1.5 text-base ${!sighting.location && "italic"}`}
+                  >
+                    <MapPin strokeWidth={1} size={20} />
+                    <span className="line-clamp-1">
+                      {sighting.location
+                        ? sighting.location.name
+                        : "No location"}
+                    </span>
+                  </p>
+                  <p
+                    className={`line-clamp-1 text-base ${!sighting.description && "italic"}`}
+                  >
+                    {sighting.description ?? "No description"}
+                  </p>
+                </CardContent>
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100">
+                  view details
+                </span>
+              </Card>
+            </Link>
+          </li>
         </>
       );
     }
