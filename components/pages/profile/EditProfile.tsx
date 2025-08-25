@@ -5,6 +5,8 @@ import { decrypt } from "@/lib/session";
 import { UserProfile } from "@/models/display";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import EditProfileForm from "@/components/forms/EditProfileForm";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 /** Fetch user data and display form. */
 export default async function EditProfile() {
@@ -40,9 +42,12 @@ export default async function EditProfile() {
   }
   return (
     <>
-      <section className="my-8">
+      <div className="flex flex-col gap-4">
         <EditProfileForm user={result} />
-      </section>
+        <Button asChild size="lg" variant="secondary">
+          <Link href="/profile">Cancel</Link>
+        </Button>
+      </div>
     </>
   );
 }
