@@ -63,11 +63,11 @@ export default function CsrListItemDetails({
               <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
                 <CardHeader>
                   <CardTitle>
-                    <h2 className="line-clamp-1 text-lg font-semibold">
+                    <h3 className="line-clamp-1 text-lg font-semibold">
                       {hybrid === "diaryDetail"
                         ? sighting.bird.commonName
                         : createLocaleString(sighting.date, "med")}
-                    </h2>
+                    </h3>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2.5">

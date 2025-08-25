@@ -38,7 +38,7 @@ export default async function DiaryDetailsView({
       <ViewWrapper>
         <ViewHeader
           backLinkHref="diary"
-          backLinkText="Back to diary"
+          backLinkText="Go to diary"
           headingText="Diary Details"
           descriptionText={`View your birding diary for ${createLocaleString(date, "huge")}.`}
         />

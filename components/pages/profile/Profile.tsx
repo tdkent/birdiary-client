@@ -46,7 +46,7 @@ export default async function Profile() {
     <>
       <div className="flex flex-col gap-10">
         <section className="flex flex-col gap-4">
-          <h2 className="text-2xl">Profile Details</h2>
+          <h2 className="font-heading text-2xl">Profile Details</h2>
           <dl className="divide-y">
             <div className="flex gap-2.5 py-2">
               <dt>Name:</dt>

@@ -61,7 +61,7 @@ export default async function LocationDetailsView({
           headingText="Location Details"
           descriptionText={locationName}
           backLinkHref="locations"
-          backLinkText="Back to Locations"
+          backLinkText="Go to locations"
         />
         <Suspense fallback={<Pending variant="location" />}>
           <LocationDetails locationId={locationId} />

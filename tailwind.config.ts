@@ -58,6 +58,7 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["Open Sans", "sans-serif"],
+        playful: ["Caveat", "sans-serif"],
       },
     },
   },

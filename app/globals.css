@@ -67,10 +67,10 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-heading text-[40px] font-light leading-tight;
+    @apply font-playful text-5xl font-light leading-tight;
   }
   h2 {
-    @apply font-heading text-[32px] font-light leading-tight;
+    @apply font-playful text-4xl font-light leading-tight;
   }
   h3 {
     @apply font-heading text-2xl font-light leading-tight;

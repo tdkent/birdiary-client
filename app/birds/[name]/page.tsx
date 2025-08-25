@@ -51,7 +51,7 @@ export default async function BirdDetailsView({
       <ViewWrapper>
         <ViewHeader
           backLinkHref="birds"
-          backLinkText="Back to Birdpedia"
+          backLinkText="Go to birdpedia"
           descriptionText="Information on this species, along with your recorded observations"
           headingText={currBirdName}
         />
