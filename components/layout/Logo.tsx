@@ -18,7 +18,11 @@ export default function Logo({ isHeader }: LogoProps) {
   const imgAlt = selectedImg.split("-").join(" ");
   return (
     <>
-      <Link href="/" className="flex items-center gap-3 md:gap-4">
+      <Link
+        href="/"
+        className="flex items-center gap-3 md:gap-4"
+        inert={!isHeader}
+      >
         <div
           className={`relative ${isHeader ? "h-14 w-14" : "h-12 w-12"} rounded-full border border-foreground sm:h-16 sm:w-16`}
         >
