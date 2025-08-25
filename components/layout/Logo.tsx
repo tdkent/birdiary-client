@@ -8,14 +8,20 @@ const logoImgs = [
   "Painted-Bunting",
 ];
 
+type LogoProps = {
+  isHeader?: boolean;
+};
+
 /** Birdiary logo and header text with link to Home */
-export default function Logo() {
+export default function Logo({ isHeader }: LogoProps) {
   const selectedImg = logoImgs[Math.floor(Math.random() * 4)];
   const imgAlt = selectedImg.split("-").join(" ");
   return (
     <>
       <Link href="/" className="flex items-center gap-3 md:gap-4">
-        <div className="relative h-14 w-14 rounded-full border border-foreground sm:h-16 sm:w-16">
+        <div
+          className={`relative ${isHeader ? "h-14 w-14" : "h-12 w-12"} rounded-full border border-foreground sm:h-16 sm:w-16`}
+        >
           <Image
             src={`/icon/${selectedImg}.webp`}
             alt={imgAlt}
@@ -24,7 +30,9 @@ export default function Logo() {
             className="rounded-full object-cover"
           />
         </div>
-        <span className="font-playful text-4xl uppercase antialiased max-[480px]:hidden sm:text-5xl">
+        <span
+          className={`font-playful text-3xl ${isHeader && "text-4xl"} uppercase antialiased ${isHeader && "max-[480px]:hidden"} sm:text-5xl`}
+        >
           Birdiary
         </span>
       </Link>

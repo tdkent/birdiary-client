@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCookie } from "@/helpers/auth";
+import Logo from "@/components/layout/Logo";
 
 export const footerLinks: {
   label: string;
@@ -54,17 +55,16 @@ export default async function Footer() {
     ? footerLinks
     : footerLinks.filter((link) => !link.protected);
   return (
-    <footer className="flex flex-col gap-8 border-t p-4">
+    <footer className="flex flex-col gap-8 border-t px-6 py-8">
+      <Logo />
       <div className="flex flex-col gap-2">
         <span className="text-base font-semibold uppercase">Sitemap</span>
         <ul className="flex flex-col gap-2">
           {showProtected.map(({ href, label }) => {
             return (
-              <>
-                <li>
-                  <Link href={`/${href}`}>{label}</Link>
-                </li>
-              </>
+              <li key={label}>
+                <Link href={`/${href}`}>{label}</Link>
+              </li>
             );
           })}
         </ul>
