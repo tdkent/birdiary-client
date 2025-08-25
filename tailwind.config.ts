@@ -58,7 +58,6 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["Quicksand", "sans-serif"],
-        logo: ["Uncial Antiqua", "system-ui"],
         playful: ["Caveat", "sans-serif"],
       },
     },
