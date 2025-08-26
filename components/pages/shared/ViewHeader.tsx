@@ -31,7 +31,10 @@ export default function ViewHeader({
         <h1>{headingText}</h1>
         {descriptionText && <p className="text-xl">{descriptionText}</p>}
         {backLinkHref && (
-          <Link href={`/${backLinkHref}`} className="link-inline text-base">
+          <Link
+            href={`/${backLinkHref}`}
+            className="link-inline text-lg md:text-xl"
+          >
             {backLinkText}
           </Link>
         )}
