@@ -22,7 +22,7 @@ export default function PlansView() {
         />
         <section className="flex flex-col gap-8">
           <h2>Plan Details</h2>
-          <div className="md:flex md:gap-6">
+          <div className="flex flex-col gap-6 md:flex-row">
             <Card className="w-full max-w-sm md:p-4">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl">Guest</CardTitle>

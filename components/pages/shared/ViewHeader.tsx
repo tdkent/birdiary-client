@@ -36,7 +36,7 @@ export default function ViewHeader({
           </Link>
         )}
       </header>
-      {useSeparator && <Separator className="mx-auto w-4/5" />}
+      {useSeparator && <Separator className="mx-auto w-4/5 md:w-3/5" />}
     </>
   );
 }

@@ -77,7 +77,7 @@
   }
 
   form {
-    @apply relative flex flex-col gap-8;
+    @apply relative flex w-full flex-col gap-8 md:w-3/4;
   }
   p {
     @apply text-xl leading-normal md:text-[22px];
@@ -139,4 +139,18 @@
 div.pac-container.pac-logo.hdpi::after,
 span.pac-icon.pac-icon-marker {
   display: none;
+}
+
+@media (min-width: 768px) {
+  .pac-item {
+    color: hsl(var(--foreground));
+    border: none;
+    font-size: 1.1rem;
+    padding: 0.25rem 1rem;
+  }
+
+  .pac-item-query {
+    color: hsl(var(--foreground));
+    font-size: 1.1rem;
+  }
 }
