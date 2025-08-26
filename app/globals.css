@@ -73,7 +73,7 @@
     @apply font-playful text-4xl font-light leading-tight md:text-5xl;
   }
   h3 {
-    @apply font-heading text-2xl font-light leading-tight;
+    @apply font-heading text-2xl font-light leading-tight md:text-3xl;
   }
 
   form {

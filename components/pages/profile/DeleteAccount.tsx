@@ -30,11 +30,11 @@ export default function DeleteAccount() {
 
   return (
     <>
-      <div className="my-8 rounded-md border border-destructive p-4">
-        <h4 className="text-lg font-semibold text-destructive">
+      <div className="my-8 rounded-md border border-destructive p-4 md:p-6">
+        <h4 className="text-lg font-semibold text-destructive md:text-xl">
           Delete Account
         </h4>
-        <p className="my-6 text-base">
+        <p className="my-6 text-base md:text-lg">
           Permanently delete your account and all sighting data.
         </p>
         <Modal
