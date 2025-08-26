@@ -11,7 +11,7 @@ type ViewHeaderProps =
       useSeparator?: boolean;
     }
   | {
-      backLinkHref: "birds" | "diary" | "locations" | "sightings";
+      backLinkHref: "birds" | "diary" | "lifelist" | "locations" | "sightings";
       backLinkText: string;
       descriptionText?: string;
       headingText: string;
