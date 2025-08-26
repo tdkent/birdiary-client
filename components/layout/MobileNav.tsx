@@ -55,11 +55,11 @@ export function MobileNav() {
               return (
                 <React.Fragment key={label}>
                   <li>
-                    <div className="py-3">
+                    <div className="py-3 md:py-4">
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center md:text-2xl ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2" : "gap-4"}`}
+                          className={`flex w-fit items-center md:text-2xl ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2 md:px-5 md:py-3" : "gap-4"}`}
                         >
                           {Icon && (
                             <Icon
