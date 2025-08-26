@@ -58,7 +58,7 @@ export default function CsrListItemDetails({
         <>
           <li className="md:shrink-0 md:grow-0 md:basis-[calc(50%-0.5rem)]">
             <Link className="group" href={`/sightings/${sighting.id}`}>
-              <Card className="group-hover:list-hover pb-2 hover:scale-[1.025]">
+              <Card className="group-hover:list-hover pb-2 hover:scale-[1.025] md:p-4">
                 <CardHeader>
                   <CardTitle>
                     <h3 className="line-clamp-1 text-lg font-semibold md:text-xl">

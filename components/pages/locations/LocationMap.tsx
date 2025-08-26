@@ -26,7 +26,7 @@ export default function LocationMap({ lat, lng }: LocationMapProps) {
 
   return (
     <>
-      <div className="aspect-square w-full">
+      <div className="aspect-square w-full md:aspect-[5/4]">
         <APIProvider apiKey={GOOGLE_API_KEY}>
           <Map
             defaultZoom={12}

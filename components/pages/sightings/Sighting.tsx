@@ -113,25 +113,31 @@ export default function Sighting({ sightingId }: SightingProps) {
   const { bird, date, description, location } = data;
   return (
     <>
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
         <BirdImage currBirdName={bird.commonName} />
-        <dl className="my-8 flex flex-col gap-8 px-2">
+        <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Common Name</dt>
-            <dd className="text-xl">{bird.commonName}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Common Name
+            </dt>
+            <dd className="text-xl md:text-2xl">{bird.commonName}</dd>
             <Link
               href={`/birds/${formatBirdNameToUrl(bird.commonName)}`}
-              className="italic hover:underline"
+              className="link-inline text-lg md:text-xl"
             >
               View bird
             </Link>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Date</dt>
-            <dd className="text-xl">{createLocaleString(date, "full")}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Date
+            </dt>
+            <dd className="text-xl md:text-2xl">
+              {createLocaleString(date, "full")}
+            </dd>
             <Link
               href={`/diary/${date.slice(0, 10)}`}
-              className="italic hover:underline"
+              className="link-inline text-lg md:text-xl"
             >
               View diary
             </Link>
@@ -139,39 +145,47 @@ export default function Sighting({ sightingId }: SightingProps) {
           {isSignedIn && (
             <>
               <div className="flex flex-col gap-1">
-                <dt className="text-sm font-semibold uppercase">Location</dt>
+                <dt className="text-sm font-semibold uppercase md:text-base">
+                  Location
+                </dt>
                 {location ? (
                   <>
-                    <dd className="text-xl">{location.name}</dd>
+                    <dd className="text-xl md:text-2xl">{location.name}</dd>
                     <Link
                       href={`/locations/${location.id} ${location.name}`}
-                      className="italic hover:underline"
+                      className="link-inline text-lg md:text-xl"
                     >
                       View location
                     </Link>
                   </>
                 ) : (
                   <>
-                    <dd className="text-lg italic">No location provided</dd>
+                    <dd className="text-lg italic md:text-xl">
+                      No location provided
+                    </dd>
                   </>
                 )}
               </div>
             </>
           )}
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Description</dt>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Description
+            </dt>
             {description ? (
               <>
-                <dd className="text-lg">{description}</dd>
+                <dd className="text-xl md:text-2xl">{description}</dd>
               </>
             ) : (
               <>
-                <dd className="text-lg italic">No description provided</dd>
+                <dd className="text-lg italic md:text-xl">
+                  No description provided
+                </dd>
               </>
             )}
           </div>
         </dl>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:gap-6">
           <Button asChild size="lg" variant="secondary">
             <Link href={`/sightings/${sightingId}/edit`}>Edit</Link>
           </Button>

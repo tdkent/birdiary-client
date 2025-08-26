@@ -31,28 +31,40 @@ export default async function BirdDetails({
   const bird = result as Bird;
   return (
     <>
-      <section>
+      <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
         <BirdImage currBirdName={currBirdName} />
-        <dl className="mt-8 flex flex-col gap-8 px-2">
+        <dl className="mt-8 flex flex-col gap-8 px-2 md:gap-12">
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Common Name</dt>
-            <dd className="text-xl">{bird.commonName}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Common Name
+            </dt>
+            <dd className="text-xl md:text-2xl">{bird.commonName}</dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Scientific Name</dt>
-            <dd className="text-xl italic">{bird.scientificName}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Scientific Name
+            </dt>
+            <dd className="text-xl italic md:text-2xl">
+              {bird.scientificName}
+            </dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Family</dt>
-            <dd className="text-xl">{bird.family}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Family
+            </dt>
+            <dd className="text-xl md:text-2xl">{bird.family}</dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Occurrence</dt>
-            <dd className="text-xl">{bird.rarity}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Occurrence
+            </dt>
+            <dd className="text-xl md:text-2xl">{bird.rarity}</dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase">Description</dt>
-            <dd className="text-xl">{bird.description}</dd>
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Description
+            </dt>
+            <dd className="text-xl md:text-2xl">{bird.description}</dd>
           </div>
         </dl>
       </section>

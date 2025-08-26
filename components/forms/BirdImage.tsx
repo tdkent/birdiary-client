@@ -58,7 +58,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
   if (data && data.imgUrl) {
     return (
       <>
-        <figure className="flex flex-col gap-1">
+        <figure className="flex flex-col gap-1 md:gap-2">
           <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
             <Image
               src={data.imgUrl}
@@ -69,7 +69,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
               priority
             />
           </div>
-          <figcaption className="px-1 text-xs italic">
+          <figcaption className="px-1 text-xs italic md:text-sm">
             {data.scientificName}. &copy; {data.imgAttribute ?? "Public Domain"}
           </figcaption>
         </figure>
