@@ -9,7 +9,7 @@ export default function SignInView() {
       <ViewWrapper>
         <ViewHeader headingText="Sign in to your account" />
         <AuthForm />
-        <p className="text-base">
+        <p className="text-base md:text-xl">
           Don&apos;t have an account?{" "}
           <Link href="/signup" className="link-inline">
             Sign up
