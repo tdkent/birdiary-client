@@ -31,7 +31,7 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger>
-        <AlignJustify className="size-7" strokeWidth={1.5} />
+        <AlignJustify className="size-7 md:size-8" strokeWidth={1.5} />
       </SheetTrigger>
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>

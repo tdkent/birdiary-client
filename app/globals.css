@@ -67,10 +67,10 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-playful text-5xl font-light leading-tight;
+    @apply font-playful text-5xl font-light leading-tight md:text-6xl;
   }
   h2 {
-    @apply font-playful text-4xl font-light leading-tight;
+    @apply font-playful text-4xl font-light leading-tight md:text-5xl;
   }
   h3 {
     @apply font-heading text-2xl font-light leading-tight;
@@ -80,7 +80,7 @@
     @apply relative flex flex-col gap-8;
   }
   p {
-    @apply text-xl leading-normal;
+    @apply text-xl leading-normal md:text-[22px];
   }
   /* ul.sighting-list {
     @apply my-4 divide-y;
