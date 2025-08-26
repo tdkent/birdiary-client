@@ -89,7 +89,7 @@ export default async function List({
           page={+page!}
         />
         <ul
-          className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4"}`}
+          className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
         >
           {result.data.map((item) => {
             return <ListItem key={item.id} variant={variant} item={item} />;

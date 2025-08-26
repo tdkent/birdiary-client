@@ -85,7 +85,7 @@ export default function CsrListItemDetails({
                     {sighting.description ?? "No description"}
                   </p>
                 </CardContent>
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100">
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100 md:text-sm">
                   view details
                 </span>
               </Card>
