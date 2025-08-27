@@ -15,7 +15,7 @@ export default function Header() {
         logoStyles="h-14 w-14 md:h-16 md:w-16"
         textStyles="max-[480px]:hidden text-4xl md:text-[42px]"
       />
-      <div className="flex items-center gap-4 md:gap-8">
+      <div className="flex items-center gap-4 md:max-lg:gap-8">
         <ResponsiveNav />
         <Separator
           decorative

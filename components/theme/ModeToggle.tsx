@@ -21,11 +21,11 @@ export default function DarkMode() {
       >
         <Sun
           strokeWidth={1.5}
-          className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 md:size-7"
+          className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 md:max-lg:size-7"
         />
         <Moon
           strokeWidth={1.5}
-          className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 md:size-7"
+          className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 md:max-lg:size-7"
         />
       </Button>
     </>
