@@ -20,7 +20,7 @@ export default function DesktopNav() {
           <NavigationMenuLink asChild>
             <Link
               href="/newsighting"
-              className={`${navigationMenuTriggerStyle()} flex items-center gap-1 rounded-md border`}
+              className={`${navigationMenuTriggerStyle()} flex items-center gap-1`}
             >
               <Plus size={12} />
               New
@@ -65,8 +65,12 @@ export default function DesktopNav() {
         {isSignedIn && (
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-              <Link href="/profile" className={navigationMenuTriggerStyle()}>
-                <CircleUserRound className="h-4 w-4" />
+              <Link
+                href="/profile"
+                className={navigationMenuTriggerStyle()}
+                aria-label="Profile"
+              >
+                <CircleUserRound strokeWidth={1.5} className="size-6" />
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>

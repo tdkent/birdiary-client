@@ -55,23 +55,25 @@ export default async function Footer() {
     ? footerLinks
     : footerLinks.filter((link) => !link.protected);
   return (
-    <footer className="flex flex-col gap-8 border-t px-6 py-8 md:flex-row md:justify-between md:pl-8 md:pr-12">
-      <Logo logoStyles="w-12 h-12" textStyles="text-3xl" />
-      <div className="flex flex-col gap-2">
-        <span className="text-base font-semibold uppercase md:text-lg">
-          Sitemap
-        </span>
-        <ul className="flex flex-col gap-2 md:gap-3 md:text-lg">
-          {showProtected.map(({ href, label }) => {
-            return (
-              <li key={label}>
-                <Link href={`/${href}`}>{label}</Link>
-              </li>
-            );
-          })}
-        </ul>
+    <footer className="border-t">
+      <div className="mx-auto flex max-w-[1024px] flex-col gap-8 px-6 py-8 md:flex-row md:justify-between md:pl-8 md:pr-12">
+        <Logo logoStyles="w-12 h-12" textStyles="text-3xl" />
+        <div className="flex flex-col gap-2">
+          <span className="text-base font-semibold uppercase md:text-lg">
+            Sitemap
+          </span>
+          <ul className="flex flex-col gap-2 md:gap-3 md:text-lg">
+            {showProtected.map(({ href, label }) => {
+              return (
+                <li key={label}>
+                  <Link href={`/${href}`}>{label}</Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="text-sm md:text-base">&copy; 2025, Birdiary</div>
       </div>
-      <div className="text-sm md:text-base">&copy; 2025, Birdiary</div>
     </footer>
   );
 }

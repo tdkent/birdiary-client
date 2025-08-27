@@ -67,10 +67,10 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-playful text-5xl font-light leading-tight md:text-6xl;
+    @apply font-playful text-5xl font-light leading-tight md:text-6xl lg:text-8xl;
   }
   h2 {
-    @apply font-playful text-4xl font-light leading-tight md:text-5xl;
+    @apply font-playful text-4xl font-light leading-tight md:text-5xl lg:text-6xl;
   }
   h3 {
     @apply font-heading text-2xl font-light leading-tight md:text-3xl;
@@ -80,14 +80,8 @@
     @apply relative flex w-full flex-col gap-8 md:w-3/4;
   }
   p {
-    @apply text-xl leading-normal md:text-[22px];
+    @apply text-xl leading-normal md:max-lg:text-[22px];
   }
-  /* ul.sighting-list {
-    @apply my-4 divide-y;
-  }
-  ul.sighting-list li {
-    @apply flex items-center justify-between px-4 py-4 hover:bg-slate-900;
-  } */
 
   .required-input {
     @apply after:pl-0.5 after:text-base after:text-destructive after:content-['*'];

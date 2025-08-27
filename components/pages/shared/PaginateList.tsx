@@ -68,6 +68,7 @@ export default function PaginateList({
                     isActive={currentPage === item}
                     inert={currentPage === item}
                     scroll={false}
+                    className="md:text-xl"
                   >
                     {item}
                   </PaginationLink>
@@ -120,6 +121,7 @@ export default function PaginateList({
                   isActive={currentPage === item}
                   inert={currentPage === item}
                   scroll={false}
+                  className="md:text-xl"
                 >
                   {item}
                 </PaginationLink>
@@ -130,7 +132,7 @@ export default function PaginateList({
             <PaginationEllipsis />
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href={updateUrl(finalPage)}>
+            <PaginationLink href={updateUrl(finalPage)} className="md:text-xl">
               {finalPage}
             </PaginationLink>
           </PaginationItem>

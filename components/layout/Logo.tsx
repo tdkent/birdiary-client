@@ -14,7 +14,7 @@ export default function Logo({ logoStyles, textStyles }: LogoProps) {
   const { img, alt } = useLogo();
   return (
     <>
-      <Link href="/">
+      <Link href="/" aria-label="Home">
         <div className="flex items-center gap-3 md:gap-4">
           <div
             className={`relative rounded-full border border-foreground ${logoStyles}`}
