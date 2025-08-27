@@ -7,9 +7,11 @@ export default function NotFound() {
   return (
     <>
       <ViewWrapper>
-        <div className="flex flex-col items-center gap-12">
-          <span className="text-6xl tracking-widest">404</span>
-          <span className="text-3xl tracking-widest">Page not found</span>
+        <div className="flex flex-col gap-12 max-lg:items-center">
+          <span className="text-6xl tracking-widest lg:text-8xl">404</span>
+          <span className="text-3xl tracking-widest lg:text-4xl">
+            Page not found
+          </span>
           <Button asChild size="lg" variant="secondary">
             <Link href="/">Go to homepage</Link>
           </Button>
