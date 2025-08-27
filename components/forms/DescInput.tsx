@@ -35,7 +35,7 @@ export default function DescInput({ form, pending }: DescInputProps) {
               />
             </FormControl>
             <FormDescription
-              className={`${remainingLength < 0 && "text-destructive"} px-1 text-sm`}
+              className={`${remainingLength < 0 && "text-destructive"} px-1 text-sm md:text-base`}
             >
               {remainingLength < 0
                 ? `${length - DESCRIPTION_LENGTH} character${remainingLength < -1 ? "s" : ""} too many!`

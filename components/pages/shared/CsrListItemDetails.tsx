@@ -41,13 +41,11 @@ export default function CsrListItemDetails({
         : "";
       return (
         <>
-          <li className="list-hover px-4 py-4 text-lg hover:scale-[1.025]">
+          <li className="list-hover px-4 py-4 text-lg hover:scale-[1.025] md:py-6">
             <Link href={href}>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="font-semibold">{text}</span>
-                  <span className="italic">{subtext ?? countText}</span>
-                </div>
+              <div className="flex flex-col md:w-full md:flex-row md:justify-between md:text-xl">
+                <span className="font-semibold">{text}</span>
+                <span className="italic">{subtext ?? countText}</span>
               </div>
             </Link>
           </li>
@@ -58,12 +56,12 @@ export default function CsrListItemDetails({
     case "card": {
       return (
         <>
-          <li>
+          <li className="md:shrink-0 md:grow-0 md:basis-[calc(50%-0.5rem)]">
             <Link className="group" href={`/sightings/${sighting.id}`}>
-              <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
+              <Card className="group-hover:list-hover pb-2 hover:scale-[1.025] md:p-4">
                 <CardHeader>
                   <CardTitle>
-                    <h3 className="line-clamp-1 text-lg font-semibold">
+                    <h3 className="line-clamp-1 text-lg font-semibold md:text-xl">
                       {hybrid === "diaryDetail"
                         ? sighting.bird.commonName
                         : createLocaleString(sighting.date, "med")}
@@ -72,7 +70,7 @@ export default function CsrListItemDetails({
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2.5">
                   <p
-                    className={`flex items-center gap-1.5 text-base ${!sighting.location && "italic"}`}
+                    className={`flex items-center gap-1.5 text-base md:text-lg ${!sighting.location && "italic"}`}
                   >
                     <MapPin strokeWidth={1} size={20} />
                     <span className="line-clamp-1">
@@ -82,12 +80,12 @@ export default function CsrListItemDetails({
                     </span>
                   </p>
                   <p
-                    className={`line-clamp-1 text-base ${!sighting.description && "italic"}`}
+                    className={`line-clamp-1 text-base md:text-lg ${!sighting.description && "italic"}`}
                   >
                     {sighting.description ?? "No description"}
                   </p>
                 </CardContent>
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100">
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs opacity-0 hover:underline group-hover:opacity-100 md:text-sm">
                   view details
                 </span>
               </Card>

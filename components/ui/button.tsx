@@ -22,8 +22,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "p-6 font-semibold text-lg w-full",
-        sm: "p-0",
-        lg: "p-6 font-semibold text-lg w-fit",
+        sm: "p-0 text-lg md:text-xl",
+        lg: "p-6 font-semibold text-lg w-fit md:text-2xl md:p-8 md:font-normal",
         icon: "w-10 h-10",
       },
     },

@@ -36,6 +36,8 @@ export default async function SightingsView({
         <ViewHeader
           headingText="Sightings"
           descriptionText="View a list of all your sightings sorted by date or bird."
+          backLinkHref="lifelist"
+          backLinkText="Go to life list"
         />
         <CsrList
           variant="sighting"

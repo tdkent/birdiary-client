@@ -101,7 +101,7 @@ export default function UpdatePasswordForm() {
                   <PopoverTrigger className="pr-1 text-sm">
                     <CircleQuestionMark strokeWidth={1.5} size={20} />
                   </PopoverTrigger>
-                  <PopoverContent className="text-sm">
+                  <PopoverContent className="text-sm md:text-base">
                     Passwords must be 8-36 characters.
                   </PopoverContent>
                 </Popover>

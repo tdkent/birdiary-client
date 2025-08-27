@@ -41,7 +41,7 @@ export default function DateInput({ form, pending }: DateInputProps) {
                   <Button
                     disabled={pending}
                     className={cn(
-                      "w-full border bg-transparent px-3 py-6 text-left text-base font-normal text-foreground hover:bg-transparent",
+                      "w-full border bg-transparent px-3 py-6 text-left text-base font-normal text-foreground hover:bg-transparent md:h-14 md:text-xl",
                       !field.value && "text-muted-foreground",
                     )}
                   >
@@ -50,7 +50,7 @@ export default function DateInput({ form, pending }: DateInputProps) {
                     ) : (
                       <span>Pick a date</span>
                     )}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50 md:h-5 md:w-5" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>

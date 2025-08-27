@@ -39,6 +39,8 @@ export default async function LifeListView({
         <ViewHeader
           headingText="Life List"
           descriptionText="View your complete North American birdwatching life list."
+          backLinkHref="sightings"
+          backLinkText="Go to sightings"
         />
         <Suspense
           fallback={

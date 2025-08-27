@@ -51,7 +51,7 @@ export default function NameAutocomplete({
 
   return (
     <>
-      <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2">
+      <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2 md:max-h-[300px] md:text-xl">
         {filteredResults.map((birdName) => {
           return (
             <li

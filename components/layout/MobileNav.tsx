@@ -31,7 +31,7 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger>
-        <AlignJustify className="size-7" strokeWidth={1.5} />
+        <AlignJustify className="size-7 md:size-8" strokeWidth={1.5} />
       </SheetTrigger>
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
@@ -39,27 +39,33 @@ export function MobileNav() {
             className={`${caveat.className} mt-12 font-normal antialiased`}
           >
             <SheetClose asChild>
-              <Logo logoStyles="h-14 w-14" textStyles="text-4xl" />
+              <Logo
+                logoStyles="h-14 w-14 md:h-16 md:w-16"
+                textStyles="text-4xl md:text-[42px]"
+              />
             </SheetClose>
           </SheetTitle>
           <SheetDescription>
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
           </SheetDescription>
         </SheetHeader>
-        <nav className="mt-4 text-xl">
+        <nav className="mt-4 text-xl md:mt-8">
           <ul className="flex flex-col">
             {navLinks.map(({ label, href, icon: Icon }, idx) => {
               return (
                 <React.Fragment key={label}>
                   <li>
-                    <div className="py-3">
+                    <div className="py-3 md:py-4">
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2" : "gap-4"}`}
+                          className={`flex w-fit items-center md:text-2xl ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2 md:px-5 md:py-3" : "gap-4"}`}
                         >
                           {Icon && (
-                            <Icon className="h-5 w-5" strokeWidth={1.5} />
+                            <Icon
+                              className="h-5 w-5 md:h-6 md:w-6"
+                              strokeWidth={1.5}
+                            />
                           )}
                           {label}
                         </Link>

@@ -47,14 +47,14 @@ export default function TransferStorageData() {
 
   return (
     <>
-      <div className="my-6 rounded-md border p-4">
+      <div className="my-6 rounded-md border p-4 md:p-6">
         <div className="flex items-center justify-between">
-          <h4 className="text-lg">Transfer Browser Data</h4>
+          <h4 className="text-lg md:text-xl">Transfer Browser Data</h4>
           <Popover>
-            <PopoverTrigger className="text-sm">
+            <PopoverTrigger className="text-sm md:text-base">
               <CircleQuestionMark strokeWidth={1.5} size={20} />
             </PopoverTrigger>
-            <PopoverContent className="text-sm">
+            <PopoverContent className="text-sm md:text-base">
               Sightings logged while signed out are saved only in your browser.
               If your browser&apos;s cache is cleared, this data may be lost.
               You can transfer your sightings to your account for permanent

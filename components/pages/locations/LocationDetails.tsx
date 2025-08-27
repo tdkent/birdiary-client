@@ -27,7 +27,7 @@ export default async function LocationDetails({
   }
   return (
     <>
-      <section>
+      <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
         <LocationMap lat={location.lat} lng={location.lng} />
         <div className="my-8 flex flex-col gap-4">
           <EditLocation location={location} locationId={locationId} />

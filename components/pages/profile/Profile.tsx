@@ -44,10 +44,10 @@ export default async function Profile() {
 
   return (
     <>
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 md:w-[85%]">
         <section className="flex flex-col gap-4">
-          <h2 className="font-heading text-2xl">Profile Details</h2>
-          <dl className="divide-y">
+          <h2 className="font-heading text-2xl md:text-3xl">Profile Details</h2>
+          <dl className="divide-y md:text-xl">
             <div className="flex gap-2.5 py-2">
               <dt>Name:</dt>
               <dd>{name ?? "N/A"}</dd>
@@ -68,7 +68,7 @@ export default async function Profile() {
         <Separator className="mx-auto w-4/5" />
         <section className="flex flex-col gap-4">
           <h3>Sightings Data</h3>
-          <dl className="divide-y">
+          <dl className="divide-y md:text-xl">
             <div className="flex gap-2.5 py-2">
               <dt>Favorite Bird:</dt>
               <dd>{bird ? bird.commonName : "N/A"}</dd>
@@ -87,7 +87,7 @@ export default async function Profile() {
         </section>
         <section className="flex flex-col gap-4">
           <h3>Account Details</h3>
-          <dl className="divide-y">
+          <dl className="divide-y md:text-xl">
             <div className="flex gap-2.5 py-2">
               <dt>Account Created:</dt>
               <dd>{accountCreatedDate}</dd>
