@@ -5,6 +5,7 @@ import type {
   BirdWithCount,
   ListVariant,
   Group,
+  LocationWithSightingsCount,
 } from "@/models/display";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
@@ -14,11 +15,12 @@ import { formatBirdNameToUrl } from "@/helpers/data";
 type ListItemProps = {
   variant: ListVariant;
   item:
+    | BirdWithCount
+    | Group
+    | LocationWithSightingsCount
     | SightingWithBird
     | SightingWithLocation
-    | SightingInStorage
-    | BirdWithCount
-    | Group;
+    | SightingInStorage;
 };
 
 /** SSR component that renders a single item in List */
@@ -50,13 +52,13 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "location": {
-      const { id, count, text } = item as Group;
-      const href = `/locations/${id} ${text}`;
+      const { id, count, name } = item as LocationWithSightingsCount;
+      const href = `/locations/${id} ${name}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
         : "No sightings yet!";
-      return <ListItemDetails href={href} text={text} subtext={sightingText} />;
+      return <ListItemDetails href={href} text={name} subtext={sightingText} />;
     }
 
     case "locationDetail": {

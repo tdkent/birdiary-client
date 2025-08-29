@@ -43,6 +43,8 @@ export const apiRoutes = {
     sortBy: string,
   ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
   location: (id: number) => `${BASE_URL}/locations/${id}`,
+  locations: (page: number, sortBy: string) =>
+    `${BASE_URL}/locations?page=${page}&sortBy=${sortBy}`,
   sighting: (id: number) => `${BASE_URL}/sightings/${id}`,
   sightings: `${BASE_URL}/sightings`,
   signup: `${BASE_URL}/users/signup`,
