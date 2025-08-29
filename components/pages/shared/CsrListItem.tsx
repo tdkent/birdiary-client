@@ -3,6 +3,7 @@ import type {
   Group,
   // ListItem,
   ListVariant,
+  LocationWithSightingsCount,
   SightingInStorage,
   SightingWithLocation,
 } from "@/models/display";
@@ -12,11 +13,12 @@ import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
 type CsrListItemProps = {
   item:
+    | BirdWithCount
+    | Group
+    | LocationWithSightingsCount
     | SightingWithBird
     | SightingWithLocation
-    | SightingInStorage
-    | BirdWithCount
-    | Group;
+    | SightingInStorage;
   variant: ListVariant;
 };
 
