@@ -30,27 +30,28 @@ export default function DeleteItem({
 
   useEffect(() => {
     if (error) {
+      setOpen(false);
       toast({
         variant: "destructive",
         title: "An error occurred",
         description: error,
       });
     }
-  }, [error, toast]);
+  }, [error, setOpen, toast]);
 
   useEffect(() => {
     if (success) {
+      setOpen(false);
       toast({
         title: "Success",
         description: "Sighting deleted",
       });
       if (routeTo) router.replace(routeTo);
     }
-  }, [router, routeTo, success, toast]);
+  }, [router, routeTo, success, setOpen, toast]);
 
   const onDelete = async () => {
     mutate({});
-    setOpen(false);
   };
 
   return (

@@ -1,7 +1,6 @@
 import type {
   BirdWithCount,
   Group,
-  // ListItem,
   ListVariant,
   LocationWithSightingsCount,
   SightingInStorage,
