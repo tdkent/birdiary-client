@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/card";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
+import { getCookie } from "@/helpers/auth";
 
-export default function PlansView() {
+export default async function PlansView() {
+  const token = await getCookie();
   return (
     <>
       <ViewWrapper>
@@ -70,13 +72,21 @@ export default function PlansView() {
           browser&apos;s storage capacity. Your data may be lost if your
           browser&apos;s cache is cleared. To keep your sightings safe and
           accessible across devices,{" "}
-          <Link href="/signin" className="link-inline">
-            sign in
-          </Link>{" "}
+          {token ? (
+            "sign in"
+          ) : (
+            <Link href="/signin" className="link-inline">
+              sign in
+            </Link>
+          )}{" "}
           or{" "}
-          <Link href="/signup" className="link-inline">
-            create a free account
-          </Link>
+          {token ? (
+            "create a free account"
+          ) : (
+            <Link href="/signup" className="link-inline">
+              create a free account
+            </Link>
+          )}
           . You can transfer your existing data to your account at any time.
         </p>
       </ViewWrapper>
