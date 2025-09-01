@@ -13,9 +13,9 @@ export default function ListItemDetails({
 }: ListItemDetailsProps) {
   return (
     <>
-      <li className="list-hover px-4 py-4 hover:scale-[1.025] md:py-6">
+      <li className="list-hover hover:scale-[1.025]">
         <Link href={href}>
-          <div className="flex flex-col md:w-full md:flex-row md:justify-between md:gap-16">
+          <div className="flex flex-col px-4 py-4 md:w-full md:flex-row md:justify-between md:gap-16 md:py-6">
             <span className="line-clamp-1 text-lg font-semibold md:grow md:text-xl">
               {text}
             </span>
