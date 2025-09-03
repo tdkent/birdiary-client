@@ -19,8 +19,7 @@ export async function getUser() {
 }
 
 export async function editUserProfile(
-  id: number,
-  reqBody: Pick<UserProfile, "name" | "zipcode" | "address">,
+  reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode">,
 ) {
   try {
     const token = await getCookie();

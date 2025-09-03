@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import type { ServerResponseWithError } from "@/models/api";
@@ -28,14 +29,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CircleQuestionMark } from "lucide-react";
+import TextRemainingLength from "@/components/forms/TextRemainingLength";
 
 type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
-  const { name, zipcode } = user;
+  const { bio, name, zipcode } = user;
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
+      bio: bio || "",
       name: name || "",
       zipcode: zipcode || "",
     },
@@ -71,14 +74,15 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
         });
     }
 
-    const reqBody: Pick<UserProfile, "name" | "zipcode" | "address"> = {
+    const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
+      address: (address as string) || null,
+      bio: values.bio || null,
       name: values.name || null,
       zipcode: values.zipcode || null,
-      address: (address as string) || null,
     };
 
     const response: UserProfile | ServerResponseWithError =
-      await editUserProfile(user.id, reqBody);
+      await editUserProfile(reqBody);
 
     if ("error" in response) {
       return toast({
@@ -133,6 +137,25 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                   <Input placeholder="10001" {...field} />
                 </APIProvider>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem className="form-item">
+              <FormLabel>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  // disabled={pending}
+                  rows={5}
+                  className="resize-none"
+                />
+              </FormControl>
+              <TextRemainingLength currLength={form.watch("bio")!.length} />
               <FormMessage />
             </FormItem>
           )}
