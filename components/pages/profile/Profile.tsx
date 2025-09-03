@@ -33,6 +33,7 @@ export default async function Profile() {
 
   const {
     address,
+    bio,
     bird,
     count: { totalSightings, totalDistinctSightings },
     createdAt,
@@ -58,7 +59,7 @@ export default async function Profile() {
             </div>
             <div className="flex gap-2.5 py-2">
               <dt>Bio:</dt>
-              <dd>N/A</dd>
+              <dd>{bio ?? "N/A"}</dd>
             </div>
           </dl>
           <Button variant="secondary" size="lg" asChild>
