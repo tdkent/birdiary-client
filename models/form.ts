@@ -2,7 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Location } from "@/models/db";
 import { Messages } from "@/models/api";
-import { DESCRIPTION_LENGTH } from "@/constants/constants";
+import { FREE_TEXT_LENGTH } from "@/constants/constants";
 
 // Zod Schemas
 export const signupFormSchema = z.object({
@@ -20,7 +20,7 @@ export const signupFormSchema = z.object({
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date(),
-  description: z.string().max(DESCRIPTION_LENGTH).optional(),
+  description: z.string().max(FREE_TEXT_LENGTH).optional(),
   location: z.string().optional(),
 });
 
@@ -35,6 +35,7 @@ export const editProfileSchema = z.object({
     .regex(/^\d{5}$/, { message: Messages.ZipCodeValidationError })
     .optional()
     .or(z.literal("")),
+  bio: z.string().max(150).optional(),
 });
 
 // Form types
