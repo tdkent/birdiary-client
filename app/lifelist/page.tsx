@@ -19,19 +19,19 @@ export default async function LifeListView({
 }) {
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+  const parsedPage = Number(page);
 
   if (
     !page ||
     !sortBy ||
-    !parseInt(page) ||
-    parseInt(page) < 1 ||
+    !parsedPage ||
+    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
     redirect(`/lifelist?page=1&sortBy=alphaAsc`);
   }
 
   const defaultSortOption: SortValues = "alphaAsc";
-  const parsedPage = parseInt(page);
 
   return (
     <>

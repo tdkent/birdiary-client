@@ -19,19 +19,19 @@ export default async function LocationsView({
 }) {
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
+  const parsedPage = Number(page);
 
   if (
     !page ||
     !sortBy ||
-    !parseInt(page) ||
-    parseInt(page) < 1 ||
+    !parsedPage ||
+    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
     redirect(`/locations?page=1&sortBy=alphaAsc`);
   }
 
   const defaultSortOption: SortValues = "alphaAsc";
-  const parsedPage = parseInt(page);
   return (
     <>
       <ViewWrapper>

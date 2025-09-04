@@ -28,8 +28,9 @@ export default async function LocationDetailsView({
   const { page, sortBy } = await searchParams;
 
   const decodedUri = decodeURIComponent(name);
-  const locationId = parseInt(decodedUri.split(" ")[0]);
+  const locationId = Number(decodedUri.split(" ")[0]);
   const locationName = decodedUri.split(" ").slice(1).join(" ");
+  const parsedPage = Number(page);
 
   if (!locationId || locationId < 1) {
     return (
@@ -44,15 +45,14 @@ export default async function LocationDetailsView({
   if (
     !page ||
     !sortBy ||
-    !parseInt(page) ||
-    parseInt(page) < 1 ||
+    !parsedPage ||
+    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
     redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
   }
 
   const defaultSortOption = sortBy as SortValues;
-  const parsedPage = parseInt(page);
 
   return (
     <>

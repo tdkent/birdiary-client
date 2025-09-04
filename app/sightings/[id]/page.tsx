@@ -11,7 +11,7 @@ export default async function SightingView({
 }) {
   const { id } = await params;
 
-  const parsedId = parseInt(id);
+  const parsedId = Number(id);
   if (!parsedId || parsedId < 1) notFound();
 
   return (
