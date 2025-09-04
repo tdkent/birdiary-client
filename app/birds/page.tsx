@@ -13,16 +13,15 @@ export default async function BirdsView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, startsWith } = await searchParams;
+  const parsedPage = Number(page);
 
-  if (!page || !parseInt(page) || parseInt(page) < 1) {
+  if (!page || !parsedPage || parsedPage < 1) {
     redirect(`/birds?page=1${startsWith ? `&startsWith=${startsWith}` : ""}`);
   }
 
   if (startsWith && !!/[^A-Z$]/.test(startsWith)) {
     redirect(`/birds?page=${page}`);
   }
-
-  const parsedPage = parseInt(page);
 
   return (
     <>
@@ -43,7 +42,7 @@ export default async function BirdsView({
             variant="birdpedia"
             page={parsedPage}
             startsWith={startsWith}
-            resource={apiRoutes.birds(parseInt(page), startsWith)}
+            resource={apiRoutes.birds(parsedPage, startsWith)}
           />
         </Suspense>
       </ViewWrapper>

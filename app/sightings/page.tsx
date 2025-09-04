@@ -16,19 +16,19 @@ export default async function SightingsView({
 }) {
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
+  const parsedPage = Number(page);
 
   if (
     !page ||
     !sortBy ||
-    !parseInt(page) ||
-    parseInt(page) < 1 ||
+    !parsedPage ||
+    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
     redirect(`/sightings?page=1&sortBy=dateDesc`);
   }
 
   const defaultSortOption = sortBy as SortValues;
-  const parsedPage = parseInt(page);
 
   return (
     <>

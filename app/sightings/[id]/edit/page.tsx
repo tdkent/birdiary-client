@@ -9,7 +9,7 @@ export default async function EditSightingView({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const parsedId = parseInt(id);
+  const parsedId = Number(id);
   if (!parsedId || parsedId < 1) notFound();
   return (
     <>

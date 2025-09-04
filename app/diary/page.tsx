@@ -16,19 +16,19 @@ export default async function DiaryView({
 }) {
   const { page, sortBy } = await searchParams;
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
+  const parsedPage = Number(page);
 
   if (
     !page ||
     !sortBy ||
-    !parseInt(page) ||
-    parseInt(page) < 1 ||
+    !parsedPage ||
+    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
     redirect(`/diary?page=1&sortBy=dateDesc`);
   }
 
   const defaultSortOption = sortBy as SortValues;
-  const parsedPage = parseInt(page);
 
   return (
     <>
