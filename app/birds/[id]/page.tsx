@@ -9,6 +9,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
+import { checkValidInteger } from "@/helpers/data";
 // import { formatUrlToBirdName } from "@/helpers/data";
 
 type BirdDetailsViewParams = {
@@ -23,24 +24,24 @@ export default async function BirdDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const parsedId = Number(id);
-  const parsedPage = Number(page);
+  const validId = checkValidInteger(id, true);
+
+  let validPage: number | null;
+  if (!page) validPage = 1;
+  else validPage = checkValidInteger(page);
+
   const sortOptions = [...sortByDateOptions];
 
   if (
-    !page ||
+    !validId ||
+    !validPage ||
     !sortBy ||
-    !parsedId ||
-    parsedId < 1 ||
-    parsedId > 838 ||
-    !parsedPage ||
-    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
-    redirect(`/birds/${id}?page=1&sortBy=dateDesc`);
+    redirect(`/birds/1?page=1&sortBy=dateDesc`);
   }
 
-  const currBirdName = birdNames[parsedId];
+  const currBirdName = birdNames[validId];
 
   return (
     <>
@@ -52,18 +53,18 @@ export default async function BirdDetailsView({
           headingText={currBirdName}
         />
         <Suspense fallback={<Pending variant="bird" />}>
-          <BirdDetails birdId={parsedId} currBirdName={currBirdName} />
+          <BirdDetails birdId={validId} currBirdName={currBirdName} />
         </Suspense>
         <Separator className="mx-auto w-4/5" />
         <CsrList
           defaultSortOption={sortBy as SortValues}
           headingText="Sightings"
-          page={parsedPage}
+          page={validPage}
           pendingVariant="card"
           route={apiRoutes.getSightingsListByType(
             "birdId",
-            parsedId,
-            parsedPage,
+            validId,
+            validPage,
             sortBy,
           )}
           sortBy={sortBy}
