@@ -38,7 +38,7 @@ export const apiRoutes = {
   ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   getSightingsListByType: (
     type: "birdId" | "dateId" | "locationId",
-    id: number | string,
+    id: number,
     page: number,
     sortBy: string,
   ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
