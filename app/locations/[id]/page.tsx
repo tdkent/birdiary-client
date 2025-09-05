@@ -10,13 +10,13 @@ import { apiRoutes } from "@/models/api";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import LocationDetails from "@/components/pages/locations/LocationDetails";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { checkValidParamInteger } from "@/helpers/data";
 
 type LocationDetailsView = {
-  params: Promise<{ name: string }>;
+  params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
@@ -24,32 +24,23 @@ export default async function LocationDetailsView({
   params,
   searchParams,
 }: LocationDetailsView) {
-  const { name } = await params;
+  const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const decodedUri = decodeURIComponent(name);
-  const locationId = Number(decodedUri.split(" ")[0]);
-  const locationName = decodedUri.split(" ").slice(1).join(" ");
-  const parsedPage = Number(page);
-
-  if (!locationId || locationId < 1) {
-    return (
-      <>
-        <ErrorDisplay msg="The URL is invalid." />
-      </>
-    );
-  }
+  const validId = checkValidParamInteger(id);
+  let validPage: number | null;
+  if (!page) validPage = 1;
+  else validPage = checkValidParamInteger(page);
 
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
 
   if (
-    !page ||
+    !validId ||
+    !validPage ||
     !sortBy ||
-    !parsedPage ||
-    parsedPage < 1 ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
-    redirect(`/locations/${name}?page=1&sortBy=dateDesc`);
+    redirect(`/locations/${validId}?page=1&sortBy=dateDesc`);
   }
 
   const defaultSortOption = sortBy as SortValues;
@@ -59,12 +50,12 @@ export default async function LocationDetailsView({
       <ViewWrapper>
         <ViewHeader
           headingText="Location Details"
-          descriptionText={locationName}
+          descriptionText="View details of this location."
           backLinkHref="locations"
           backLinkText="Go to locations"
         />
         <Suspense fallback={<Pending variant="location" />}>
-          <LocationDetails locationId={locationId} />
+          <LocationDetails locationId={validId} />
         </Suspense>
         <Separator className="mx-auto w-4/5" />
         <Suspense
@@ -75,11 +66,11 @@ export default async function LocationDetailsView({
           <List
             defaultSortOption={defaultSortOption}
             headingText="Sightings"
-            page={parsedPage}
+            page={validPage}
             resource={apiRoutes.getSightingsListByType(
               "locationId",
-              locationId,
-              parsedPage,
+              validId,
+              validPage,
               sortBy,
             )}
             sortBy={sortBy}

@@ -9,7 +9,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
-import { checkValidInteger } from "@/helpers/data";
+import { checkValidParamInteger } from "@/helpers/data";
 // import { formatUrlToBirdName } from "@/helpers/data";
 
 type BirdDetailsViewParams = {
@@ -24,11 +24,11 @@ export default async function BirdDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const validId = checkValidInteger(id, true);
+  const validId = checkValidParamInteger(id, true);
 
   let validPage: number | null;
   if (!page) validPage = 1;
-  else validPage = checkValidInteger(page);
+  else validPage = checkValidParamInteger(page);
 
   const sortOptions = [...sortByDateOptions];
 

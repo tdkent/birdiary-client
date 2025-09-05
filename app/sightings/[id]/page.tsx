@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import Sighting from "@/components/pages/sightings/Sighting";
+import { checkValidParamInteger } from "@/helpers/data";
 
 /** Single sighting view. */
 export default async function SightingView({
@@ -11,8 +12,8 @@ export default async function SightingView({
 }) {
   const { id } = await params;
 
-  const parsedId = Number(id);
-  if (!parsedId || parsedId < 1) notFound();
+  const validId = checkValidParamInteger(id);
+  if (!validId) notFound();
 
   return (
     <>
@@ -21,7 +22,7 @@ export default async function SightingView({
           headingText="Sighting Details"
           descriptionText="View and edit the details of one of your sightings."
         />
-        <Sighting sightingId={parsedId} />
+        <Sighting sightingId={validId} />
       </ViewWrapper>
     </>
   );

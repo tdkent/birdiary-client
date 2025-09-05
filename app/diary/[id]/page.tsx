@@ -4,7 +4,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
 import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
-import { checkValidInteger } from "@/helpers/data";
+import { checkValidParamInteger } from "@/helpers/data";
 
 type DiaryParams = {
   params: Promise<{ id: string }>;
@@ -18,10 +18,10 @@ export default async function DiaryDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const validId = checkValidInteger(id);
+  const validId = checkValidParamInteger(id);
   let validPage: number | null;
   if (!page) validPage = 1;
-  else validPage = checkValidInteger(page);
+  else validPage = checkValidParamInteger(page);
 
   const sortOptions = [...sortByAlphaOptions];
 
