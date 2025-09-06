@@ -22,6 +22,7 @@ type ListProps =
       sortOptions: SortOptions;
       startsWith?: never;
       variant: "lifelistSighting" | "location" | "locationDetail";
+      redirectUrl: "birds" | "locations";
     }
   | {
       defaultSortOption?: never;
@@ -32,6 +33,7 @@ type ListProps =
       sortBy?: never;
       startsWith: string | undefined;
       variant: "birdpedia";
+      redirectUrl: "birds" | "locations";
     };
 
 /** SSR component that renders a list of items */
@@ -44,17 +46,19 @@ export default async function List({
   sortOptions,
   startsWith,
   variant,
+  redirectUrl,
 }: ListProps) {
   if (
     !page ||
     page < 1 ||
+    (sortOptions && !sortOptions.find((option) => option.value === sortBy)) ||
     (startsWith && (startsWith.length !== 1 || !/[A-Z]/.test(startsWith)))
   ) {
     return (
       <ErrorDisplay
         msg="Invalid request."
         showRedirectBtn
-        redirectUrl="birds"
+        redirectUrl={redirectUrl}
       />
     );
   }

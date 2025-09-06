@@ -18,20 +18,15 @@ export default async function LocationsView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
-  const parsedPage = Number(page);
 
-  if (
-    !page ||
-    !sortBy ||
-    !parsedPage ||
-    parsedPage < 1 ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/locations?page=1&sortBy=alphaAsc`);
+  if (!page || !sortBy) {
+    redirect(`/locations?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
+  const parsedPage = Number(page);
   const defaultSortOption: SortValues = "alphaAsc";
+
   return (
     <>
       <ViewWrapper>
@@ -54,6 +49,7 @@ export default async function LocationsView({
             sortBy={sortBy}
             defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
+            redirectUrl="locations"
           />
         </Suspense>
       </ViewWrapper>
