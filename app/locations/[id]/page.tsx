@@ -67,8 +67,7 @@ export default async function LocationDetailsView({
             defaultSortOption={defaultSortOption}
             headingText="Sightings"
             page={validPage}
-            resource={apiRoutes.getSightingsListByType(
-              "locationId",
+            resource={apiRoutes.getSightingsByLocation(
               validId,
               validPage,
               sortBy,

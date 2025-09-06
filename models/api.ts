@@ -31,6 +31,8 @@ export const apiRoutes = {
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
+  getSightingsByLocation: (id: number, page: number, sortBy: string) =>
+    `${BASE_URL}/locations/${id}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsGroupByType: (
     group: "date" | "lifelist" | "location",
     page: number,
