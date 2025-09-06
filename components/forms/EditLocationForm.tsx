@@ -75,9 +75,7 @@ export default function EditLocationForm({
 
     setSuccess(true);
 
-    router.replace(
-      `/locations/${result.id} ${result.name}?page=1&sortBy=dateDesc`,
-    );
+    router.replace(`/locations/${result.id}?page=1&sortBy=dateDesc`);
   }
 
   return (
