@@ -10,7 +10,6 @@ import type {
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
 import { createLocaleString } from "@/helpers/dates";
-import { formatBirdNameToUrl } from "@/helpers/data";
 
 type ListItemProps = {
   variant: ListVariant;
@@ -39,12 +38,12 @@ export default function ListItem({ variant, item }: ListItemProps) {
 
     case "lifelistSighting": {
       const {
-        bird: { commonName },
+        bird: { commonName, id },
         date,
       } = item as SightingWithBird;
       return (
         <ListItemDetails
-          href={`/birds/${formatBirdNameToUrl(commonName)}`}
+          href={`/birds/${id}`}
           text={commonName}
           subtext={createLocaleString(date, "med")}
         />
@@ -53,7 +52,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
 
     case "location": {
       const { id, count, name } = item as LocationWithSightingsCount;
-      const href = `/locations/${id} ${name}`;
+      const href = `/locations/${id}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`

@@ -19,7 +19,7 @@ import Modal from "@/components/ui/Modal";
 import { getCookie } from "@/helpers/auth";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
-import { formatBirdNameToUrl } from "@/helpers/data";
+import { convertSightingDateToInteger } from "@/helpers/dates";
 
 type SightingProps = {
   sightingId: number;
@@ -122,7 +122,7 @@ export default function Sighting({ sightingId }: SightingProps) {
             </dt>
             <dd className="text-xl md:text-2xl">{bird.commonName}</dd>
             <Link
-              href={`/birds/${formatBirdNameToUrl(bird.commonName)}`}
+              href={`/birds/${bird.id}`}
               className="link-inline text-lg md:text-xl"
             >
               View bird
@@ -136,7 +136,7 @@ export default function Sighting({ sightingId }: SightingProps) {
               {createLocaleString(date, "full")}
             </dd>
             <Link
-              href={`/diary/${date.slice(0, 10)}`}
+              href={`/diary/${convertSightingDateToInteger(date)}`}
               className="link-inline text-lg md:text-xl"
             >
               View diary
@@ -152,7 +152,7 @@ export default function Sighting({ sightingId }: SightingProps) {
                   <>
                     <dd className="text-xl md:text-2xl">{location.name}</dd>
                     <Link
-                      href={`/locations/${location.id} ${location.name}`}
+                      href={`/locations/${location.id}`}
                       className="link-inline text-lg md:text-xl"
                     >
                       View location
