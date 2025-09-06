@@ -1,17 +1,27 @@
 import { CircleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-type ErrorDisplayProps = {
-  msg: string;
-  showReloadBtn?: boolean;
-};
+type ErrorDisplayProps =
+  | {
+      msg: string;
+      redirectUrl?: never;
+      showRedirectBtn?: never;
+    }
+  | {
+      msg: string;
+      redirectUrl: string;
+      showRedirectBtn: boolean;
+    };
 
 /** Show error information and optional reload button */
 export default function ErrorDisplay({
   msg,
-  showReloadBtn,
+  redirectUrl,
+  showRedirectBtn,
 }: ErrorDisplayProps) {
-  const reload = () => location.reload();
+  const defaultErrorMsg =
+    "An unexpected error occurred. Refreshing the page may help, or you can try again later.";
   return (
     <>
       <div className="my-8 flex flex-col gap-2 rounded-md border border-destructive p-4 md:w-[85%]">
@@ -24,12 +34,12 @@ export default function ErrorDisplay({
             <dt className="text-sm font-semibold uppercase md:text-base">
               Message
             </dt>
-            <dd className="text-xl">{msg}</dd>
+            <dd className="text-xl">{msg || defaultErrorMsg}</dd>
           </div>
         </dl>
-        {showReloadBtn && (
-          <Button variant="outline" size="lg" onClick={reload}>
-            Try again
+        {showRedirectBtn && (
+          <Button variant="outline" size="lg" asChild>
+            <Link href={`/${redirectUrl}`}>Go to page 1</Link>
           </Button>
         )}
       </div>

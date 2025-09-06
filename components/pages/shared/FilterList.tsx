@@ -13,21 +13,22 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 type FilterListProps = {
+  noResults: boolean;
   startsWith: string | undefined;
 };
 
-export default function FilterList({ startsWith }: FilterListProps) {
+export default function FilterList({ noResults, startsWith }: FilterListProps) {
   const router = useRouter();
-
   return (
     <div className="flex items-center gap-1">
       <Select
-        value={startsWith ?? ""}
+        disabled={noResults}
         onValueChange={(value: string) =>
           router.push(`/birds?page=1&startsWith=${value}`)
         }
+        value={startsWith ?? ""}
       >
-        <SelectTrigger className="w-fit py-6 md:py-8 md:text-xl">
+        <SelectTrigger className="w-[70%] py-6 md:w-2/5 md:py-8 md:text-xl">
           <SelectValue placeholder={startsWith ?? "Filter by name"} />
         </SelectTrigger>
         <SelectContent>

@@ -53,9 +53,14 @@ export default function PaginateList({
             <PaginationItem>
               <PaginationLink
                 href={updateUrl(currentPage - 1)}
-                inert={currentPage === 1}
                 scroll={false}
-                className={`${currentPage === 1 && "opacity-50"}`}
+                className={`${(currentPage <= 1 || currentPage - 1 > finalPage) && "pointer-events-none opacity-50"}`}
+                aria-disabled={currentPage <= 1 || currentPage - 1 > finalPage}
+                tabIndex={
+                  currentPage <= 1 || currentPage - 1 > finalPage
+                    ? -1
+                    : undefined
+                }
               >
                 <ChevronLeft />
               </PaginationLink>
@@ -78,9 +83,10 @@ export default function PaginateList({
             <PaginationItem>
               <PaginationLink
                 href={updateUrl(currentPage + 1)}
-                inert={currentPage === finalPage}
-                className={`${currentPage === finalPage && "opacity-50"}`}
+                className={`${currentPage >= finalPage && "pointer-events-none opacity-50"}`}
                 scroll={false}
+                aria-disabled={currentPage >= finalPage}
+                tabIndex={currentPage >= finalPage ? -1 : undefined}
               >
                 <ChevronRight />
               </PaginationLink>
@@ -106,9 +112,10 @@ export default function PaginateList({
           <PaginationItem>
             <PaginationLink
               href={updateUrl(currentPage - 1)}
-              inert={currentPage === 1}
               scroll={false}
-              className={`${currentPage === 1 && "opacity-50"}`}
+              className={`${currentPage <= 1 && "pointer-events-none opacity-50"}`}
+              aria-disabled={currentPage <= 1}
+              tabIndex={currentPage <= 1 ? -1 : undefined}
             >
               <ChevronLeft />
             </PaginationLink>

@@ -45,6 +45,20 @@ export default async function List({
   startsWith,
   variant,
 }: ListProps) {
+  if (
+    !page ||
+    page < 1 ||
+    (startsWith && (startsWith.length !== 1 || !/[A-Z]/.test(startsWith)))
+  ) {
+    return (
+      <ErrorDisplay
+        msg="Invalid request."
+        showRedirectBtn
+        redirectUrl="birds"
+      />
+    );
+  }
+
   const token = await getCookie();
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
@@ -59,14 +73,12 @@ export default async function List({
       ? error.message.join(",")
       : error.message;
 
-    return (
-      <>
-        <ErrorDisplay msg={`${error.error}: ${msg}`} />
-      </>
-    );
+    return <ErrorDisplay msg={`${error.error}: ${msg}`} />;
   }
 
-  const records = result.countOfRecords;
+  const { countOfRecords, data } = result;
+  const noResults = !data.length;
+  const records = countOfRecords;
   const pages = Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
@@ -74,7 +86,7 @@ export default async function List({
       <section>
         {headingText && <h2 className="mb-10">{headingText}</h2>}
         {variant === "birdpedia" ? (
-          <FilterList startsWith={startsWith} />
+          <FilterList startsWith={startsWith} noResults={noResults} />
         ) : (
           <SortItems
             defaultSortOption={defaultSortOption}
@@ -87,13 +99,20 @@ export default async function List({
           startsWith={startsWith}
           records={result.countOfRecords}
           page={+page!}
+          noResults={noResults}
         />
         <ul
           className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
         >
-          {result.data.map((item) => {
-            return <ListItem key={item.id} variant={variant} item={item} />;
-          })}
+          {!data.length ? (
+            <>
+              <p className="px-2 italic">No results found.</p>
+            </>
+          ) : (
+            data.map((item) => {
+              return <ListItem key={item.id} variant={variant} item={item} />;
+            })
+          )}
         </ul>
         <PaginateList
           currentPage={page}
