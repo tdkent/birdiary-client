@@ -40,11 +40,11 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diary": {
-      const { text, count } = item as Group;
+      const { text, count, id } = item as Group;
       return (
         <CsrListItemDetails
           variant="list"
-          href={"/diary/" + text.slice(0, 10)}
+          href={`/diary/${id}`}
           text={createLocaleString(text, "med")}
           count={count}
         />

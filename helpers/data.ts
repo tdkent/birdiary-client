@@ -74,3 +74,10 @@ export function formatBirdNameToUrl(commonName: string) {
 export function formatUrlToBirdName(urlSegment: string) {
   return urlSegment.replaceAll("_", " ");
 }
+
+/** Check if string parses to a valid integer.  */
+export function checkValidParamInteger(id: string, isBirdId?: boolean) {
+  const parsedId = Number(id);
+  if (!parsedId || parsedId < 1 || (isBirdId && parsedId > 838)) return null;
+  return parsedId;
+}
