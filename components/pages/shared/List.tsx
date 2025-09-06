@@ -11,12 +11,13 @@ import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { checkValidParamInteger } from "@/helpers/data";
 
 type ListProps =
   | {
       defaultSortOption: SortValues;
       headingText?: string;
-      page: number;
+      page: string;
       resource: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -26,7 +27,7 @@ type ListProps =
   | {
       defaultSortOption?: never;
       headingText?: never;
-      page: number;
+      page: string;
       resource: string;
       sortOptions?: never;
       sortBy?: never;
@@ -45,9 +46,10 @@ export default async function List({
   startsWith,
   variant,
 }: ListProps) {
+  const parsedPage = checkValidParamInteger(page);
+
   if (
-    !page ||
-    page < 1 ||
+    !parsedPage ||
     (sortOptions && !sortOptions.find((option) => option.value === sortBy)) ||
     (startsWith && (startsWith.length !== 1 || !/[A-Z]/.test(startsWith)))
   ) {
@@ -111,7 +113,7 @@ export default async function List({
           )}
         </ul>
         <PaginateList
-          currentPage={page}
+          currentPage={parsedPage}
           finalPage={pages}
           startsWith={startsWith}
           sortBy={sortBy}

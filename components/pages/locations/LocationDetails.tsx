@@ -6,11 +6,13 @@ import type { ExpectedServerError } from "@/models/api";
 import { getLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
+type LocationDetailsType = {
+  locationId: number;
+};
+
 export default async function LocationDetails({
   locationId,
-}: {
-  locationId: number;
-}) {
+}: LocationDetailsType) {
   const location: Location | ExpectedServerError =
     await getLocation(locationId);
 

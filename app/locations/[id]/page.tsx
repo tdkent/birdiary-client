@@ -14,6 +14,7 @@ import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type LocationDetailsView = {
   params: Promise<{ id: string }>;
@@ -25,24 +26,19 @@ export default async function LocationDetailsView({
   searchParams,
 }: LocationDetailsView) {
   const { id } = await params;
-  const { page, sortBy } = await searchParams;
-
   const validId = checkValidParamInteger(id);
-  let validPage: number | null;
-  if (!page) validPage = 1;
-  else validPage = checkValidParamInteger(page);
-
-  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
-
-  if (
-    !validId ||
-    !validPage ||
-    !sortBy ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/locations/${validId}?page=1&sortBy=dateDesc`);
+  if (!validId) {
+    return <ErrorDisplay msg="Invalid request." />;
   }
 
+  const { page, sortBy } = await searchParams;
+  if (!page || !sortBy) {
+    redirect(
+      `/locations/${validId}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`,
+    );
+  }
+
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
 
   return (
@@ -66,12 +62,8 @@ export default async function LocationDetailsView({
           <List
             defaultSortOption={defaultSortOption}
             headingText="Sightings"
-            page={validPage}
-            resource={apiRoutes.getSightingsByLocation(
-              validId,
-              validPage,
-              sortBy,
-            )}
+            page={page}
+            resource={apiRoutes.getSightingsByLocation(validId, page, sortBy)}
             sortBy={sortBy}
             sortOptions={sortOptions}
             variant="locationDetail"

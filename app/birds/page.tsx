@@ -18,8 +18,6 @@ export default async function BirdsView({
     redirect(`/birds?page=1${startsWith ? `&startsWith=${startsWith}` : ""}`);
   }
 
-  const parsedPage = Number(page);
-
   return (
     <>
       <ViewWrapper>
@@ -37,9 +35,9 @@ export default async function BirdsView({
         >
           <List
             variant="birdpedia"
-            page={parsedPage}
+            page={page}
             startsWith={startsWith}
-            resource={apiRoutes.birds(parsedPage, startsWith)}
+            resource={apiRoutes.birds(page, startsWith)}
           />
         </Suspense>
       </ViewWrapper>

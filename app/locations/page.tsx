@@ -24,7 +24,6 @@ export default async function LocationsView({
   }
 
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
-  const parsedPage = Number(page);
   const defaultSortOption: SortValues = "alphaAsc";
 
   return (
@@ -44,8 +43,8 @@ export default async function LocationsView({
         >
           <List
             variant="location"
-            resource={apiRoutes.locations(parsedPage, sortBy)}
-            page={parsedPage}
+            resource={apiRoutes.locations(page, sortBy)}
+            page={page}
             sortBy={sortBy}
             defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
