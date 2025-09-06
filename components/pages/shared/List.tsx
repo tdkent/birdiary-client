@@ -92,6 +92,7 @@ export default async function List({
             defaultSortOption={defaultSortOption}
             options={sortOptions}
             isSSR
+            noResults={noResults}
           />
         )}
         <FilterAndResultsText

@@ -17,6 +17,7 @@ type SortItemsProps =
       defaultSortOption: SortValues;
       pending: boolean;
       count: number;
+      noResults: boolean;
     }
   | {
       isSSR: true;
@@ -24,6 +25,7 @@ type SortItemsProps =
       defaultSortOption: SortValues;
       pending?: never;
       count?: never;
+      noResults: boolean;
     };
 
 /**  Generic <select> element to sort items */
@@ -33,10 +35,10 @@ export default function SortItems({
   pending,
   count,
   isSSR,
+  noResults,
 }: SortItemsProps) {
   const router = useRouter();
   const pathname = usePathname();
-
   if (!options) {
     return (
       <>
@@ -59,10 +61,10 @@ export default function SortItems({
       <Select
         onValueChange={handleChange}
         defaultValue={defaultSortOption}
-        disabled={isSSR ? false : pending || !count || count < 1}
+        disabled={noResults || (isSSR ? false : pending || !count || count < 1)}
       >
         <SelectTrigger
-          className={`w-[70%] py-6 md:w-2/5 md:py-8 ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"} md:text-xl`}
+          className={`w-[70%] py-6 md:w-2/5 md:py-8 ${noResults && "text-foreground/50"} ${!isSSR && (pending || !count || count < 1) && "text-foreground/50"} md:text-xl`}
         >
           <SelectValue placeholder="Sort list" />
         </SelectTrigger>
