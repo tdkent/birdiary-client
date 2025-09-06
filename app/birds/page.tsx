@@ -40,7 +40,6 @@ export default async function BirdsView({
             page={parsedPage}
             startsWith={startsWith}
             resource={apiRoutes.birds(parsedPage, startsWith)}
-            redirectUrl="birds"
           />
         </Suspense>
       </ViewWrapper>

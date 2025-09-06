@@ -49,7 +49,6 @@ export default async function LocationsView({
             sortBy={sortBy}
             defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
-            redirectUrl="locations"
           />
         </Suspense>
       </ViewWrapper>
