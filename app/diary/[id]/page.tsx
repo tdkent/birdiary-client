@@ -5,6 +5,7 @@ import CsrList from "@/components/pages/shared/CsrList";
 import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
 import { checkValidParamInteger } from "@/helpers/data";
+import { convertDateIdToDateFormat } from "@/helpers/dates";
 
 type DiaryParams = {
   params: Promise<{ id: string }>;
@@ -36,6 +37,8 @@ export default async function DiaryDetailsView({
 
   const defaultSortOption = sortBy as SortValues;
 
+  const dateId = convertDateIdToDateFormat(validId);
+
   return (
     <>
       <ViewWrapper>
@@ -48,7 +51,7 @@ export default async function DiaryDetailsView({
         <CsrList
           route={apiRoutes.getSightingsListByType(
             "dateId",
-            validId,
+            dateId,
             validPage,
             sortBy,
           )}

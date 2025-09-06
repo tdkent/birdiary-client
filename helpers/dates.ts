@@ -59,3 +59,8 @@ export function createRelativeDate(date: string) {
 export function convertSightingDateToInteger(date: string) {
   return Number(date.slice(0, 10).replaceAll("-", ""));
 }
+
+export function convertDateIdToDateFormat(dateId: number) {
+  const numStr = String(dateId);
+  return `${numStr.slice(0, 4)}-${numStr.slice(4, 6)}-${numStr.slice(6)}`;
+}
