@@ -38,10 +38,10 @@ export default async function BirdDetailsView({
     !sortBy ||
     !sortOptions.find((option) => option.value === sortBy)
   ) {
-    redirect(`/birds/1?page=1&sortBy=dateDesc`);
+    redirect(`/birds/${validId}?page=1&sortBy=dateDesc`);
   }
 
-  const currBirdName = birdNames[validId];
+  const currBirdName = birdNames[validId - 1];
 
   return (
     <>

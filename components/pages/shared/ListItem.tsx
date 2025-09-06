@@ -27,10 +27,10 @@ type ListItemProps = {
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
     case "birdpedia": {
-      const { commonName, scientificName } = item as BirdWithCount;
+      const { commonName, id, scientificName } = item as BirdWithCount;
       return (
         <ListItemDetails
-          href={`/birds/${formatBirdNameToUrl(commonName)}`}
+          href={`/birds/${id}`}
           text={commonName}
           subtext={scientificName}
         />
