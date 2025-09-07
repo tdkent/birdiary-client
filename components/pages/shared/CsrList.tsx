@@ -76,9 +76,10 @@ export default function CsrList({
   }, [error, toast]);
 
   if (error) {
-    return <ErrorDisplay msg={error} showReloadBtn />;
+    return <ErrorDisplay msg={error} />;
   }
 
+  const noResults = !items.length;
   const currentPage = page;
   const pages = Math.ceil(count / RESULTS_PER_PAGE);
 
@@ -91,12 +92,14 @@ export default function CsrList({
           options={sortOptions}
           pending={pending}
           count={count}
+          noResults={noResults}
         />
         <FilterAndResultsText
           variant={variant}
           startsWith={startsWith}
           records={count}
           page={+page!}
+          noResults={noResults}
         />
         {pending || !items ? (
           <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
