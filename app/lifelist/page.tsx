@@ -18,19 +18,12 @@ export default async function LifeListView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
-  const parsedPage = Number(page);
 
-  if (
-    !page ||
-    !sortBy ||
-    !parsedPage ||
-    parsedPage < 1 ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/lifelist?page=1&sortBy=alphaAsc`);
+  if (!page || !sortBy) {
+    redirect(`/lifelist?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption: SortValues = "alphaAsc";
 
   return (
@@ -54,10 +47,10 @@ export default async function LifeListView({
             variant="lifelistSighting"
             resource={apiRoutes.getSightingsGroupByType(
               "lifelist",
-              parsedPage,
+              page,
               sortBy,
             )}
-            page={parsedPage}
+            page={page}
             sortBy={sortBy}
             defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}

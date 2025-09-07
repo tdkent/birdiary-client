@@ -35,7 +35,7 @@ export const apiRoutes = {
     `${BASE_URL}/locations/${id}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsGroupByType: (
     group: "date" | "lifelist" | "location",
-    page: number,
+    page: string,
     sortBy: string,
   ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   getSightingsListByType: (
