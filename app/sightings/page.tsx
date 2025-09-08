@@ -8,6 +8,8 @@ import {
   sortByDateOptions,
   SortValues,
 } from "@/models/form";
+import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function SightingsView({
   searchParams,
@@ -15,17 +17,30 @@ export default async function SightingsView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
+  if (!page || !sortBy) {
+    redirect(`/sightings?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
+  }
+
+  const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
-  const parsedPage = Number(page);
 
   if (
-    !page ||
-    !sortBy ||
     !parsedPage ||
-    parsedPage < 1 ||
-    !sortOptions.find((option) => option.value === sortBy)
+    (sortOptions && !sortOptions.find((option) => option.value === sortBy))
   ) {
-    redirect(`/sightings?page=1&sortBy=dateDesc`);
+    return (
+      <>
+        <ViewWrapper>
+          <ViewHeader
+            headingText="Sightings"
+            descriptionText="View a list of all your sightings sorted by date or bird."
+            backLinkHref="lifelist"
+            backLinkText="Go to life list"
+          />
+          <ErrorDisplay msg="Invalid request." />
+        </ViewWrapper>
+      </>
+    );
   }
 
   const defaultSortOption = sortBy as SortValues;
