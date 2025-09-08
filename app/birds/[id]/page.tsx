@@ -10,7 +10,8 @@ import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
 import { checkValidParamInteger } from "@/helpers/data";
-// import { formatUrlToBirdName } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { BIRD_COUNT } from "@/constants/constants";
 
 type BirdDetailsViewParams = {
   params: Promise<{ id: string }>;
@@ -22,26 +23,39 @@ export default async function BirdDetailsView({
   searchParams,
 }: BirdDetailsViewParams) {
   const { id } = await params;
+  const validBirdId = checkValidParamInteger(id);
+  if (!validBirdId || validBirdId > BIRD_COUNT)
+    return <ErrorDisplay msg="Invalid request." />;
+
   const { page, sortBy } = await searchParams;
-
-  const validId = checkValidParamInteger(id, true);
-
-  let validPage: number | null;
-  if (!page) validPage = 1;
-  else validPage = checkValidParamInteger(page);
-
-  const sortOptions = [...sortByDateOptions];
-
-  if (
-    !validId ||
-    !validPage ||
-    !sortBy ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/birds/${validId}?page=1&sortBy=dateDesc`);
+  if (!page || !sortBy) {
+    redirect(`/birds/${id}?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
-  const currBirdName = birdNames[validId - 1];
+  const parsedPage = checkValidParamInteger(page);
+  const sortOptions = [...sortByDateOptions];
+  const currBirdName = birdNames[validBirdId - 1];
+
+  if (
+    !parsedPage ||
+    (sortOptions && !sortOptions.find((option) => option.value === sortBy))
+  ) {
+    return (
+      <>
+        <ViewWrapper>
+          <ViewHeader
+            backLinkHref="birds"
+            backLinkText="Go to birdpedia"
+            descriptionText="Information on this species, along with your recorded observations"
+            headingText={currBirdName}
+          />
+          <ErrorDisplay msg="Invalid request." />
+        </ViewWrapper>
+      </>
+    );
+  }
+
+  const defaultSortOption = sortBy as SortValues;
 
   return (
     <>
@@ -53,18 +67,18 @@ export default async function BirdDetailsView({
           headingText={currBirdName}
         />
         <Suspense fallback={<Pending variant="bird" />}>
-          <BirdDetails birdId={validId} currBirdName={currBirdName} />
+          <BirdDetails birdId={validBirdId} currBirdName={currBirdName} />
         </Suspense>
         <Separator className="mx-auto w-4/5" />
         <CsrList
-          defaultSortOption={sortBy as SortValues}
+          defaultSortOption={defaultSortOption}
           headingText="Sightings"
-          page={validPage}
+          page={parsedPage}
           pendingVariant="card"
           route={apiRoutes.getSightingsListByType(
             "birdId",
-            validId,
-            validPage,
+            validBirdId,
+            parsedPage,
             sortBy,
           )}
           sortBy={sortBy}
