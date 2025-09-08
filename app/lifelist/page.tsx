@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import List from "@/components/pages/shared/List";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
@@ -64,7 +64,7 @@ export default async function LifeListView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg="Invalid request." />
+            <ErrorDisplay msg={Messages.InvalidUrl} />
           </>
         )}
       </ViewWrapper>

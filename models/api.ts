@@ -81,6 +81,7 @@ export enum Messages {
   DefaultError = "An unexpected error occurred. Please try again later.",
   EmailValidationError = "Please enter a valid email address.",
   InvalidLocationError = "Select a location from the dropdown menu.",
+  InvalidUrl = "The URL you entered isn't valid.",
   NewSighting = "New sighting created!",
   PasswordValidationError = "Passwords must 8-36 characters.",
   SignIn = "You are signed in.",

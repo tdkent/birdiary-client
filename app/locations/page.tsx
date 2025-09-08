@@ -9,7 +9,7 @@ import {
   sortByAlphaOptions,
   sortBySightingsCount,
 } from "@/models/form";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -58,7 +58,7 @@ export default async function LocationsView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg="Invalid request." />
+            <ErrorDisplay msg={Messages.InvalidUrl} />
           </>
         )}
       </ViewWrapper>

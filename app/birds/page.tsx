@@ -4,7 +4,7 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -33,7 +33,7 @@ export default async function BirdsView({
         (startsWith &&
           (startsWith.length !== 1 || !/[A-Z]/.test(startsWith))) ? (
           <>
-            <ErrorDisplay msg="Invalid request." />
+            <ErrorDisplay msg={Messages.InvalidUrl} />
           </>
         ) : (
           <>

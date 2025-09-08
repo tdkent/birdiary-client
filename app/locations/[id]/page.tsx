@@ -6,7 +6,7 @@ import {
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import LocationDetails from "@/components/pages/locations/LocationDetails";
@@ -81,7 +81,7 @@ export default async function LocationDetailsView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg="Invalid request." />
+            <ErrorDisplay msg={Messages.InvalidUrl} />
           </>
         )}
       </ViewWrapper>
