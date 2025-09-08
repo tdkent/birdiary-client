@@ -27,15 +27,15 @@ export const defaultCache: Cache = {
 /** Server request URLs */
 export const apiRoutes = {
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
-  birds: (page: string, startsWith: string | undefined) =>
+  birds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
-  getSightingsByLocation: (id: number, page: string, sortBy: string) =>
+  getSightingsByLocation: (id: number, page: number, sortBy: string) =>
     `${BASE_URL}/locations/${id}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsGroupByType: (
     group: "date" | "lifelist" | "location",
-    page: string,
+    page: number,
     sortBy: string,
   ) => `${BASE_URL}/sightings?groupBy=${group}&page=${page}&sortBy=${sortBy}`,
   getSightingsListByType: (
@@ -45,7 +45,7 @@ export const apiRoutes = {
     sortBy: string,
   ) => `${BASE_URL}/sightings?${type}=${id}&page=${page}&sortBy=${sortBy}`,
   location: (id: number) => `${BASE_URL}/locations/${id}`,
-  locations: (page: string, sortBy: string) =>
+  locations: (page: number, sortBy: string) =>
     `${BASE_URL}/locations?page=${page}&sortBy=${sortBy}`,
   sighting: (id: number) => `${BASE_URL}/sightings/${id}`,
   sightings: `${BASE_URL}/sightings`,

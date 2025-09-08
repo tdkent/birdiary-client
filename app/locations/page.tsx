@@ -11,6 +11,8 @@ import {
 } from "@/models/form";
 import { apiRoutes } from "@/models/api";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function LocationsView({
   searchParams,
@@ -23,6 +25,7 @@ export default async function LocationsView({
     redirect(`/locations?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
   const defaultSortOption: SortValues = "alphaAsc";
 
@@ -33,23 +36,31 @@ export default async function LocationsView({
           headingText="Locations"
           descriptionText="A list of all the locations where you have observed birds."
         />
-        <Suspense
-          fallback={
-            <Pending
-              variant="listDoubleRowWithControls"
-              listSize={RESULTS_PER_PAGE}
-            />
-          }
-        >
-          <List
-            variant="location"
-            resource={apiRoutes.locations(page, sortBy)}
-            page={page}
-            sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
-            sortOptions={sortOptions}
-          />
-        </Suspense>
+        {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
+          <>
+            <Suspense
+              fallback={
+                <Pending
+                  variant="listDoubleRowWithControls"
+                  listSize={RESULTS_PER_PAGE}
+                />
+              }
+            >
+              <List
+                variant="location"
+                resource={apiRoutes.locations(parsedPage, sortBy)}
+                page={parsedPage}
+                sortBy={sortBy}
+                defaultSortOption={defaultSortOption}
+                sortOptions={sortOptions}
+              />
+            </Suspense>
+          </>
+        ) : (
+          <>
+            <ErrorDisplay msg="Invalid request." />
+          </>
+        )}
       </ViewWrapper>
     </>
   );

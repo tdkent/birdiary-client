@@ -11,13 +11,12 @@ import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
-import { checkValidParamInteger } from "@/helpers/data";
 
 type ListProps =
   | {
       defaultSortOption: SortValues;
       headingText?: string;
-      page: string;
+      page: number;
       resource: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -27,7 +26,7 @@ type ListProps =
   | {
       defaultSortOption?: never;
       headingText?: never;
-      page: string;
+      page: number;
       resource: string;
       sortOptions?: never;
       sortBy?: never;
@@ -46,16 +45,6 @@ export default async function List({
   startsWith,
   variant,
 }: ListProps) {
-  const parsedPage = checkValidParamInteger(page);
-
-  if (
-    !parsedPage ||
-    (sortOptions && !sortOptions.find((option) => option.value === sortBy)) ||
-    (startsWith && (startsWith.length !== 1 || !/[A-Z]/.test(startsWith)))
-  ) {
-    return <ErrorDisplay msg="Invalid request." />;
-  }
-
   const token = await getCookie();
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
@@ -113,7 +102,7 @@ export default async function List({
           )}
         </ul>
         <PaginateList
-          currentPage={parsedPage}
+          currentPage={page}
           finalPage={pages}
           startsWith={startsWith}
           sortBy={sortBy}

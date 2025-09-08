@@ -26,25 +26,6 @@ export default async function DiaryView({
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
   const defaultSortOption = sortBy as SortValues;
 
-  if (
-    !parsedPage ||
-    (sortOptions && !sortOptions.find((option) => option.value === sortBy))
-  ) {
-    return (
-      <>
-        <ViewWrapper>
-          <ViewHeader
-            headingText="Life List"
-            descriptionText="View your complete North American birdwatching life list."
-            backLinkHref="sightings"
-            backLinkText="Go to sightings"
-          />
-          <ErrorDisplay msg="Invalid request." />
-        </ViewWrapper>
-      </>
-    );
-  }
-
   return (
     <>
       <ViewWrapper>
@@ -52,16 +33,24 @@ export default async function DiaryView({
           headingText="Diary"
           descriptionText="View a list of your sightings grouped by date."
         />
-        <CsrList
-          route={apiRoutes.getSightingsGroupByType("date", page, sortBy)}
-          variant="diary"
-          pendingVariant="listSingleRow"
-          tag="diary"
-          page={parsedPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
-        />
+        {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
+          <CsrList
+            route={apiRoutes.getSightingsGroupByType(
+              "date",
+              parsedPage,
+              sortBy,
+            )}
+            variant="diary"
+            pendingVariant="listSingleRow"
+            tag="diary"
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        ) : (
+          <ErrorDisplay msg="Invalid request." />
+        )}
       </ViewWrapper>
     </>
   );

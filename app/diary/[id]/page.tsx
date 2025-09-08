@@ -18,36 +18,16 @@ export default async function DiaryDetailsView({
   searchParams,
 }: DiaryParams) {
   const { id } = await params;
-  const validDateId = convertDateIdToValidDate(id);
-  if (!validDateId) return <ErrorDisplay msg="Invalid request." />;
-
   const { page, sortBy } = await searchParams;
+
   if (!page || !sortBy) {
     redirect(`/diary/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const validDateId = convertDateIdToValidDate(id);
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions];
   const defaultSortOption = sortBy as SortValues;
-
-  if (
-    !parsedPage ||
-    (sortOptions && !sortOptions.find((option) => option.value === sortBy))
-  ) {
-    return (
-      <>
-        <ViewWrapper>
-          <ViewHeader
-            headingText="Diary Details"
-            descriptionText="View your birding diary details."
-            backLinkHref="diary"
-            backLinkText="Go to diary"
-          />
-          <ErrorDisplay msg="Invalid request." />
-        </ViewWrapper>
-      </>
-    );
-  }
 
   return (
     <>
@@ -58,21 +38,27 @@ export default async function DiaryDetailsView({
           headingText="Diary Details"
           descriptionText="View your birding diary details."
         />
-        <CsrList
-          route={apiRoutes.getSightingsListByType(
-            "dateId",
-            validDateId,
-            parsedPage,
-            sortBy,
-          )}
-          variant="diaryDetail"
-          pendingVariant="card"
-          tag="sightings"
-          page={parsedPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
-        />
+        {validDateId &&
+        parsedPage &&
+        sortOptions.find((option) => option.value === sortBy) ? (
+          <CsrList
+            route={apiRoutes.getSightingsListByType(
+              "dateId",
+              validDateId,
+              parsedPage,
+              sortBy,
+            )}
+            variant="diaryDetail"
+            pendingVariant="card"
+            tag="sightings"
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        ) : (
+          <ErrorDisplay msg="Invalid request." />
+        )}
       </ViewWrapper>
     </>
   );

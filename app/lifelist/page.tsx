@@ -11,6 +11,8 @@ import {
 } from "@/models/form";
 import Pending from "@/components/pages/shared/Pending";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function LifeListView({
   searchParams,
@@ -23,6 +25,7 @@ export default async function LifeListView({
     redirect(`/lifelist?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption: SortValues = "alphaAsc";
 
@@ -35,27 +38,35 @@ export default async function LifeListView({
           backLinkHref="sightings"
           backLinkText="Go to sightings"
         />
-        <Suspense
-          fallback={
-            <Pending
-              variant="listDoubleRowWithControls"
-              listSize={RESULTS_PER_PAGE}
-            />
-          }
-        >
-          <List
-            variant="lifelistSighting"
-            resource={apiRoutes.getSightingsGroupByType(
-              "lifelist",
-              page,
-              sortBy,
-            )}
-            page={page}
-            sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
-            sortOptions={sortOptions}
-          />
-        </Suspense>
+        {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
+          <>
+            <Suspense
+              fallback={
+                <Pending
+                  variant="listDoubleRowWithControls"
+                  listSize={RESULTS_PER_PAGE}
+                />
+              }
+            >
+              <List
+                variant="lifelistSighting"
+                resource={apiRoutes.getSightingsGroupByType(
+                  "lifelist",
+                  parsedPage,
+                  sortBy,
+                )}
+                page={parsedPage}
+                sortBy={sortBy}
+                defaultSortOption={defaultSortOption}
+                sortOptions={sortOptions}
+              />
+            </Suspense>
+          </>
+        ) : (
+          <>
+            <ErrorDisplay msg="Invalid request." />
+          </>
+        )}
       </ViewWrapper>
     </>
   );

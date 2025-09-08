@@ -20,9 +20,13 @@ export default async function EditSightingView({
           useSeparator
         />
         {validId ? (
-          <EditSighting sightingId={validId} />
+          <>
+            <EditSighting sightingId={validId} />
+          </>
         ) : (
-          <ErrorDisplay msg="Invalid request." />
+          <>
+            <ErrorDisplay msg="Invalid request." />
+          </>
         )}
       </ViewWrapper>
     </>

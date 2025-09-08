@@ -21,9 +21,13 @@ export default async function SightingView({
           descriptionText="View and edit the details of one of your sightings."
         />
         {validId ? (
-          <Sighting sightingId={validId} />
+          <>
+            <Sighting sightingId={validId} />
+          </>
         ) : (
-          <ErrorDisplay msg="Invalid request." />
+          <>
+            <ErrorDisplay msg="Invalid request." />
+          </>
         )}
       </ViewWrapper>
     </>

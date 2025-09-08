@@ -26,18 +26,16 @@ export default async function LocationDetailsView({
   searchParams,
 }: LocationDetailsView) {
   const { id } = await params;
-  const validId = checkValidParamInteger(id);
-  if (!validId) {
-    return <ErrorDisplay msg="Invalid request." />;
-  }
-
   const { page, sortBy } = await searchParams;
+
   if (!page || !sortBy) {
     redirect(
-      `/locations/${validId}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`,
+      `/locations/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`,
     );
   }
 
+  const validId = checkValidParamInteger(id);
+  const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
 
@@ -50,25 +48,42 @@ export default async function LocationDetailsView({
           backLinkHref="locations"
           backLinkText="Go to locations"
         />
-        <Suspense fallback={<Pending variant="location" />}>
-          <LocationDetails locationId={validId} />
-        </Suspense>
-        <Separator className="mx-auto w-4/5" />
-        <Suspense
-          fallback={
-            <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
-          }
-        >
-          <List
-            defaultSortOption={defaultSortOption}
-            headingText="Sightings"
-            page={page}
-            resource={apiRoutes.getSightingsByLocation(validId, page, sortBy)}
-            sortBy={sortBy}
-            sortOptions={sortOptions}
-            variant="locationDetail"
-          />
-        </Suspense>
+        {validId &&
+        parsedPage &&
+        sortOptions.find((option) => option.value === sortBy) ? (
+          <>
+            <Suspense fallback={<Pending variant="location" />}>
+              <LocationDetails locationId={validId} />
+            </Suspense>
+            <Separator className="mx-auto w-4/5" />
+            <Suspense
+              fallback={
+                <Pending
+                  variant="cardWithControls"
+                  listSize={RESULTS_PER_PAGE}
+                />
+              }
+            >
+              <List
+                defaultSortOption={defaultSortOption}
+                headingText="Sightings"
+                page={parsedPage}
+                resource={apiRoutes.getSightingsByLocation(
+                  validId,
+                  parsedPage,
+                  sortBy,
+                )}
+                sortBy={sortBy}
+                sortOptions={sortOptions}
+                variant="locationDetail"
+              />
+            </Suspense>
+          </>
+        ) : (
+          <>
+            <ErrorDisplay msg="Invalid request." />
+          </>
+        )}
       </ViewWrapper>
     </>
   );
