@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
+// import { useEffect } from "react";
+// import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -52,7 +52,7 @@ export default function CsrList({
   tag,
   variant,
 }: CsrListProps) {
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const { useQuery } = useApi();
   const {
     count,
@@ -65,18 +65,18 @@ export default function CsrList({
     variant,
   });
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "An error occurred",
-        description: error,
-      });
-    }
-  }, [error, toast]);
+  // useEffect(() => {
+  //   if (error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "An error occurred",
+  //       description: error,
+  //     });
+  //   }
+  // }, [error, toast]);
 
   if (error) {
-    return <ErrorDisplay />;
+    return <ErrorDisplay statusCode={error} />;
   }
 
   const noResults = !items.length;

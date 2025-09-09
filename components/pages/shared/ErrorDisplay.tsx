@@ -2,13 +2,14 @@ import { CircleAlert } from "lucide-react";
 import { Messages } from "@/models/api";
 
 type ErrorDisplayProps = {
-  statusCode?: number;
+  statusCode?: number | string;
 };
 
 /** Show error information and optional reload button */
 export default function ErrorDisplay({ statusCode }: ErrorDisplayProps) {
+  const parseStatusCode = Number(statusCode);
   let errorMessage = "";
-  switch (statusCode) {
+  switch (parseStatusCode) {
     case 400: {
       errorMessage = Messages.InvalidRequest;
       break;

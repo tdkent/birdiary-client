@@ -88,11 +88,7 @@ export default function ApiProvider({
               await response.json();
 
             if ("error" in result) {
-              const error = result as ServerResponseWithError;
-              const msg = Array.isArray(error.message)
-                ? error.message.join(",")
-                : error.message;
-              throw new Error(`${error.error}: ${msg}`);
+              throw new Error(`${result.statusCode}`);
             }
 
             setData(result.data);
