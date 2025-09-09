@@ -101,7 +101,7 @@ export default function ApiProvider({
             if (error instanceof Error) {
               setError(error.message);
             } else {
-              setError(Messages.DefaultError);
+              setError(Messages.UnknownUnexpectedError);
             }
           } finally {
             setPending(false);
@@ -169,7 +169,7 @@ export default function ApiProvider({
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(Messages.DefaultError);
+            setError(Messages.UnknownUnexpectedError);
           }
         } finally {
           setPending(false);

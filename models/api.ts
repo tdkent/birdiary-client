@@ -78,16 +78,18 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
-  DefaultError = "An unexpected error occurred. Please try again later.",
   EmailValidationError = "Please enter a valid email address.",
+  ForbiddenError = "You do not have access to this resource. Please try signing in again.",
   InvalidLocationError = "Select a location from the dropdown menu.",
-  InvalidUrl = "The URL you entered isn't valid.",
+  InvalidRequest = "The request is not valid.",
   NewSighting = "New sighting created!",
+  NotFoundError = "The requested resource could not be found.",
   PasswordValidationError = "Passwords must 8-36 characters.",
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
+  UnknownUnexpectedError = "An unexpected error occurred. Refreshing the page may help, or you can try again later.",
   ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
   ZipCodeNoResultsError = "The provided zip code did not return any results.",
 }

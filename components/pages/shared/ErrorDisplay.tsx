@@ -1,4 +1,5 @@
 import { CircleAlert } from "lucide-react";
+import { Messages } from "@/models/api";
 
 type ErrorDisplayProps = {
   statusCode?: number;
@@ -9,22 +10,20 @@ export default function ErrorDisplay({ statusCode }: ErrorDisplayProps) {
   let errorMessage = "";
   switch (statusCode) {
     case 400: {
-      errorMessage = "Invalid request.";
+      errorMessage = Messages.InvalidRequest;
       break;
     }
     case 403: {
-      errorMessage =
-        "You do not have access to this resource. Please try signing in again.";
+      errorMessage = Messages.ForbiddenError;
       break;
     }
     case 404: {
-      errorMessage = "The requested resource could not be found.";
+      errorMessage = Messages.NotFoundError;
       break;
     }
 
     default: {
-      errorMessage =
-        "An unexpected error occurred. Refreshing the page may help, or you can try again later.";
+      errorMessage = Messages.UnknownUnexpectedError;
     }
   }
 

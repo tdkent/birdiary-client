@@ -14,7 +14,7 @@ export async function getUser() {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -35,7 +35,7 @@ export async function editUserProfile(
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -53,7 +53,7 @@ export async function transferStorageData(storageData: SightingInStorage[]) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -74,7 +74,7 @@ export async function updatePassword(
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -91,6 +91,6 @@ export async function deleteAccount() {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }

@@ -63,7 +63,7 @@ export default function Sighting({ sightingId }: SightingProps) {
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(Messages.DefaultError);
+            setError(Messages.UnknownUnexpectedError);
           }
         } finally {
           setPending(false);
