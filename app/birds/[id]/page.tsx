@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import birdNames from "@/data/birds";
 import { SortValues, sortByDateOptions } from "@/models/form";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
@@ -75,7 +75,7 @@ export default async function BirdDetailsView({
             />
           </>
         ) : (
-          <ErrorDisplay msg={Messages.InvalidUrl} />
+          <ErrorDisplay statusCode={400} />
         )}
       </ViewWrapper>
     </>

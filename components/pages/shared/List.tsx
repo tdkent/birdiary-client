@@ -46,6 +46,10 @@ export default async function List({
   variant,
 }: ListProps) {
   const token = await getCookie();
+  if (!token) {
+    return <ErrorDisplay statusCode={403} />;
+  }
+
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
@@ -54,12 +58,7 @@ export default async function List({
     await response.json();
 
   if ("error" in result) {
-    const error = result as ServerResponseWithError;
-    const msg = Array.isArray(error.message)
-      ? error.message.join(",")
-      : error.message;
-
-    return <ErrorDisplay msg={`${error.error}: ${msg}`} />;
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
 
   const { countOfRecords, data } = result;

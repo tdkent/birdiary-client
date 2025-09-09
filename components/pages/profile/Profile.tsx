@@ -12,7 +12,6 @@ import DeleteAccount from "@/components/pages/profile/DeleteAccount";
 /** Fetch and display user's profile and account data */
 export default async function Profile() {
   const token = await getCookie();
-  if (!token) return <ErrorDisplay msg="Invalid session data." />;
 
   const response = await fetch(apiRoutes.user, {
     headers: { Authorization: `Bearer ${token}` },
@@ -21,14 +20,7 @@ export default async function Profile() {
   const result: UserProfile | ServerResponseWithError = await response.json();
 
   if ("error" in result) {
-    const msg = Array.isArray(result.message)
-      ? result.message.join(",")
-      : result.message;
-    return (
-      <>
-        <ErrorDisplay msg={`${result.error}: ${msg}`} />
-      </>
-    );
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
 
   const {

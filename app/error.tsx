@@ -15,7 +15,7 @@ export default function ErrorBoundary({
 
   return (
     <>
-      <ErrorDisplay msg={error.message} showReloadBtn />
+      <ErrorDisplay />
     </>
   );
 }

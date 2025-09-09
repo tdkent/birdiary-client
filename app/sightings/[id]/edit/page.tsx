@@ -3,7 +3,6 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import EditSighting from "@/components/pages/sightings/EditSighting";
 import { checkValidParamInteger } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { Messages } from "@/models/api";
 
 export default async function EditSightingView({
   params,
@@ -26,7 +25,7 @@ export default async function EditSightingView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg={Messages.InvalidUrl} />
+            <ErrorDisplay statusCode={400} />
           </>
         )}
       </ViewWrapper>

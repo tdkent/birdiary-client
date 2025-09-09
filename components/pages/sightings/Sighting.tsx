@@ -50,12 +50,11 @@ export default function Sighting({ sightingId }: SightingProps) {
           const result: ServerResponseWithObject | ServerResponseWithError =
             await response.json();
 
+          console.log(result);
+
           if ("error" in result) {
             const error = result as ServerResponseWithError;
-            const msg = Array.isArray(error.message)
-              ? error.message.join(",")
-              : error.message;
-            throw new Error(`${error.error}: ${msg}`);
+            throw new Error(`${error.statusCode}`);
           }
 
           const sighting = result as SightingWithLocation;
@@ -97,7 +96,7 @@ export default function Sighting({ sightingId }: SightingProps) {
   if (error) {
     return (
       <>
-        <ErrorDisplay msg={error} />
+        <ErrorDisplay />
       </>
     );
   }

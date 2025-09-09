@@ -14,11 +14,7 @@ export default async function EditProfile() {
   const payload = await decrypt(token);
 
   if (!payload) {
-    return (
-      <>
-        <ErrorDisplay msg="Invalid session data." />
-      </>
-    );
+    return <ErrorDisplay statusCode={403} />;
   }
 
   const response = await fetch(apiRoutes.user, {
@@ -30,16 +26,9 @@ export default async function EditProfile() {
   const result: UserProfile | ExpectedServerError = await response.json();
 
   if ("error" in result) {
-    const msg = Array.isArray(result.message)
-      ? result.message.join(",")
-      : result.message;
-
-    return (
-      <>
-        <ErrorDisplay msg={`${result.error}: ${msg}`} />
-      </>
-    );
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
+
   return (
     <>
       <div className="flex flex-col gap-4">

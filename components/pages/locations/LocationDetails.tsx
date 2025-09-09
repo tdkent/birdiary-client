@@ -13,20 +13,14 @@ type LocationDetailsType = {
 export default async function LocationDetails({
   locationId,
 }: LocationDetailsType) {
-  const location: Location | ExpectedServerError =
-    await getLocation(locationId);
+  const result: Location | ExpectedServerError = await getLocation(locationId);
 
-  if ("error" in location) {
-    const msg = Array.isArray(location.message)
-      ? location.message.join(",")
-      : location.message;
-
-    return (
-      <>
-        <ErrorDisplay msg={`${location.error}: ${msg}`} />
-      </>
-    );
+  if ("error" in result) {
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
+
+  const location = result;
+
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">

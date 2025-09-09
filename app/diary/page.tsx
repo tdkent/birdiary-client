@@ -7,7 +7,7 @@ import {
   sortByDateOptions,
   sortBySightingsCount,
 } from "@/models/form";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import { checkValidParamInteger } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
@@ -49,7 +49,7 @@ export default async function DiaryView({
             sortOptions={sortOptions}
           />
         ) : (
-          <ErrorDisplay msg={Messages.InvalidUrl} />
+          <ErrorDisplay statusCode={400} />
         )}
       </ViewWrapper>
     </>

@@ -76,7 +76,7 @@ export default function CsrList({
   }, [error, toast]);
 
   if (error) {
-    return <ErrorDisplay msg={error} />;
+    return <ErrorDisplay />;
   }
 
   const noResults = !items.length;

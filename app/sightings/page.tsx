@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import {
   sortByAlphaOptions,
   sortByDateOptions,
@@ -50,7 +50,7 @@ export default async function SightingsView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg={Messages.InvalidUrl} />
+            <ErrorDisplay statusCode={400} />
           </>
         )}
       </ViewWrapper>

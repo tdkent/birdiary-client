@@ -88,11 +88,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   }, [error, toast]);
 
   if (error) {
-    return (
-      <>
-        <ErrorDisplay msg={error} />
-      </>
-    );
+    return <ErrorDisplay />;
   }
 
   if (!data || pending) {
