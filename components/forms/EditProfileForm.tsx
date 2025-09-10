@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,11 +31,14 @@ import {
 } from "@/components/ui/popover";
 import { CircleQuestionMark } from "lucide-react";
 import TextRemainingLength from "@/components/forms/TextRemainingLength";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
+  const [error, setError] = useState<number | null>(null);
   const { bio, name, zipcode } = user;
+
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
@@ -45,10 +49,10 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   });
 
   const isDirty = form.formState.isDirty;
-
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
+    setError(null);
     let address;
     if (values.zipcode) {
       address = await new google.maps.Geocoder()
@@ -85,12 +89,9 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
       await editUserProfile(reqBody);
 
     if ("error" in response) {
-      return toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: response.message,
-      });
+      return setError(response.statusCode);
     }
+
     toast({
       variant: "default",
       title: Messages.ToastSuccessTitle,
@@ -100,70 +101,73 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nickname</FormLabel>
-              <FormControl>
-                <Input placeholder="Tim" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="zipcode"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between">
-                <FormLabel>Zip Code</FormLabel>
-                <Popover>
-                  <PopoverTrigger className="pr-1 text-sm">
-                    <CircleQuestionMark strokeWidth={1.5} size={20} />
-                  </PopoverTrigger>
-                  <PopoverContent className="text-sm md:text-base">
-                    Enter a valid 5-digit U.S. ZIP code to generate your
-                    location.
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <FormControl>
-                <APIProvider apiKey={GOOGLE_API_KEY}>
-                  <Input placeholder="10001" {...field} />
-                </APIProvider>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem className="form-item">
-              <FormLabel>Bio</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  // disabled={pending}
-                  rows={5}
-                  className="resize-none"
-                />
-              </FormControl>
-              <TextRemainingLength currLength={form.watch("bio")!.length} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={!isDirty} size="lg" variant="new">
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nickname</FormLabel>
+                <FormControl>
+                  <Input placeholder="Tim" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="zipcode"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center justify-between">
+                  <FormLabel>Zip Code</FormLabel>
+                  <Popover>
+                    <PopoverTrigger className="pr-1 text-sm">
+                      <CircleQuestionMark strokeWidth={1.5} size={20} />
+                    </PopoverTrigger>
+                    <PopoverContent className="text-sm md:text-base">
+                      Enter a valid 5-digit U.S. ZIP code to generate your
+                      location.
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <FormControl>
+                  <APIProvider apiKey={GOOGLE_API_KEY}>
+                    <Input placeholder="10001" {...field} />
+                  </APIProvider>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem className="form-item">
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    // disabled={pending}
+                    rows={5}
+                    className="resize-none"
+                  />
+                </FormControl>
+                <TextRemainingLength currLength={form.watch("bio")!.length} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={!isDirty} size="lg" variant="new">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

@@ -21,6 +21,7 @@ import LocationInput from "@/components/forms/LocationInput";
 import { AuthContext } from "@/context/AuthContext";
 import { SightingWithLocation } from "@/models/display";
 import birdNames from "@/data/birds";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type EditSightingFormProps = {
   sighting: SightingWithLocation;
@@ -65,16 +66,6 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   const currBirdName = form.getValues("commonName");
 
   useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: error,
-      });
-    }
-  }, [error, toast]);
-
-  useEffect(() => {
     if (success) {
       toast({
         title: Messages.ToastSuccessTitle,
@@ -111,6 +102,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <NameInput

@@ -13,9 +13,11 @@ import type { SightingInStorage } from "@/models/display";
 import { Messages, type ServerResponseWithError } from "@/models/api";
 import { transferStorageData } from "@/actions/profile";
 import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState<number | null>(null);
   const { toast } = useToast();
   const sightingsInStorage = localStorage.getItem("sightings");
   if (!sightingsInStorage) return null;
@@ -23,17 +25,14 @@ export default function TransferStorageData() {
   if (!parsedSightings.length) return null;
 
   const handleClick = async () => {
+    setError(null);
     setPending(true);
     const result: { count: number } | ServerResponseWithError =
       await transferStorageData(parsedSightings);
     setPending(false);
 
     if ("error" in result) {
-      return toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: result.message,
-      });
+      return setError(result.statusCode);
     }
 
     toast({
@@ -47,6 +46,7 @@ export default function TransferStorageData() {
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <div className="my-6 rounded-md border p-4 md:p-6">
         <div className="flex items-center justify-between">
           <h4 className="text-lg md:text-xl">Transfer Browser Data</h4>

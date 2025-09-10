@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { useToast } from "@/hooks/use-toast";
 import {
   apiRoutes,
-  Messages,
   type ServerResponseWithError,
   type ServerResponseWithObject,
 } from "@/models/api";
@@ -23,10 +21,9 @@ type EditSightingProps = {
 /** Fetch sighting data and render update form. */
 export default function EditSighting({ sightingId }: EditSightingProps) {
   const [data, setData] = useState<SightingWithLocation | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
 
-  const { toast } = useToast();
   const route = apiRoutes.sighting(sightingId);
 
   useEffect(() => {
@@ -44,11 +41,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
             await response.json();
 
           if ("error" in result) {
-            const error = result as ServerResponseWithError;
-            const msg = Array.isArray(error.message)
-              ? error.message.join(",")
-              : error.message;
-            throw new Error(`${error.error}: ${msg}`);
+            throw new Error(`${result.statusCode}`);
           }
 
           const sighting = result as SightingWithLocation;
@@ -57,7 +50,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(Messages.UnknownUnexpectedError);
+            setError(500);
           }
         } finally {
           setPending(false);
@@ -70,25 +63,15 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
           window.localStorage.getItem("sightings")!,
         ) as SightingWithLocation[];
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError("Resource not found");
+        if (!sighting) return setError(404);
         setData(sighting);
       }
     }
     query();
   }, [route, sightingId]);
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: error,
-      });
-    }
-  }, [error, toast]);
-
   if (error) {
-    return <ErrorDisplay />;
+    return <ErrorDisplay statusCode={error} />;
   }
 
   if (!data || pending) {

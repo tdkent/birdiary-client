@@ -24,6 +24,7 @@ import { AuthContext } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { apiRoutes, Messages } from "@/models/api";
 import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function SightingForm() {
   const { isSignedIn } = useContext(AuthContext);
@@ -57,16 +58,6 @@ export default function SightingForm() {
   });
 
   const currBirdName = form.getValues("commonName");
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: error,
-      });
-    }
-  }, [error, toast]);
 
   useEffect(() => {
     if (success) {
@@ -105,6 +96,7 @@ export default function SightingForm() {
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <NameInput

@@ -153,10 +153,7 @@ export default function ApiProvider({
             await response.json();
 
           if ("error" in result) {
-            const msg = Array.isArray(result.message)
-              ? result.message.join(",")
-              : result.message;
-            throw new Error(`${result.error}: ${msg}`);
+            throw new Error(`${result.statusCode}`);
           }
 
           setData(result);
