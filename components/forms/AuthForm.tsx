@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { redirect } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +22,10 @@ import { auth } from "@/actions/auth";
 import { AuthContext } from "@/context/AuthContext";
 import type { AuthForm } from "@/models/form";
 import { Messages } from "@/models/api";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function AuthForm() {
+  const [error, setError] = useState<string | null>(null);
   const { signIn } = useContext(AuthContext);
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
@@ -43,11 +45,7 @@ export default function AuthForm() {
     const result = await auth({ ...values, pathname });
 
     if (result && "error" in result) {
-      return toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: result.message,
-      });
+      return setError(result.message);
     }
 
     if (pathname === "/signin") {
@@ -69,43 +67,46 @@ export default function AuthForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} type="password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-          size="lg"
-          variant="new"
-          disabled={!email || !password}
-        >
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <>
+      {error && <ErrorDisplay authErrorMessage={error} showInline />}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            size="lg"
+            variant="new"
+            disabled={!email || !password}
+          >
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

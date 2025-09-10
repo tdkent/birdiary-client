@@ -1,34 +1,45 @@
 import { CircleAlert } from "lucide-react";
 import { Messages } from "@/models/api";
 
-type ErrorDisplayProps = {
-  showInline?: boolean;
-  statusCode?: number | string;
-};
+type ErrorDisplayProps =
+  | {
+      authErrorMessage: string;
+      showInline?: boolean;
+      statusCode?: never;
+    }
+  | {
+      authErrorMessage?: never;
+      showInline?: boolean;
+      statusCode?: number | string;
+    };
 
 /** Show error information and optional reload button */
 export default function ErrorDisplay({
+  authErrorMessage,
   showInline,
   statusCode,
 }: ErrorDisplayProps) {
-  const parseStatusCode = Number(statusCode);
-  let errorMessage = "";
-  switch (parseStatusCode) {
-    case 400: {
-      errorMessage = Messages.InvalidRequest;
-      break;
-    }
-    case 403: {
-      errorMessage = Messages.ForbiddenError;
-      break;
-    }
-    case 404: {
-      errorMessage = Messages.NotFoundError;
-      break;
-    }
+  let errorMessage: string = Messages.UnknownUnexpectedError;
 
-    default: {
-      errorMessage = Messages.UnknownUnexpectedError;
+  if (authErrorMessage) errorMessage = authErrorMessage;
+  else {
+    const parseStatusCode = Number(statusCode);
+
+    switch (parseStatusCode) {
+      case 400: {
+        errorMessage = Messages.InvalidRequest;
+        break;
+      }
+      case 403: {
+        errorMessage = Messages.ForbiddenError;
+        break;
+      }
+      case 404: {
+        errorMessage = Messages.NotFoundError;
+        break;
+      }
+      default:
+        break;
     }
   }
 

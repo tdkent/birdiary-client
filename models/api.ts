@@ -74,7 +74,7 @@ export type MutationParameters = {
 export type ExpectedServerError = {
   error: string;
   statusCode: number;
-  message: Exclude<string | string[], "ok">;
+  message: string;
 };
 
 export enum Messages {
