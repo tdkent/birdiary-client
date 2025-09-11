@@ -15,12 +15,12 @@ import {
 } from "@/models/form";
 import LocationInput from "@/components/forms/LocationInput";
 import { editLocation } from "@/actions/location";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type EditLocationFormProps = {
   location: Location;
   locationId: number;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setError: Dispatch<SetStateAction<string | null>>;
   setSuccess: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -28,9 +28,10 @@ export default function EditLocationForm({
   location,
   locationId,
   setOpen,
-  setError,
   setSuccess,
 }: EditLocationFormProps) {
+  const [error, setError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const [updatedLocation, setUpdatedLocation] = useState<
     CreateLocationDto | undefined
   >(location ?? undefined);
@@ -55,31 +56,33 @@ export default function EditLocationForm({
       });
     }
 
-    const formValues: { location: CreateLocationDto } = {
-      location: updatedLocation,
-    };
+    try {
+      const formValues: { location: CreateLocationDto } = {
+        location: updatedLocation,
+      };
 
-    const result: Location | ServerResponseWithError = await editLocation(
-      locationId,
-      formValues.location,
-    );
+      const result: Location | ServerResponseWithError = await editLocation(
+        locationId,
+        formValues.location,
+      );
 
-    setOpen(false);
+      if ("error" in result) {
+        return setError(`${result.statusCode}`);
+      }
 
-    if ("error" in result) {
-      const msg = Array.isArray(result.message)
-        ? result.message.join(",")
-        : result.message;
-      return setError(msg);
+      setOpen(false);
+      setSuccess(true);
+      router.replace(`/locations/${result.id}?page=1&sortBy=dateDesc`);
+    } catch (error) {
+      setFetchError(error as Error);
     }
-
-    setSuccess(true);
-
-    router.replace(`/locations/${result.id}?page=1&sortBy=dateDesc`);
   }
+
+  if (fetchError) throw fetchError;
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <Form {...form}>
         <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
           <LocationInput

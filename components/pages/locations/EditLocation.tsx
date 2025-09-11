@@ -17,20 +17,9 @@ export default function EditLocation({
   locationId,
 }: EditLocationProps) {
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const { toast } = useToast();
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: error,
-      });
-    }
-  }, [error, toast]);
 
   useEffect(() => {
     if (success) {
@@ -55,7 +44,6 @@ export default function EditLocation({
         location={location}
         locationId={locationId}
         setOpen={setOpen}
-        setError={setError}
         setSuccess={setSuccess}
       />
     </Modal>
