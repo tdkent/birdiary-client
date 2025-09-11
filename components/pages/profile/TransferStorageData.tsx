@@ -18,6 +18,8 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
+
   const { toast } = useToast();
   const sightingsInStorage = localStorage.getItem("sightings");
   if (!sightingsInStorage) return null;
@@ -27,22 +29,28 @@ export default function TransferStorageData() {
   const handleClick = async () => {
     setError(null);
     setPending(true);
-    const result: { count: number } | ServerResponseWithError =
-      await transferStorageData(parsedSightings);
-    setPending(false);
+    try {
+      const result: { count: number } | ServerResponseWithError =
+        await transferStorageData(parsedSightings);
+      setPending(false);
 
-    if ("error" in result) {
-      return setError(result.statusCode);
+      if ("error" in result) {
+        return setError(result.statusCode);
+      }
+
+      toast({
+        title: Messages.ToastSuccessTitle,
+        description: `${result.count} sighting${result.count === 1 ? "" : "s"} transferred.`,
+      });
+
+      localStorage.removeItem("sightings");
+      localStorage.removeItem("diary");
+    } catch (error) {
+      setFetchError(error as Error);
     }
-
-    toast({
-      title: Messages.ToastSuccessTitle,
-      description: `${result.count} sighting${result.count === 1 ? "" : "s"} transferred.`,
-    });
-
-    localStorage.removeItem("sightings");
-    localStorage.removeItem("diary");
   };
+
+  if (fetchError) throw fetchError;
 
   return (
     <>

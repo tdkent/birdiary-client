@@ -14,17 +14,24 @@ export default function DeleteAccount() {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const handleClick = async () => {
     setError(null);
     setPending(true);
-    const result: User | ExpectedServerError = await deleteAccount();
-    setPending(false);
-    if ("error" in result) {
-      return setError(result.statusCode);
+    try {
+      const result: User | ExpectedServerError = await deleteAccount();
+      setPending(false);
+      if ("error" in result) {
+        return setError(result.statusCode);
+      }
+      signOut();
+    } catch (error) {
+      setFetchError(error as Error);
     }
-    signOut();
   };
+
+  if (fetchError) throw fetchError;
 
   return (
     <>

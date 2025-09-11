@@ -37,6 +37,7 @@ type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
   const [error, setError] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const { bio, name, zipcode } = user;
 
   const form = useForm<z.infer<typeof editProfileSchema>>({
@@ -77,28 +78,32 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           });
         });
     }
-
     const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
       address: (address as string) || null,
       bio: values.bio || null,
       name: values.name || null,
       zipcode: values.zipcode || null,
     };
+    try {
+      const response: UserProfile | ServerResponseWithError =
+        await editUserProfile(reqBody);
 
-    const response: UserProfile | ServerResponseWithError =
-      await editUserProfile(reqBody);
+      if ("error" in response) {
+        return setError(response.statusCode);
+      }
 
-    if ("error" in response) {
-      return setError(response.statusCode);
+      toast({
+        variant: "default",
+        title: Messages.ToastSuccessTitle,
+        description: "Profile data updated",
+      });
+      redirect("/profile");
+    } catch (error) {
+      setFetchError(error as Error);
     }
-
-    toast({
-      variant: "default",
-      title: Messages.ToastSuccessTitle,
-      description: "Profile data updated",
-    });
-    redirect("/profile");
   }
+
+  if (fetchError) throw fetchError;
 
   return (
     <>

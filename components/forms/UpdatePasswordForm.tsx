@@ -43,6 +43,7 @@ const formSchema = z
 
 export default function UpdatePasswordForm() {
   const [error, setError] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,23 +58,30 @@ export default function UpdatePasswordForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
-    const response: User | ExpectedServerError = await updatePassword(
-      values.currentPassword,
-      values.newPassword,
-    );
+    try {
+      const response: User | ExpectedServerError = await updatePassword(
+        values.currentPassword,
+        values.newPassword,
+      );
 
-    if ("error" in response) {
-      return setError(response.statusCode);
+      if ("error" in response) {
+        return setError(response.statusCode);
+      }
+
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "Your password has been updated",
+      });
+
+      form.reset();
+    } catch (error) {
+      setFetchError(error as Error);
     }
-
-    toast({
-      variant: "default",
-      title: "Success",
-      description: "Your password has been updated",
-    });
-
-    form.reset();
   }
+
+  if (fetchError) throw fetchError;
+
   return (
     <>
       {error && <ErrorDisplay showInline statusCode={error} />}
