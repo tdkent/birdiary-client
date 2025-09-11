@@ -26,6 +26,8 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function AuthForm() {
   const [error, setError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
+
   const { signIn } = useContext(AuthContext);
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
@@ -42,29 +44,33 @@ export default function AuthForm() {
   const password = form.getValues().password;
 
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
-    const result = await auth({ ...values, pathname });
-
-    if (result && "error" in result) {
-      return setError(result.message);
-    }
-
-    if (pathname === "/signin") {
-      signIn();
-      toast({
-        variant: "default",
-        title: Messages.ToastSuccessTitle,
-        description: Messages.SignIn,
-      });
-      redirect("/diary");
-    } else {
-      toast({
-        variant: "default",
-        title: Messages.ToastSuccessTitle,
-        description: Messages.SignUp,
-      });
-      redirect("/signin");
+    try {
+      const result = await auth({ ...values, pathname });
+      if (result && "error" in result) {
+        return setError(result.message);
+      }
+      if (pathname === "/signin") {
+        signIn();
+        toast({
+          variant: "default",
+          title: Messages.ToastSuccessTitle,
+          description: Messages.SignIn,
+        });
+        redirect("/diary");
+      } else {
+        toast({
+          variant: "default",
+          title: Messages.ToastSuccessTitle,
+          description: Messages.SignUp,
+        });
+        redirect("/signin");
+      }
+    } catch (error) {
+      setFetchError(error as Error);
     }
   }
+
+  if (fetchError) throw fetchError;
 
   return (
     <>
