@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import PendingIcon from "@/components/forms/PendingIcon";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { createIsoUtcDate } from "@/helpers/dates";
+import { createPureIsoDate } from "@/helpers/dates";
 import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
 import { apiRoutes, Messages } from "@/models/api";
 import { sightingSchema, type SightingForm } from "@/models/form";
@@ -91,7 +91,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
     const formValues: CreateSightingDto = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
-      date: createIsoUtcDate(values.date!),
+      date: createPureIsoDate(values.date!),
       description: values.description ? values.description.trim() : null,
       location: validatedLocation,
     };
