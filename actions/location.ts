@@ -14,7 +14,7 @@ export async function getLocation(id: number) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -32,7 +32,7 @@ export async function editLocation(id: number, formValues: CreateLocationDto) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }
 
@@ -49,6 +49,6 @@ export async function deleteLocation(id: number) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }

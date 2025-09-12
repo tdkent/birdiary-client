@@ -14,6 +14,7 @@ import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type LocationDetailsView = {
   params: Promise<{ id: string }>;
@@ -27,22 +28,15 @@ export default async function LocationDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const validId = checkValidParamInteger(id);
-  let validPage: number | null;
-  if (!page) validPage = 1;
-  else validPage = checkValidParamInteger(page);
-
-  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
-
-  if (
-    !validId ||
-    !validPage ||
-    !sortBy ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/locations/${validId}?page=1&sortBy=dateDesc`);
+  if (!page || !sortBy) {
+    redirect(
+      `/locations/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`,
+    );
   }
 
+  const validId = checkValidParamInteger(id);
+  const parsedPage = checkValidParamInteger(page);
+  const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
 
   return (
@@ -54,30 +48,42 @@ export default async function LocationDetailsView({
           backLinkHref="locations"
           backLinkText="Go to locations"
         />
-        <Suspense fallback={<Pending variant="location" />}>
-          <LocationDetails locationId={validId} />
-        </Suspense>
-        <Separator className="mx-auto w-4/5" />
-        <Suspense
-          fallback={
-            <Pending variant="cardWithControls" listSize={RESULTS_PER_PAGE} />
-          }
-        >
-          <List
-            defaultSortOption={defaultSortOption}
-            headingText="Sightings"
-            page={validPage}
-            resource={apiRoutes.getSightingsListByType(
-              "locationId",
-              validId,
-              validPage,
-              sortBy,
-            )}
-            sortBy={sortBy}
-            sortOptions={sortOptions}
-            variant="locationDetail"
-          />
-        </Suspense>
+        {validId &&
+        parsedPage &&
+        sortOptions.find((option) => option.value === sortBy) ? (
+          <>
+            <Suspense fallback={<Pending variant="location" />}>
+              <LocationDetails locationId={validId} />
+            </Suspense>
+            <Separator className="mx-auto w-4/5" />
+            <Suspense
+              fallback={
+                <Pending
+                  variant="cardWithControls"
+                  listSize={RESULTS_PER_PAGE}
+                />
+              }
+            >
+              <List
+                defaultSortOption={defaultSortOption}
+                headingText="Sightings"
+                page={parsedPage}
+                resource={apiRoutes.getSightingsByLocation(
+                  validId,
+                  parsedPage,
+                  sortBy,
+                )}
+                sortBy={sortBy}
+                sortOptions={sortOptions}
+                variant="locationDetail"
+              />
+            </Suspense>
+          </>
+        ) : (
+          <>
+            <ErrorDisplay statusCode={400} />
+          </>
+        )}
       </ViewWrapper>
     </>
   );

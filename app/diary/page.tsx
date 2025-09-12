@@ -8,6 +8,8 @@ import {
   sortBySightingsCount,
 } from "@/models/form";
 import { apiRoutes } from "@/models/api";
+import { checkValidParamInteger } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function DiaryView({
   searchParams,
@@ -15,19 +17,13 @@ export default async function DiaryView({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { page, sortBy } = await searchParams;
-  const sortOptions = [...sortByDateOptions, sortBySightingsCount];
-  const parsedPage = Number(page);
 
-  if (
-    !page ||
-    !sortBy ||
-    !parsedPage ||
-    parsedPage < 1 ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/diary?page=1&sortBy=dateDesc`);
+  if (!page || !sortBy) {
+    redirect(`/diary?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
+  const parsedPage = checkValidParamInteger(page);
+  const sortOptions = [...sortByDateOptions, sortBySightingsCount];
   const defaultSortOption = sortBy as SortValues;
 
   return (
@@ -37,16 +33,24 @@ export default async function DiaryView({
           headingText="Diary"
           descriptionText="View a list of your sightings grouped by date."
         />
-        <CsrList
-          route={apiRoutes.getSightingsGroupByType("date", parsedPage, sortBy)}
-          variant="diary"
-          pendingVariant="listSingleRow"
-          tag="diary"
-          page={parsedPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
-        />
+        {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
+          <CsrList
+            route={apiRoutes.getSightingsGroupByType(
+              "date",
+              parsedPage,
+              sortBy,
+            )}
+            variant="diary"
+            pendingVariant="listSingleRow"
+            tag="diary"
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        ) : (
+          <ErrorDisplay statusCode={400} />
+        )}
       </ViewWrapper>
     </>
   );

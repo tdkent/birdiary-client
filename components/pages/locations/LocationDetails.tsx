@@ -6,25 +6,21 @@ import type { ExpectedServerError } from "@/models/api";
 import { getLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
+type LocationDetailsType = {
+  locationId: number;
+};
+
 export default async function LocationDetails({
   locationId,
-}: {
-  locationId: number;
-}) {
-  const location: Location | ExpectedServerError =
-    await getLocation(locationId);
+}: LocationDetailsType) {
+  const result: Location | ExpectedServerError = await getLocation(locationId);
 
-  if ("error" in location) {
-    const msg = Array.isArray(location.message)
-      ? location.message.join(",")
-      : location.message;
-
-    return (
-      <>
-        <ErrorDisplay msg={`${location.error}: ${msg}`} />
-      </>
-    );
+  if ("error" in result) {
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
+
+  const location = result;
+
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -52,7 +50,6 @@ export default function CsrList({
   tag,
   variant,
 }: CsrListProps) {
-  const { toast } = useToast();
   const { useQuery } = useApi();
   const {
     count,
@@ -65,20 +62,11 @@ export default function CsrList({
     variant,
   });
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "An error occurred",
-        description: error,
-      });
-    }
-  }, [error, toast]);
-
   if (error) {
-    return <ErrorDisplay msg={error} showReloadBtn />;
+    return <ErrorDisplay statusCode={error} />;
   }
 
+  const noResults = !items.length;
   const currentPage = page;
   const pages = Math.ceil(count / RESULTS_PER_PAGE);
 
@@ -91,12 +79,14 @@ export default function CsrList({
           options={sortOptions}
           pending={pending}
           count={count}
+          noResults={noResults}
         />
         <FilterAndResultsText
           variant={variant}
           startsWith={startsWith}
           records={count}
           page={+page!}
+          noResults={noResults}
         />
         {pending || !items ? (
           <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />

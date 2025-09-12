@@ -1,35 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { deleteAccount } from "@/actions/profile";
 import { signOut } from "@/actions/auth";
-import { Messages } from "@/models/api";
+import { ExpectedServerError } from "@/models/api";
 import PendingIcon from "@/components/forms/PendingIcon";
+import { User } from "@/models/db";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function DeleteAccount() {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
-  const { toast } = useToast();
+  const [error, setError] = useState<number | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const handleClick = async () => {
+    setError(null);
     setPending(true);
-    const result = await deleteAccount();
-    setPending(false);
-    if ("error" in result) {
-      return toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: result.message,
-      });
+    try {
+      const result: User | ExpectedServerError = await deleteAccount();
+      setPending(false);
+      if ("error" in result) {
+        return setError(result.statusCode);
+      }
+      signOut();
+    } catch (error) {
+      setFetchError(error as Error);
     }
-    signOut();
   };
+
+  if (fetchError) throw fetchError;
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <div className="my-8 rounded-md border border-destructive p-4 md:p-6">
         <h4 className="text-lg font-semibold text-destructive md:text-xl">
           Delete Account

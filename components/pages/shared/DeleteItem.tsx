@@ -6,6 +6,7 @@ import { useApi } from "@/context/ApiContext";
 import { apiRoutes } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type DeleteItemProps = {
   routeTo?: "/sightings";
@@ -29,17 +30,6 @@ export default function DeleteItem({
   });
 
   useEffect(() => {
-    if (error) {
-      setOpen(false);
-      toast({
-        variant: "destructive",
-        title: "An error occurred",
-        description: error,
-      });
-    }
-  }, [error, setOpen, toast]);
-
-  useEffect(() => {
     if (success) {
       setOpen(false);
       toast({
@@ -56,6 +46,7 @@ export default function DeleteItem({
 
   return (
     <>
+      {error && <ErrorDisplay showInline statusCode={error} />}
       <Button
         className="mt-4"
         onClick={onDelete}

@@ -10,7 +10,8 @@ import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
 import Pending from "@/components/pages/shared/Pending";
 import { checkValidParamInteger } from "@/helpers/data";
-// import { formatUrlToBirdName } from "@/helpers/data";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { BIRD_COUNT } from "@/constants/constants";
 
 type BirdDetailsViewParams = {
   params: Promise<{ id: string }>;
@@ -24,24 +25,15 @@ export default async function BirdDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const validId = checkValidParamInteger(id, true);
-
-  let validPage: number | null;
-  if (!page) validPage = 1;
-  else validPage = checkValidParamInteger(page);
-
-  const sortOptions = [...sortByDateOptions];
-
-  if (
-    !validId ||
-    !validPage ||
-    !sortBy ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/birds/${validId}?page=1&sortBy=dateDesc`);
+  if (!page || !sortBy) {
+    redirect(`/birds/${id}?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
-  const currBirdName = birdNames[validId - 1];
+  const validBirdId =
+    checkValidParamInteger(id) && Number(id) <= BIRD_COUNT ? Number(id) : null;
+  const parsedPage = checkValidParamInteger(page);
+  const sortOptions = [...sortByDateOptions];
+  const defaultSortOption = sortBy as SortValues;
 
   return (
     <>
@@ -50,28 +42,41 @@ export default async function BirdDetailsView({
           backLinkHref="birds"
           backLinkText="Go to birdpedia"
           descriptionText="Information on this species, along with your recorded observations"
-          headingText={currBirdName}
+          headingText={
+            validBirdId ? birdNames[validBirdId - 1] : "Bird Details"
+          }
         />
-        <Suspense fallback={<Pending variant="bird" />}>
-          <BirdDetails birdId={validId} currBirdName={currBirdName} />
-        </Suspense>
-        <Separator className="mx-auto w-4/5" />
-        <CsrList
-          defaultSortOption={sortBy as SortValues}
-          headingText="Sightings"
-          page={validPage}
-          pendingVariant="card"
-          route={apiRoutes.getSightingsListByType(
-            "birdId",
-            validId,
-            validPage,
-            sortBy,
-          )}
-          sortBy={sortBy}
-          sortOptions={sortOptions}
-          tag="sightings"
-          variant="birdDetail"
-        />
+        {validBirdId &&
+        parsedPage &&
+        sortOptions.find((option) => option.value === sortBy) ? (
+          <>
+            <Suspense fallback={<Pending variant="bird" />}>
+              <BirdDetails
+                birdId={validBirdId}
+                currBirdName={birdNames[validBirdId - 1]}
+              />
+            </Suspense>
+            <Separator className="mx-auto w-4/5" />
+            <CsrList
+              defaultSortOption={defaultSortOption}
+              headingText="Sightings"
+              page={parsedPage}
+              pendingVariant="card"
+              route={apiRoutes.getSightingsListByType(
+                "birdId",
+                validBirdId,
+                parsedPage,
+                sortBy,
+              )}
+              sortBy={sortBy}
+              sortOptions={sortOptions}
+              tag="sightings"
+              variant="birdDetail"
+            />
+          </>
+        ) : (
+          <ErrorDisplay statusCode={400} />
+        )}
       </ViewWrapper>
     </>
   );

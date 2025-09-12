@@ -6,6 +6,7 @@ type FilterByTextProps = {
   startsWith: string | undefined;
   records: number;
   page: number;
+  noResults: boolean;
 };
 
 export default function FilterAndResultsText({
@@ -13,8 +14,9 @@ export default function FilterAndResultsText({
   records,
   page,
   variant,
+  noResults,
 }: FilterByTextProps) {
-  if (records === 0) {
+  if (noResults || records === 0) {
     return (
       <>
         <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg">

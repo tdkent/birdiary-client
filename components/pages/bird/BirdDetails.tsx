@@ -21,11 +21,7 @@ export default async function BirdDetails({
     await response.json();
 
   if ("error" in result) {
-    const errorData = result as ServerResponseWithError;
-    const msg = Array.isArray(errorData.message)
-      ? errorData.message[0]
-      : errorData.message;
-    return <ErrorDisplay msg={msg} />;
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
 
   const bird = result as Bird;

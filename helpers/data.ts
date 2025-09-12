@@ -76,8 +76,8 @@ export function formatUrlToBirdName(urlSegment: string) {
 }
 
 /** Check if string parses to a valid integer.  */
-export function checkValidParamInteger(id: string, isBirdId?: boolean) {
+export function checkValidParamInteger(id: string) {
   const parsedId = Number(id);
-  if (!parsedId || parsedId < 1 || (isBirdId && parsedId > 838)) return null;
+  if (!parsedId || parsedId < 1) return null;
   return parsedId;
 }

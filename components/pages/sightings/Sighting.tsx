@@ -2,12 +2,10 @@
 
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/AuthContext";
 import {
   apiRoutes,
-  Messages,
   ServerResponseWithError,
   ServerResponseWithObject,
 } from "@/models/api";
@@ -29,11 +27,10 @@ type SightingProps = {
 export default function Sighting({ sightingId }: SightingProps) {
   const { isSignedIn } = useContext(AuthContext);
   const [data, setData] = useState<SightingWithLocation | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { toast } = useToast();
   const route = apiRoutes.sighting(sightingId);
 
   useEffect(() => {
@@ -51,11 +48,7 @@ export default function Sighting({ sightingId }: SightingProps) {
             await response.json();
 
           if ("error" in result) {
-            const error = result as ServerResponseWithError;
-            const msg = Array.isArray(error.message)
-              ? error.message.join(",")
-              : error.message;
-            throw new Error(`${error.error}: ${msg}`);
+            throw new Error(`${result.statusCode}`);
           }
 
           const sighting = result as SightingWithLocation;
@@ -64,7 +57,7 @@ export default function Sighting({ sightingId }: SightingProps) {
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(Messages.DefaultError);
+            setError(500);
           }
         } finally {
           setPending(false);
@@ -77,37 +70,19 @@ export default function Sighting({ sightingId }: SightingProps) {
           window.localStorage.getItem("sightings")!,
         ) as SightingWithLocation[];
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError("Resource not found");
+        if (!sighting) return setError(404);
         setData(sighting);
       }
     }
     query();
   }, [route, sightingId]);
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: Messages.ToastErrorTitle,
-        description: error,
-      });
-    }
-  }, [error, toast]);
-
   if (error) {
-    return (
-      <>
-        <ErrorDisplay msg={error} />
-      </>
-    );
+    return <ErrorDisplay statusCode={error} />;
   }
 
   if (!data || pending) {
-    return (
-      <>
-        <Pending variant="sighting" />
-      </>
-    );
+    return <Pending variant="sighting" />;
   }
 
   const { bird, date, description, location } = data;

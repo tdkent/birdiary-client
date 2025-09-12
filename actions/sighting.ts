@@ -14,6 +14,6 @@ export async function getSighting(id: number) {
     return response.json();
   } catch (error) {
     console.error(error);
-    throw new Error(Messages.DefaultError);
+    throw new Error(Messages.UnknownUnexpectedError);
   }
 }

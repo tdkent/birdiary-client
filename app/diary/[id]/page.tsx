@@ -5,7 +5,8 @@ import CsrList from "@/components/pages/shared/CsrList";
 import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
 import { checkValidParamInteger } from "@/helpers/data";
-import { convertDateIdToDateFormat } from "@/helpers/dates";
+import { convertDateIdToValidDate } from "@/helpers/dates";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 type DiaryParams = {
   params: Promise<{ id: string }>;
@@ -19,25 +20,14 @@ export default async function DiaryDetailsView({
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
-  const validId = checkValidParamInteger(id);
-  let validPage: number | null;
-  if (!page) validPage = 1;
-  else validPage = checkValidParamInteger(page);
-
-  const sortOptions = [...sortByAlphaOptions];
-
-  if (
-    !validId ||
-    !validPage ||
-    !sortBy ||
-    !sortOptions.find((option) => option.value === sortBy)
-  ) {
-    redirect(`/diary/${id}?page=1&sortBy=alphaAsc`);
+  if (!page || !sortBy) {
+    redirect(`/diary/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const validDateId = convertDateIdToValidDate(id);
+  const parsedPage = checkValidParamInteger(page);
+  const sortOptions = [...sortByAlphaOptions];
   const defaultSortOption = sortBy as SortValues;
-
-  const dateId = convertDateIdToDateFormat(validId);
 
   return (
     <>
@@ -46,23 +36,29 @@ export default async function DiaryDetailsView({
           backLinkHref="diary"
           backLinkText="Go to diary"
           headingText="Diary Details"
-          descriptionText={`View your birding diary details.`}
+          descriptionText="View your birding diary details."
         />
-        <CsrList
-          route={apiRoutes.getSightingsListByType(
-            "dateId",
-            dateId,
-            validPage,
-            sortBy,
-          )}
-          variant="diaryDetail"
-          pendingVariant="card"
-          tag="sightings"
-          page={validPage}
-          sortBy={sortBy}
-          defaultSortOption={defaultSortOption}
-          sortOptions={sortOptions}
-        />
+        {validDateId &&
+        parsedPage &&
+        sortOptions.find((option) => option.value === sortBy) ? (
+          <CsrList
+            route={apiRoutes.getSightingsListByType(
+              "dateId",
+              validDateId,
+              parsedPage,
+              sortBy,
+            )}
+            variant="diaryDetail"
+            pendingVariant="card"
+            tag="sightings"
+            page={parsedPage}
+            sortBy={sortBy}
+            defaultSortOption={defaultSortOption}
+            sortOptions={sortOptions}
+          />
+        ) : (
+          <ErrorDisplay statusCode={400} />
+        )}
       </ViewWrapper>
     </>
   );

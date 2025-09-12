@@ -88,11 +88,7 @@ export default function ApiProvider({
               await response.json();
 
             if ("error" in result) {
-              const error = result as ServerResponseWithError;
-              const msg = Array.isArray(error.message)
-                ? error.message.join(",")
-                : error.message;
-              throw new Error(`${error.error}: ${msg}`);
+              throw new Error(`${result.statusCode}`);
             }
 
             setData(result.data);
@@ -101,7 +97,7 @@ export default function ApiProvider({
             if (error instanceof Error) {
               setError(error.message);
             } else {
-              setError(Messages.DefaultError);
+              setError(Messages.UnknownUnexpectedError);
             }
           } finally {
             setPending(false);
@@ -157,10 +153,7 @@ export default function ApiProvider({
             await response.json();
 
           if ("error" in result) {
-            const msg = Array.isArray(result.message)
-              ? result.message.join(",")
-              : result.message;
-            throw new Error(`${result.error}: ${msg}`);
+            throw new Error(`${result.statusCode}`);
           }
 
           setData(result);
@@ -169,7 +162,7 @@ export default function ApiProvider({
           if (error instanceof Error) {
             setError(error.message);
           } else {
-            setError(Messages.DefaultError);
+            setError(Messages.UnknownUnexpectedError);
           }
         } finally {
           setPending(false);

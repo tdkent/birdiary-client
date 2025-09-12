@@ -46,6 +46,7 @@ export default async function List({
   variant,
 }: ListProps) {
   const token = await getCookie();
+
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
@@ -54,19 +55,12 @@ export default async function List({
     await response.json();
 
   if ("error" in result) {
-    const error = result as ServerResponseWithError;
-    const msg = Array.isArray(error.message)
-      ? error.message.join(",")
-      : error.message;
-
-    return (
-      <>
-        <ErrorDisplay msg={`${error.error}: ${msg}`} />
-      </>
-    );
+    return <ErrorDisplay statusCode={result.statusCode} />;
   }
 
-  const records = result.countOfRecords;
+  const { countOfRecords, data } = result;
+  const noResults = !data.length;
+  const records = countOfRecords;
   const pages = Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
@@ -74,12 +68,13 @@ export default async function List({
       <section>
         {headingText && <h2 className="mb-10">{headingText}</h2>}
         {variant === "birdpedia" ? (
-          <FilterList startsWith={startsWith} />
+          <FilterList startsWith={startsWith} noResults={noResults} />
         ) : (
           <SortItems
             defaultSortOption={defaultSortOption}
             options={sortOptions}
             isSSR
+            noResults={noResults}
           />
         )}
         <FilterAndResultsText
@@ -87,13 +82,20 @@ export default async function List({
           startsWith={startsWith}
           records={result.countOfRecords}
           page={+page!}
+          noResults={noResults}
         />
         <ul
           className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
         >
-          {result.data.map((item) => {
-            return <ListItem key={item.id} variant={variant} item={item} />;
-          })}
+          {!data.length ? (
+            <>
+              <p className="px-2 italic">No results found.</p>
+            </>
+          ) : (
+            data.map((item) => {
+              return <ListItem key={item.id} variant={variant} item={item} />;
+            })
+          )}
         </ul>
         <PaginateList
           currentPage={page}

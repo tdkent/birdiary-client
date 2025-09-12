@@ -40,7 +40,7 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError(Messages.DefaultError);
+        setError(Messages.UnknownUnexpectedError);
       }
     } finally {
       setPending(false);
