@@ -85,7 +85,7 @@ export default function Sighting({ sightingId }: SightingProps) {
     return <Pending variant="sighting" />;
   }
 
-  const { bird, date, description, location } = data;
+  const { bird, birdId, date, description, location } = data;
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
@@ -97,7 +97,7 @@ export default function Sighting({ sightingId }: SightingProps) {
             </dt>
             <dd className="text-xl md:text-2xl">{bird.commonName}</dd>
             <Link
-              href={`/birds/${bird.id}`}
+              href={`/birds/${birdId}`}
               className="link-inline text-lg md:text-xl"
             >
               View bird
