@@ -46,9 +46,6 @@ export default async function List({
   variant,
 }: ListProps) {
   const token = await getCookie();
-  if (!token) {
-    return <ErrorDisplay statusCode={403} />;
-  }
 
   const requestHeaders: { Authorization?: string } = {};
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
