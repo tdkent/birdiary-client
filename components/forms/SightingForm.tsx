@@ -8,7 +8,7 @@ import { useApi } from "@/context/ApiContext";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { createIsoUtcDate } from "@/helpers/dates";
+import { createPureIsoDate } from "@/helpers/dates";
 import {
   sightingSchema,
   type SightingForm,
@@ -85,7 +85,7 @@ export default function SightingForm() {
 
     const formValues: CreateSightingDto = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
-      date: createIsoUtcDate(values.date!),
+      date: createPureIsoDate(values.date!),
       description: values.description ? values.description.trim() : null,
       location: validatedLocation,
     };
