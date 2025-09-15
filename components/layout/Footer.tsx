@@ -13,11 +13,6 @@ export const footerLinks: {
     protected: false,
   },
   {
-    label: "New Sighting",
-    href: "newsighting",
-    protected: false,
-  },
-  {
     label: "Diary",
     href: "diary",
     protected: false,
@@ -26,11 +21,6 @@ export const footerLinks: {
     label: "Sightings",
     href: "sightings",
     protected: false,
-  },
-  {
-    label: "Life List",
-    href: "lifelist",
-    protected: true,
   },
   {
     label: "Locations",
@@ -56,13 +46,13 @@ export default async function Footer() {
     : footerLinks.filter((link) => !link.protected);
   return (
     <footer className="border-t">
-      <div className="mx-auto flex max-w-[1024px] flex-col gap-8 px-6 py-8 md:flex-row md:justify-between md:pl-8 md:pr-12">
+      <div className="mx-auto flex max-w-[1024px] flex-col gap-10 px-6 py-8 md:gap-12 md:pl-8 md:pr-12">
         <Logo logoStyles="w-12 h-12" textStyles="text-3xl" />
-        <div className="flex flex-col gap-2">
-          <span className="text-base font-semibold uppercase md:text-lg">
+        <div className="bo flex w-full flex-col gap-4 md:flex-row">
+          <span className="text-base font-semibold max-md:uppercase lg:text-lg">
             Sitemap
           </span>
-          <ul className="flex flex-col gap-2 md:gap-3 md:text-lg">
+          <ul className="flex w-full flex-col gap-4 md:flex-row md:justify-evenly md:gap-0 lg:text-lg">
             {showProtected.map(({ href, label }) => {
               return (
                 <li key={label}>
