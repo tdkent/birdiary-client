@@ -73,34 +73,36 @@ export default function CsrList({
   return (
     <>
       <section>
-        {headingText && <h2 className="mb-10">{headingText}</h2>}
-        <SortItems
-          defaultSortOption={defaultSortOption}
-          options={sortOptions}
-          pending={pending}
-          count={count}
-          noResults={noResults}
-        />
-        <FilterAndResultsText
-          variant={variant}
-          startsWith={startsWith}
-          records={count}
-          page={+page!}
-          noResults={noResults}
-        />
-        {pending || !items ? (
-          <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
-        ) : !items.length ? (
-          <NoResultsDisplay />
-        ) : (
-          <ul
-            className={`my-8 ${["diary", "sighting"].includes(variant) && "divide-y"} ${["birdDetail", "diaryDetail"].includes(variant) && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
-          >
-            {items.map((item, idx) => {
-              return <CsrListItem key={idx} variant={variant} item={item} />;
-            })}
-          </ul>
-        )}
+        <div className="min-h-[calc(100vh-600px)]">
+          {headingText && <h2 className="mb-10">{headingText}</h2>}
+          <SortItems
+            defaultSortOption={defaultSortOption}
+            options={sortOptions}
+            pending={pending}
+            count={count}
+            noResults={noResults}
+          />
+          <FilterAndResultsText
+            variant={variant}
+            startsWith={startsWith}
+            records={count}
+            page={+page!}
+            noResults={noResults}
+          />
+          {pending || !items ? (
+            <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
+          ) : !items.length ? (
+            <NoResultsDisplay />
+          ) : (
+            <ul
+              className={`my-8 ${["diary", "sighting"].includes(variant) && "divide-y"} ${["birdDetail", "diaryDetail"].includes(variant) && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
+            >
+              {items.map((item, idx) => {
+                return <CsrListItem key={idx} variant={variant} item={item} />;
+              })}
+            </ul>
+          )}
+        </div>
         {count > 0 && (
           <PaginateList
             currentPage={currentPage}

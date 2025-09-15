@@ -66,37 +66,39 @@ export default async function List({
   return (
     <>
       <section>
-        {headingText && <h2 className="mb-10">{headingText}</h2>}
-        {variant === "birdpedia" ? (
-          <FilterList startsWith={startsWith} noResults={noResults} />
-        ) : (
-          <SortItems
-            defaultSortOption={defaultSortOption}
-            options={sortOptions}
-            isSSR
+        <div className="min-h-[calc(100vh-600px)]">
+          {headingText && <h2 className="mb-10">{headingText}</h2>}
+          {variant === "birdpedia" ? (
+            <FilterList startsWith={startsWith} noResults={noResults} />
+          ) : (
+            <SortItems
+              defaultSortOption={defaultSortOption}
+              options={sortOptions}
+              isSSR
+              noResults={noResults}
+            />
+          )}
+          <FilterAndResultsText
+            variant={variant}
+            startsWith={startsWith}
+            records={result.countOfRecords}
+            page={+page!}
             noResults={noResults}
           />
-        )}
-        <FilterAndResultsText
-          variant={variant}
-          startsWith={startsWith}
-          records={result.countOfRecords}
-          page={+page!}
-          noResults={noResults}
-        />
-        <ul
-          className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
-        >
-          {!data.length ? (
-            <>
-              <p className="px-2 italic">No results found.</p>
-            </>
-          ) : (
-            data.map((item) => {
-              return <ListItem key={item.id} variant={variant} item={item} />;
-            })
-          )}
-        </ul>
+          <ul
+            className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
+          >
+            {!data.length ? (
+              <>
+                <p className="px-2 italic">No results found.</p>
+              </>
+            ) : (
+              data.map((item) => {
+                return <ListItem key={item.id} variant={variant} item={item} />;
+              })
+            )}
+          </ul>
+        </div>
         <PaginateList
           currentPage={page}
           finalPage={pages}
