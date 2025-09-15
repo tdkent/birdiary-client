@@ -78,10 +78,12 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
+  BioValidationError = "Bio must be 150 or fewer characters.",
   EmailValidationError = "Please enter a valid email address.",
   ForbiddenError = "You do not have access to this resource. Please try signing in again.",
   InvalidLocationError = "Select a location from the dropdown menu.",
   InvalidRequest = "The request is not valid.",
+  NameValidationError = "Name must be 24 or fewer characters.",
   NewSighting = "New sighting created!",
   NotFoundError = "The requested resource could not be found.",
   PasswordValidationError = "Passwords must 8-36 characters.",

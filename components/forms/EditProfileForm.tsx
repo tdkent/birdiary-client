@@ -32,6 +32,7 @@ import {
 import { CircleQuestionMark } from "lucide-react";
 import TextRemainingLength from "@/components/forms/TextRemainingLength";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { FREE_TEXT_LENGTH } from "@/constants/constants";
 
 type EditProfileFormProps = { user: UserProfile };
 
@@ -119,6 +120,10 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                 <FormControl>
                   <Input placeholder="Tim" {...field} />
                 </FormControl>
+                <TextRemainingLength
+                  allowedLength={24}
+                  currLength={form.watch("name")!.length}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -163,7 +168,10 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                     className="resize-none"
                   />
                 </FormControl>
-                <TextRemainingLength currLength={form.watch("bio")!.length} />
+                <TextRemainingLength
+                  allowedLength={FREE_TEXT_LENGTH}
+                  currLength={form.watch("bio")!.length}
+                />
                 <FormMessage />
               </FormItem>
             )}
