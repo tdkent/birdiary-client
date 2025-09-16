@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { redirect } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signupFormSchema } from "@/models/form";
 import { auth } from "@/actions/auth";
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import type { AuthForm } from "@/models/form";
 import { Messages } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -28,7 +28,7 @@ export default function AuthForm() {
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
 

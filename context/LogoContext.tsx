@@ -1,5 +1,6 @@
 "use client";
 
+import { Messages } from "@/models/api";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const logoImgs = [
@@ -40,6 +41,6 @@ export default function LogoProvider({
 
 export function useLogo() {
   const context = useContext(LogoContext);
-  if (!context) throw new Error("Error accessing context");
+  if (!context) throw new Error(Messages.ContextError);
   return context;
 }

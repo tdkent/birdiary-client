@@ -200,6 +200,6 @@ export default function ApiProvider({
 // Put the context into a hook for ease of use and error handling
 export function useApi() {
   const context = useContext(ApiContext);
-  if (!context) throw new Error("Error accessing context");
+  if (!context) throw new Error(Messages.ContextError);
   return context;
 }

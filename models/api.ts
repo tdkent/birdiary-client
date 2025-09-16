@@ -79,6 +79,7 @@ export type ExpectedServerError = {
 
 export enum Messages {
   BioValidationError = "Bio must be 150 or fewer characters.",
+  ContextError = "Context must be used within a provider.",
   DescriptionValidationError = "Description must be 150 or fewer characters.",
   EmailValidationError = "Please enter a valid email address.",
   ForbiddenError = "You do not have access to this resource. Please try signing in again.",

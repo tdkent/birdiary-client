@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, createContext } from "react";
+import { useContext, useEffect, useState, createContext } from "react";
 import { checkSession, getCookie } from "@/helpers/auth";
 import type { AuthState } from "@/models/auth";
+import { Messages } from "@/models/api";
 
 export const AuthContext = createContext<AuthState>({
   isSignedIn: false,
@@ -11,16 +12,15 @@ export const AuthContext = createContext<AuthState>({
   signOut: () => {},
 });
 
+/** Essential app-level authentication state values */
 export default function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Essential app-level authentication state values
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
 
-  // Check for session and refresh token on page refresh
   useEffect(() => {
     const refreshTokenInState = async () => {
       if (await checkSession()) {
@@ -30,7 +30,6 @@ export default function AuthProvider({
     refreshTokenInState();
   }, []);
 
-  // `isSignedIn` manages auth-based layout
   useEffect(() => {
     const checkAuth = async () => {
       setIsSignedIn(await checkSession());
@@ -61,4 +60,10 @@ export default function AuthProvider({
   };
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error(Messages.ContextError);
+  return context;
 }
