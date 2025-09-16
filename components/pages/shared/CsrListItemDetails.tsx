@@ -1,8 +1,10 @@
+import { useContext } from "react";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SightingWithLocation } from "@/models/display";
 import { createLocaleString } from "@/helpers/dates";
+import { AuthContext } from "@/context/AuthContext";
 
 type CsrListItemDetailsProps =
   | {
@@ -33,6 +35,7 @@ export default function CsrListItemDetails({
   count,
   sighting,
 }: CsrListItemDetailsProps) {
+  const { isSignedIn } = useContext(AuthContext);
   switch (variant) {
     case "list": {
       const sightingCount = count && count > 0 ? count : null;
@@ -73,16 +76,18 @@ export default function CsrListItemDetails({
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2.5">
-                  <p
-                    className={`flex items-center gap-1.5 text-base md:text-lg ${!sighting.location && "italic"}`}
-                  >
-                    <MapPin strokeWidth={1} size={20} />
-                    <span className="line-clamp-1">
-                      {sighting.location
-                        ? sighting.location.name
-                        : "No location"}
-                    </span>
-                  </p>
+                  {isSignedIn && (
+                    <p
+                      className={`flex items-center gap-1.5 text-base md:text-lg ${!sighting.location && "italic"}`}
+                    >
+                      <MapPin strokeWidth={1} size={20} />
+                      <span className="line-clamp-1">
+                        {sighting.location
+                          ? sighting.location.name
+                          : "No location"}
+                      </span>
+                    </p>
+                  )}
                   <p
                     className={`line-clamp-1 text-base md:text-lg ${!sighting.description && "italic"}`}
                   >
