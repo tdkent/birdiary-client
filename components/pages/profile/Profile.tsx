@@ -41,21 +41,32 @@ export default async function Profile() {
 
   return (
     <>
+      <Separator className="mx-auto w-4/5" />
       <div className="flex flex-col gap-10 md:w-[85%]">
         <section className="flex flex-col gap-4">
           <h2 className="font-heading text-2xl md:text-3xl">Profile Details</h2>
-          <dl className="divide-y md:text-xl">
-            <div className="flex gap-2.5 py-2">
-              <dt>Name:</dt>
-              <dd>{name ?? "N/A"}</dd>
+          <dl className="my-4 flex flex-col gap-8 md:gap-12">
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Name
+              </dt>
+              <dd className="break-words text-xl md:text-2xl">
+                {name ?? "N/A"}
+              </dd>
             </div>
-            <div className="flex gap-2.5 py-2">
-              <dt>Location:</dt>
-              <dd>{address ?? "N/A"}</dd>
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Location
+              </dt>
+              <dd className="text-xl md:text-2xl">{address ?? "N/A"}</dd>
             </div>
-            <div className="flex gap-2.5 py-2">
-              <dt>Bio:</dt>
-              <dd>{bio ?? "N/A"}</dd>
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Bio
+              </dt>
+              <dd className="break-words text-xl md:text-2xl">
+                {bio ?? "N/A"}
+              </dd>
             </div>
           </dl>
           <Button variant="secondary" size="lg" asChild>
@@ -65,18 +76,26 @@ export default async function Profile() {
         <Separator className="mx-auto w-4/5" />
         <section className="flex flex-col gap-4">
           <h3>Sightings Data</h3>
-          <dl className="divide-y md:text-xl">
-            <div className="flex gap-2.5 py-2">
-              <dt>Favorite Bird:</dt>
-              <dd>{bird ? bird.commonName : "N/A"}</dd>
+          <dl className="my-4 flex flex-col gap-8 md:gap-12">
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Favorite Bird
+              </dt>
+              <dd className="break-words text-xl md:text-2xl">
+                {bird ? bird.commonName : "N/A"}
+              </dd>
             </div>
-            <div className="flex gap-2.5 py-2">
-              <dt>Total Sightings:</dt>
-              <dd>{totalSightings}</dd>
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Total Sightings
+              </dt>
+              <dd className="text-xl md:text-2xl">{totalSightings}</dd>
             </div>
-            <div className="flex gap-2.5 py-2">
-              <dt>Life List Species:</dt>
-              <dd>{totalDistinctSightings}</dd>
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Life List Species
+              </dt>
+              <dd className="text-xl md:text-2xl">{totalDistinctSightings}</dd>
             </div>
           </dl>
           <TransferStorageData />
@@ -84,14 +103,18 @@ export default async function Profile() {
         </section>
         <section className="flex flex-col gap-4">
           <h3>Account Details</h3>
-          <dl className="divide-y md:text-xl">
-            <div className="flex gap-2.5 py-2">
-              <dt>Account Created:</dt>
-              <dd>{accountCreatedDate}</dd>
+          <dl className="my-4 flex flex-col gap-8 md:gap-12">
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Account Created
+              </dt>
+              <dd className="text-xl md:text-2xl">{accountCreatedDate}</dd>
             </div>
-            <div className="flex gap-2.5 py-2">
-              <dt>Email:</dt>
-              <dd>{email}</dd>
+            <div className="flex flex-col gap-1">
+              <dt className="text-sm font-semibold uppercase md:text-base">
+                Email
+              </dt>
+              <dd className="break-words text-xl md:text-2xl">{email}</dd>
             </div>
           </dl>
           <Button size="lg" variant="secondary" asChild>
