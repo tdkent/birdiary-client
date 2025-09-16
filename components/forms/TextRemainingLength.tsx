@@ -1,22 +1,23 @@
 import { FormDescription } from "@/components/ui/form";
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
 
 type TextRemainingLengthProps = {
+  allowedLength: number;
   currLength: number;
 };
 
 export default function TextRemainingLength({
+  allowedLength,
   currLength,
 }: TextRemainingLengthProps) {
-  const remainingLength = FREE_TEXT_LENGTH - currLength;
+  const remainingLength = allowedLength - currLength;
   return (
     <>
       <FormDescription
         className={`${remainingLength < 0 && "text-destructive"} px-1 text-sm md:text-base`}
       >
         {remainingLength < 0
-          ? `${currLength - FREE_TEXT_LENGTH} character${remainingLength < -1 ? "s" : ""} too many!`
-          : `${FREE_TEXT_LENGTH - currLength} character${remainingLength > 1 ? "s" : ""} remaining`}
+          ? `${currLength - allowedLength} character${remainingLength < -1 ? "s" : ""} too many!`
+          : `${allowedLength - currLength} character${remainingLength > 1 ? "s" : ""} remaining`}
       </FormDescription>
     </>
   );

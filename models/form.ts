@@ -20,7 +20,10 @@ export const signupFormSchema = z.object({
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date(),
-  description: z.string().max(FREE_TEXT_LENGTH).optional(),
+  description: z
+    .string()
+    .max(FREE_TEXT_LENGTH, Messages.DescriptionValidationError)
+    .optional(),
   location: z.string().optional(),
 });
 
@@ -29,13 +32,13 @@ export const editLocationSchema = z.object({
 });
 
 export const editProfileSchema = z.object({
-  name: z.string().max(24).optional(),
+  name: z.string().max(24, Messages.NameValidationError).optional(),
   zipcode: z
     .string()
-    .regex(/^\d{5}$/, { message: Messages.ZipCodeValidationError })
+    .regex(/^\d{5}$/, Messages.ZipCodeValidationError)
     .optional()
     .or(z.literal("")),
-  bio: z.string().max(150).optional(),
+  bio: z.string().max(FREE_TEXT_LENGTH, Messages.BioValidationError).optional(),
 });
 
 // Form types
