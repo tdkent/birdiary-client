@@ -8,6 +8,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { SightingFormProp } from "@/models/form";
 import TextRemainingLength from "@/components/forms/TextRemainingLength";
+import { FREE_TEXT_LENGTH } from "@/constants/constants";
 
 type DescInputProps = {
   form: SightingFormProp;
@@ -32,6 +33,7 @@ export default function DescInput({ form, pending }: DescInputProps) {
               />
             </FormControl>
             <TextRemainingLength
+              allowedLength={FREE_TEXT_LENGTH}
               currLength={form.watch("description")!.length}
             />
             <FormMessage />

@@ -20,7 +20,10 @@ export const signupFormSchema = z.object({
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date(),
-  description: z.string().max(FREE_TEXT_LENGTH).optional(),
+  description: z
+    .string()
+    .max(FREE_TEXT_LENGTH, Messages.DescriptionValidationError)
+    .optional(),
   location: z.string().optional(),
 });
 
