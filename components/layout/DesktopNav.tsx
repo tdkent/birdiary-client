@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -8,11 +7,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { CircleUserRound, Plus } from "lucide-react";
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 /** Desktop navigation links */
 export default function DesktopNav() {
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn } = useAuth();
   return (
     <NavigationMenu>
       <NavigationMenuList>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import {
   apiRoutes,
   ServerResponseWithError,
@@ -25,7 +25,7 @@ type SightingProps = {
 
 /** Fetch and display sighting data. */
 export default function Sighting({ sightingId }: SightingProps) {
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn } = useAuth();
   const [data, setData] = useState<SightingWithLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);

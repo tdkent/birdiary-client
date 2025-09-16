@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -15,12 +15,12 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { caveat } from "@/lib/fonts";
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { mobile as mobileNavLinks } from "@/data/nav";
 import Logo from "@/components/layout/Logo";
 
 export function MobileNav() {
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn } = useAuth();
   const [navLinks, setNavLinks] = useState<typeof mobileNavLinks>([]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,14 +20,14 @@ import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
 import LocationInput from "@/components/forms/LocationInput";
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { apiRoutes, Messages } from "@/models/api";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default function SightingForm() {
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn } = useAuth();
   const [isMatching, setIsMatching] = useState(false);
   const [location, setLocation] = useState<CreateLocationDto>();
 
