@@ -125,7 +125,9 @@ export default function Sighting({ sightingId }: SightingProps) {
                 </dt>
                 {location ? (
                   <>
-                    <dd className="text-xl md:text-2xl">{location.name}</dd>
+                    <dd className="break-words text-xl md:text-2xl">
+                      {location.name}
+                    </dd>
                     <Link
                       href={`/locations/${location.id}`}
                       className="link-inline text-lg md:text-xl"
@@ -149,7 +151,9 @@ export default function Sighting({ sightingId }: SightingProps) {
             </dt>
             {description ? (
               <>
-                <dd className="text-xl md:text-2xl">{description}</dd>
+                <dd className="break-words text-xl md:text-2xl">
+                  {description}
+                </dd>
               </>
             ) : (
               <>

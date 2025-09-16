@@ -81,7 +81,7 @@ export default async function Profile() {
               <dt className="text-sm font-semibold uppercase md:text-base">
                 Favorite Bird
               </dt>
-              <dd className="break-words text-xl md:text-2xl">
+              <dd className="text-xl md:text-2xl">
                 {bird ? bird.commonName : "N/A"}
               </dd>
             </div>
