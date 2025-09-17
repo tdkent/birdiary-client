@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { redirect } from "next/navigation";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +30,7 @@ export default function AuthForm() {
   const { signIn } = useAuth();
   const pathname = usePathname() as "/signup" | "/signin";
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<AuthForm>({
     resolver: zodResolver(signupFormSchema),
@@ -44,6 +44,8 @@ export default function AuthForm() {
   const password = form.getValues().password;
 
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
+    setError(null);
+    setFetchError(null);
     try {
       const result = await auth({ ...values, pathname });
       if (result && "error" in result) {
@@ -56,14 +58,14 @@ export default function AuthForm() {
           title: Messages.ToastSuccessTitle,
           description: Messages.SignIn,
         });
-        redirect("/diary");
+        router.replace("/diary");
       } else {
         toast({
           variant: "default",
           title: Messages.ToastSuccessTitle,
           description: Messages.SignUp,
         });
-        redirect("/signin");
+        router.push("/signin");
       }
     } catch (error) {
       setFetchError(error as Error);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -52,6 +52,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
   const isDirty = form.formState.isDirty;
   const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
     setError(null);
@@ -98,7 +99,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
         title: Messages.ToastSuccessTitle,
         description: "Profile data updated",
       });
-      redirect("/profile");
+      router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);
     }
