@@ -13,6 +13,7 @@
 // Create a generic `request` function to use for fetch requests
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import type { Sighting } from "@/models/db";
 import {
   defaultCache,
@@ -26,7 +27,9 @@ import {
 import type { CreateSightingDto } from "@/models/form";
 // import type { Group } from "@/models/display";
 // import type { Sighting } from "@/models/db";
+import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
+import { signOut as signOutAction } from "@/actions/auth";
 import { queryStorage, mutateStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
 
@@ -72,6 +75,9 @@ export default function ApiProvider({
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
+    const { toast } = useToast();
+    const { signOut } = useAuth();
+
     useEffect(() => {
       async function query() {
         setError(null);
@@ -88,6 +94,14 @@ export default function ApiProvider({
               await response.json();
 
             if ("error" in result) {
+              if (result.statusCode === 401) {
+                toast({
+                  variant: "destructive",
+                  description: Messages.InvalidToken,
+                });
+                signOut();
+                await signOutAction();
+              }
               throw new Error(`${result.statusCode}`);
             }
 
@@ -117,7 +131,7 @@ export default function ApiProvider({
       // data state value for that tag will be updated
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [route, tag]);
+    }, [route, signOut, tag, toast]);
 
     return { count, data, error, pending };
   }
@@ -132,6 +146,9 @@ export default function ApiProvider({
     const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
+
+    const { toast } = useToast();
+    const { signOut } = useAuth();
 
     async function mutate<T>(formValues: T) {
       setSuccess(false);
@@ -153,6 +170,14 @@ export default function ApiProvider({
             await response.json();
 
           if ("error" in result) {
+            if (result.statusCode === 401) {
+              toast({
+                variant: "destructive",
+                description: Messages.InvalidToken,
+              });
+              signOut();
+              await signOutAction();
+            }
             throw new Error(`${result.statusCode}`);
           }
 
