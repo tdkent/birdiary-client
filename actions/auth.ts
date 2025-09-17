@@ -26,8 +26,6 @@ export async function auth({ pathname, ...args }: AuthParams) {
 
     const data: ExpectedServerError | AuthResponse = await response.json();
 
-    console.log(data);
-
     if (!response.ok) {
       return data as ExpectedServerError;
     }
