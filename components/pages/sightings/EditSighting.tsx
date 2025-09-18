@@ -1,18 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import {
   apiRoutes,
+  Messages,
   type ServerResponseWithError,
   type ServerResponseWithObject,
 } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import { getCookie } from "@/helpers/auth";
 import Pending from "@/components/pages/shared/Pending";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { signOut as signOutAction } from "@/actions/auth";
 
 type EditSightingProps = {
   sightingId: number;
@@ -23,6 +27,9 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   const [data, setData] = useState<SightingWithLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
+
+  const { signOut } = useAuth();
+  const { toast } = useToast();
 
   const route = apiRoutes.sighting(sightingId);
 
@@ -41,6 +48,14 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
             await response.json();
 
           if ("error" in result) {
+            if (result.statusCode === 401) {
+              toast({
+                variant: "destructive",
+                description: Messages.InvalidToken,
+              });
+              signOut();
+              await signOutAction();
+            }
             throw new Error(`${result.statusCode}`);
           }
 
@@ -68,7 +83,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
       }
     }
     query();
-  }, [route, sightingId]);
+  }, [route, sightingId, signOut, toast]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

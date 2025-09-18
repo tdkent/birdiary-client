@@ -30,6 +30,10 @@ export default function ErrorDisplay({
         errorMessage = Messages.InvalidRequest;
         break;
       }
+      case 401: {
+        errorMessage = Messages.InvalidToken;
+        break;
+      }
       case 403: {
         errorMessage = Messages.ForbiddenError;
         break;
