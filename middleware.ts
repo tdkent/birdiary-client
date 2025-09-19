@@ -8,10 +8,14 @@ const authRoutes = ["/signin", "/signup"];
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const segment = "/" + path.split("/")[1];
+  console.log(segment);
   const isLoggedIn = await checkSession();
 
   // redirect from protected routes if not logged in
-  if (!isLoggedIn && protectedRoutes.includes(segment)) {
+  if (
+    !isLoggedIn &&
+    (protectedRoutes.includes(segment) || segment === "/birds")
+  ) {
     await deleteSession();
     return NextResponse.redirect(new URL("/signin", req.url));
   }
