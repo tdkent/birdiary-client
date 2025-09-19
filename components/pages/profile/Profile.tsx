@@ -12,11 +12,6 @@ import DeleteAccount from "@/components/pages/profile/DeleteAccount";
 /** Fetch and display user's profile and account data */
 export default async function Profile() {
   const token = await getCookie();
-
-  if (!token) {
-    return <ErrorDisplay statusCode={403} />;
-  }
-
   const response = await fetch(apiRoutes.user, {
     headers: { Authorization: `Bearer ${token}` },
   });
