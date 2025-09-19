@@ -85,6 +85,7 @@ export enum Messages {
   ForbiddenError = "You do not have access to this resource. Please try signing in again.",
   InvalidLocationError = "Select a location from the dropdown menu.",
   InvalidRequest = "The request is not valid.",
+  InvalidToken = "Session expired, please log in again.",
   NameValidationError = "Name must be 24 or fewer characters.",
   NewSighting = "New sighting created!",
   NotFoundError = "The requested resource could not be found.",

@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { Location } from "@/models/db";
@@ -16,6 +17,8 @@ import {
 import LocationInput from "@/components/forms/LocationInput";
 import { editLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { useAuth } from "@/context/AuthContext";
+import { deleteSessionCookie } from "@/actions/auth";
 
 type EditLocationFormProps = {
   location: Location;
@@ -35,7 +38,11 @@ export default function EditLocationForm({
   const [updatedLocation, setUpdatedLocation] = useState<
     CreateLocationDto | undefined
   >(location ?? undefined);
+
   const router = useRouter();
+  const { toast } = useToast();
+  const { signOut } = useAuth();
+
   const form = useForm<LocationForm>({
     resolver: zodResolver(editLocationSchema),
     defaultValues: {
@@ -67,6 +74,15 @@ export default function EditLocationForm({
       );
 
       if ("error" in result) {
+        if (result.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(`${result.statusCode}`);
       }
 

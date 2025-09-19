@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState, createContext } from "react";
+import { usePathname } from "next/navigation";
 import { checkSession, getCookie } from "@/helpers/auth";
 import type { AuthState } from "@/models/auth";
 import { Messages } from "@/models/api";
@@ -21,35 +22,32 @@ export default function AuthProvider({
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
 
-  useEffect(() => {
-    const refreshTokenInState = async () => {
-      if (await checkSession()) {
-        setTokenInState();
-      }
-    };
-    refreshTokenInState();
-  }, []);
+  const path = usePathname();
 
+  const checkAuth = async () => {
+    const hasSession = await checkSession();
+    setIsSignedIn(hasSession);
+    if (hasSession) {
+      const cookie = (await getCookie()) as string;
+      setToken(cookie);
+    } else {
+      setToken("");
+    }
+  };
+
+  // Check auth on navigation and refresh
   useEffect(() => {
-    const checkAuth = async () => {
-      setIsSignedIn(await checkSession());
-    };
     checkAuth();
-  }, [isSignedIn]);
+  }, [path, isSignedIn]);
 
   async function signIn() {
     setIsSignedIn(true);
-    setTokenInState();
+    setToken((await getCookie()) as string);
   }
 
   function signOut() {
     setIsSignedIn(false);
     setToken("");
-  }
-
-  async function setTokenInState() {
-    const cookie = (await getCookie()) as string;
-    setToken(cookie);
   }
 
   const auth: AuthState = {

@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { signOut as signOutAction } from "@/actions/auth";
 import {
   apiRoutes,
+  Messages,
   ServerResponseWithError,
   ServerResponseWithObject,
 } from "@/models/api";
@@ -31,6 +34,9 @@ export default function Sighting({ sightingId }: SightingProps) {
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const { toast } = useToast();
+  const { signOut } = useAuth();
+
   const route = apiRoutes.sighting(sightingId);
 
   useEffect(() => {
@@ -48,6 +54,14 @@ export default function Sighting({ sightingId }: SightingProps) {
             await response.json();
 
           if ("error" in result) {
+            if (result.statusCode === 401) {
+              toast({
+                variant: "destructive",
+                description: Messages.InvalidToken,
+              });
+              signOut();
+              await signOutAction();
+            }
             throw new Error(`${result.statusCode}`);
           }
 
@@ -75,7 +89,7 @@ export default function Sighting({ sightingId }: SightingProps) {
       }
     }
     query();
-  }, [route, sightingId]);
+  }, [route, sightingId, signOut, toast]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

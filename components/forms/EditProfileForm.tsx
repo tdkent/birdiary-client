@@ -33,6 +33,8 @@ import { CircleQuestionMark } from "lucide-react";
 import TextRemainingLength from "@/components/forms/TextRemainingLength";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { useAuth } from "@/context/AuthContext";
+import { deleteSessionCookie } from "@/actions/auth";
 
 type EditProfileFormProps = { user: UserProfile };
 
@@ -53,6 +55,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   const isDirty = form.formState.isDirty;
   const { toast } = useToast();
   const router = useRouter();
+  const { signOut } = useAuth();
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
     setError(null);
@@ -91,6 +94,15 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
         await editUserProfile(reqBody);
 
       if ("error" in response) {
+        if (response.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(response.statusCode);
       }
 

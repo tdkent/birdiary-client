@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,11 +21,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { updatePassword } from "@/actions/profile";
-import type { ExpectedServerError } from "@/models/api";
+import { Messages, type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { deleteSessionCookie } from "@/actions/auth";
 
 const formSchema = z
   .object({
@@ -53,7 +56,9 @@ export default function UpdatePasswordForm() {
     },
   });
 
+  const { signOut } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const isDirty = form.formState.isDirty;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -65,6 +70,15 @@ export default function UpdatePasswordForm() {
       );
 
       if ("error" in response) {
+        if (response.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(response.statusCode);
       }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,11 +10,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CircleQuestionMark } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import type { SightingInStorage } from "@/models/display";
 import { Messages, type ServerResponseWithError } from "@/models/api";
 import { transferStorageData } from "@/actions/profile";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { deleteSessionCookie } from "@/actions/auth";
 
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);
@@ -21,6 +24,9 @@ export default function TransferStorageData() {
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const { toast } = useToast();
+  const router = useRouter();
+  const { signOut } = useAuth();
+
   const sightingsInStorage = localStorage.getItem("sightings");
   if (!sightingsInStorage) return null;
   const parsedSightings: SightingInStorage[] = JSON.parse(sightingsInStorage);
@@ -35,6 +41,15 @@ export default function TransferStorageData() {
       setPending(false);
 
       if ("error" in result) {
+        if (result.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(result.statusCode);
       }
 
