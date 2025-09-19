@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
+import { useAuth } from "@/context/AuthContext";
 import { deleteAccount } from "@/actions/profile";
-import { signOut } from "@/actions/auth";
-import { ExpectedServerError } from "@/models/api";
+import { deleteSessionCookie, signOut as signOutAction } from "@/actions/auth";
+import { ExpectedServerError, Messages } from "@/models/api";
 import PendingIcon from "@/components/forms/PendingIcon";
 import { User } from "@/models/db";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -16,6 +19,10 @@ export default function DeleteAccount() {
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
+  const { toast } = useToast();
+  const router = useRouter();
+  const { signOut } = useAuth();
+
   const handleClick = async () => {
     setError(null);
     setPending(true);
@@ -23,9 +30,18 @@ export default function DeleteAccount() {
       const result: User | ExpectedServerError = await deleteAccount();
       setPending(false);
       if ("error" in result) {
+        if (result.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(result.statusCode);
       }
-      signOut();
+      signOutAction();
     } catch (error) {
       setFetchError(error as Error);
     }
