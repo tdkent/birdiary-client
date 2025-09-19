@@ -18,7 +18,7 @@ import LocationInput from "@/components/forms/LocationInput";
 import { editLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { useAuth } from "@/context/AuthContext";
-import { signOut as signOutAction } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth";
 
 type EditLocationFormProps = {
   location: Location;
@@ -80,7 +80,8 @@ export default function EditLocationForm({
             description: Messages.InvalidToken,
           });
           signOut();
-          await signOutAction();
+          deleteSessionCookie();
+          router.replace("/signin");
         }
         return setError(`${result.statusCode}`);
       }

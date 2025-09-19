@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import Modal from "@/components/ui/Modal";
 import { deleteLocation } from "@/actions/location";
-import type { ExpectedServerError } from "@/models/api";
+import { Messages, type ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { deleteSessionCookie } from "@/actions/auth";
 
 type DeleteLocationProps = {
   locationId: number;
@@ -21,6 +23,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
 
   const { toast } = useToast();
   const router = useRouter();
+  const { signOut } = useAuth();
 
   useEffect(() => {
     if (success) {
@@ -38,6 +41,15 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
         await deleteLocation(locationId);
 
       if ("error" in result) {
+        if (result.statusCode === 401) {
+          toast({
+            variant: "destructive",
+            description: Messages.InvalidToken,
+          });
+          signOut();
+          deleteSessionCookie();
+          router.replace("/signin");
+        }
         return setError(`${result.statusCode}`);
       }
 
