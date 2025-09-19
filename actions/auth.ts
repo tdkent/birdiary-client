@@ -45,6 +45,10 @@ export async function auth({ pathname, ...args }: AuthParams) {
   }
 }
 
+export async function deleteSessionCookie() {
+  deleteSession();
+}
+
 export async function signOut() {
   deleteSession();
   redirect("/signin");
