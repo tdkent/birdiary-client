@@ -1,12 +1,12 @@
 "use client";
 
+import { GOOGLE_API_KEY, GOOGLE_LOCATION_MAP_ID } from "@/constants/env";
 import {
   AdvancedMarker,
   APIProvider,
   Map,
   Pin,
 } from "@vis.gl/react-google-maps";
-import { GOOGLE_API_KEY, GOOGLE_LOCATION_MAP_ID } from "@/constants/env";
 
 type LocationMapProps = {
   lat: number | undefined;

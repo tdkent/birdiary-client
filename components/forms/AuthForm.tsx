@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/hooks/use-toast";
-import { z } from "zod";
+import { auth } from "@/actions/auth";
+import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,14 +13,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { signupFormSchema } from "@/models/form";
-import { auth } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
-import type { AuthForm } from "@/models/form";
+import { useToast } from "@/hooks/use-toast";
 import { Messages } from "@/models/api";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import PendingIcon from "@/components/forms/PendingIcon";
+import type { AuthForm } from "@/models/form";
+import { signupFormSchema } from "@/models/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export default function AuthForm() {
   const [pending, setPending] = useState(false);

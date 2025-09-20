@@ -1,6 +1,6 @@
 // Handles input of common bird names
 // Renders form input and selectable autocomplete
-import type { Dispatch, SetStateAction } from "react";
+import NameAutocomplete from "@/components/forms/NameAutocomplete";
 import {
   FormControl,
   FormField,
@@ -9,8 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import NameAutocomplete from "@/components/forms/NameAutocomplete";
 import { SightingFormProp } from "@/models/form";
+import type { Dispatch, SetStateAction } from "react";
 
 type NameInputProps = {
   form: SightingFormProp;

@@ -1,7 +1,7 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { matchSorter } from "match-sorter";
 import birdNames from "@/data/birds";
 import type { SightingFormProp } from "@/models/form";
+import { matchSorter } from "match-sorter";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 
 type NameAutocompleteProps = {
   form: SightingFormProp;

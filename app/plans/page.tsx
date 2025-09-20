@@ -1,4 +1,5 @@
-import Link from "next/link";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import {
   Card,
   CardContent,
@@ -6,9 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import { getCookie } from "@/helpers/auth";
+import Link from "next/link";
 
 export default async function PlansView() {
   const token = await getCookie();

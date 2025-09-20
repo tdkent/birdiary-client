@@ -1,16 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { CircleQuestionMark } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { deleteSessionCookie } from "@/actions/auth";
+import { updatePassword } from "@/actions/profile";
+import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,15 +13,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
-import { updatePassword } from "@/actions/profile";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { Messages, type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { deleteSessionCookie } from "@/actions/auth";
-import PendingIcon from "@/components/forms/PendingIcon";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleQuestionMark } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z
   .object({

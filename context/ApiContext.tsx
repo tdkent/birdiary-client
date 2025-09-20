@@ -12,25 +12,25 @@
 // Otherwise, they will be directed to local storage
 // Create a generic `request` function to use for fetch requests
 
-import { createContext, useContext, useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import type { Sighting } from "@/models/db";
 import {
   defaultCache,
   Messages,
   type Cache,
-  type QueryParameters,
   type MutationParameters,
-  type ServerResponseWithList,
+  type QueryParameters,
   type ServerResponseWithError,
+  type ServerResponseWithList,
 } from "@/models/api";
+import type { Sighting } from "@/models/db";
 import type { CreateSightingDto } from "@/models/form";
+import { createContext, useContext, useEffect, useState } from "react";
 // import type { Group } from "@/models/display";
 // import type { Sighting } from "@/models/db";
+import { signOut as signOutAction } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
-import { signOut as signOutAction } from "@/actions/auth";
-import { queryStorage, mutateStorage } from "@/helpers/storage";
+import { mutateStorage, queryStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
 
 // Define the shape of the API Context object

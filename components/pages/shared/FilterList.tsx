@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type FilterListProps = {
   noResults: boolean;

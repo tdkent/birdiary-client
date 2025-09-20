@@ -1,11 +1,11 @@
 import BirdImage from "@/components/forms/BirdImage";
-import type { Bird } from "@/models/db";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import {
   apiRoutes,
   ServerResponseWithError,
   ServerResponseWithObject,
 } from "@/models/api";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import type { Bird } from "@/models/db";
 
 type BirdDetailsProps = {
   birdId: number;

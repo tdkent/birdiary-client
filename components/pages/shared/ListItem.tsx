@@ -1,15 +1,15 @@
-import type {
-  SightingWithLocation,
-  SightingWithBird,
-  SightingInStorage,
-  BirdWithCount,
-  ListVariant,
-  Group,
-  LocationWithSightingsCount,
-} from "@/models/display";
-import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import CardItem from "@/components/pages/shared/CardItem";
+import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
+import type {
+  BirdWithCount,
+  Group,
+  ListVariant,
+  LocationWithSightingsCount,
+  SightingInStorage,
+  SightingWithBird,
+  SightingWithLocation,
+} from "@/models/display";
 
 type ListItemProps = {
   variant: ListVariant;

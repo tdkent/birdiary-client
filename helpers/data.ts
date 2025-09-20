@@ -1,6 +1,6 @@
-import { DateTime } from "luxon";
 import type { Group, SightingInStorage } from "@/models/display";
 import type { SortValues } from "@/models/form";
+import { DateTime } from "luxon";
 
 /** Sort and filter storage data */
 export function sortSightings(

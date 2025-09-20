@@ -1,8 +1,8 @@
+import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { Messages } from "@/models/api";
+import { Location } from "@/models/db";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Location } from "@/models/db";
-import { Messages } from "@/models/api";
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
 
 // Zod Schemas
 export const signupFormSchema = z.object({

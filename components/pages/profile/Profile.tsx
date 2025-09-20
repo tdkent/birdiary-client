@@ -1,13 +1,13 @@
-import Link from "next/link";
+import DeleteAccount from "@/components/pages/profile/DeleteAccount";
+import TransferStorageData from "@/components/pages/profile/TransferStorageData";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getCookie } from "@/helpers/auth";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { createLocaleString } from "@/helpers/dates";
 import { apiRoutes, ServerResponseWithError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
-import { createLocaleString } from "@/helpers/dates";
-import TransferStorageData from "@/components/pages/profile/TransferStorageData";
-import DeleteAccount from "@/components/pages/profile/DeleteAccount";
+import Link from "next/link";
 
 /** Fetch and display user's profile and account data */
 export default async function Profile() {

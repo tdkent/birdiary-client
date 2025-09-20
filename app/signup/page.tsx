@@ -1,7 +1,7 @@
-import Link from "next/link";
 import AuthForm from "@/components/forms/AuthForm";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import Link from "next/link";
 
 export default function SignUpView() {
   return (

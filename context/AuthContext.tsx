@@ -1,10 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useState, createContext } from "react";
-import { usePathname } from "next/navigation";
 import { checkSession, getCookie } from "@/helpers/auth";
-import type { AuthState } from "@/models/auth";
 import { Messages } from "@/models/api";
+import type { AuthState } from "@/models/auth";
+import { usePathname } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext<AuthState>({
   isSignedIn: false,

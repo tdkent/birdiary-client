@@ -1,22 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import { deleteSessionCookie } from "@/actions/auth";
+import { transferStorageData } from "@/actions/profile";
+import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleQuestionMark } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import type { SightingInStorage } from "@/models/display";
+import { useToast } from "@/hooks/use-toast";
 import { Messages, type ServerResponseWithError } from "@/models/api";
-import { transferStorageData } from "@/actions/profile";
-import PendingIcon from "@/components/forms/PendingIcon";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { deleteSessionCookie } from "@/actions/auth";
+import type { SightingInStorage } from "@/models/display";
+import { CircleQuestionMark } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);

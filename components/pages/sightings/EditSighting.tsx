@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
+import { signOut as signOutAction } from "@/actions/auth";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import Pending from "@/components/pages/shared/Pending";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import { getCookie } from "@/helpers/auth";
+import { useToast } from "@/hooks/use-toast";
 import {
   apiRoutes,
   Messages,
@@ -14,9 +15,8 @@ import {
   type ServerResponseWithObject,
 } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
-import { getCookie } from "@/helpers/auth";
-import Pending from "@/components/pages/shared/Pending";
-import { signOut as signOutAction } from "@/actions/auth";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type EditSightingProps = {
   sightingId: number;

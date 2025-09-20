@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { SightingWithLocation } from "@/models/display";
-import { createLocaleString } from "@/helpers/dates";
 import { useAuth } from "@/context/AuthContext";
+import { createLocaleString } from "@/helpers/dates";
+import type { SightingWithLocation } from "@/models/display";
+import { MapPin } from "lucide-react";
+import Link from "next/link";
 
 type CsrListItemDetailsProps =
   | {

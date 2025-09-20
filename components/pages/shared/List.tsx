@@ -1,16 +1,16 @@
-import { getCookie } from "@/helpers/auth";
-import type {
-  ServerResponseWithList,
-  ServerResponseWithError,
-} from "@/models/api";
-import type { SortOptions, SortValues } from "@/models/form";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import SortItems from "@/components/pages/shared/SortItems";
-import FilterList from "@/components/pages/shared/FilterList";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
+import FilterList from "@/components/pages/shared/FilterList";
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
+import SortItems from "@/components/pages/shared/SortItems";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { getCookie } from "@/helpers/auth";
+import type {
+  ServerResponseWithError,
+  ServerResponseWithList,
+} from "@/models/api";
+import type { SortOptions, SortValues } from "@/models/form";
 
 type ListProps =
   | {

@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/constants/env";
-import { apiRoutes, Messages } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
+import { apiRoutes, Messages } from "@/models/api";
 import type { SightingInStorage, UserProfile } from "@/models/display";
 
 export async function getUser() {

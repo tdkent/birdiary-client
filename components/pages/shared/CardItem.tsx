@@ -1,7 +1,7 @@
-import { CalendarIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createLocaleString } from "@/helpers/dates";
 import { SightingWithBird } from "@/models/display";
+import { CalendarIcon } from "lucide-react";
 import Link from "next/link";
 
 type CardItemProps = {

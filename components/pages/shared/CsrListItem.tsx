@@ -1,14 +1,14 @@
+import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
+import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 import type {
   BirdWithCount,
   Group,
   ListVariant,
   LocationWithSightingsCount,
   SightingInStorage,
+  SightingWithBird,
   SightingWithLocation,
 } from "@/models/display";
-import type { SightingWithBird } from "@/models/display";
-import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
-import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 
 type CsrListItemProps = {
   item:

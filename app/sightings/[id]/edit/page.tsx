@@ -1,8 +1,8 @@
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import EditSighting from "@/components/pages/sightings/EditSighting";
 import { checkValidParamInteger } from "@/helpers/data";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 export default async function EditSightingView({
   params,

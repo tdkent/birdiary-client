@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 /** 404 page not found view */
 export default function NotFound() {

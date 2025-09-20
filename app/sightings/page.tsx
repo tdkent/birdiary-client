@@ -1,15 +1,15 @@
-import { redirect } from "next/navigation";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import CsrList from "@/components/pages/shared/CsrList";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
   sortByAlphaOptions,
   sortByDateOptions,
   SortValues,
 } from "@/models/form";
-import { checkValidParamInteger } from "@/helpers/data";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { redirect } from "next/navigation";
 
 export default async function SightingsView({
   searchParams,

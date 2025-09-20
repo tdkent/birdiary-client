@@ -1,6 +1,6 @@
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import SightingForm from "@/components/forms/SightingForm";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 
 export default function NewView() {
   return (

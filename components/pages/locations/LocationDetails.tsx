@@ -1,10 +1,10 @@
+import { getLocation } from "@/actions/location";
 import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import EditLocation from "@/components/pages/locations/EditLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
-import type { Location } from "@/models/db";
-import type { ExpectedServerError } from "@/models/api";
-import { getLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import type { ExpectedServerError } from "@/models/api";
+import type { Location } from "@/models/db";
 
 type LocationDetailsType = {
   locationId: number;

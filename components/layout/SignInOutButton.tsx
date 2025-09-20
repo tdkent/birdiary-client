@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
 import { signOut as signOutAction } from "@/actions/auth";
+import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function SignInOutButton() {
   const { isSignedIn, signOut } = useAuth();

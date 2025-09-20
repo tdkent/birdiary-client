@@ -1,10 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "@/lib/session";
+import { apiRoutes, ExpectedServerError, Messages } from "@/models/api";
 import type { AuthParams, AuthResponse } from "@/models/auth";
-import { ExpectedServerError, Messages } from "@/models/api";
-import { apiRoutes } from "@/models/api";
+import { redirect } from "next/navigation";
 
 /** Sign up or sign in a user */
 export async function auth({ pathname, ...args }: AuthParams) {

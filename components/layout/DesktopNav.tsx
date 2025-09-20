@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -6,8 +5,9 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { CircleUserRound, Plus } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { CircleUserRound, Plus } from "lucide-react";
+import Link from "next/link";
 
 /** Desktop navigation links */
 export default function DesktopNav() {

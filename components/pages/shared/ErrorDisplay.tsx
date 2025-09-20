@@ -1,5 +1,5 @@
-import { CircleAlert } from "lucide-react";
 import { Messages } from "@/models/api";
+import { CircleAlert } from "lucide-react";
 
 type ErrorDisplayProps =
   | {
