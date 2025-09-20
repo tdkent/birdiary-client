@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { quicksand } from "../lib/fonts";
-import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import AuthProvider from "@/context/AuthContext";
-import ApiProvider from "@/context/ApiContext";
-import LogoProvider from "@/context/LogoContext";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
+import ApiProvider from "@/context/ApiContext";
+import AuthProvider from "@/context/AuthContext";
+import LogoProvider from "@/context/LogoContext";
+import type { Metadata } from "next";
+import { quicksand } from "../lib/fonts";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Birdiary",

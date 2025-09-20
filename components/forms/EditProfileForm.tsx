@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { APIProvider } from "@vis.gl/react-google-maps";
+import { deleteSessionCookie } from "@/actions/auth";
+import { editUserProfile } from "@/actions/profile";
+import PendingIcon from "@/components/forms/PendingIcon";
+import TextRemainingLength from "@/components/forms/TextRemainingLength";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,27 +14,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import type { ServerResponseWithError } from "@/models/api";
-import type { UserProfile } from "@/models/display";
-import { editProfileSchema } from "@/models/form";
-import { editUserProfile } from "@/actions/profile";
-import { GOOGLE_API_KEY } from "@/constants/env";
-import { Messages } from "@/models/api";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleQuestionMark } from "lucide-react";
-import TextRemainingLength from "@/components/forms/TextRemainingLength";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { Textarea } from "@/components/ui/textarea";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { GOOGLE_API_KEY } from "@/constants/env";
 import { useAuth } from "@/context/AuthContext";
-import { deleteSessionCookie } from "@/actions/auth";
-import PendingIcon from "@/components/forms/PendingIcon";
+import { useToast } from "@/hooks/use-toast";
+import type { ServerResponseWithError } from "@/models/api";
+import { Messages } from "@/models/api";
+import type { UserProfile } from "@/models/display";
+import { editProfileSchema } from "@/models/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import { CircleQuestionMark } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type EditProfileFormProps = { user: UserProfile };
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -8,7 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SortValues, SortOptions } from "@/models/form";
+import type { SortOptions, SortValues } from "@/models/form";
+import { usePathname, useRouter } from "next/navigation";
 
 type SortItemsProps =
   | {

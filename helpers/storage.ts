@@ -1,12 +1,11 @@
 // Functions to process data in local storage
-import type { MutationParameters } from "@/models/api";
-import type { CreateSightingDto, SortValues } from "@/models/form";
-import type { Group, SightingInStorage } from "@/models/display";
-import type { QueryParameters } from "@/models/api";
-import { sortSightings } from "@/helpers/data";
-import { convertSightingDateToInteger } from "@/helpers/dates";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import birdNames from "@/data/birds";
+import { sortSightings } from "@/helpers/data";
+import { convertSightingDateToInteger } from "@/helpers/dates";
+import type { MutationParameters, QueryParameters } from "@/models/api";
+import type { Group, SightingInStorage } from "@/models/display";
+import type { CreateSightingDto, SortValues } from "@/models/form";
 
 type QueryStorageData = {
   items: SightingInStorage[] | Group[];

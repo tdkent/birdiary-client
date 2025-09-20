@@ -1,4 +1,4 @@
-import Link from "next/link";
+import AuthForm from "@/components/forms/AuthForm";
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AuthForm from "@/components/forms/AuthForm";
+import Link from "next/link";
 
 type AuthProps = {
   title: string;

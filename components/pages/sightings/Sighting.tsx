@@ -1,11 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
 import { signOut as signOutAction } from "@/actions/auth";
+import BirdImage from "@/components/forms/BirdImage";
+import DeleteItem from "@/components/pages/shared/DeleteItem";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import Pending from "@/components/pages/shared/Pending";
+import { Button } from "@/components/ui/button";
+import Modal from "@/components/ui/Modal";
+import { useAuth } from "@/context/AuthContext";
+import { getCookie } from "@/helpers/auth";
+import {
+  convertSightingDateToInteger,
+  createLocaleString,
+} from "@/helpers/dates";
+import { useToast } from "@/hooks/use-toast";
 import {
   apiRoutes,
   Messages,
@@ -13,14 +21,8 @@ import {
   ServerResponseWithObject,
 } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
-import { createLocaleString } from "@/helpers/dates";
-import BirdImage from "@/components/forms/BirdImage";
-import DeleteItem from "@/components/pages/shared/DeleteItem";
-import Modal from "@/components/ui/Modal";
-import { getCookie } from "@/helpers/auth";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import Pending from "@/components/pages/shared/Pending";
-import { convertSightingDateToInteger } from "@/helpers/dates";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type SightingProps = {
   sightingId: number;

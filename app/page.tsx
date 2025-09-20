@@ -1,8 +1,8 @@
-import Link from "next/link";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import Link from "next/link";
 
 export default function HomeView() {
   return (

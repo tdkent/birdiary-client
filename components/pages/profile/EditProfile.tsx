@@ -1,10 +1,10 @@
+import EditProfileForm from "@/components/forms/EditProfileForm";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { Button } from "@/components/ui/button";
 import { getCookie } from "@/helpers/auth";
 import type { ExpectedServerError } from "@/models/api";
 import { apiRoutes } from "@/models/api";
 import { UserProfile } from "@/models/display";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import EditProfileForm from "@/components/forms/EditProfileForm";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 /** Fetch user data and display form. */

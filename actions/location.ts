@@ -1,6 +1,5 @@
-import { apiRoutes } from "@/models/api";
 import { getCookie } from "@/helpers/auth";
-import { Messages } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import type { CreateLocationDto } from "@/models/form";
 
 export async function getLocation(id: number) {

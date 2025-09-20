@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import type { Bird } from "@/models/db";
+import Image from "next/image";
 
 type BirdImageProps = {
   bird: Bird;

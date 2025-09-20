@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function UpdatePasswordView() {
   return (

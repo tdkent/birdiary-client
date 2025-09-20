@@ -1,30 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useApi } from "@/context/ApiContext";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { createPureIsoDate } from "@/helpers/dates";
-import {
-  sightingSchema,
-  type SightingForm,
-  type CreateSightingDto,
-  type CreateLocationDto,
-} from "@/models/form";
-import FormBirdImage from "@/components/forms/FormBirdImage";
-import NameInput from "@/components/forms/NameInput";
 import DateInput from "@/components/forms/DateInput";
 import DescInput from "@/components/forms/DescInput";
+import FormBirdImage from "@/components/forms/FormBirdImage";
 import LocationInput from "@/components/forms/LocationInput";
-import { useAuth } from "@/context/AuthContext";
-import birdNames from "@/data/birds";
-import { apiRoutes, Messages } from "@/models/api";
+import NameInput from "@/components/forms/NameInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { useApi } from "@/context/ApiContext";
+import { useAuth } from "@/context/AuthContext";
+import birdNames from "@/data/birds";
+import { createPureIsoDate } from "@/helpers/dates";
+import { useToast } from "@/hooks/use-toast";
+import { apiRoutes, Messages } from "@/models/api";
+import {
+  sightingSchema,
+  type CreateLocationDto,
+  type CreateSightingDto,
+  type SightingForm,
+} from "@/models/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function SightingForm() {
   const { isSignedIn } = useAuth();

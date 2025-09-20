@@ -1,5 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
-import { APIProvider } from "@vis.gl/react-google-maps";
+import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -8,13 +7,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type {
-  SightingFormProp,
-  EditLocationFormSchemaProp,
-  CreateLocationDto,
-} from "@/models/form";
 import { GOOGLE_API_KEY } from "@/constants/env";
-import LocationAutocomplete from "@/components/forms/LocationAutocomplete";
+import type {
+  CreateLocationDto,
+  EditLocationFormSchemaProp,
+  SightingFormProp,
+} from "@/models/form";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import type { Dispatch, SetStateAction } from "react";
 
 type NameInputProps =
   | {

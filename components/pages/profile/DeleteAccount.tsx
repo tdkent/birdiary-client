@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import { deleteSessionCookie, signOut as signOutAction } from "@/actions/auth";
+import { deleteAccount } from "@/actions/profile";
+import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { deleteAccount } from "@/actions/profile";
-import { deleteSessionCookie, signOut as signOutAction } from "@/actions/auth";
+import { useToast } from "@/hooks/use-toast";
 import { ExpectedServerError, Messages } from "@/models/api";
-import PendingIcon from "@/components/forms/PendingIcon";
 import { User } from "@/models/db";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function DeleteAccount() {
   const [open, setOpen] = useState(false);

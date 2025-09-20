@@ -1,11 +1,12 @@
+import { BASE_URL } from "@/constants/env";
 import type { Bird } from "@/models/db";
 import type {
+  CountOfRecords,
+  List,
   ListVariant,
   ListWithCount,
   SightingWithLocation,
 } from "@/models/display";
-import { BASE_URL } from "@/constants/env";
-import type { CountOfRecords, List } from "@/models/display";
 
 // ======= CACHE =======
 

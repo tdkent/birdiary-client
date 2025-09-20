@@ -1,8 +1,8 @@
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import Sighting from "@/components/pages/sightings/Sighting";
 import { checkValidParamInteger } from "@/helpers/data";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 
 /** Single sighting view. */
 export default async function SightingView({

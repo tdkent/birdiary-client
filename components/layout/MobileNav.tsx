@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import Logo from "@/components/layout/Logo";
 import {
   Sheet,
   SheetClose,
@@ -11,13 +10,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { AlignJustify } from "lucide-react";
-import { Separator } from "../ui/separator";
-import { caveat } from "@/lib/fonts";
 import { useAuth } from "@/context/AuthContext";
 import { mobile as mobileNavLinks } from "@/data/nav";
-import Logo from "@/components/layout/Logo";
+import { caveat } from "@/lib/fonts";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { AlignJustify } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { Separator } from "../ui/separator";
 
 export function MobileNav() {
   const { isSignedIn } = useAuth();

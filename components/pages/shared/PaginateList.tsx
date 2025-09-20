@@ -1,7 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -10,6 +8,8 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import { MOBILE_PAGINATION_PAGES } from "@/constants/constants";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 type PaginateListProps = {
   currentPage: number;

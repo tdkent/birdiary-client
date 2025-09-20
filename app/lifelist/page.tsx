@@ -1,18 +1,18 @@
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
+import Pending from "@/components/pages/shared/Pending";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
-import Pending from "@/components/pages/shared/Pending";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
-import { checkValidParamInteger } from "@/helpers/data";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function LifeListView({
   searchParams,

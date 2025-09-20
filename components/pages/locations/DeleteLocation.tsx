@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
-import Modal from "@/components/ui/Modal";
-import { deleteLocation } from "@/actions/location";
-import { Messages, type ExpectedServerError } from "@/models/api";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { deleteSessionCookie } from "@/actions/auth";
+import { deleteLocation } from "@/actions/location";
 import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import { Button } from "@/components/ui/button";
+import Modal from "@/components/ui/Modal";
+import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { Messages, type ExpectedServerError } from "@/models/api";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type DeleteLocationProps = {
   locationId: number;

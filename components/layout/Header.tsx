@@ -1,8 +1,8 @@
-import { Separator } from "@/components/ui/separator";
 import Logo from "@/components/layout/Logo";
 import ResponsiveNav from "@/components/layout/ResponsiveNav";
-import DarkMode from "@/components/theme/ModeToggle";
 import SignInOutButton from "@/components/layout/SignInOutButton";
+import DarkMode from "@/components/theme/ModeToggle";
+import { Separator } from "@/components/ui/separator";
 
 /**
  * Renders top-level site header and navigation elements.

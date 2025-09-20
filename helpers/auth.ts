@@ -1,7 +1,7 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
+import { cookies } from "next/headers";
 
 export async function checkSession() {
   const cookie = await getCookie();

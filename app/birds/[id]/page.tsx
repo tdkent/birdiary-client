@@ -1,17 +1,17 @@
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
-import birdNames from "@/data/birds";
-import { SortValues, sortByDateOptions } from "@/models/form";
-import { apiRoutes } from "@/models/api";
-import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import CsrList from "@/components/pages/shared/CsrList";
-import Pending from "@/components/pages/shared/Pending";
-import { checkValidParamInteger } from "@/helpers/data";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import Pending from "@/components/pages/shared/Pending";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { Separator } from "@/components/ui/separator";
 import { BIRD_COUNT } from "@/constants/constants";
+import birdNames from "@/data/birds";
+import { checkValidParamInteger } from "@/helpers/data";
+import { apiRoutes } from "@/models/api";
+import { SortValues, sortByDateOptions } from "@/models/form";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 type BirdDetailsViewParams = {
   params: Promise<{ id: string }>;

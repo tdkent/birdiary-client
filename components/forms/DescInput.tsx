@@ -1,3 +1,4 @@
+import TextRemainingLength from "@/components/forms/TextRemainingLength";
 import {
   FormControl,
   FormField,
@@ -6,9 +7,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { SightingFormProp } from "@/models/form";
-import TextRemainingLength from "@/components/forms/TextRemainingLength";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import type { SightingFormProp } from "@/models/form";
 
 type DescInputProps = {
   form: SightingFormProp;

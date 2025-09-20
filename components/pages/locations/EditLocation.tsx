@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import Modal from "@/components/ui/Modal";
 import EditLocationForm from "@/components/forms/EditLocationForm";
-import type { Location } from "@/models/db";
+import Modal from "@/components/ui/Modal";
+import { useToast } from "@/hooks/use-toast";
 import { Messages } from "@/models/api";
+import type { Location } from "@/models/db";
+import { useEffect, useState } from "react";
 
 type EditLocationProps = {
   location: Location;

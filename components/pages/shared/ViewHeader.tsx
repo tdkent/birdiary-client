@@ -1,6 +1,6 @@
 /** Generic header and heading element for views. */
-import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 type ViewHeaderProps =
   | {
