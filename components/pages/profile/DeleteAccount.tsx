@@ -66,7 +66,7 @@ export default function DeleteAccount() {
           open={open}
           setOpen={setOpen}
           title="Delete Account"
-          triggerText="Delete account"
+          triggerText="Delete"
         >
           <Button
             className={`${pending && "bg-destructive/90"} mt-4`}
@@ -75,11 +75,7 @@ export default function DeleteAccount() {
             onClick={handleClick}
             variant="destructive"
           >
-            {pending ? (
-              <PendingIcon strokeWidth={1.5} size={40} />
-            ) : (
-              "Delete account"
-            )}
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Delete"}
           </Button>
         </Modal>
       </div>

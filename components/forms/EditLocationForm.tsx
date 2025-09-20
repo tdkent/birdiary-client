@@ -19,6 +19,7 @@ import { editLocation } from "@/actions/location";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { useAuth } from "@/context/AuthContext";
 import { deleteSessionCookie } from "@/actions/auth";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 type EditLocationFormProps = {
   location: Location;
@@ -33,6 +34,7 @@ export default function EditLocationForm({
   setOpen,
   setSuccess,
 }: EditLocationFormProps) {
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const [updatedLocation, setUpdatedLocation] = useState<
@@ -54,6 +56,7 @@ export default function EditLocationForm({
 
   async function onSubmit(values: LocationForm) {
     setError(null);
+    setPending(true);
     // If input has a value and autocomplete is empty, OR
     // input !== autocomplete, short circuit with error
     if (!updatedLocation || updatedLocation.name !== values.location) {
@@ -91,6 +94,8 @@ export default function EditLocationForm({
       router.replace(`/locations/${result.id}?page=1&sortBy=dateDesc`);
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   }
 
@@ -102,12 +107,13 @@ export default function EditLocationForm({
       <Form {...form}>
         <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
           <LocationInput
-            variant="update"
             form={form}
+            pending={pending}
             setLocation={setUpdatedLocation}
+            variant="update"
           />
-          <Button disabled={!isDirty} size="lg" variant="new">
-            Update Location
+          <Button disabled={!isDirty || pending} size="lg" variant="new">
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Update"}
           </Button>
         </form>
       </Form>

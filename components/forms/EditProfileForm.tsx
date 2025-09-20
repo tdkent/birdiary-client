@@ -35,10 +35,12 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
 import { useAuth } from "@/context/AuthContext";
 import { deleteSessionCookie } from "@/actions/auth";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const { bio, name, zipcode } = user;
@@ -58,6 +60,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   const { signOut } = useAuth();
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
+    setPending(true);
     setError(null);
     let address;
     if (values.zipcode) {
@@ -114,6 +117,8 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
       router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   }
 
@@ -131,7 +136,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
               <FormItem>
                 <FormLabel>Nickname</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tim" {...field} />
+                  <Input disabled={pending} {...field} />
                 </FormControl>
                 <TextRemainingLength
                   allowedLength={24}
@@ -160,7 +165,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                 </div>
                 <FormControl>
                   <APIProvider apiKey={GOOGLE_API_KEY}>
-                    <Input placeholder="10001" {...field} />
+                    <Input disabled={pending} {...field} />
                   </APIProvider>
                 </FormControl>
                 <FormMessage />
@@ -176,7 +181,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                 <FormControl>
                   <Textarea
                     {...field}
-                    // disabled={pending}
+                    disabled={pending}
                     rows={5}
                     className="resize-none"
                   />
@@ -189,8 +194,13 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={!isDirty} size="lg" variant="new">
-            Submit
+          <Button
+            type="submit"
+            disabled={!isDirty || pending}
+            size="lg"
+            variant="new"
+          >
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Update"}
           </Button>
         </form>
       </Form>

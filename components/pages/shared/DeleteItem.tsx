@@ -48,13 +48,13 @@ export default function DeleteItem({
     <>
       {error && <ErrorDisplay showInline statusCode={error} />}
       <Button
-        className="mt-4"
+        className={`mt-4 ${pending && "bg-destructive/90"}`}
+        disabled={pending}
         onClick={onDelete}
         size="lg"
         variant="destructive"
-        disabled={pending}
       >
-        {pending ? <PendingIcon strokeWidth={1.5} size={40} /> : "Delete"}
+        {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Delete"}
       </Button>
     </>
   );

@@ -22,8 +22,10 @@ import { useAuth } from "@/context/AuthContext";
 import type { AuthForm } from "@/models/form";
 import { Messages } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 export default function AuthForm() {
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
@@ -46,6 +48,7 @@ export default function AuthForm() {
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     setError(null);
     setFetchError(null);
+    setPending(true);
     try {
       const result = await auth({ ...values, pathname });
       if (result && "error" in result) {
@@ -69,10 +72,14 @@ export default function AuthForm() {
       }
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   }
 
   if (fetchError) throw fetchError;
+
+  const btnText = pathname === "/signin" ? "Sign In" : "Sign Up";
 
   return (
     <>
@@ -81,12 +88,13 @@ export default function AuthForm() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
+            disabled={pending}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input disabled={pending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,12 +102,13 @@ export default function AuthForm() {
           />
           <FormField
             control={form.control}
+            disabled={pending}
             name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} type="password" />
+                  <Input disabled={pending} {...field} type="password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,9 +118,9 @@ export default function AuthForm() {
             type="submit"
             size="lg"
             variant="new"
-            disabled={!email || !password}
+            disabled={!email || !password || pending}
           >
-            Submit
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
           </Button>
         </form>
       </Form>

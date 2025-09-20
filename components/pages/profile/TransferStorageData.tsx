@@ -98,11 +98,7 @@ export default function TransferStorageData() {
             size="lg"
             variant="new"
           >
-            {pending ? (
-              <PendingIcon strokeWidth={1.5} size={32} />
-            ) : (
-              "Transfer Data"
-            )}
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Transfer"}
           </Button>
         </div>
       </div>

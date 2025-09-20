@@ -10,12 +10,14 @@ import { deleteLocation } from "@/actions/location";
 import { Messages, type ExpectedServerError } from "@/models/api";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { deleteSessionCookie } from "@/actions/auth";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 type DeleteLocationProps = {
   locationId: number;
 };
 
 export default function DeleteLocation({ locationId }: DeleteLocationProps) {
+  const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
@@ -35,6 +37,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
   }, [success, toast]);
 
   const onDelete = async () => {
+    setPending(true);
     setError(null);
     try {
       const result: { count: number } | ExpectedServerError =
@@ -58,6 +61,8 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
       router.replace("/locations");
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   };
 
@@ -72,16 +77,17 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
         open={open}
         setOpen={setOpen}
         title="Delete Location"
-        triggerText="delete"
+        triggerText="Delete"
       >
         {error && <ErrorDisplay showInline statusCode={error} />}
         <Button
-          className="mt-4"
+          className={`mt-4 ${pending && "bg-destructive/90"}`}
+          disabled={pending}
           onClick={onDelete}
           size="lg"
           variant="destructive"
         >
-          Delete
+          {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Delete"}
         </Button>
       </Modal>
     </>

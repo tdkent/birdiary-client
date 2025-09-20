@@ -38,7 +38,7 @@ export default function EditLocation({
       open={open}
       setOpen={setOpen}
       title="Edit Location"
-      triggerText="edit"
+      triggerText="Edit"
     >
       <EditLocationForm
         location={location}
