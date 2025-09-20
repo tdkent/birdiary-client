@@ -26,7 +26,7 @@ type NameInputProps =
   | {
       variant: "update";
       form: EditLocationFormSchemaProp;
-      pending?: never;
+      pending: boolean;
       setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     };
 

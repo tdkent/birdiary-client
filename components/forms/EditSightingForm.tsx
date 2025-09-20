@@ -129,7 +129,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
             size="lg"
             variant="new"
           >
-            {pending ? <PendingIcon strokeWidth={1} size={28} /> : "Update"}
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Update"}
           </Button>
         </form>
       </Form>

@@ -119,14 +119,7 @@ export default function SightingForm() {
           <DescInput form={form} pending={pending} />
           <FormBirdImage currBirdName={currBirdName} />
           <Button variant="new" size="lg" disabled={pending || !isMatching}>
-            {pending ? (
-              <>
-                <PendingIcon strokeWidth={1} size={28} />
-                Submitting
-              </>
-            ) : (
-              "Submit"
-            )}
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Submit"}
           </Button>
         </form>
       </Form>

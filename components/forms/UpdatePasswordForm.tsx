@@ -28,6 +28,7 @@ import { Messages, type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { deleteSessionCookie } from "@/actions/auth";
+import PendingIcon from "@/components/forms/PendingIcon";
 
 const formSchema = z
   .object({
@@ -45,6 +46,7 @@ const formSchema = z
   });
 
 export default function UpdatePasswordForm() {
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,6 +64,7 @@ export default function UpdatePasswordForm() {
   const isDirty = form.formState.isDirty;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setPending(true);
     setError(null);
     try {
       const response: User | ExpectedServerError = await updatePassword(
@@ -91,6 +94,8 @@ export default function UpdatePasswordForm() {
       form.reset();
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   }
 
@@ -108,7 +113,7 @@ export default function UpdatePasswordForm() {
               <FormItem>
                 <FormLabel>Current Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={pending} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,7 +136,7 @@ export default function UpdatePasswordForm() {
                   </Popover>
                 </div>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={pending} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,14 +149,19 @@ export default function UpdatePasswordForm() {
               <FormItem>
                 <FormLabel>Confirm New Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={pending} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" size="lg" variant="new" disabled={!isDirty}>
-            Submit
+          <Button
+            type="submit"
+            size="lg"
+            variant="new"
+            disabled={!isDirty || pending}
+          >
+            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : "Update"}
           </Button>
         </form>
       </Form>
