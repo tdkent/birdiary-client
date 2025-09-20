@@ -113,7 +113,12 @@ export default function UpdatePasswordForm() {
               <FormItem>
                 <FormLabel>Current Password</FormLabel>
                 <FormControl>
-                  <Input disabled={pending} type="password" {...field} />
+                  <Input
+                    autoComplete="current-password"
+                    disabled={pending}
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,7 +141,12 @@ export default function UpdatePasswordForm() {
                   </Popover>
                 </div>
                 <FormControl>
-                  <Input disabled={pending} type="password" {...field} />
+                  <Input
+                    autoComplete="new-password"
+                    disabled={pending}
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -149,7 +159,12 @@ export default function UpdatePasswordForm() {
               <FormItem>
                 <FormLabel>Confirm New Password</FormLabel>
                 <FormControl>
-                  <Input disabled={pending} type="password" {...field} />
+                  <Input
+                    autoComplete="new-password"
+                    disabled={pending}
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
