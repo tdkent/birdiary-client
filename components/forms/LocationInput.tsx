@@ -1,6 +1,6 @@
-// Handles input of sighting location
 import type { Dispatch, SetStateAction } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
@@ -30,6 +30,7 @@ type NameInputProps =
       setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     };
 
+/** Handles input of sighting location. */
 export default function LocationInput({
   form,
   variant,
@@ -58,6 +59,11 @@ export default function LocationInput({
     );
   }
 
+  const handleClear = () => {
+    form.setValue("location", "", { shouldDirty: true });
+    rest.setLocation(undefined);
+  };
+
   return (
     <>
       <FormField
@@ -65,7 +71,18 @@ export default function LocationInput({
         name="location"
         render={({ field }) => (
           <FormItem className="form-item">
-            <FormLabel>Location of sighting</FormLabel>
+            <div className="flex items-center justify-between">
+              <FormLabel>Location of sighting</FormLabel>
+              <Button
+                className="pr-2 text-sm"
+                onClick={handleClear}
+                size="sm"
+                variant="ghost"
+                type="button"
+              >
+                clear
+              </Button>
+            </div>
             <FormControl>
               <APIProvider apiKey={GOOGLE_API_KEY}>
                 <LocationAutocomplete field={field} {...rest} />
