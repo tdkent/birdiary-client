@@ -88,7 +88,6 @@ export default function AuthForm() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            disabled={pending}
             name="email"
             render={({ field }) => (
               <FormItem>
@@ -102,7 +101,6 @@ export default function AuthForm() {
           />
           <FormField
             control={form.control}
-            disabled={pending}
             name="password"
             render={({ field }) => (
               <FormItem>
