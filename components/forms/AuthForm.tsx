@@ -93,7 +93,12 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input disabled={pending} {...field} />
+                  <Input
+                    {...field}
+                    aria-required
+                    autoComplete="email"
+                    disabled={pending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -106,7 +111,13 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input disabled={pending} {...field} type="password" />
+                  <Input
+                    {...field}
+                    aria-required
+                    autoComplete="current-password"
+                    disabled={pending}
+                    type="password"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
