@@ -28,7 +28,10 @@ export default async function BirdDetails({
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
-        <BirdImage currBirdName={currBirdName} />
+        <BirdImage
+          currBirdName={currBirdName}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+        />
         <dl className="mt-8 flex flex-col gap-8 px-2 md:gap-12">
           <div className="flex flex-col gap-1">
             <dt className="text-sm font-semibold uppercase md:text-base">

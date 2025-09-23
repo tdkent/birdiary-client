@@ -105,7 +105,10 @@ export default function Sighting({ sightingId }: SightingProps) {
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
-        <BirdImage currBirdName={bird.commonName} />
+        <BirdImage
+          currBirdName={bird.commonName}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+        />
         <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
           <div className="flex flex-col gap-1">
             <dt className="text-sm font-semibold uppercase md:text-base">

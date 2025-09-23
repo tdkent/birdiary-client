@@ -11,9 +11,10 @@ import { useDebounceCallback } from "usehooks-ts";
 
 type BirdImageProps = {
   currBirdName: string;
+  sizes: string;
 };
 
-export default function BirdImage({ currBirdName }: BirdImageProps) {
+export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
   const [data, setData] = useState<Bird>();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,12 +62,12 @@ export default function BirdImage({ currBirdName }: BirdImageProps) {
         <figure className="flex flex-col gap-1 md:gap-2">
           <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
             <Image
-              src={data.imgUrl}
               alt={data.commonName}
-              fill
-              quality={30}
               className="object-cover"
+              fill
               priority
+              sizes={sizes}
+              src={data.imgUrl}
             />
           </div>
           <figcaption className="px-1 text-xs italic md:text-sm">

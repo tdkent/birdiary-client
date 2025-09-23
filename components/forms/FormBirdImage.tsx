@@ -11,7 +11,10 @@ export default function FormBirdImage({ currBirdName }: FormBirdImageProps) {
         <p className="px-1 text-base font-semibold md:text-lg">
           Preview of bird
         </p>
-        <BirdImage currBirdName={currBirdName} />
+        <BirdImage
+          currBirdName={currBirdName}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 75vw, 598px"
+        />
       </div>
     </>
   );
