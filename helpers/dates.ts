@@ -1,9 +1,11 @@
 import { DateTime } from "luxon";
 
 /** Create pure ISO date from JavaScript date. */
-export function createPureIsoDate(d: Date) {
-  const date = new Date(d);
-  const isoDate = date.toISOString().split("T")[0];
+export function createPureIsoDate(date: Date) {
+  const day = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}`;
+  const adjustedMonth = date.getMonth() + 1;
+  const month = `${adjustedMonth < 10 ? "0" : ""}${adjustedMonth}`;
+  const isoDate = `${date.getFullYear()}-${month}-${day}`;
   return isoDate;
 }
 
