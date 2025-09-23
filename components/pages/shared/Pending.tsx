@@ -4,8 +4,9 @@ type PendingProps = {
   variant:
     | "account"
     | "bird"
-    | "card"
     | "cardWithControls"
+    | "detailsList"
+    | "list"
     | "listDoubleRowWithControls"
     | "listSingleRow"
     | "listDoubleRow"
@@ -56,18 +57,6 @@ export default function Pending({ variant, listSize }: PendingProps) {
       );
     }
 
-    case "card": {
-      return (
-        <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            {new Array(listSize).fill(null).map((_, i) => {
-              return <Skeleton key={i} className="h-48 w-full" />;
-            })}
-          </div>
-        </>
-      );
-    }
-
     case "cardWithControls": {
       return (
         <>
@@ -78,6 +67,37 @@ export default function Pending({ variant, listSize }: PendingProps) {
               return <Skeleton key={i} className="h-48 w-full" />;
             })}
           </div>
+        </>
+      );
+    }
+
+    case "detailsList": {
+      return (
+        <>
+          <div className="my-8 flex flex-col gap-4 md:flex-row md:flex-wrap">
+            {new Array(listSize).fill(null).map((_, i) => {
+              return (
+                <Skeleton
+                  key={i}
+                  className="h-32 w-full md:h-44 md:w-[calc(50%-0.5rem)]"
+                />
+              );
+            })}
+          </div>
+          <PaginationControlSkeleton />
+        </>
+      );
+    }
+
+    case "list": {
+      return (
+        <>
+          <div className="my-8 flex flex-col gap-2">
+            {new Array(listSize).fill(null).map((_, i) => {
+              return <Skeleton key={i} className="h-20 w-full" />;
+            })}
+          </div>
+          <PaginationControlSkeleton />
         </>
       );
     }
@@ -204,4 +224,8 @@ export default function Pending({ variant, listSize }: PendingProps) {
     default:
       throw new Error("Invalid variant");
   }
+}
+
+function PaginationControlSkeleton() {
+  return <Skeleton className="mx-auto h-12 w-1/2 max-sm:w-full" />;
 }
