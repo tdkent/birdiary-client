@@ -10,6 +10,7 @@ type PendingProps = {
     | "listDoubleRowWithControls"
     | "listSingleRow"
     | "listDoubleRow"
+    | "listWithSorting"
     | "location"
     | "profile"
     | "profileForm"
@@ -99,6 +100,23 @@ export default function Pending({ variant, listSize }: PendingProps) {
             })}
           </div>
           <PaginationControlSkeleton />
+        </>
+      );
+    }
+
+    case "listWithSorting": {
+      return (
+        <>
+          <div className="flex flex-col gap-8">
+            <Skeleton className="h-14 w-[70%] md:h-16 md:w-2/5" />
+            <Skeleton className="h-16 w-full md:h-20" />
+            <div className="flex flex-col gap-2">
+              {new Array(listSize).fill(null).map((_, i) => {
+                return <Skeleton key={i} className="h-20 w-full" />;
+              })}
+            </div>
+            <PaginationControlSkeleton />
+          </div>
         </>
       );
     }

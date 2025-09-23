@@ -43,7 +43,7 @@ export default async function LifeListView({
             <Suspense
               fallback={
                 <Pending
-                  variant="listDoubleRowWithControls"
+                  variant="listWithSorting"
                   listSize={RESULTS_PER_PAGE}
                 />
               }

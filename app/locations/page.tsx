@@ -41,7 +41,7 @@ export default async function LocationsView({
             <Suspense
               fallback={
                 <Pending
-                  variant="listDoubleRowWithControls"
+                  variant="listWithSorting"
                   listSize={RESULTS_PER_PAGE}
                 />
               }
