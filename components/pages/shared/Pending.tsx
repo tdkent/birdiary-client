@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 type PendingProps = {
   variant:
     | "account"
-    | "bird"
+    | "birdDetails"
     | "cardWithControls"
     | "detailsList"
     | "detailsListWithSorting"
@@ -44,17 +44,16 @@ export default function Pending({ variant, listSize }: PendingProps) {
       );
     }
 
-    case "bird": {
+    case "birdDetails": {
       return (
         <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <BirdImageSkeleton />
+          <div className="my-2 flex flex-col gap-8">
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
           </div>
         </>
       );
