@@ -1,4 +1,3 @@
-import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
@@ -22,7 +21,7 @@ export default function HomeView() {
             Your sightings will be used to create your birding diary, tracking
             your sightings by date and species.
           </p>
-          <BirdOfTheDay />
+          {/* <BirdOfTheDay /> */}
           <h2>Go further with an account</h2>
           <p>
             Interested in more? Create a free account to permanently store
