@@ -14,6 +14,7 @@ type PendingProps = {
     | "profile"
     | "profileForm"
     | "sighting"
+    | "sightingDetails"
     | "sightingForm";
   listSize?: number;
 };
@@ -185,17 +186,19 @@ export default function Pending({ variant, listSize }: PendingProps) {
       );
     }
 
-    case "sighting": {
+    case "sightingDetails": {
       return (
         <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <BirdImageSkeleton />
+          <div className="my-2 flex flex-col gap-8">
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+            <DescriptionListItemSkeleton />
+          </div>
+          <div className="flex flex-col gap-4">
+            <ButtonSkeleton />
+            <ButtonSkeleton />
           </div>
         </>
       );
@@ -224,6 +227,25 @@ export default function Pending({ variant, listSize }: PendingProps) {
     default:
       throw new Error("Invalid variant");
   }
+}
+
+function BirdImageSkeleton() {
+  return <Skeleton className="aspect-[5/3] w-[85%] max-md:w-full" />;
+}
+
+function ButtonSkeleton() {
+  return <Skeleton className="h-14 w-32 max-md:w-full" />;
+}
+
+function DescriptionListItemSkeleton() {
+  return (
+    <>
+      <div className="flex flex-col gap-2">
+        <Skeleton className="h-6 w-1/3" />
+        <Skeleton className="h-8 w-3/4" />
+      </div>
+    </>
+  );
 }
 
 function PaginationControlSkeleton() {
