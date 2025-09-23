@@ -6,12 +6,13 @@ type PendingProps = {
     | "bird"
     | "cardWithControls"
     | "detailsList"
+    | "detailsListWithSorting"
     | "list"
     | "listDoubleRowWithControls"
     | "listSingleRow"
     | "listDoubleRow"
     | "listWithSorting"
-    | "location"
+    | "locationDetails"
     | "profile"
     | "profileForm"
     | "sighting"
@@ -91,6 +92,28 @@ export default function Pending({ variant, listSize }: PendingProps) {
       );
     }
 
+    case "detailsListWithSorting": {
+      return (
+        <>
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-14 w-[70%] md:h-16 md:w-2/5" />
+            <SortingControlsSkeleton />
+          </div>
+          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+            {new Array(listSize).fill(null).map((_, i) => {
+              return (
+                <Skeleton
+                  key={i}
+                  className="h-32 w-full md:h-44 md:w-[calc(50%-0.5rem)]"
+                />
+              );
+            })}
+          </div>
+          <PaginationControlSkeleton />
+        </>
+      );
+    }
+
     case "list": {
       return (
         <>
@@ -108,8 +131,7 @@ export default function Pending({ variant, listSize }: PendingProps) {
       return (
         <>
           <div className="flex flex-col gap-8">
-            <Skeleton className="h-14 w-[70%] md:h-16 md:w-2/5" />
-            <Skeleton className="h-16 w-full md:h-20" />
+            <SortingControlsSkeleton />
             <div className="flex flex-col gap-2">
               {new Array(listSize).fill(null).map((_, i) => {
                 return <Skeleton key={i} className="h-20 w-full" />;
@@ -159,13 +181,16 @@ export default function Pending({ variant, listSize }: PendingProps) {
       );
     }
 
-    case "location": {
+    case "locationDetails": {
       return (
         <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-48 w-full" />
+          <div className="my-4 flex flex-col gap-6 md:w-[85%]">
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="aspect-square w-full md:aspect-[5/4] lg:aspect-[5/3]" />
+            <div className="my-6 flex flex-col gap-4">
+              <ButtonSkeleton />
+              <ButtonSkeleton />
+            </div>
           </div>
         </>
       );
@@ -291,4 +316,13 @@ function FormTextareaSkeleton() {
 
 function PaginationControlSkeleton() {
   return <Skeleton className="mx-auto h-12 w-1/2 max-sm:w-full" />;
+}
+
+function SortingControlsSkeleton() {
+  return (
+    <>
+      <Skeleton className="h-14 w-[70%] md:h-16 md:w-2/5" />
+      <Skeleton className="h-16 w-full md:h-20" />
+    </>
+  );
 }
