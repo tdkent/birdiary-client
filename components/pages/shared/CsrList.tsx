@@ -16,7 +16,8 @@ type CsrListProps =
       defaultSortOption: SortValues;
       headingText?: never;
       page: number;
-      pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
+      pendingVariant: "detailsList" | "list";
+
       route: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -27,7 +28,8 @@ type CsrListProps =
   | {
       defaultSortOption: SortValues;
       headingText?: string;
-      pendingVariant: "card" | "listSingleRow" | "listDoubleRow";
+      pendingVariant: "detailsList" | "list";
+
       route: string;
       page: number;
       sortBy: string;

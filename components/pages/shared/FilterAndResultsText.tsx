@@ -19,8 +19,8 @@ export default function FilterAndResultsText({
   if (noResults || records === 0) {
     return (
       <>
-        <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg">
-          <p className="m-0 italic">Showing 0 of 0 results</p>
+        <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
+          <p className="italic">Showing 0 of 0 results</p>
         </div>
       </>
     );
@@ -37,7 +37,7 @@ export default function FilterAndResultsText({
     <>
       <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
         {variant === "birdpedia" && <span>{filterText}</span>}
-        <span className="italic">
+        <p className="italic">
           Showing{" "}
           <span className="font-semibold">
             {minResult} - {maxResult > 0 ? maxResult : "?"}
@@ -45,7 +45,7 @@ export default function FilterAndResultsText({
           of{" "}
           <span className="font-semibold">{records > 0 ? records : "?"}</span>{" "}
           results
-        </span>
+        </p>
       </div>
     </>
   );

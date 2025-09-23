@@ -39,7 +39,7 @@ export default async function SightingsView({
           <>
             <CsrList
               variant="sighting"
-              pendingVariant="listDoubleRow"
+              pendingVariant="list"
               route={apiRoutes.getSightings(parsedPage, sortBy)}
               tag="sightings"
               page={parsedPage}

@@ -52,14 +52,14 @@ export default async function LocationDetailsView({
         parsedPage &&
         sortOptions.find((option) => option.value === sortBy) ? (
           <>
-            <Suspense fallback={<Pending variant="location" />}>
+            <Suspense fallback={<Pending variant="locationDetails" />}>
               <LocationDetails locationId={validId} />
             </Suspense>
             <Separator className="mx-auto w-4/5" />
             <Suspense
               fallback={
                 <Pending
-                  variant="cardWithControls"
+                  variant="detailsListWithSorting"
                   listSize={RESULTS_PER_PAGE}
                 />
               }

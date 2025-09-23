@@ -50,7 +50,7 @@ export default async function BirdDetailsView({
         parsedPage &&
         sortOptions.find((option) => option.value === sortBy) ? (
           <>
-            <Suspense fallback={<Pending variant="bird" />}>
+            <Suspense fallback={<Pending variant="birdDetails" />}>
               <BirdDetails
                 birdId={validBirdId}
                 currBirdName={birdNames[validBirdId - 1]}
@@ -61,7 +61,7 @@ export default async function BirdDetailsView({
               defaultSortOption={defaultSortOption}
               headingText="Sightings"
               page={parsedPage}
-              pendingVariant="card"
+              pendingVariant="detailsList"
               route={apiRoutes.getSightingsListByType(
                 "birdId",
                 validBirdId,

@@ -98,7 +98,7 @@ export default function Sighting({ sightingId }: SightingProps) {
   }
 
   if (!data || pending) {
-    return <Pending variant="sighting" />;
+    return <Pending variant="sightingDetails" />;
   }
 
   const { bird, birdId, date, description, location } = data;

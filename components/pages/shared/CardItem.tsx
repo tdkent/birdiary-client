@@ -17,7 +17,7 @@ export default function CardItem({ sighting }: CardItemProps) {
   } = sighting;
   return (
     <>
-      <li className="md:shrink-0 md:grow-0 md:basis-[calc(50%-0.5rem)]">
+      <li className="w-full md:w-[calc(50%-0.5rem)]">
         <Link className="group" href={`/sightings/${id}`}>
           <Card className="group-hover:list-hover w-full pb-2 hover:scale-[1.025]">
             <CardHeader>

@@ -40,7 +40,7 @@ export default async function BirdsView({
             <Suspense
               fallback={
                 <Pending
-                  variant="listDoubleRowWithControls"
+                  variant="listWithSorting"
                   listSize={RESULTS_PER_PAGE}
                 />
               }
