@@ -62,7 +62,7 @@ export default function CsrListItemDetails({
     case "card": {
       return (
         <>
-          <li className="md:shrink-0 md:grow-0 md:basis-[calc(50%-0.5rem)]">
+          <li className="w-full md:w-[calc(50%-0.5rem)]">
             <Link className="group" href={`/sightings/${sighting.id}`}>
               <Card className="group-hover:list-hover pb-2 hover:scale-[1.025] md:p-4">
                 <CardHeader>
@@ -88,7 +88,7 @@ export default function CsrListItemDetails({
                     </p>
                   )}
                   <p
-                    className={`line-clamp-1 text-base md:text-lg ${!sighting.description && "italic"}`}
+                    className={`truncate text-base md:text-lg ${!sighting.description && "italic"}`}
                   >
                     {sighting.description ?? "No description"}
                   </p>
