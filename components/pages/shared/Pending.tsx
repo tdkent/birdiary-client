@@ -199,15 +199,26 @@ export default function Pending({ variant, listSize }: PendingProps) {
       return (
         <>
           <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-12 w-1/3" />
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
+            <div className="flex flex-col gap-10">
+              <Skeleton className="h-8 w-48" />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+              <ButtonSkeleton />
+            </div>
+            <div className="flex flex-col gap-10">
+              <Skeleton className="h-8 w-48" />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+            </div>
+            <div className="flex flex-col gap-10">
+              <Skeleton className="h-8 w-48" />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+              <DescriptionListItemSkeleton />
+              <ButtonSkeleton />
+            </div>
           </div>
         </>
       );
@@ -216,13 +227,14 @@ export default function Pending({ variant, listSize }: PendingProps) {
     case "profileForm": {
       return (
         <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <div className="my-4 flex w-full flex-col gap-12 md:w-3/4">
+            <FormInputSkeleton />
+            <FormInputSkeleton />
+            <FormTextareaSkeleton />
+            <div className="flex flex-col gap-4">
+              <ButtonSkeleton />
+              <ButtonSkeleton />
+            </div>
           </div>
         </>
       );
