@@ -207,18 +207,19 @@ export default function Pending({ variant, listSize }: PendingProps) {
     case "sightingForm": {
       return (
         <>
-          <div className="mb-4 mt-8 flex flex-col gap-4">
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-36 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <div className="my-4 flex w-full flex-col gap-12 md:w-3/4">
+            <FormInputSkeleton />
+            <FormInputSkeleton />
+            <FormInputSkeleton />
+            <FormTextareaSkeleton />
+            <div className="flex flex-col gap-2.5">
+              <Skeleton className="h-4 w-48" />
+              <Skeleton className="aspect-[5/3] w-full" />
+            </div>
+            <div className="flex flex-col gap-4">
+              <ButtonSkeleton />
+              <ButtonSkeleton />
+            </div>
           </div>
         </>
       );
@@ -234,7 +235,7 @@ function BirdImageSkeleton() {
 }
 
 function ButtonSkeleton() {
-  return <Skeleton className="h-14 w-32 max-md:w-full" />;
+  return <Skeleton className="h-14 w-36 md:h-16" />;
 }
 
 function DescriptionListItemSkeleton() {
@@ -243,6 +244,28 @@ function DescriptionListItemSkeleton() {
       <div className="flex flex-col gap-2">
         <Skeleton className="h-6 w-1/3" />
         <Skeleton className="h-8 w-3/4" />
+      </div>
+    </>
+  );
+}
+
+function FormInputSkeleton() {
+  return (
+    <>
+      <div className="flex flex-col gap-2.5">
+        <Skeleton className="h-4 w-48" />
+        <Skeleton className="h-12 w-full md:h-14" />
+      </div>
+    </>
+  );
+}
+
+function FormTextareaSkeleton() {
+  return (
+    <>
+      <div className="flex flex-col gap-2.5">
+        <Skeleton className="h-4 w-48" />
+        <Skeleton className="h-36 w-full" />
       </div>
     </>
   );
