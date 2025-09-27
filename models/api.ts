@@ -28,7 +28,7 @@ export const defaultCache: Cache = {
 /** Server request URLs */
 export const apiRoutes = {
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
-  birdOfTheDay: `${BASE_URL}/birds/birdoftheday`,
+  birdOfTheDay: `${BASE_URL}/birdoftheday`,
   birds: (page: number, startsWith: string | undefined) =>
     `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   getSightings: (page: number, sortBy: string) =>
