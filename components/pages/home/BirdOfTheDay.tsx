@@ -4,6 +4,7 @@ import Pending from "@/components/pages/shared/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRoutes, ExpectedServerError } from "@/models/api";
 import { Bird } from "@/models/db";
+import Link from "next/link";
 import { Suspense } from "react";
 
 /** Bird display updated daily. */
@@ -11,7 +12,7 @@ export default async function BirdOfTheDay() {
   return (
     <>
       <section className="my-4">
-        <Card className="group-hover:list-hover w-full hover:scale-[1.025]">
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>
               <h3 className="font-playful text-3xl md:text-4xl">
@@ -40,7 +41,9 @@ async function BirdOfTheDayImage() {
   return (
     <>
       <StaticBirdImage bird={result} sizes="(max-width: 1024px) 100vw, 780px" />
-      <h4 className="text-xl md:text-2xl">{result.commonName}</h4>
+      <h4 className="text-xl hover:text-primary md:text-2xl">
+        <Link href={`/birds/${result.id}`}>{result.commonName}</Link>
+      </h4>
     </>
   );
 }
