@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import { checkSession } from "@/helpers/auth";
 import { deleteSession } from "@/lib/session";
+import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = ["/lifelist", "/locations", "/profile"];
 const authRoutes = ["/signin", "/signup"];
@@ -11,10 +11,7 @@ export default async function middleware(req: NextRequest) {
   const isLoggedIn = await checkSession();
 
   // redirect from protected routes if not logged in
-  if (
-    !isLoggedIn &&
-    (protectedRoutes.includes(segment) || segment === "/birds")
-  ) {
+  if (!isLoggedIn && protectedRoutes.includes(segment)) {
     await deleteSession();
     return NextResponse.redirect(new URL("/signin", req.url));
   }
