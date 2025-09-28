@@ -1,6 +1,6 @@
+import BirdImageDisplay from "@/components/image/BirdImageDisplay";
 import type { Bird } from "@/models/db";
 import { CircleAlert } from "lucide-react";
-import Image from "next/image";
 
 type BirdImageProps = {
   bird: Bird;
@@ -8,7 +8,7 @@ type BirdImageProps = {
 };
 
 export default function StaticBirdImage({ bird, sizes }: BirdImageProps) {
-  const { commonName, imgUrl, imgAttribute, scientificName } = bird;
+  const { imgUrl } = bird;
 
   if (!imgUrl) {
     return (
@@ -21,23 +21,5 @@ export default function StaticBirdImage({ bird, sizes }: BirdImageProps) {
     );
   }
 
-  return (
-    <>
-      <figure className="flex flex-col gap-1 md:gap-2">
-        <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
-          <Image
-            alt={commonName}
-            className="object-cover"
-            fill
-            priority
-            sizes={sizes}
-            src={imgUrl}
-          />
-        </div>
-        <figcaption className="px-1 text-xs italic md:text-sm">
-          {scientificName}. &copy; {imgAttribute ?? "Public Domain"}
-        </figcaption>
-      </figure>
-    </>
-  );
+  return <BirdImageDisplay bird={bird} imgUrl={imgUrl} sizes={sizes} />;
 }
