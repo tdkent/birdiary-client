@@ -2,6 +2,7 @@
 
 import { signOut as signOutAction } from "@/actions/auth";
 import BirdImage from "@/components/forms/BirdImage";
+import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
@@ -105,10 +106,17 @@ export default function Sighting({ sightingId }: SightingProps) {
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
-        <BirdImage
-          currBirdName={bird.commonName}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
-        />
+        {isSignedIn ? (
+          <StaticBirdImage
+            bird={bird}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+          />
+        ) : (
+          <BirdImage
+            currBirdName={bird.commonName}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+          />
+        )}
         <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
           <div className="flex flex-col gap-1">
             <dt className="text-sm font-semibold uppercase md:text-base">
