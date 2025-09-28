@@ -1,4 +1,4 @@
-import BirdImage from "@/components/forms/BirdImage";
+import StaticBirdImage from "@/components/image/StaticBirdImage";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import {
   apiRoutes,
@@ -9,13 +9,9 @@ import type { Bird } from "@/models/db";
 
 type BirdDetailsProps = {
   birdId: number;
-  currBirdName: string;
 };
 
-export default async function BirdDetails({
-  birdId,
-  currBirdName,
-}: BirdDetailsProps) {
+export default async function BirdDetails({ birdId }: BirdDetailsProps) {
   const response = await fetch(apiRoutes.bird(birdId));
   const result: ServerResponseWithObject | ServerResponseWithError =
     await response.json();
@@ -28,8 +24,8 @@ export default async function BirdDetails({
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
-        <BirdImage
-          currBirdName={currBirdName}
+        <StaticBirdImage
+          bird={bird}
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
         />
         <dl className="mt-8 flex flex-col gap-8 px-2 md:gap-12">

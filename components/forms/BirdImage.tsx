@@ -1,11 +1,11 @@
 "use client";
 
 import PendingIcon from "@/components/forms/PendingIcon";
+import BirdImageDisplay from "@/components/image/BirdImageDisplay";
 import birdNames from "@/data/birds";
 import { apiRoutes, Messages, ServerResponseWithError } from "@/models/api";
 import type { Bird } from "@/models/db";
 import { CircleAlert, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
@@ -57,25 +57,7 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
   }, [currFetchedBird, currBirdName, debounced]);
 
   if (data && data.imgUrl) {
-    return (
-      <>
-        <figure className="flex flex-col gap-1 md:gap-2">
-          <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
-            <Image
-              alt={data.commonName}
-              className="object-cover"
-              fill
-              priority
-              sizes={sizes}
-              src={data.imgUrl}
-            />
-          </div>
-          <figcaption className="px-1 text-xs italic md:text-sm">
-            {data.scientificName}. &copy; {data.imgAttribute ?? "Public Domain"}
-          </figcaption>
-        </figure>
-      </>
-    );
+    return <BirdImageDisplay bird={data} imgUrl={data.imgUrl} sizes={sizes} />;
   }
 
   return (
