@@ -19,6 +19,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 
+/** Shelf with navigation for mobile display. */
 export function MobileNav() {
   const { isSignedIn } = useAuth();
   const [navLinks, setNavLinks] = useState<typeof mobileNavLinks>([]);
@@ -38,12 +39,10 @@ export function MobileNav() {
           <SheetTitle
             className={`${caveat.className} mt-12 font-normal antialiased`}
           >
-            <SheetClose asChild>
-              <Logo
-                logoStyles="h-14 w-14 md:h-16 md:w-16"
-                textStyles="text-4xl md:text-[42px]"
-              />
-            </SheetClose>
+            <Logo
+              logoStyles="h-14 w-14 md:h-16 md:w-16"
+              textStyles="text-4xl md:text-[42px]"
+            />
           </SheetTitle>
           <SheetDescription>
             <VisuallyHidden.Root>Navigation links</VisuallyHidden.Root>
@@ -59,7 +58,7 @@ export function MobileNav() {
                       <SheetClose asChild>
                         <Link
                           href={`/${href}`}
-                          className={`flex w-fit items-center md:text-2xl ${href === "newsighting" ? "btn-new gap-1 rounded-md border px-4 py-2 md:px-5 md:py-3" : "gap-4"}`}
+                          className={`gap-4} flex w-fit items-center gap-4 md:text-2xl`}
                         >
                           {Icon && (
                             <Icon
