@@ -27,7 +27,7 @@ export default async function BirdsView({
       <ViewWrapper>
         <ViewHeader
           headingText="Birdpedia"
-          descriptionText="Browse 838 species of North American birds."
+          descriptionText="Browse more than 800 species of North American birds."
         />
         {!parsedPage ||
         (startsWith &&
