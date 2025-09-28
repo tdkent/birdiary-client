@@ -51,10 +51,7 @@ export default async function BirdDetailsView({
         sortOptions.find((option) => option.value === sortBy) ? (
           <>
             <Suspense fallback={<Pending variant="birdDetails" />}>
-              <BirdDetails
-                birdId={validBirdId}
-                currBirdName={birdNames[validBirdId - 1]}
-              />
+              <BirdDetails birdId={validBirdId} />
             </Suspense>
             <Separator className="mx-auto w-4/5" />
             <CsrList
