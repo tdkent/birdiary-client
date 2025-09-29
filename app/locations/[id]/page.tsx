@@ -5,7 +5,7 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -60,7 +60,7 @@ export default async function LocationDetailsView({
               fallback={
                 <Pending
                   variant="detailsListWithSorting"
-                  listSize={RESULTS_PER_PAGE}
+                  listSize={DETAILS_RESULTS_PER_PAGE}
                 />
               }
             >
