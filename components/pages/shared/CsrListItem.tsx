@@ -1,5 +1,6 @@
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
+import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Group,
@@ -31,7 +32,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       } = item as SightingWithBird;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/sightings/${id}`}
           text={commonName}
           subtext={createRelativeDate(date)}
@@ -43,7 +43,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       const { text, count, id } = item as Group;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/diary/${id}`}
           text={createLocaleString(text, "med")}
           count={count}
@@ -52,29 +51,34 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "birdDetail": {
-      const sighting = item as SightingWithLocation;
-
+      const { id, date, location } = item as SightingWithLocation;
+      const locationString = location
+        ? location.name
+        : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="card"
-          hybrid="birdDetail"
-          sighting={sighting}
+          href={`/sightings/${id}`}
+          text={createLocaleString(date, "med")}
+          subtext={locationString}
         />
       );
     }
 
     case "diaryDetail": {
-      const sighting = item as SightingWithLocation;
+      const { id, bird, location } = item as SightingWithLocation;
+      const locationString = location
+        ? location.name
+        : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="card"
-          hybrid="diaryDetail"
-          sighting={sighting}
+          href={`/sightings/${id}`}
+          text={bird.commonName}
+          subtext={locationString}
         />
       );
     }
 
     default:
-      throw new Error("Invalid variant");
+      throw new Error(Messages.InvalidSwitchCase);
   }
 }

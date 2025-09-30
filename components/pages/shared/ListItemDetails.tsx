@@ -19,7 +19,9 @@ export default function ListItemDetails({
             <span className="line-clamp-1 text-lg font-semibold md:grow md:text-xl">
               {text}
             </span>
-            <span className="text-lg italic md:shrink-0">{subtext}</span>
+            <span className="line-clamp-1 text-lg italic md:shrink-0">
+              {subtext}
+            </span>
           </div>
         </Link>
       </li>

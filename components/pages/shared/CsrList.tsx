@@ -7,7 +7,10 @@ import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import {
+  DETAILS_RESULTS_PER_PAGE,
+  RESULTS_PER_PAGE,
+} from "@/constants/constants";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 
@@ -16,8 +19,7 @@ type CsrListProps =
       defaultSortOption: SortValues;
       headingText?: never;
       page: number;
-      pendingVariant: "detailsList" | "list";
-
+      pendingVariant: "list";
       route: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -28,10 +30,9 @@ type CsrListProps =
   | {
       defaultSortOption: SortValues;
       headingText?: string;
-      pendingVariant: "detailsList" | "list";
-
-      route: string;
       page: number;
+      pendingVariant: "list";
+      route: string;
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
@@ -68,9 +69,16 @@ export default function CsrList({
     return <ErrorDisplay statusCode={error} />;
   }
 
+  const detailVariants: (typeof variant)[] = ["diaryDetail", "birdDetail"];
+
   const noResults = !items.length;
   const currentPage = page;
-  const pages = Math.ceil(count / RESULTS_PER_PAGE);
+  const pages = detailVariants.includes(variant)
+    ? Math.ceil(count / DETAILS_RESULTS_PER_PAGE)
+    : Math.ceil(count / RESULTS_PER_PAGE);
+  const listSize = detailVariants.includes(variant)
+    ? DETAILS_RESULTS_PER_PAGE
+    : RESULTS_PER_PAGE;
 
   return (
     <>
@@ -92,13 +100,11 @@ export default function CsrList({
             noResults={noResults}
           />
           {pending || !items ? (
-            <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
+            <Pending variant={pendingVariant} listSize={listSize} />
           ) : !items.length ? (
             <NoResultsDisplay />
           ) : (
-            <ul
-              className={`my-8 ${["diary", "sighting"].includes(variant) && "divide-y"} ${["birdDetail", "diaryDetail"].includes(variant) && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
-            >
+            <ul className="my-8 divide-y">
               {items.map((item, idx) => {
                 return <CsrListItem key={idx} variant={variant} item={item} />;
               })}

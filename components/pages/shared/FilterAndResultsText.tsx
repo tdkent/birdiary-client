@@ -1,4 +1,7 @@
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import {
+  DETAILS_RESULTS_PER_PAGE,
+  RESULTS_PER_PAGE,
+} from "@/constants/constants";
 import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
@@ -29,9 +32,18 @@ export default function FilterAndResultsText({
   const filterText = startsWith
     ? `Filtered by: '${startsWith}'`
     : "No filter applied";
-  const minResult = page * RESULTS_PER_PAGE - (RESULTS_PER_PAGE - 1);
+
+  const detailVariants: (typeof variant)[] = [
+    "diaryDetail",
+    "birdDetail",
+    "locationDetail",
+  ];
+  const resultsPerPage = detailVariants.includes(variant)
+    ? DETAILS_RESULTS_PER_PAGE
+    : RESULTS_PER_PAGE;
+  const minResult = page * resultsPerPage - (resultsPerPage - 1);
   const maxResult =
-    records < page * RESULTS_PER_PAGE ? records : page * RESULTS_PER_PAGE;
+    records < page * resultsPerPage ? records : page * resultsPerPage;
 
   return (
     <>
