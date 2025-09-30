@@ -4,7 +4,10 @@ import FilterList from "@/components/pages/shared/FilterList";
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import SortItems from "@/components/pages/shared/SortItems";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import {
+  DETAILS_RESULTS_PER_PAGE,
+  RESULTS_PER_PAGE,
+} from "@/constants/constants";
 import { getCookie } from "@/helpers/auth";
 import type {
   ServerResponseWithError,
@@ -61,7 +64,10 @@ export default async function List({
   const { countOfRecords, data } = result;
   const noResults = !data.length;
   const records = countOfRecords;
-  const pages = Math.ceil(records / RESULTS_PER_PAGE);
+  const pages =
+    variant === "locationDetail"
+      ? Math.ceil(records / DETAILS_RESULTS_PER_PAGE)
+      : Math.ceil(records / RESULTS_PER_PAGE);
 
   return (
     <>

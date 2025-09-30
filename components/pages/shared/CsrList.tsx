@@ -7,7 +7,10 @@ import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import {
+  DETAILS_RESULTS_PER_PAGE,
+  RESULTS_PER_PAGE,
+} from "@/constants/constants";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 
@@ -17,7 +20,6 @@ type CsrListProps =
       headingText?: never;
       page: number;
       pendingVariant: "detailsList" | "list";
-
       route: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -29,7 +31,6 @@ type CsrListProps =
       defaultSortOption: SortValues;
       headingText?: string;
       pendingVariant: "detailsList" | "list";
-
       route: string;
       page: number;
       sortBy: string;
@@ -68,9 +69,13 @@ export default function CsrList({
     return <ErrorDisplay statusCode={error} />;
   }
 
+  const detailVariants: (typeof variant)[] = ["diaryDetail", "birdDetail"];
+
   const noResults = !items.length;
   const currentPage = page;
-  const pages = Math.ceil(count / RESULTS_PER_PAGE);
+  const pages = detailVariants.includes(variant)
+    ? Math.ceil(count / DETAILS_RESULTS_PER_PAGE)
+    : Math.ceil(count / RESULTS_PER_PAGE);
 
   return (
     <>
