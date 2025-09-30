@@ -32,7 +32,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       } = item as SightingWithBird;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/sightings/${id}`}
           text={commonName}
           subtext={createRelativeDate(date)}
@@ -44,7 +43,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       const { text, count, id } = item as Group;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/diary/${id}`}
           text={createLocaleString(text, "med")}
           count={count}
@@ -59,7 +57,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/sightings/${id}`}
           text={createLocaleString(date, "med")}
           subtext={locationString}
@@ -74,7 +71,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="list"
           href={`/sightings/${id}`}
           text={bird.commonName}
           subtext={locationString}
@@ -83,6 +79,6 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     default:
-      throw new Error("Invalid variant");
+      throw new Error(Messages.InvalidSwitchCase);
   }
 }

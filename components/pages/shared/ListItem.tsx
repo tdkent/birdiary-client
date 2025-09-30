@@ -1,5 +1,6 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
+import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Group,
@@ -72,6 +73,6 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     default:
-      throw new Error("Invalid variant");
+      throw new Error(Messages.InvalidSwitchCase);
   }
 }

@@ -25,7 +25,7 @@ export default function CsrListItemDetails({
             <span className="line-clamp-1 text-lg font-semibold md:grow md:text-xl">
               {text}
             </span>
-            <span className="text-lg italic md:shrink-0">
+            <span className="line-clamp-1 text-lg italic md:shrink-0">
               {subtext ?? countText}
             </span>
           </div>
