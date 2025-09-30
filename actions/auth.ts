@@ -45,10 +45,10 @@ export async function auth({ pathname, ...args }: AuthParams) {
 }
 
 export async function deleteSessionCookie() {
-  deleteSession();
+  await deleteSession();
 }
 
 export async function signOut() {
-  deleteSession();
+  await deleteSession();
   redirect("/signin");
 }
