@@ -19,7 +19,7 @@ type CsrListProps =
       defaultSortOption: SortValues;
       headingText?: never;
       page: number;
-      pendingVariant: "detailsList" | "list";
+      pendingVariant: "list";
       route: string;
       sortBy: string;
       sortOptions: SortOptions;
@@ -30,9 +30,9 @@ type CsrListProps =
   | {
       defaultSortOption: SortValues;
       headingText?: string;
-      pendingVariant: "detailsList" | "list";
-      route: string;
       page: number;
+      pendingVariant: "list";
+      route: string;
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
@@ -76,6 +76,9 @@ export default function CsrList({
   const pages = detailVariants.includes(variant)
     ? Math.ceil(count / DETAILS_RESULTS_PER_PAGE)
     : Math.ceil(count / RESULTS_PER_PAGE);
+  const listSize = detailVariants.includes(variant)
+    ? DETAILS_RESULTS_PER_PAGE
+    : RESULTS_PER_PAGE;
 
   return (
     <>
@@ -97,7 +100,7 @@ export default function CsrList({
             noResults={noResults}
           />
           {pending || !items ? (
-            <Pending variant={pendingVariant} listSize={RESULTS_PER_PAGE} />
+            <Pending variant={pendingVariant} listSize={listSize} />
           ) : !items.length ? (
             <NoResultsDisplay />
           ) : (

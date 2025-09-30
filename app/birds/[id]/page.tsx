@@ -58,7 +58,7 @@ export default async function BirdDetailsView({
               defaultSortOption={defaultSortOption}
               headingText="Sightings"
               page={parsedPage}
-              pendingVariant="detailsList"
+              pendingVariant="list"
               route={apiRoutes.getSightingsListByType(
                 "birdId",
                 validBirdId,

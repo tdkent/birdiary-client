@@ -59,7 +59,7 @@ export default async function LocationDetailsView({
             <Suspense
               fallback={
                 <Pending
-                  variant="detailsListWithSorting"
+                  variant="listWithSorting"
                   listSize={DETAILS_RESULTS_PER_PAGE}
                 />
               }
