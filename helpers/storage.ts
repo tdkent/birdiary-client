@@ -1,5 +1,8 @@
 // Functions to process data in local storage
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import {
+  DETAILS_RESULTS_PER_PAGE,
+  RESULTS_PER_PAGE,
+} from "@/constants/constants";
 import birdNames from "@/data/birds";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
@@ -47,13 +50,13 @@ export function queryStorage(
       );
       const sorted = sortSightings(filterByDate, sortBy as SortValues);
       const paginated = sorted.slice(
-        RESULTS_PER_PAGE * (page - 1),
-        RESULTS_PER_PAGE * page,
+        DETAILS_RESULTS_PER_PAGE * (page - 1),
+        DETAILS_RESULTS_PER_PAGE * page,
       );
       return { items: paginated, countOfRecords: filterByDate.length };
     }
 
-    // Bird Details ("/birds/:name"): filter by name parameter in route string
+    // Bird Details ("/birds/:id"): filter by name parameter in route string
     case route.includes("/sightings?birdId="): {
       const queries = route.split("?")[1].split("&");
       const birdId = Number(queries[0].slice(7));
@@ -65,8 +68,8 @@ export function queryStorage(
       );
       const sorted = sortSightings(filterByBird, sortBy as SortValues);
       const paginated = sorted.slice(
-        RESULTS_PER_PAGE * (page - 1),
-        RESULTS_PER_PAGE * page,
+        DETAILS_RESULTS_PER_PAGE * (page - 1),
+        DETAILS_RESULTS_PER_PAGE * page,
       );
       return { items: paginated, countOfRecords: filterByBird.length };
     }
