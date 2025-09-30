@@ -91,9 +91,7 @@ export default async function List({
             page={+page!}
             noResults={noResults}
           />
-          <ul
-            className={`my-8 ${variant !== "locationDetail" && "divide-y"} ${variant === "locationDetail" && "flex flex-col gap-4 md:flex-row md:flex-wrap"}`}
-          >
+          <ul className="my-8 divide-y">
             {!data.length ? (
               <>
                 <p className="px-2 italic">No results found.</p>

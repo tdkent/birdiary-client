@@ -94,6 +94,7 @@ export enum Messages {
   PasswordValidationError = "Passwords must 8-36 characters.",
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
+  SightingLocationUnknown = "No location",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
   UnknownUnexpectedError = "An unexpected error occurred. Refreshing the page may help, or you can try again later.",

@@ -1,4 +1,3 @@
-import CardItem from "@/components/pages/shared/CardItem";
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
 import type {
@@ -62,7 +61,14 @@ export default function ListItem({ variant, item }: ListItemProps) {
 
     case "locationDetail": {
       const sighting = item as SightingWithBird;
-      return <CardItem sighting={sighting} />;
+      const href = `/sightings/${sighting.id}`;
+      return (
+        <ListItemDetails
+          href={href}
+          text={sighting.bird.commonName}
+          subtext={createLocaleString(sighting.date, "med")}
+        />
+      );
     }
 
     default:

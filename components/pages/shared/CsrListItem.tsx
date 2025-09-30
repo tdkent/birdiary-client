@@ -1,5 +1,6 @@
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
+import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Group,
@@ -52,24 +53,31 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "birdDetail": {
-      const sighting = item as SightingWithLocation;
-
+      const { id, date, location } = item as SightingWithLocation;
+      const locationString = location
+        ? location.name
+        : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="card"
-          hybrid="birdDetail"
-          sighting={sighting}
+          variant="list"
+          href={`/sightings/${id}`}
+          text={createLocaleString(date, "med")}
+          subtext={locationString}
         />
       );
     }
 
     case "diaryDetail": {
-      const sighting = item as SightingWithLocation;
+      const { id, bird, location } = item as SightingWithLocation;
+      const locationString = location
+        ? location.name
+        : Messages.SightingLocationUnknown;
       return (
         <CsrListItemDetails
-          variant="card"
-          hybrid="diaryDetail"
-          sighting={sighting}
+          variant="list"
+          href={`/sightings/${id}`}
+          text={bird.commonName}
+          subtext={locationString}
         />
       );
     }
