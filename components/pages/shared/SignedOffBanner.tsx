@@ -4,12 +4,24 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircleIcon, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignedOffBanner() {
   const { isSignedIn } = useAuth();
   const [open, setOpen] = useState(!isSignedIn);
+
+  useEffect(() => {
+    const checkSessionStorage = sessionStorage.getItem("showSignedOutBanner");
+    if (checkSessionStorage === "false") setOpen(false);
+  }, []);
+
   if (isSignedIn || !open) return null;
+
+  const handleClick = () => {
+    setOpen(false);
+    sessionStorage.setItem("showSignedOutBanner", "false");
+  };
+
   return (
     <>
       <div className="mb-8 grid w-full max-w-xl">
@@ -32,7 +44,7 @@ export default function SignedOffBanner() {
               className="w-fit"
               size="icon"
               variant="ghost"
-              onClick={() => setOpen(false)}
+              onClick={handleClick}
             >
               <X
                 strokeWidth={2}
