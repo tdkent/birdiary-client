@@ -31,7 +31,7 @@ export default function RootLayout({
           <AuthProvider>
             <ApiProvider>
               <LogoProvider>
-                <div className="min-h-[calc(100vh-80px)]">
+                <div className="min-h-[calc(100vh-116px)]">
                   <Header />
                   <main className="mx-auto max-w-[1024px] py-10 pl-4 pr-6 md:pl-8 md:pr-12 lg:pr-48">
                     {children}
