@@ -60,7 +60,7 @@ export async function transferStorageData(storageData: SightingInStorage[]) {
   }
 }
 
-export async function updateFavoriteBird(favoriteBirdId: number) {
+export async function updateFavoriteBird(favoriteBirdId: number | null) {
   try {
     const token = await getCookie();
     const response = await fetch(apiRoutes.userFavoriteBird, {

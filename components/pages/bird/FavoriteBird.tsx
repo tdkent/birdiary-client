@@ -19,13 +19,5 @@ export default async function FavoriteBird({ birdId }: FavoriteBirdProps) {
   }
   const { favoriteBirdId } = result;
 
-  if (birdId === favoriteBirdId) {
-    return (
-      <>
-        <p>This is your favorite bird</p>
-      </>
-    );
-  }
-
-  return <SelectFavoriteBird birdId={birdId} />;
+  return <SelectFavoriteBird birdId={birdId} favoriteBirdId={favoriteBirdId} />;
 }

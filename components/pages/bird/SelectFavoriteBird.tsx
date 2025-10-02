@@ -10,13 +10,21 @@ import { useState } from "react";
 
 type SelectFavoriteBirdType = {
   birdId: number;
+  favoriteBirdId: number | null;
 };
 
-export default function SelectFavoriteBird({ birdId }: SelectFavoriteBirdType) {
+export default function SelectFavoriteBird({
+  birdId,
+  favoriteBirdId,
+}: SelectFavoriteBirdType) {
   const [error, setError] = useState<number | null>(null);
+
+  const isCurrFav = birdId === favoriteBirdId;
+
   const handleClick = async () => {
     setError(null);
-    const result: User | ExpectedServerError = await updateFavoriteBird(birdId);
+    const newId = isCurrFav ? null : birdId;
+    const result: User | ExpectedServerError = await updateFavoriteBird(newId);
     if ("error" in result) {
       return setError(result.statusCode);
     }
@@ -31,8 +39,21 @@ export default function SelectFavoriteBird({ birdId }: SelectFavoriteBirdType) {
           variant="outline"
           size="lg"
         >
-          <Heart size={18} strokeWidth={1.5} />
-          Set favorite bird
+          {isCurrFav ? (
+            <>
+              <Heart
+                className="fill-pink-400 stroke-pink-900"
+                size={18}
+                strokeWidth={1.5}
+              />
+              Your favorite bird
+            </>
+          ) : (
+            <>
+              <Heart size={18} strokeWidth={1.5} />
+              Set favorite bird
+            </>
+          )}
         </Button>
       </div>
     </>
