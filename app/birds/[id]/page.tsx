@@ -1,7 +1,8 @@
 import BirdDetails from "@/components/pages/bird/BirdDetails";
+import FavoriteBird from "@/components/pages/bird/FavoriteBird";
 import CsrList from "@/components/pages/shared/CsrList";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import Pending from "@/components/pages/shared/Pending";
+import Pending, { ButtonSkeleton } from "@/components/pages/shared/Pending";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
@@ -54,6 +55,9 @@ export default async function BirdDetailsView({
           <>
             <Suspense fallback={<Pending variant="birdDetails" />}>
               <BirdDetails birdId={validBirdId} />
+            </Suspense>
+            <Suspense fallback={<ButtonSkeleton />}>
+              <FavoriteBird birdId={validBirdId} />
             </Suspense>
             <Separator className="mx-auto w-4/5" />
             <CsrList

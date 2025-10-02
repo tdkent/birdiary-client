@@ -1,12 +1,15 @@
+"use server";
+
 import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
 import { apiRoutes, Messages } from "@/models/api";
 import type { SightingInStorage, UserProfile } from "@/models/display";
+import { revalidatePath } from "next/cache";
 
 export async function getUser() {
   const token = await getCookie();
   try {
-    const response = await fetch(BASE_URL + "/users/profile", {
+    const response = await fetch(BASE_URL + "/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -50,6 +53,25 @@ export async function transferStorageData(storageData: SightingInStorage[]) {
       },
       body: JSON.stringify(storageData),
     });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
+export async function updateFavoriteBird(favoriteBirdId: number | null) {
+  try {
+    const token = await getCookie();
+    const response = await fetch(apiRoutes.userFavoriteBird, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ favoriteBirdId }),
+    });
+    if (response.ok) revalidatePath("/users");
     return response.json();
   } catch (error) {
     console.error(error);

@@ -184,7 +184,7 @@ function BirdImageSkeleton() {
   return <Skeleton className="aspect-[5/3] w-[85%] max-md:w-full" />;
 }
 
-function ButtonSkeleton() {
+export function ButtonSkeleton() {
   return <Skeleton className="h-14 w-36 md:h-16" />;
 }
 

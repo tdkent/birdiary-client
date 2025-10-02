@@ -54,6 +54,7 @@ export const apiRoutes = {
   signup: `${BASE_URL}/users/signup`,
   signin: `${BASE_URL}/users/signin`,
   user: `${BASE_URL}/users`,
+  userFavoriteBird: `${BASE_URL}/users/favoritebird`,
   userPassword: `${BASE_URL}/users/password`,
   userStorage: `${BASE_URL}/users/transferstorage`,
 } as const;
