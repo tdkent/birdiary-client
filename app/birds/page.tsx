@@ -1,6 +1,7 @@
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
+import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
@@ -24,6 +25,7 @@ export default async function BirdsView({
 
   return (
     <>
+      <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
           headingText="Birdpedia"

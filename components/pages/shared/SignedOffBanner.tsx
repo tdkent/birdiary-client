@@ -27,7 +27,7 @@ export default function SignedOffBanner() {
       <div className="mb-8 grid w-full max-w-xl">
         <Alert className="border-0 bg-purple-100 px-4 py-1 dark:bg-purple-900">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex w-4/5 items-center gap-2">
               <AlertCircleIcon
                 className="shrink-0 grow-0 stroke-purple-600 dark:stroke-purple-400"
                 strokeWidth={2}
