@@ -27,5 +27,5 @@ export default async function FavoriteBird({ birdId }: FavoriteBirdProps) {
     );
   }
 
-  return <SelectFavoriteBird />;
+  return <SelectFavoriteBird birdId={birdId} />;
 }
