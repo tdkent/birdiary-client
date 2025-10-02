@@ -6,7 +6,7 @@ import type { SightingInStorage, UserProfile } from "@/models/display";
 export async function getUser() {
   const token = await getCookie();
   try {
-    const response = await fetch(BASE_URL + "/users/profile", {
+    const response = await fetch(BASE_URL + "/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
