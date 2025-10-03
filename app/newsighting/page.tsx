@@ -1,6 +1,11 @@
 import SightingForm from "@/components/forms/SightingForm";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create a new bird sighting | Birdiary",
+};
 
 export default function NewView() {
   return (

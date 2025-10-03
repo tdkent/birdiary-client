@@ -4,6 +4,12 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Suspense } from "react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "View my profile | Birdiary",
+};
+
 /** View of user's basic profile information */
 export default function ProfileView() {
   return (

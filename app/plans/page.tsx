@@ -10,6 +10,12 @@ import {
 import { getCookie } from "@/helpers/auth";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Plans | Birdiary",
+};
+
 export default async function PlansView() {
   const token = await getCookie();
   return (

@@ -11,8 +11,13 @@ import {
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "My birdwatching life list | Birdiary",
+};
 
 export default async function LifeListView({
   searchParams,

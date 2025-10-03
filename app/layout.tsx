@@ -11,7 +11,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Birdiary",
-  description: "A logging and diary application for bird watchers",
+  description: "Quickly log your bird sightings and build your birding diary.",
 };
 
 export default function RootLayout({
