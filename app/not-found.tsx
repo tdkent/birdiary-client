@@ -1,6 +1,11 @@
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "404 - Page Not Found | Birdiary",
+};
 
 /** 404 page not found view */
 export default function NotFound() {

@@ -10,7 +10,12 @@ import {
   sortByDateOptions,
   sortBySightingsCount,
 } from "@/models/form";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "My birdwatching diary | Birdiary",
+};
 
 export default async function DiaryView({
   searchParams,

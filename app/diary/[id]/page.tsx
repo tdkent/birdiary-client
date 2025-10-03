@@ -4,20 +4,33 @@ import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { checkValidParamInteger } from "@/helpers/data";
-import { convertDateIdToValidDate } from "@/helpers/dates";
+import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-type DiaryParams = {
+type DiaryViewProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
+export async function generateMetadata({
+  params,
+}: DiaryViewProps): Promise<Metadata> {
+  const diaryId = (await params).id;
+  const iso = convertDateIdToValidDate(diaryId) as string;
+  const date = createLocaleString(iso, "med");
+
+  return {
+    title: `My diary for ${date} | Birdiary`,
+  };
+}
+
 export default async function DiaryDetailsView({
   params,
   searchParams,
-}: DiaryParams) {
+}: DiaryViewProps) {
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 

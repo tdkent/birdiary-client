@@ -1,19 +1,15 @@
 "use client";
 
 import { signOut as signOutAction } from "@/actions/auth";
+import { getSighting } from "@/actions/sighting";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { getCookie } from "@/helpers/auth";
+import { checkSession } from "@/helpers/auth";
 import { useToast } from "@/hooks/use-toast";
-import {
-  apiRoutes,
-  Messages,
-  type ServerResponseWithError,
-  type ServerResponseWithObject,
-} from "@/models/api";
+import { Messages } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -31,21 +27,14 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   const { signOut } = useAuth();
   const { toast } = useToast();
 
-  const route = apiRoutes.sighting(sightingId);
-
   useEffect(() => {
     async function query() {
       setError(null);
-      const token = await getCookie();
-      if (token) {
+      const hasSession = await checkSession();
+      if (hasSession) {
         setPending(true);
         try {
-          const response = await fetch(route, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          const result: ServerResponseWithObject | ServerResponseWithError =
-            await response.json();
+          const result = await getSighting(sightingId);
 
           if ("error" in result) {
             if (result.statusCode === 401) {
@@ -59,8 +48,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
             throw new Error(`${result.statusCode}`);
           }
 
-          const sighting = result as SightingWithLocation;
-          setData(sighting);
+          setData(result);
         } catch (error) {
           if (error instanceof Error) {
             setError(error.message);
@@ -83,7 +71,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
       }
     }
     query();
-  }, [route, sightingId, signOut, toast]);
+  }, [sightingId, signOut, toast]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

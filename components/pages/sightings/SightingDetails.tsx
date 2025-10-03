@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut as signOutAction } from "@/actions/auth";
+import { getSighting } from "@/actions/sighting";
 import BirdImage from "@/components/forms/BirdImage";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
@@ -9,18 +10,13 @@ import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { getCookie } from "@/helpers/auth";
+import { checkSession } from "@/helpers/auth";
 import {
   convertSightingDateToInteger,
   createLocaleString,
 } from "@/helpers/dates";
 import { useToast } from "@/hooks/use-toast";
-import {
-  apiRoutes,
-  Messages,
-  ServerResponseWithError,
-  ServerResponseWithObject,
-} from "@/models/api";
+import { Messages } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -30,7 +26,7 @@ type SightingProps = {
 };
 
 /** Fetch and display sighting data. */
-export default function Sighting({ sightingId }: SightingProps) {
+export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn } = useAuth();
   const [data, setData] = useState<SightingWithLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
@@ -40,21 +36,14 @@ export default function Sighting({ sightingId }: SightingProps) {
   const { toast } = useToast();
   const { signOut } = useAuth();
 
-  const route = apiRoutes.sighting(sightingId);
-
   useEffect(() => {
     async function query() {
       setError(null);
-      const token = await getCookie();
-      if (token) {
+      const hasSession = await checkSession();
+      if (hasSession) {
         setPending(true);
         try {
-          const response = await fetch(route, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          const result: ServerResponseWithObject | ServerResponseWithError =
-            await response.json();
+          const result = await getSighting(sightingId);
 
           if ("error" in result) {
             if (result.statusCode === 401) {
@@ -68,8 +57,7 @@ export default function Sighting({ sightingId }: SightingProps) {
             throw new Error(`${result.statusCode}`);
           }
 
-          const sighting = result as SightingWithLocation;
-          setData(sighting);
+          setData(result);
         } catch (error) {
           if (error instanceof Error) {
             setError(error.message);
@@ -92,7 +80,7 @@ export default function Sighting({ sightingId }: SightingProps) {
       }
     }
     query();
-  }, [route, sightingId, signOut, toast]);
+  }, [sightingId, signOut, toast]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

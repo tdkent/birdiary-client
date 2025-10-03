@@ -1,16 +1,32 @@
+import { getSighting } from "@/actions/sighting";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import Sighting from "@/components/pages/sightings/Sighting";
+import SightingDetails from "@/components/pages/sightings/SightingDetails";
 import { checkValidParamInteger } from "@/helpers/data";
+import type { SightingWithLocation } from "@/models/display";
+import type { Metadata } from "next";
+
+type SightingViewProps = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata({
+  params,
+}: SightingViewProps): Promise<Metadata> {
+  const sightingId = (await params).id;
+  const sighting = (await getSighting(
+    Number(sightingId),
+  )) as SightingWithLocation;
+
+  return {
+    title: `Sighting: ${sighting.bird.commonName} (ID #${sighting.id}) | Birdiary`,
+  };
+}
 
 /** Single sighting view. */
-export default async function SightingView({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function SightingView({ params }: SightingViewProps) {
   const { id } = await params;
   const validId = checkValidParamInteger(id);
 
@@ -24,7 +40,7 @@ export default async function SightingView({
         />
         {validId ? (
           <>
-            <Sighting sightingId={validId} />
+            <SightingDetails sightingId={validId} />
           </>
         ) : (
           <>

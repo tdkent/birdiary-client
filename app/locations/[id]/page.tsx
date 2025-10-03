@@ -1,3 +1,4 @@
+import { getLocation } from "@/actions/location";
 import LocationDetails from "@/components/pages/locations/LocationDetails";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
@@ -8,23 +9,36 @@ import { Separator } from "@/components/ui/separator";
 import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
+import type { Location } from "@/models/db";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-type LocationDetailsView = {
+type LocationDetailsViewProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
+export async function generateMetadata({
+  params,
+}: LocationDetailsViewProps): Promise<Metadata> {
+  const locationId = (await params).id;
+  const location = (await getLocation(Number(locationId))) as Location;
+
+  return {
+    title: `${location.name} | Birdiary`,
+  };
+}
+
 export default async function LocationDetailsView({
   params,
   searchParams,
-}: LocationDetailsView) {
+}: LocationDetailsViewProps) {
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 

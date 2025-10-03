@@ -2,7 +2,12 @@ import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Home | Birdiary",
+};
 
 export default function HomeView() {
   return (

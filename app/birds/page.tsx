@@ -7,8 +7,14 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Browse 800+ species of birds | Birdiary",
+  description: "Browse more than 800 species of North American birds.",
+};
 
 export default async function BirdsView({
   searchParams,
