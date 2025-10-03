@@ -1,3 +1,4 @@
+import { getBird } from "@/actions/bird";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import FavoriteBird from "@/components/pages/bird/FavoriteBird";
 import CsrList from "@/components/pages/shared/CsrList";
@@ -11,19 +12,33 @@ import { BIRD_COUNT } from "@/constants/constants";
 import birdNames from "@/data/birds";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
+import { Bird } from "@/models/db";
 import { SortValues, sortByDateOptions } from "@/models/form";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-type BirdDetailsViewParams = {
+type BirdDetailsViewProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
+export async function generateMetadata({
+  params,
+}: BirdDetailsViewProps): Promise<Metadata> {
+  const birdId = (await params).id;
+  const bird = (await getBird(Number(birdId))) as Bird;
+
+  return {
+    title: `${bird.commonName} | Birdiary`,
+    description: bird.description,
+  };
+}
+
 export default async function BirdDetailsView({
   params,
   searchParams,
-}: BirdDetailsViewParams) {
+}: BirdDetailsViewProps) {
   const { id } = await params;
   const { page, sortBy } = await searchParams;
 
