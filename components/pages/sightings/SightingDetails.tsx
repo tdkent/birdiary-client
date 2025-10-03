@@ -30,7 +30,7 @@ type SightingProps = {
 };
 
 /** Fetch and display sighting data. */
-export default function Sighting({ sightingId }: SightingProps) {
+export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn } = useAuth();
   const [data, setData] = useState<SightingWithLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
