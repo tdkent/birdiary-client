@@ -20,8 +20,8 @@ export type UserWithSightingsCount = User & {
 export type UserProfile = User & {
   bird: Bird | null;
   count: {
-    totalSightings: number;
-    totalDistinctSightings: number;
+    countOfAllSightings: number;
+    countOfLifeListSightings: number;
   };
 };
 
