@@ -44,7 +44,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
         <ListItemDetails
           href={`/birds/${id}`}
           text={commonName}
-          subtext={createLocaleString(date, "med")}
+          subtext={`First observed ${createLocaleString(date, "med")}`}
         />
       );
     }
