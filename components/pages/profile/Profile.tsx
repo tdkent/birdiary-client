@@ -26,7 +26,7 @@ export default async function Profile() {
     address,
     bio,
     bird,
-    count: { totalSightings, totalDistinctSightings },
+    count: { countOfAllSightings, countOfLifeListSightings },
     createdAt,
     email,
     name,
@@ -84,13 +84,15 @@ export default async function Profile() {
               <dt className="text-sm font-semibold uppercase md:text-base">
                 Total Sightings
               </dt>
-              <dd className="text-xl md:text-2xl">{totalSightings}</dd>
+              <dd className="text-xl md:text-2xl">{countOfAllSightings}</dd>
             </div>
             <div className="flex flex-col gap-1">
               <dt className="text-sm font-semibold uppercase md:text-base">
                 Life List Species
               </dt>
-              <dd className="text-xl md:text-2xl">{totalDistinctSightings}</dd>
+              <dd className="text-xl md:text-2xl">
+                {countOfLifeListSightings}
+              </dd>
             </div>
           </dl>
           <TransferStorageData />

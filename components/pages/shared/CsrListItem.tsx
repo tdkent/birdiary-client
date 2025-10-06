@@ -4,6 +4,7 @@ import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Group,
+  LifeList,
   ListVariant,
   LocationWithSightingsCount,
   SightingInStorage,
@@ -15,6 +16,7 @@ type CsrListItemProps = {
   item:
     | BirdWithCount
     | Group
+    | LifeList
     | LocationWithSightingsCount
     | SightingWithBird
     | SightingWithLocation

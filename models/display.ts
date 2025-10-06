@@ -1,6 +1,7 @@
 import type { Bird, Location, Sighting, User } from "@/models/db";
 
 export type BirdWithCount = Bird & { count?: number };
+export type LifeList = { id: number; date: string; commonName: string };
 export type LocationWithSightingsCount = Location & { count: number };
 export type SightingWithBird = Sighting & { bird: Bird };
 export type SightingWithLocation = SightingWithBird & {
@@ -20,8 +21,8 @@ export type UserWithSightingsCount = User & {
 export type UserProfile = User & {
   bird: Bird | null;
   count: {
-    totalSightings: number;
-    totalDistinctSightings: number;
+    countOfAllSightings: number;
+    countOfLifeListSightings: number;
   };
 };
 
@@ -53,6 +54,7 @@ export type List = {
   data:
     | BirdWithCount[]
     | Group[]
+    | LifeList[]
     | LocationWithSightingsCount[]
     | SightingWithBird[]
     | SightingWithLocation[]

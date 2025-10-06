@@ -4,6 +4,7 @@ import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Group,
+  LifeList,
   ListVariant,
   LocationWithSightingsCount,
   SightingInStorage,
@@ -16,6 +17,7 @@ type ListItemProps = {
   item:
     | BirdWithCount
     | Group
+    | LifeList
     | LocationWithSightingsCount
     | SightingWithBird
     | SightingWithLocation
@@ -37,15 +39,12 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "lifelistSighting": {
-      const {
-        bird: { commonName, id },
-        date,
-      } = item as SightingWithBird;
+      const { commonName, date, id } = item as LifeList;
       return (
         <ListItemDetails
           href={`/birds/${id}`}
           text={commonName}
-          subtext={createLocaleString(date, "med")}
+          subtext={`First observed ${createLocaleString(date, "med")}`}
         />
       );
     }
