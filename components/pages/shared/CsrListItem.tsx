@@ -1,8 +1,10 @@
 import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
+import ListItemNEW from "@/components/pages/shared/ListItemNEW";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
+  Diary,
   Group,
   LifeList,
   ListVariant,
@@ -15,6 +17,7 @@ import type {
 type CsrListItemProps = {
   item:
     | BirdWithCount
+    | Diary
     | Group
     | LifeList
     | LocationWithSightingsCount
@@ -42,13 +45,16 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diary": {
-      const { text, count, id } = item as Group;
+      const { count, date, dateId, sightings } = item as Diary;
       return (
-        <CsrListItemDetails
-          href={`/diary/${id}`}
-          text={createLocaleString(text, "med")}
-          count={count}
-        />
+        <>
+          <ListItemNEW
+            href={`/diary/${dateId}`}
+            mainText={createLocaleString(date, "med")}
+            sightings={sightings}
+            subText={`${count} sighting${count === 1 ? "" : "s"}`}
+          />
+        </>
       );
     }
 

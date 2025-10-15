@@ -32,6 +32,13 @@ export type Group = {
   count: number;
 };
 
+export type Diary = {
+  dateId: number;
+  date: string;
+  count: number;
+  sightings: string[];
+};
+
 // export type ListItem = SightingWithBird | SightingWithLocation | BirdWithCount | Group;
 
 export type ListWithCount = {
@@ -53,6 +60,7 @@ export type CountOfRecords = { countOfRecords: number };
 export type List = {
   data:
     | BirdWithCount[]
+    | Diary[] // Diary
     | Group[]
     | LifeList[]
     | LocationWithSightingsCount[]
