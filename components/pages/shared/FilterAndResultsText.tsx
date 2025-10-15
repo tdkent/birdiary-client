@@ -6,7 +6,7 @@ import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
   variant: ListVariant;
-  startsWith: string | undefined;
+  startsWith?: string;
   records: number;
   page: number;
   noResults: boolean;

@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 type PaginateListProps = {
   currentPage: number;
   finalPage: number;
-  startsWith: string | undefined;
+  startsWith?: string;
   sortBy: string | undefined;
 };
 

@@ -14,31 +14,17 @@ import {
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 
-type CsrListProps =
-  | {
-      defaultSortOption: SortValues;
-      headingText?: never;
-      page: number;
-      pendingVariant: "list";
-      route: string;
-      sortBy: string;
-      sortOptions: SortOptions;
-      startsWith?: never;
-      tag: "diary";
-      variant: "diary";
-    }
-  | {
-      defaultSortOption: SortValues;
-      headingText?: string;
-      page: number;
-      pendingVariant: "list";
-      route: string;
-      sortBy: string;
-      sortOptions: SortOptions;
-      startsWith?: never;
-      tag: "sightings";
-      variant: "sighting" | "diaryDetail" | "birdDetail";
-    };
+type CsrListProps = {
+  defaultSortOption: SortValues;
+  headingText?: string;
+  page: number;
+  pendingVariant: "list";
+  route: string;
+  sortBy: string;
+  sortOptions: SortOptions;
+  tag: "diary" | "sightings";
+  variant: "birdDetail" | "diary" | "diaryDetail" | "sighting";
+};
 
 /** CSR component that renders a list of items */
 export default function CsrList({
@@ -49,7 +35,6 @@ export default function CsrList({
   route,
   sortBy,
   sortOptions,
-  startsWith,
   tag,
   variant,
 }: CsrListProps) {
@@ -94,7 +79,6 @@ export default function CsrList({
           />
           <FilterAndResultsText
             variant={variant}
-            startsWith={startsWith}
             records={count}
             page={+page!}
             noResults={noResults}
@@ -116,7 +100,6 @@ export default function CsrList({
             currentPage={currentPage}
             finalPage={pages}
             sortBy={sortBy}
-            startsWith={startsWith}
           />
         )}
       </section>
