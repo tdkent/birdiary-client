@@ -62,7 +62,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "birdDetail": {
-      const { id, date, location } = item as SightingWithLocation;
+      const { id, date, isNew, location } = item as SightingWithLocation;
       const locationString = location
         ? location.name
         : Messages.SightingLocationUnknown;
@@ -72,6 +72,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
           <ListItemNEW
             href={`/sightings/${id}`}
             mainText={createLocaleString(date, "med")}
+            isNew={isNew}
             subText={<LocationWithMapPin locationString={locationString} />}
           />
         </>
