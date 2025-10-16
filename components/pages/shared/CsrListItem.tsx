@@ -33,16 +33,24 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
   switch (variant) {
     case "sighting": {
       const {
-        bird: { commonName },
+        bird: { commonName, imgSecureUrl },
         date,
         id,
+        isNew,
       } = item as SightingWithBird;
       return (
-        <CsrListItemDetails
-          href={`/sightings/${id}`}
-          text={commonName}
-          subtext={createRelativeDate(date)}
-        />
+        <>
+          <ListItemNEW
+            commonName={commonName}
+            href={`/sightings/${id}`}
+            iconVariant="single"
+            imgSecureUrl={imgSecureUrl}
+            isNew={isNew}
+            mainText={commonName}
+            sightingId={id}
+            subText={createRelativeDate(date)}
+          />
+        </>
       );
     }
 
@@ -53,6 +61,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
           <ListItemNEW
             count={count}
             href={`/diary/${dateId}`}
+            iconVariant="multi"
             mainText={createLocaleString(date, "med")}
             sightings={sightings}
             subText={`${count} sighting${count === 1 ? "" : "s"}`}
@@ -71,8 +80,9 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         <>
           <ListItemNEW
             href={`/sightings/${id}`}
-            mainText={createLocaleString(date, "med")}
+            iconVariant="none"
             isNew={isNew}
+            mainText={createLocaleString(date, "med")}
             subText={<LocationWithMapPin locationString={locationString} />}
           />
         </>

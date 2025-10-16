@@ -3,20 +3,53 @@ import SightingBadge from "@/components/pages/shared/SightingBadge";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type ListItemProps = {
-  count?: number;
-  href: string;
-  isNew?: boolean;
-  mainText: string;
-  subText: string | ReactNode;
-  sightings?: string[];
-};
+type ListItemProps =
+  | {
+      commonName?: never;
+      count: number;
+      href: string;
+      iconVariant?: "multi";
+      imgSecureUrl?: never;
+      isNew?: boolean;
+      mainText: string;
+      sightingId?: never;
+      sightings: string[];
+      subText: string | ReactNode;
+    }
+  | {
+      commonName?: never;
+      count?: never;
+      href: string;
+      iconVariant: "none";
+      imgSecureUrl?: never;
+      isNew?: boolean;
+      mainText: string;
+      sightingId?: never;
+      sightings?: never;
+      subText: string | ReactNode;
+    }
+  | {
+      commonName: string;
+      count?: never;
+      href: string;
+      iconVariant?: "single";
+      imgSecureUrl: string | null;
+      isNew?: boolean;
+      mainText: string;
+      sightingId: number;
+      sightings?: never;
+      subText: string | ReactNode;
+    };
 
 export default function ListItemNEW({
+  commonName,
   count,
   href,
+  iconVariant,
+  imgSecureUrl,
   isNew,
   mainText,
+  sightingId,
   sightings,
   subText,
 }: ListItemProps) {
@@ -36,7 +69,21 @@ export default function ListItemNEW({
                 {subText}
               </span>
             </div>
-            <Icons count={count} sightings={sightings} />
+            {iconVariant === "multi" && (
+              <Icons
+                count={count}
+                sightings={sightings}
+                variant={iconVariant}
+              />
+            )}
+            {iconVariant === "single" && (
+              <Icons
+                commonName={commonName}
+                imgSecureUrl={imgSecureUrl}
+                sightingId={sightingId}
+                variant={iconVariant}
+              />
+            )}
           </div>
         </Link>
       </li>
