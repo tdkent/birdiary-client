@@ -49,6 +49,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       return (
         <>
           <ListItemNEW
+            count={count}
             href={`/diary/${dateId}`}
             mainText={createLocaleString(date, "med")}
             sightings={sightings.slice(0, 3)}
