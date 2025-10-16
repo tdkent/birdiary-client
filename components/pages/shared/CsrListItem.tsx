@@ -52,7 +52,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
             count={count}
             href={`/diary/${dateId}`}
             mainText={createLocaleString(date, "med")}
-            sightings={sightings.slice(0, 3)}
+            sightings={sightings}
             subText={`${count} sighting${count === 1 ? "" : "s"}`}
           />
         </>
