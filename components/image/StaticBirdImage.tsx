@@ -8,9 +8,9 @@ type BirdImageProps = {
 };
 
 export default function StaticBirdImage({ bird, sizes }: BirdImageProps) {
-  const { imgUrl } = bird;
+  const { imgSecureUrl } = bird;
 
-  if (!imgUrl) {
+  if (!imgSecureUrl) {
     return (
       <>
         <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
@@ -21,5 +21,5 @@ export default function StaticBirdImage({ bird, sizes }: BirdImageProps) {
     );
   }
 
-  return <BirdImageDisplay bird={bird} imgUrl={imgUrl} sizes={sizes} />;
+  return <BirdImageDisplay bird={bird} imgUrl={imgSecureUrl} sizes={sizes} />;
 }

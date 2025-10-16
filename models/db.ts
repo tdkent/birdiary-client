@@ -6,7 +6,8 @@ export type Bird = {
   description: string;
   rarity: "Common" | "Uncommon" | "Rare";
   imgAttribute: string | null;
-  imgUrl: string | null;
+  imgPublicId: string | null;
+  imgSecureUrl: string | null;
 };
 
 export type Location = {

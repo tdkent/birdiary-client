@@ -22,7 +22,7 @@ export default function Icons({ count, sightings }: IconsProps) {
   const remainingCount = count - iconsToShow;
   return (
     <>
-      <div className="flex sm:gap-1 lg:gap-2">
+      <div className="flex pr-4 sm:gap-1 lg:gap-2">
         {sightings.slice(0, iconsToShow).map((sighting) => {
           const [sightingId, commonName, imgSecureUrl] = sighting.split(",");
           return (
