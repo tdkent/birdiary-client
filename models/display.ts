@@ -4,8 +4,11 @@ export type BirdWithCount = Bird & { count?: number };
 export type LifeList = { id: number; date: string; commonName: string };
 export type LocationWithSightingsCount = Location & { count: number };
 export type SightingWithBird = Sighting & { bird: Bird };
-export type SightingWithLocation = SightingWithBird & {
+export type SightingWithLocation = Sighting & {
   location: Location | null;
+};
+export type SightingWithBirdAndLocation = Sighting & { bird: Bird } & {
+  location: Location;
 };
 export type SightingInStorage = Pick<
   Sighting,
@@ -60,11 +63,12 @@ export type CountOfRecords = { countOfRecords: number };
 export type List = {
   data:
     | BirdWithCount[]
-    | Diary[] // Diary
+    | Diary[] // Diary (list)
     | Group[]
     | LifeList[]
     | LocationWithSightingsCount[]
     | SightingWithBird[]
+    | SightingWithBirdAndLocation[] // Bird Details (list)
     | SightingWithLocation[]
     | SightingInStorage[];
 };

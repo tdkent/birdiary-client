@@ -11,8 +11,10 @@ import type {
   LocationWithSightingsCount,
   SightingInStorage,
   SightingWithBird,
+  SightingWithBirdAndLocation,
   SightingWithLocation,
 } from "@/models/display";
+import { MapPin } from "lucide-react";
 
 type CsrListItemProps = {
   item:
@@ -64,17 +66,20 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       const locationString = location
         ? location.name
         : Messages.SightingLocationUnknown;
+
       return (
-        <CsrListItemDetails
-          href={`/sightings/${id}`}
-          text={createLocaleString(date, "med")}
-          subtext={locationString}
-        />
+        <>
+          <ListItemNEW
+            href={`/sightings/${id}`}
+            mainText={createLocaleString(date, "med")}
+            subText={<LocationWithMapPin locationString={locationString} />}
+          />
+        </>
       );
     }
 
     case "diaryDetail": {
-      const { id, bird, location } = item as SightingWithLocation;
+      const { id, bird, location } = item as SightingWithBirdAndLocation;
       const locationString = location
         ? location.name
         : Messages.SightingLocationUnknown;
@@ -90,4 +95,13 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     default:
       throw new Error(Messages.InvalidSwitchCase);
   }
+}
+
+function LocationWithMapPin({ locationString }: { locationString: string }) {
+  return (
+    <>
+      <MapPin strokeWidth={1.5} size={12} />
+      {locationString}
+    </>
+  );
 }
