@@ -21,11 +21,11 @@ export default function ListItemNEW({
       <li className="list-hover hover:scale-[1.025]">
         <Link href={href} className="">
           <div className="flex h-[72px] items-center justify-between md:h-20">
-            <div className="flex flex-col px-4">
+            <div className="flex flex-col px-4 md:w-2/5 md:flex-row md:items-center">
               <span className="line-clamp-1 text-base font-semibold md:grow md:text-xl">
                 {mainText}
               </span>
-              <span className="line-clamp-1 text-sm italic md:shrink-0">
+              <span className="line-clamp-1 text-sm italic md:shrink-0 md:text-base">
                 {subText}
               </span>
             </div>
