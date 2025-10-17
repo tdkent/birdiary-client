@@ -5,7 +5,7 @@ import {
   MOBILE_REMAINING_COUNT,
 } from "@/constants/constants";
 import { Messages } from "@/models/api";
-import { Plus } from "lucide-react";
+import { Bird, Plus } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -53,13 +53,23 @@ export default function Icons({
               return (
                 <React.Fragment key={sightingId}>
                   <div className="relative ml-[-20px] aspect-square w-14 overflow-hidden rounded-full bg-background shadow-md shadow-gray-800 dark:shadow-gray-900 sm:ml-[-10px] md:w-16">
-                    <Image
-                      alt={commonName}
-                      className="object-cover"
-                      fill
-                      src={imgSecureUrl}
-                      quality={30}
-                    />
+                    {imgSecureUrl ? (
+                      <Image
+                        alt={commonName}
+                        className="object-cover"
+                        fill
+                        src={imgSecureUrl}
+                        quality={30}
+                      />
+                    ) : (
+                      <>
+                        <Bird
+                          strokeWidth={1.5}
+                          size={40}
+                          className="fill-primary"
+                        />
+                      </>
+                    )}
                   </div>
                 </React.Fragment>
               );
@@ -87,14 +97,28 @@ export default function Icons({
             key={sightingId}
           >
             <React.Fragment>
-              <div className="relative aspect-square w-14 overflow-hidden rounded-full bg-background shadow-md shadow-gray-800 dark:shadow-gray-900 md:w-16">
-                <Image
-                  alt={commonName}
-                  className="object-cover"
-                  fill
-                  src={imgSecureUrl}
-                  quality={30}
-                />
+              <div
+                className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} shadow-gray-800 dark:shadow-gray-900 md:w-16`}
+              >
+                {imgSecureUrl ? (
+                  <>
+                    <Image
+                      alt={commonName}
+                      className="object-cover"
+                      fill
+                      src={imgSecureUrl}
+                      quality={30}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Bird
+                      strokeWidth={1.5}
+                      size={40}
+                      className="fill-primary"
+                    />
+                  </>
+                )}
               </div>
             </React.Fragment>
           </div>
