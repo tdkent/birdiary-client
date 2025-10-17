@@ -50,23 +50,28 @@ export default function Icons({
             {sightings.slice(0, iconsToShow).map((sighting) => {
               const [sightingId, commonName, imgSecureUrl] =
                 sighting.split(",");
+              //? For birds w/o an image imgSecureUrl is coalesced to 'null'
               return (
                 <React.Fragment key={sightingId}>
-                  <div className="relative ml-[-20px] aspect-square w-14 overflow-hidden rounded-full bg-background shadow-md shadow-gray-800 dark:shadow-gray-900 sm:ml-[-10px] md:w-16">
-                    {imgSecureUrl ? (
-                      <Image
-                        alt={commonName}
-                        className="object-cover"
-                        fill
-                        src={imgSecureUrl}
-                        quality={30}
-                      />
-                    ) : (
+                  <div
+                    className={`relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} sm:ml-[-10px] md:w-16`}
+                  >
+                    {imgSecureUrl === "null" ? (
                       <>
                         <Bird
                           strokeWidth={1.5}
                           size={40}
                           className="fill-primary"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Image
+                          alt={commonName}
+                          className="object-cover"
+                          fill
+                          src={imgSecureUrl}
+                          quality={30}
                         />
                       </>
                     )}
@@ -76,7 +81,7 @@ export default function Icons({
             })}
             {remainingCount >= 1 && (
               <>
-                <div className="relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full bg-gray-100 shadow-md shadow-gray-800 dark:bg-blue-950 dark:shadow-gray-900 sm:ml-[-10px] md:w-16">
+                <div className="relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-gray-100 dark:bg-blue-950 sm:ml-[-10px] md:w-16">
                   <p className="flex items-center gap-1 text-2xl text-foreground">
                     <Plus className="m-[-6px]" strokeWidth={2} size={16} />
                     <span className="font-numbers">{remainingCount}</span>
@@ -98,7 +103,7 @@ export default function Icons({
           >
             <React.Fragment>
               <div
-                className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} shadow-gray-800 dark:shadow-gray-900 md:w-16`}
+                className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} md:w-16`}
               >
                 {imgSecureUrl ? (
                   <>
