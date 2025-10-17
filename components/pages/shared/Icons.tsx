@@ -81,17 +81,24 @@ export default function Icons({
 
     case "single": {
       return (
-        <React.Fragment key={sightingId}>
-          <div className="relative ml-[-20px] aspect-square w-14 overflow-hidden rounded-full bg-background shadow-md shadow-gray-800 dark:shadow-gray-900 sm:ml-[-10px] md:w-16">
-            <Image
-              alt={commonName}
-              className="object-cover"
-              fill
-              src={imgSecureUrl}
-              quality={30}
-            />
+        <>
+          <div
+            className="ml-4 flex w-fit justify-end pr-2 sm:gap-1 md:w-1/5 md:grow-0 lg:w-1/4 lg:gap-2"
+            key={sightingId}
+          >
+            <React.Fragment>
+              <div className="relative aspect-square w-14 overflow-hidden rounded-full bg-background shadow-md shadow-gray-800 dark:shadow-gray-900 md:w-16">
+                <Image
+                  alt={commonName}
+                  className="object-cover"
+                  fill
+                  src={imgSecureUrl}
+                  quality={30}
+                />
+              </div>
+            </React.Fragment>
           </div>
-        </React.Fragment>
+        </>
       );
     }
 
