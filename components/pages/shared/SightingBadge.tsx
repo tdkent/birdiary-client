@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { BadgeCheckIcon } from "lucide-react";
 
 type SightingBadgeProps = {
   isNew?: boolean;
@@ -10,8 +9,9 @@ export default function SightingBadge({ isNew }: SightingBadgeProps) {
   return (
     <>
       <Badge variant="lifeList">
-        <BadgeCheckIcon size={12} />
-        Lifelist
+        <span>
+          1<sup className="relative top-[-2.5px]">st</sup>
+        </span>
       </Badge>
     </>
   );
