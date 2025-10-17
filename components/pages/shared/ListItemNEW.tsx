@@ -57,15 +57,15 @@ export default function ListItemNEW({
     <>
       <li className="list-hover hover:scale-[1.025]">
         <Link href={href}>
-          <div className="flex h-[72px] items-center justify-between md:h-20">
-            <div className="flex flex-col pl-4 max-md:gap-1.5 md:grow md:flex-row md:items-center md:justify-between">
+          <div className="flex h-[72px] items-center justify-between px-4 md:h-20">
+            <div className="flex flex-col max-md:gap-1.5 md:grow md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-2 md:gap-6 lg:gap-8">
-                <span className="line-clamp-1 min-w-0 flex-1 break-all text-base font-semibold md:text-xl">
+                <span className="line-clamp-1 break-all text-base font-semibold md:text-xl">
                   {mainText}
                 </span>
                 <SightingBadge isNew={isNew} />
               </div>
-              <span className="flex items-center gap-0.5 pr-0.5 text-sm italic md:shrink-0 md:text-base">
+              <span className="line-clamp-1 break-all pr-0.5 text-sm italic md:shrink-0 md:text-base">
                 {subText}
               </span>
             </div>

@@ -1,4 +1,3 @@
-import CsrListItemDetails from "@/components/pages/shared/CsrListItemDetails";
 import ListItemNEW from "@/components/pages/shared/ListItemNEW";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 import { Messages } from "@/models/api";
@@ -90,15 +89,25 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     }
 
     case "diaryDetail": {
-      const { id, bird, location } = item as SightingWithBirdAndLocation;
+      const {
+        id,
+        bird: { commonName, imgSecureUrl },
+        isNew,
+        location,
+      } = item as SightingWithBirdAndLocation;
       const locationString = location
         ? location.name
         : Messages.SightingLocationUnknown;
       return (
-        <CsrListItemDetails
+        <ListItemNEW
+          commonName={commonName}
           href={`/sightings/${id}`}
-          text={bird.commonName}
-          subtext={locationString}
+          iconVariant="single"
+          imgSecureUrl={imgSecureUrl}
+          isNew={isNew}
+          mainText={commonName}
+          sightingId={id}
+          subText={<LocationWithMapPin locationString={locationString} />}
         />
       );
     }
@@ -108,10 +117,15 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
   }
 }
 
+/** Location string with pin icon. Uses inline-block to properly format line-break rule. */
 function LocationWithMapPin({ locationString }: { locationString: string }) {
   return (
     <>
-      <MapPin strokeWidth={1.5} size={12} />
+      <MapPin
+        className="mr-0.5 inline-block -translate-y-0.5"
+        strokeWidth={1.5}
+        size={12}
+      />
       {locationString}
     </>
   );

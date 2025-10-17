@@ -46,7 +46,7 @@ export default function Icons({
       const remainingCount = count - iconsToShow;
       return (
         <>
-          <div className="flex grow justify-end pr-4 sm:gap-1 md:w-3/5 md:grow-0 lg:gap-2">
+          <div className="flex grow justify-end sm:gap-1 md:w-3/5 md:grow-0 lg:gap-2">
             {sightings.slice(0, iconsToShow).map((sighting) => {
               const [sightingId, commonName, imgSecureUrl] =
                 sighting.split(",");
@@ -98,7 +98,7 @@ export default function Icons({
       return (
         <>
           <div
-            className="ml-4 flex w-fit justify-end pr-2 sm:gap-1 md:w-1/5 md:grow-0 lg:w-1/4 lg:gap-2"
+            className="ml-4 flex w-fit justify-end sm:gap-1 md:w-1/5 md:grow-0 lg:w-1/4 lg:gap-2"
             key={sightingId}
           >
             <React.Fragment>
