@@ -34,7 +34,7 @@ type ListProps =
       sortOptions?: never;
       sortBy?: never;
       startsWith: string | undefined;
-      variant: "birdpedia";
+      variant: "birds";
     };
 
 /** SSR component that renders a list of items */
@@ -74,7 +74,7 @@ export default async function List({
       <section>
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
-          {variant === "birdpedia" ? (
+          {variant === "birds" ? (
             <FilterList startsWith={startsWith} noResults={noResults} />
           ) : (
             <SortItems

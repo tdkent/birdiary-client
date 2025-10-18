@@ -50,11 +50,11 @@ export type ListWithCount = {
 };
 
 export type ListVariant =
-  | "birdpedia"
+  | "birds"
   | "birdDetail"
   | "diary"
   | "diaryDetail"
-  | "lifelistSighting"
+  | "lifelist"
   | "location"
   | "locationDetail"
   | "sighting";

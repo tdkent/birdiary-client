@@ -1,4 +1,5 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
+import ListItemNEW from "@/components/pages/shared/ListItemNEW";
 import { createLocaleString } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
@@ -27,18 +28,24 @@ type ListItemProps = {
 /** SSR component that renders a single item in List */
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
-    case "birdpedia": {
-      const { commonName, id, scientificName } = item as BirdWithCount;
+    case "birds": {
+      const { commonName, id, imgSecureUrl, scientificName } =
+        item as BirdWithCount;
       return (
-        <ListItemDetails
+        <ListItemNEW
+          commonName={commonName}
           href={`/birds/${id}`}
-          text={commonName}
-          subtext={scientificName}
+          iconVariant="single"
+          imgSecureUrl={imgSecureUrl}
+          mainText={commonName}
+          sightingId={id}
+          subText={scientificName}
+          variant={variant}
         />
       );
     }
 
-    case "lifelistSighting": {
+    case "lifelist": {
       const { commonName, date, id } = item as LifeList;
       return (
         <ListItemDetails
