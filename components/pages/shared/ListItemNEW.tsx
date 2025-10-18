@@ -33,7 +33,7 @@ type ListItemProps =
     }
   | {
       commonName: string;
-      count?: never;
+      count?: number;
       href: string;
       iconVariant?: "single";
       imgSecureUrl: string | null;
@@ -74,7 +74,7 @@ export default function ListItemNEW({
                 <span className="line-clamp-1 break-all text-base font-semibold md:text-xl">
                   {mainText}
                 </span>
-                <SightingBadge isNew={isNew} />
+                <SightingBadge count={count} isNew={isNew} />
               </div>
               <span
                 className={`line-clamp-1 break-all pr-0.5 text-sm italic ${variant === "diaryDetail" && "md:w-1/2"} md:shrink-0 md:text-base`}

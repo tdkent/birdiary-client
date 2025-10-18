@@ -24,7 +24,7 @@ type ListProps =
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
-      variant: "lifelistSighting" | "location" | "locationDetail";
+      variant: "lifelist" | "location" | "locationDetail";
     }
   | {
       defaultSortOption?: never;

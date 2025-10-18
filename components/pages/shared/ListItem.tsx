@@ -29,11 +29,12 @@ type ListItemProps = {
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
     case "birds": {
-      const { commonName, id, imgSecureUrl, scientificName } =
+      const { commonName, count, id, imgSecureUrl, scientificName } =
         item as BirdWithCount;
       return (
         <ListItemNEW
           commonName={commonName}
+          count={count}
           href={`/birds/${id}`}
           iconVariant="single"
           imgSecureUrl={imgSecureUrl}
