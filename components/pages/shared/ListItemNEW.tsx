@@ -1,5 +1,6 @@
 import Icons from "@/components/pages/shared/Icons";
 import SightingBadge from "@/components/pages/shared/SightingBadge";
+import type { ListVariant } from "@/models/display";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -15,6 +16,7 @@ type ListItemProps =
       sightingId?: never;
       sightings: string[];
       subText: string | ReactNode;
+      variant: ListVariant;
     }
   | {
       commonName?: never;
@@ -27,6 +29,7 @@ type ListItemProps =
       sightingId?: never;
       sightings?: never;
       subText: string | ReactNode;
+      variant: ListVariant;
     }
   | {
       commonName: string;
@@ -39,6 +42,7 @@ type ListItemProps =
       sightingId: number;
       sightings?: never;
       subText: string | ReactNode;
+      variant: ListVariant;
     };
 
 export default function ListItemNEW({
@@ -52,20 +56,29 @@ export default function ListItemNEW({
   sightingId,
   sightings,
   subText,
+  variant,
 }: ListItemProps) {
   return (
     <>
       <li className="list-hover hover:scale-[1.025]">
         <Link href={href}>
-          <div className="flex h-[72px] items-center justify-between px-4 md:h-20">
-            <div className="flex flex-col max-md:gap-1.5 md:grow md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-2 md:gap-6 lg:gap-8">
+          <div
+            className={`flex h-[72px] items-center justify-between ${variant === "diaryDetail" && "gap-4"} px-4 md:h-20`}
+          >
+            <div
+              className={`flex flex-col max-md:gap-1.5 md:grow md:flex-row md:items-center ${variant === "diaryDetail" ? "md:gap-8" : "md:justify-between"}`}
+            >
+              <div
+                className={`flex items-center gap-2 ${variant === "diaryDetail" && "md:w-1/2"} md:gap-6 lg:gap-8`}
+              >
                 <span className="line-clamp-1 break-all text-base font-semibold md:text-xl">
                   {mainText}
                 </span>
                 <SightingBadge isNew={isNew} />
               </div>
-              <span className="line-clamp-1 break-all pr-0.5 text-sm italic md:shrink-0 md:text-base">
+              <span
+                className={`line-clamp-1 break-all pr-0.5 text-sm italic ${variant === "diaryDetail" && "md:w-1/2"} md:shrink-0 md:text-base`}
+              >
                 {subText}
               </span>
             </div>
@@ -80,6 +93,7 @@ export default function ListItemNEW({
               <Icons
                 commonName={commonName}
                 imgSecureUrl={imgSecureUrl}
+                listVariant={variant}
                 sightingId={sightingId}
                 variant={iconVariant}
               />

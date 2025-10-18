@@ -5,6 +5,7 @@ import {
   MOBILE_REMAINING_COUNT,
 } from "@/constants/constants";
 import { Messages } from "@/models/api";
+import type { ListVariant } from "@/models/display";
 import { Bird, Plus } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -14,6 +15,7 @@ type IconsProps =
   | {
       commonName?: never;
       count: number;
+      listVariant?: never;
       imgSecureUrl?: never;
       sightingId?: never;
       sightings: string[];
@@ -23,6 +25,7 @@ type IconsProps =
       commonName: string;
       count?: never;
       imgSecureUrl: string | null;
+      listVariant: ListVariant;
       sightingId: number;
       sightings?: never;
       variant: "single";
@@ -32,6 +35,7 @@ export default function Icons({
   commonName,
   count,
   imgSecureUrl,
+  listVariant,
   sightingId,
   sightings,
   variant,
@@ -98,7 +102,7 @@ export default function Icons({
       return (
         <>
           <div
-            className="ml-4 flex w-fit justify-end sm:gap-1 md:w-1/5 md:grow-0 lg:w-1/4 lg:gap-2"
+            className={`ml-4 flex w-fit justify-end sm:gap-1 md:grow-0 lg:gap-2 ${listVariant !== "diaryDetail" && "md:w-1/5 lg:w-1/4"}`}
             key={sightingId}
           >
             <React.Fragment>

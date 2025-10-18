@@ -48,6 +48,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
             mainText={commonName}
             sightingId={id}
             subText={createRelativeDate(date)}
+            variant={variant}
           />
         </>
       );
@@ -64,6 +65,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
             mainText={createLocaleString(date, "med")}
             sightings={sightings}
             subText={`${count} sighting${count === 1 ? "" : "s"}`}
+            variant={variant}
           />
         </>
       );
@@ -83,6 +85,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
             isNew={isNew}
             mainText={createLocaleString(date, "med")}
             subText={<LocationWithMapPin locationString={locationString} />}
+            variant={variant}
           />
         </>
       );
@@ -108,6 +111,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
           mainText={commonName}
           sightingId={id}
           subText={<LocationWithMapPin locationString={locationString} />}
+          variant={variant}
         />
       );
     }
