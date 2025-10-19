@@ -1,7 +1,13 @@
 import type { Bird, Location, Sighting, User } from "@/models/db";
 
 export type BirdWithCount = Bird & { count?: number };
-export type LifeList = { id: number; date: string; commonName: string };
+export type LifeList = {
+  birdId: number;
+  date: string;
+  commonName: string;
+  imgSecureUrl: string;
+  count: number;
+};
 export type LocationWithSightingsCount = Location & { count: number };
 export type SightingWithBird = Sighting & { bird: Bird };
 export type SightingWithLocation = Sighting & {
@@ -54,8 +60,8 @@ export type ListVariant =
   | "birdDetail"
   | "diary"
   | "diaryDetail"
-  | "lifelist"
-  | "location"
+  | "lifeList"
+  | "locations"
   | "locationDetail"
   | "sighting";
 

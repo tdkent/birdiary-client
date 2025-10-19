@@ -13,6 +13,7 @@ import type {
   ServerResponseWithError,
   ServerResponseWithList,
 } from "@/models/api";
+import type { ListVariant } from "@/models/display";
 import type { SortOptions, SortValues } from "@/models/form";
 
 type ListProps =
@@ -24,7 +25,10 @@ type ListProps =
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
-      variant: "lifelist" | "location" | "locationDetail";
+      variant: Extract<
+        ListVariant,
+        "lifeList" | "locations" | "locationDetail"
+      >;
     }
   | {
       defaultSortOption?: never;
