@@ -6,7 +6,7 @@ import type {
   BirdWithCount,
   LifeList,
   ListVariant,
-  LocationWithSightingsCount,
+  LocationWithCount,
   SightingWithBird,
 } from "@/models/display";
 
@@ -15,11 +15,7 @@ type ListItemProps = {
     ListVariant,
     "birds" | "lifeList" | "locations" | "locationDetail"
   >;
-  item:
-    | BirdWithCount
-    | LifeList
-    | LocationWithSightingsCount
-    | SightingWithBird;
+  item: BirdWithCount | LifeList | LocationWithCount | SightingWithBird;
 };
 
 /** SSR component that renders a single item in List */
@@ -61,13 +57,23 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "locations": {
-      const { id, count, name } = item as LocationWithSightingsCount;
+      const { id, count, name, sightings } = item as LocationWithCount;
       const href = `/locations/${id}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
         : "No sightings yet!";
-      return <ListItemDetails href={href} text={name} subtext={sightingText} />;
+      return (
+        <ListItemNEW
+          count={count}
+          href={href}
+          iconVariant="multi"
+          mainText={name}
+          sightings={sightings}
+          subText={sightingText}
+          variant={variant}
+        />
+      );
     }
 
     case "locationDetail": {

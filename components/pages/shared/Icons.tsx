@@ -15,7 +15,7 @@ type IconsProps =
   | {
       commonName?: never;
       count: number;
-      listVariant?: never;
+      listVariant: ListVariant;
       imgSecureUrl?: never;
       sightingId?: never;
       sightings: string[];
@@ -41,6 +41,7 @@ export default function Icons({
   variant,
 }: IconsProps) {
   const matches = useMediaQuery("(min-width:640px)");
+  const tablet = useMediaQuery("(min-width:768px)");
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
   switch (variant) {
     case "multi": {
@@ -48,6 +49,7 @@ export default function Icons({
         ? DESKTOP_REMAINING_COUNT
         : MOBILE_REMAINING_COUNT;
       const remainingCount = count - iconsToShow;
+      if (listVariant === "locations" && !tablet) return null;
       return (
         <>
           <div className="flex grow justify-end sm:gap-1 md:w-3/5 md:grow-0 lg:gap-2">

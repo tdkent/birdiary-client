@@ -48,6 +48,13 @@ export type Diary = {
   sightings: string[];
 };
 
+export type LocationWithCount = {
+  id: number; // location id
+  count: number;
+  name: string;
+  sightings: string[];
+};
+
 // export type ListItem = SightingWithBird | SightingWithLocation | BirdWithCount | Group;
 
 export type ListWithCount = {
