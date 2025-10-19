@@ -2,7 +2,7 @@ import type { Bird, Location, Sighting, User } from "@/models/db";
 
 export type BirdWithCount = Bird & { count?: number };
 export type LifeList = {
-  birdId: number;
+  id: number; // bird id
   date: string;
   commonName: string;
   imgSecureUrl: string;
@@ -42,7 +42,7 @@ export type Group = {
 };
 
 export type Diary = {
-  dateId: number;
+  id: number; // (e.g. 20250101)
   date: string;
   count: number;
   sightings: string[];

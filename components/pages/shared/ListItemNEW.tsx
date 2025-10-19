@@ -13,7 +13,7 @@ type ListItemProps =
       imgSecureUrl?: never;
       isNew?: boolean;
       mainText: string;
-      sightingId?: never;
+      id?: never;
       sightings: string[];
       subText: string | ReactNode;
       variant: ListVariant;
@@ -26,7 +26,7 @@ type ListItemProps =
       imgSecureUrl?: never;
       isNew?: boolean;
       mainText: string;
-      sightingId?: never;
+      id?: never;
       sightings?: never;
       subText: string | ReactNode;
       variant: ListVariant;
@@ -39,7 +39,7 @@ type ListItemProps =
       imgSecureUrl: string | null;
       isNew?: boolean;
       mainText: string;
-      sightingId: number;
+      id: number;
       sightings?: never;
       subText: string | ReactNode;
       variant: ListVariant;
@@ -53,7 +53,7 @@ export default function ListItemNEW({
   imgSecureUrl,
   isNew,
   mainText,
-  sightingId,
+  id,
   sightings,
   subText,
   variant,
@@ -95,7 +95,7 @@ export default function ListItemNEW({
                 commonName={commonName}
                 imgSecureUrl={imgSecureUrl}
                 listVariant={variant}
-                sightingId={sightingId}
+                sightingId={id}
                 variant={iconVariant}
               />
             )}

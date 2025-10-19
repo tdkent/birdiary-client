@@ -44,17 +44,16 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "lifeList": {
-      const { birdId, commonName, count, date, imgSecureUrl } =
-        item as LifeList;
+      const { id, commonName, count, date, imgSecureUrl } = item as LifeList;
       return (
         <ListItemNEW
           commonName={commonName}
           count={count}
-          href={`/birds/${birdId}`}
+          href={`/birds/${id}`}
           iconVariant="single"
           imgSecureUrl={imgSecureUrl}
           mainText={commonName}
-          id={birdId}
+          id={id}
           subText={`First observed ${createLocaleString(date, "med")}`}
           variant={variant}
         />
