@@ -58,18 +58,19 @@ export default function ListItemNEW({
   subText,
   variant,
 }: ListItemProps) {
+  const leftAlignSubtext = ["diaryDetail", "birds"];
   return (
     <>
       <li className="list-hover hover:scale-[1.025]">
         <Link href={href}>
           <div
-            className={`flex h-[72px] items-center justify-between ${variant === "diaryDetail" && "gap-4"} px-4 md:h-20`}
+            className={`flex h-[72px] items-center justify-between ${leftAlignSubtext.includes(variant) && "gap-4"} px-4 md:h-20`}
           >
             <div
-              className={`flex flex-col max-md:gap-1.5 md:grow md:flex-row md:items-center ${variant === "diaryDetail" ? "md:gap-8" : "md:justify-between"}`}
+              className={`flex flex-col max-md:gap-1.5 md:grow md:flex-row md:items-center ${leftAlignSubtext.includes(variant) ? "md:gap-8" : "md:justify-between"}`}
             >
               <div
-                className={`flex items-center gap-2 ${variant === "diaryDetail" && "md:w-1/2"} md:gap-6 lg:gap-8`}
+                className={`flex items-center gap-2 ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:gap-6 lg:gap-8`}
               >
                 <span className="line-clamp-1 break-all text-base font-semibold md:text-xl">
                   {mainText}
@@ -77,7 +78,7 @@ export default function ListItemNEW({
                 <SightingBadge count={count} isNew={isNew} />
               </div>
               <span
-                className={`line-clamp-1 break-all pr-0.5 text-sm italic ${variant === "diaryDetail" && "md:w-1/2"} md:shrink-0 md:text-base`}
+                className={`line-clamp-1 break-all pr-0.5 text-sm italic ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:shrink-0 md:text-base`}
               >
                 {subText}
               </span>

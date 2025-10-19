@@ -41,7 +41,7 @@ export default function Icons({
   variant,
 }: IconsProps) {
   const matches = useMediaQuery("(min-width:640px)");
-
+  const leftAlignSubtext = ["diaryDetail", "birds"];
   switch (variant) {
     case "multi": {
       const iconsToShow = matches
@@ -102,7 +102,7 @@ export default function Icons({
       return (
         <>
           <div
-            className={`ml-4 flex w-fit justify-end sm:gap-1 md:grow-0 lg:gap-2 ${listVariant !== "diaryDetail" && "md:w-1/5 lg:w-1/4"}`}
+            className={`ml-4 flex w-fit justify-end sm:gap-1 md:grow-0 lg:gap-2 ${leftAlignSubtext.includes(listVariant) ? "" : "md:w-1/5 lg:w-1/4"}`}
             key={sightingId}
           >
             <React.Fragment>
