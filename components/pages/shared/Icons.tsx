@@ -52,7 +52,9 @@ export default function Icons({
       if (listVariant === "locations" && !tablet) return null;
       return (
         <>
-          <div className="flex grow justify-end sm:gap-1 md:w-3/5 md:grow-0 lg:gap-2">
+          <div
+            className={`flex grow justify-end sm:gap-1 ${listVariant === "locations" ? "md:min-w-[336px]" : "md:w-3/5"} md:grow-0 lg:gap-2`}
+          >
             {sightings.slice(0, iconsToShow).map((sighting) => {
               const [sightingId, commonName, imgSecureUrl] =
                 sighting.split(",");

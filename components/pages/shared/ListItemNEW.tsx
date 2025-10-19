@@ -73,7 +73,7 @@ export default function ListItemNEW({
                 className={`flex items-center gap-2 ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:gap-6 lg:gap-8`}
               >
                 <span
-                  className={`line-clamp-1 break-all ${variant === "locations" ? "text-sm md:text-lg" : "text-base md:text-xl"} font-semibold`}
+                  className={`line-clamp-1 break-all ${variant === "locations" ? "text-base md:text-lg" : "text-base md:text-xl"} font-semibold`}
                 >
                   {mainText}
                 </span>
