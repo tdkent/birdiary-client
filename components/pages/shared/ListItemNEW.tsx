@@ -58,7 +58,7 @@ export default function ListItemNEW({
   subText,
   variant,
 }: ListItemProps) {
-  const leftAlignSubtext = ["diaryDetail", "birds"];
+  const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
   return (
     <>
       <li className="list-hover hover:scale-[1.025]">

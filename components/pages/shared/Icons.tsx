@@ -41,7 +41,7 @@ export default function Icons({
   variant,
 }: IconsProps) {
   const matches = useMediaQuery("(min-width:640px)");
-  const leftAlignSubtext = ["diaryDetail", "birds"];
+  const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
   switch (variant) {
     case "multi": {
       const iconsToShow = matches
