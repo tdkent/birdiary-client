@@ -77,9 +77,7 @@ export default function ListItemNEW({
                 >
                   {mainText}
                 </span>
-                {variant !== "locations" && (
-                  <SightingBadge count={count} isNew={isNew} />
-                )}
+                <SightingBadge count={count} isNew={isNew} variant={variant} />
               </div>
               <span
                 className={`line-clamp-1 break-all pr-0.5 text-sm italic ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:shrink-0 md:text-base`}
