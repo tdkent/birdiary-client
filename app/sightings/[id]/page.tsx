@@ -5,7 +5,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import SightingDetails from "@/components/pages/sightings/SightingDetails";
 import { checkValidParamInteger } from "@/helpers/data";
-import type { SightingWithLocation } from "@/models/display";
+import type { SightingWithBird } from "@/models/display";
 import type { Metadata } from "next";
 
 type SightingViewProps = {
@@ -16,10 +16,7 @@ export async function generateMetadata({
   params,
 }: SightingViewProps): Promise<Metadata> {
   const sightingId = (await params).id;
-  const sighting = (await getSighting(
-    Number(sightingId),
-  )) as SightingWithLocation;
-
+  const sighting = (await getSighting(Number(sightingId))) as SightingWithBird;
   return {
     title: `Sighting: ${sighting.bird.commonName} (ID #${sighting.id}) | Birdiary`,
   };

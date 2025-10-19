@@ -7,6 +7,7 @@ import type {
   Group,
   LifeList,
   ListVariant,
+  LocationWithCount,
   LocationWithSightingsCount,
   SightingInStorage,
   SightingWithBird,
@@ -18,13 +19,14 @@ import { MapPin } from "lucide-react";
 type CsrListItemProps = {
   item:
     | BirdWithCount
-    | Diary
-    | Group
     | LifeList
-    | LocationWithSightingsCount
+    | LocationWithCount
     | SightingWithBird
     | SightingWithLocation
-    | SightingInStorage;
+    | SightingInStorage
+    | Diary
+    | Group
+    | LocationWithSightingsCount;
   variant: ListVariant;
 };
 

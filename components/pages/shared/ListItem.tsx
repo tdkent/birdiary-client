@@ -3,10 +3,15 @@ import { createLocaleString } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
+  Diary,
+  Group,
   LifeList,
   ListVariant,
   LocationWithCount,
+  LocationWithSightingsCount,
+  SightingInStorage,
   SightingWithBird,
+  SightingWithLocation,
 } from "@/models/display";
 
 type ListItemProps = {
@@ -14,7 +19,16 @@ type ListItemProps = {
     ListVariant,
     "birds" | "lifeList" | "locations" | "locationDetail"
   >;
-  item: BirdWithCount | LifeList | LocationWithCount | SightingWithBird;
+  item:
+    | BirdWithCount
+    | LifeList
+    | LocationWithCount
+    | SightingWithBird
+    | SightingWithLocation
+    | SightingInStorage
+    | Diary
+    | Group
+    | LocationWithSightingsCount;
 };
 
 /** SSR component that renders a single item in List */

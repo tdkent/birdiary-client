@@ -15,7 +15,7 @@ import birdNames from "@/data/birds";
 import { createPureIsoDate } from "@/helpers/dates";
 import { useToast } from "@/hooks/use-toast";
 import { apiRoutes, Messages } from "@/models/api";
-import { SightingWithLocation } from "@/models/display";
+import type { SightingWithBirdAndLocation } from "@/models/display";
 import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
 import { sightingSchema, type SightingForm } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type EditSightingFormProps = {
-  sighting: SightingWithLocation;
+  sighting: SightingWithBirdAndLocation;
 };
 
 export default function EditSightingForm({ sighting }: EditSightingFormProps) {

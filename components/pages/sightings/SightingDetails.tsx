@@ -17,7 +17,7 @@ import {
 } from "@/helpers/dates";
 import { useToast } from "@/hooks/use-toast";
 import { Messages } from "@/models/api";
-import type { SightingWithLocation } from "@/models/display";
+import type { SightingWithBirdAndLocation } from "@/models/display";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -28,7 +28,7 @@ type SightingProps = {
 /** Fetch and display sighting data. */
 export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn } = useAuth();
-  const [data, setData] = useState<SightingWithLocation | null>(null);
+  const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
@@ -73,7 +73,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
         }
         const data = JSON.parse(
           window.localStorage.getItem("sightings")!,
-        ) as SightingWithLocation[];
+        ) as SightingWithBirdAndLocation[];
         const sighting = data.find((s) => s.id === sightingId);
         if (!sighting) return setError(404);
         setData(sighting);
