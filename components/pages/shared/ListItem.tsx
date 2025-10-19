@@ -1,4 +1,3 @@
-import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import ListItemNEW from "@/components/pages/shared/ListItemNEW";
 import { createLocaleString } from "@/helpers/dates";
 import { Messages } from "@/models/api";
@@ -77,13 +76,23 @@ export default function ListItem({ variant, item }: ListItemProps) {
     }
 
     case "locationDetail": {
-      const sighting = item as SightingWithBird;
-      const href = `/sightings/${sighting.id}`;
+      const {
+        bird: { commonName, imgSecureUrl },
+        date,
+        id,
+        isNew,
+      } = item as SightingWithBird;
       return (
-        <ListItemDetails
-          href={href}
-          text={sighting.bird.commonName}
-          subtext={createLocaleString(sighting.date, "med")}
+        <ListItemNEW
+          commonName={commonName}
+          href={`/sightings/${id}`}
+          iconVariant="single"
+          id={id}
+          imgSecureUrl={imgSecureUrl}
+          isNew={isNew}
+          mainText={commonName}
+          subText={createLocaleString(date, "med")}
+          variant={variant}
         />
       );
     }
