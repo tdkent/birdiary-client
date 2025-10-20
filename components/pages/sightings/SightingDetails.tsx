@@ -10,7 +10,6 @@ import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { checkSession } from "@/helpers/auth";
 import {
   convertSightingDateToInteger,
   createLocaleString,
@@ -27,20 +26,18 @@ type SightingProps = {
 
 /** Fetch and display sighting data. */
 export default function SightingDetails({ sightingId }: SightingProps) {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, signOut } = useAuth();
+  const { toast } = useToast();
+
   const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { toast } = useToast();
-  const { signOut } = useAuth();
-
   useEffect(() => {
     async function query() {
       setError(null);
-      const hasSession = await checkSession();
-      if (hasSession) {
+      if (isSignedIn) {
         setPending(true);
         try {
           const result = await getSighting(sightingId);
@@ -74,13 +71,14 @@ export default function SightingDetails({ sightingId }: SightingProps) {
         const data = JSON.parse(
           window.localStorage.getItem("sightings")!,
         ) as SightingWithBirdAndLocation[];
+
         const sighting = data.find((s) => s.id === sightingId);
         if (!sighting) return setError(404);
         setData(sighting);
       }
     }
     query();
-  }, [sightingId, signOut, toast]);
+  }, [isSignedIn, sightingId, signOut, toast]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

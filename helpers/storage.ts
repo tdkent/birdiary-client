@@ -60,12 +60,12 @@ export function queryStorage(
       return { items: paginated, countOfRecords: filterByDate.length };
     }
 
-    // Bird Details ("/birds/:id"): filter by name parameter in route string
-    case route.includes("/sightings?birdId="): {
+    // Bird Details ("/birds/:id/sightings"): filter by name parameter in route string
+    case !!route.match(/\/birds\/\d{1,5}\/sightings/): {
+      const birdId = Number(route.split("/")[5]);
       const queries = route.split("?")[1].split("&");
-      const birdId = Number(queries[0].slice(7));
-      const page = Number(queries[1].slice(5));
-      const sortBy = queries[2].slice(7);
+      const page = Number(queries[0].slice(5));
+      const sortBy = queries[1].slice(7);
       const sightings = data as SightingInStorage[];
       const filterByBird = sightings.filter(
         (sighting) => sighting.birdId === birdId,
