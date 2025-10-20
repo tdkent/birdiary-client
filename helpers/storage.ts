@@ -7,7 +7,11 @@ import birdNames from "@/data/birds";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
 import type { MutationParameters, QueryParameters } from "@/models/api";
-import type { Group, SightingInStorage } from "@/models/display";
+import type {
+  DiaryInStorage,
+  Group,
+  SightingInStorage,
+} from "@/models/display";
 import type { CreateSightingDto, SortValues } from "@/models/form";
 
 type QueryStorageData = {
@@ -180,19 +184,21 @@ function addToDiary(date: string) {
     window.localStorage.setItem("diary", "[]");
   }
 
-  const diary: Group[] = JSON.parse(window.localStorage.getItem("diary")!);
+  const diary: DiaryInStorage[] = JSON.parse(
+    window.localStorage.getItem("diary")!,
+  );
 
-  const entryExists = diary.find((entry) => entry.text === date);
+  const entryExists = diary.find((entry) => entry.date === date);
   if (entryExists) {
     const updateDiary = diary.map((entry) =>
-      entry.text === date ? { ...entry, count: ++entry.count } : entry,
+      entry.date === date ? { ...entry, count: ++entry.count } : entry,
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
     const id = convertSightingDateToInteger(date);
-    const diaryEntry: Group = {
+    const diaryEntry: DiaryInStorage = {
       id,
-      text: date,
+      date,
       count: 1,
     };
     diary.push(diaryEntry);

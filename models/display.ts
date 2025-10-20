@@ -16,10 +16,7 @@ export type SightingWithLocation = Sighting & {
 export type SightingWithBirdAndLocation = Sighting & { bird: Bird } & {
   location: Location;
 };
-export type SightingInStorage = Pick<
-  Sighting,
-  "id" | "birdId" | "date" | "description"
-> & { bird: { commonName: string } };
+
 export type UserWithSightingsCount = User & {
   count: {
     totalSightings: number;
@@ -55,8 +52,6 @@ export type LocationWithCount = {
   sightings: string[];
 };
 
-// export type ListItem = SightingWithBird | SightingWithLocation | BirdWithCount | Group;
-
 export type ListWithCount = {
   data: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
   countOfRecords: number;
@@ -85,3 +80,11 @@ export type List = {
     | SightingWithLocation[]
     | SightingInStorage[];
 };
+
+/** Storage types */
+
+export type DiaryInStorage = Omit<Diary, "sightings">;
+export type SightingInStorage = Pick<
+  Sighting,
+  "id" | "birdId" | "date" | "description"
+> & { bird: Pick<Bird, "commonName"> };
