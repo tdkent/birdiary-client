@@ -4,6 +4,7 @@ import {
   DESKTOP_REMAINING_COUNT,
   MOBILE_REMAINING_COUNT,
 } from "@/constants/constants";
+import { useAuth } from "@/context/AuthContext";
 import { Messages } from "@/models/api";
 import type { ListVariant } from "@/models/display";
 import { Bird, Plus } from "lucide-react";
@@ -40,9 +41,13 @@ export default function Icons({
   sightings,
   variant,
 }: IconsProps) {
+  const { isSignedIn } = useAuth();
   const matches = useMediaQuery("(min-width:640px)");
   const tablet = useMediaQuery("(min-width:768px)");
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
+
+  if (!isSignedIn) return null;
+
   switch (variant) {
     case "multi": {
       const iconsToShow = matches
