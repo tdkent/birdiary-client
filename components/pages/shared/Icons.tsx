@@ -64,25 +64,7 @@ export default function Icons({
                   <div
                     className={`relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} sm:ml-[-10px] md:w-16`}
                   >
-                    {imgSecureUrl === "null" ? (
-                      <>
-                        <Bird
-                          strokeWidth={1.5}
-                          size={40}
-                          className="fill-primary"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <Image
-                          alt={commonName}
-                          className="object-cover"
-                          fill
-                          src={imgSecureUrl}
-                          quality={30}
-                        />
-                      </>
-                    )}
+                    <Icon commonName={commonName} imgSecureUrl={imgSecureUrl} />
                   </div>
                 </React.Fragment>
               );
@@ -113,25 +95,7 @@ export default function Icons({
               <div
                 className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} md:w-16`}
               >
-                {imgSecureUrl ? (
-                  <>
-                    <Image
-                      alt={commonName}
-                      className="object-cover"
-                      fill
-                      src={imgSecureUrl}
-                      quality={30}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Bird
-                      strokeWidth={1.5}
-                      size={40}
-                      className="fill-primary"
-                    />
-                  </>
-                )}
+                <Icon commonName={commonName} imgSecureUrl={imgSecureUrl} />
               </div>
             </React.Fragment>
           </div>
@@ -142,4 +106,32 @@ export default function Icons({
     default:
       throw new Error(Messages.InvalidSwitchCase);
   }
+}
+
+type IconProps = {
+  commonName: string;
+  imgSecureUrl: string | null;
+};
+
+function Icon({ commonName, imgSecureUrl }: IconProps) {
+  if (!imgSecureUrl) {
+    return (
+      <>
+        <Bird strokeWidth={1.5} size={40} className="fill-primary" />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Image
+        alt={commonName}
+        className="object-cover"
+        fill
+        quality={30}
+        sizes="(max-width: 768px) 56px, 64px"
+        src={imgSecureUrl}
+      />
+    </>
+  );
 }
