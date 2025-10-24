@@ -58,6 +58,12 @@ export default function Icons({
         ? DESKTOP_REMAINING_COUNT
         : MOBILE_REMAINING_COUNT;
       const remainingCount = count - iconsToShow;
+      const remainingCountFontSize =
+        remainingCount >= 100
+          ? "text-lg"
+          : remainingCount >= 1000
+            ? "text-base"
+            : "text-xl";
       return (
         <>
           <div
@@ -80,7 +86,9 @@ export default function Icons({
             {remainingCount >= 1 && (
               <>
                 <div className="relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-gray-100 dark:bg-blue-950 sm:ml-[-10px] md:w-16">
-                  <p className="flex items-center gap-1 text-2xl text-foreground">
+                  <p
+                    className={`flex items-center gap-1 text-foreground ${remainingCountFontSize}`}
+                  >
                     <Plus className="m-[-6px]" strokeWidth={2} size={16} />
                     <span className="font-numbers">{remainingCount}</span>
                   </p>
