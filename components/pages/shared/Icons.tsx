@@ -9,7 +9,7 @@ import { Messages } from "@/models/api";
 import type { ListVariant } from "@/models/display";
 import { Bird, Plus } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 type IconsProps =
@@ -44,6 +44,7 @@ export default function Icons({
   const { isSignedIn } = useAuth();
   const matches = useMediaQuery("(min-width:640px)");
   const tablet = useMediaQuery("(min-width:768px)");
+
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
 
   const doNotShow =
@@ -121,6 +122,8 @@ type IconProps = {
 };
 
 function Icon({ commonName, imgSecureUrl }: IconProps) {
+  const [loading, setLoading] = useState(true);
+
   if (!imgSecureUrl || imgSecureUrl === "null") {
     return (
       <>
@@ -131,11 +134,13 @@ function Icon({ commonName, imgSecureUrl }: IconProps) {
 
   return (
     <>
+      {loading ? <Bird strokeWidth={1.5} size={32} /> : null}
       <Image
         alt={commonName}
         className="object-cover"
         fill
         quality={30}
+        onLoad={() => setLoading(false)}
         sizes="(max-width: 768px) 56px, 64px"
         src={imgSecureUrl}
       />
