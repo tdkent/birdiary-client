@@ -13,6 +13,7 @@ import type {
   ServerResponseWithError,
   ServerResponseWithList,
 } from "@/models/api";
+import type { ListVariant } from "@/models/display";
 import type { SortOptions, SortValues } from "@/models/form";
 
 type ListProps =
@@ -24,7 +25,10 @@ type ListProps =
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
-      variant: "lifelistSighting" | "location" | "locationDetail";
+      variant: Extract<
+        ListVariant,
+        "lifeList" | "locations" | "locationDetail"
+      >;
     }
   | {
       defaultSortOption?: never;
@@ -34,7 +38,7 @@ type ListProps =
       sortOptions?: never;
       sortBy?: never;
       startsWith: string | undefined;
-      variant: "birdpedia";
+      variant: "birds";
     };
 
 /** SSR component that renders a list of items */
@@ -74,7 +78,7 @@ export default async function List({
       <section>
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
-          {variant === "birdpedia" ? (
+          {variant === "birds" ? (
             <FilterList startsWith={startsWith} noResults={noResults} />
           ) : (
             <SortItems

@@ -1,16 +1,22 @@
 import type { Bird, Location, Sighting, User } from "@/models/db";
 
 export type BirdWithCount = Bird & { count?: number };
-export type LifeList = { id: number; date: string; commonName: string };
+export type LifeList = {
+  id: number; // bird id
+  date: string;
+  commonName: string;
+  imgSecureUrl: string;
+  count: number;
+};
 export type LocationWithSightingsCount = Location & { count: number };
 export type SightingWithBird = Sighting & { bird: Bird };
-export type SightingWithLocation = SightingWithBird & {
+export type SightingWithLocation = Sighting & {
   location: Location | null;
 };
-export type SightingInStorage = Pick<
-  Sighting,
-  "id" | "birdId" | "date" | "description"
-> & { bird: { commonName: string } };
+export type SightingWithBirdAndLocation = Sighting & { bird: Bird } & {
+  location: Location;
+};
+
 export type UserWithSightingsCount = User & {
   count: {
     totalSightings: number;
@@ -32,7 +38,19 @@ export type Group = {
   count: number;
 };
 
-// export type ListItem = SightingWithBird | SightingWithLocation | BirdWithCount | Group;
+export type Diary = {
+  id: number; // (e.g. 20250101)
+  date: string;
+  count: number;
+  sightings: string[];
+};
+
+export type LocationWithCount = {
+  id: number; // location id
+  count: number;
+  name: string;
+  sightings: string[];
+};
 
 export type ListWithCount = {
   data: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
@@ -40,12 +58,12 @@ export type ListWithCount = {
 };
 
 export type ListVariant =
-  | "birdpedia"
+  | "birds"
   | "birdDetail"
   | "diary"
   | "diaryDetail"
-  | "lifelistSighting"
-  | "location"
+  | "lifeList"
+  | "locations"
   | "locationDetail"
   | "sighting";
 
@@ -53,10 +71,20 @@ export type CountOfRecords = { countOfRecords: number };
 export type List = {
   data:
     | BirdWithCount[]
+    | Diary[] // Diary (list)
     | Group[]
     | LifeList[]
     | LocationWithSightingsCount[]
     | SightingWithBird[]
+    | SightingWithBirdAndLocation[] // Bird Details (list)
     | SightingWithLocation[]
     | SightingInStorage[];
 };
+
+/** Storage types */
+
+export type DiaryInStorage = Omit<Diary, "sightings">;
+export type SightingInStorage = Pick<
+  Sighting,
+  "id" | "birdId" | "date" | "description"
+> & { bird: Pick<Bird, "commonName"> };

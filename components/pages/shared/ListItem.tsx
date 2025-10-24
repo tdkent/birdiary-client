@@ -3,9 +3,11 @@ import { createLocaleString } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
+  Diary,
   Group,
   LifeList,
   ListVariant,
+  LocationWithCount,
   LocationWithSightingsCount,
   SightingInStorage,
   SightingWithBird,
@@ -13,60 +15,98 @@ import type {
 } from "@/models/display";
 
 type ListItemProps = {
-  variant: ListVariant;
+  variant: Extract<
+    ListVariant,
+    "birds" | "lifeList" | "locations" | "locationDetail"
+  >;
   item:
     | BirdWithCount
-    | Group
     | LifeList
-    | LocationWithSightingsCount
+    | LocationWithCount
     | SightingWithBird
     | SightingWithLocation
-    | SightingInStorage;
+    | SightingInStorage
+    | Diary
+    | Group
+    | LocationWithSightingsCount;
 };
 
 /** SSR component that renders a single item in List */
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
-    case "birdpedia": {
-      const { commonName, id, scientificName } = item as BirdWithCount;
+    case "birds": {
+      const { commonName, count, id, imgSecureUrl, scientificName } =
+        item as BirdWithCount;
       return (
         <ListItemDetails
+          commonName={commonName}
+          count={count}
           href={`/birds/${id}`}
-          text={commonName}
-          subtext={scientificName}
+          iconVariant="single"
+          imgSecureUrl={imgSecureUrl}
+          mainText={commonName}
+          id={id}
+          subText={scientificName}
+          variant={variant}
         />
       );
     }
 
-    case "lifelistSighting": {
-      const { commonName, date, id } = item as LifeList;
+    case "lifeList": {
+      const { id, commonName, count, date, imgSecureUrl } = item as LifeList;
       return (
         <ListItemDetails
+          commonName={commonName}
+          count={count}
           href={`/birds/${id}`}
-          text={commonName}
-          subtext={`First observed ${createLocaleString(date, "med")}`}
+          iconVariant="single"
+          imgSecureUrl={imgSecureUrl}
+          mainText={commonName}
+          id={id}
+          subText={`First observed ${createLocaleString(date, "med")}`}
+          variant={variant}
         />
       );
     }
 
-    case "location": {
-      const { id, count, name } = item as LocationWithSightingsCount;
+    case "locations": {
+      const { id, count, name, sightings } = item as LocationWithCount;
       const href = `/locations/${id}`;
       const sightingCount = count && count > 0 ? count : null;
       const sightingText = sightingCount
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
         : "No sightings yet!";
-      return <ListItemDetails href={href} text={name} subtext={sightingText} />;
+      return (
+        <ListItemDetails
+          count={count}
+          href={href}
+          iconVariant="multi"
+          mainText={name}
+          sightings={sightings}
+          subText={sightingText}
+          variant={variant}
+        />
+      );
     }
 
     case "locationDetail": {
-      const sighting = item as SightingWithBird;
-      const href = `/sightings/${sighting.id}`;
+      const {
+        bird: { commonName, imgSecureUrl },
+        date,
+        id,
+        isNew,
+      } = item as SightingWithBird;
       return (
         <ListItemDetails
-          href={href}
-          text={sighting.bird.commonName}
-          subtext={createLocaleString(sighting.date, "med")}
+          commonName={commonName}
+          href={`/sightings/${id}`}
+          iconVariant="single"
+          id={id}
+          imgSecureUrl={imgSecureUrl}
+          isNew={isNew}
+          mainText={commonName}
+          subText={createLocaleString(date, "med")}
+          variant={variant}
         />
       );
     }

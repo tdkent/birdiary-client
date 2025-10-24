@@ -52,7 +52,7 @@ export default async function LocationsView({
               }
             >
               <List
-                variant="location"
+                variant="locations"
                 resource={apiRoutes.locations(parsedPage, sortBy)}
                 page={parsedPage}
                 sortBy={sortBy}

@@ -56,8 +56,10 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
     }
   }, [currFetchedBird, currBirdName, debounced]);
 
-  if (data && data.imgUrl) {
-    return <BirdImageDisplay bird={data} imgUrl={data.imgUrl} sizes={sizes} />;
+  if (data && data.imgSecureUrl) {
+    return (
+      <BirdImageDisplay bird={data} imgUrl={data.imgSecureUrl} sizes={sizes} />
+    );
   }
 
   return (

@@ -66,6 +66,9 @@ export default async function PlansView() {
                     Add location data to your sightings (w/ Google Places)
                   </li>
                   <li>View your birdwatching life list</li>
+                  <li>
+                    Access your personal profile and birdwatching statistics.
+                  </li>
                   <li>Data permanently stored and accessible across devices</li>
                 </ul>
               </CardContent>

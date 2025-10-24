@@ -54,7 +54,7 @@ export default async function BirdsView({
               }
             >
               <List
-                variant="birdpedia"
+                variant="birds"
                 page={parsedPage}
                 startsWith={startsWith}
                 resource={apiRoutes.birds(parsedPage, startsWith)}

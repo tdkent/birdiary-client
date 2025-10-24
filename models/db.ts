@@ -6,7 +6,8 @@ export type Bird = {
   description: string;
   rarity: "Common" | "Uncommon" | "Rare";
   imgAttribute: string | null;
-  imgUrl: string | null;
+  imgPublicId: string | null;
+  imgSecureUrl: string | null;
 };
 
 export type Location = {
@@ -23,6 +24,7 @@ export type Sighting = {
   locationId: number | null;
   date: string;
   description: string | null;
+  isNew: boolean;
 };
 
 export type User = {

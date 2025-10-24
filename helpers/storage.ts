@@ -7,7 +7,11 @@ import birdNames from "@/data/birds";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
 import type { MutationParameters, QueryParameters } from "@/models/api";
-import type { Group, SightingInStorage } from "@/models/display";
+import type {
+  DiaryInStorage,
+  Group,
+  SightingInStorage,
+} from "@/models/display";
 import type { CreateSightingDto, SortValues } from "@/models/form";
 
 type QueryStorageData = {
@@ -56,12 +60,12 @@ export function queryStorage(
       return { items: paginated, countOfRecords: filterByDate.length };
     }
 
-    // Bird Details ("/birds/:id"): filter by name parameter in route string
-    case route.includes("/sightings?birdId="): {
+    // Bird Details ("/birds/:id/sightings"): filter by name parameter in route string
+    case !!route.match(/\/birds\/\d{1,5}\/sightings/): {
+      const birdId = Number(route.split("/")[5]);
       const queries = route.split("?")[1].split("&");
-      const birdId = Number(queries[0].slice(7));
-      const page = Number(queries[1].slice(5));
-      const sortBy = queries[2].slice(7);
+      const page = Number(queries[0].slice(5));
+      const sortBy = queries[1].slice(7);
       const sightings = data as SightingInStorage[];
       const filterByBird = sightings.filter(
         (sighting) => sighting.birdId === birdId,
@@ -180,19 +184,21 @@ function addToDiary(date: string) {
     window.localStorage.setItem("diary", "[]");
   }
 
-  const diary: Group[] = JSON.parse(window.localStorage.getItem("diary")!);
+  const diary: DiaryInStorage[] = JSON.parse(
+    window.localStorage.getItem("diary")!,
+  );
 
-  const entryExists = diary.find((entry) => entry.text === date);
+  const entryExists = diary.find((entry) => entry.date === date);
   if (entryExists) {
     const updateDiary = diary.map((entry) =>
-      entry.text === date ? { ...entry, count: ++entry.count } : entry,
+      entry.date === date ? { ...entry, count: ++entry.count } : entry,
     );
     window.localStorage.setItem("diary", JSON.stringify(updateDiary));
   } else {
     const id = convertSightingDateToInteger(date);
-    const diaryEntry: Group = {
+    const diaryEntry: DiaryInStorage = {
       id,
-      text: date,
+      date,
       count: 1,
     };
     diary.push(diaryEntry);

@@ -4,8 +4,9 @@ import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import SightingDetails from "@/components/pages/sightings/SightingDetails";
+import { checkSession } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import type { SightingWithLocation } from "@/models/display";
+import type { SightingWithBirdAndLocation } from "@/models/display";
 import type { Metadata } from "next";
 
 type SightingViewProps = {
@@ -16,12 +17,17 @@ export async function generateMetadata({
   params,
 }: SightingViewProps): Promise<Metadata> {
   const sightingId = (await params).id;
-  const sighting = (await getSighting(
-    Number(sightingId),
-  )) as SightingWithLocation;
+  const hasSession = await checkSession();
+  const sighting = hasSession
+    ? ((await getSighting(Number(sightingId))) as SightingWithBirdAndLocation)
+    : null;
+
+  const pageTitle = sighting
+    ? `${sighting.bird.commonName} (ID #${sightingId})`
+    : `ID #${sightingId}`;
 
   return {
-    title: `Sighting: ${sighting.bird.commonName} (ID #${sighting.id}) | Birdiary`,
+    title: `Sighting: ${pageTitle} | Birdiary`,
   };
 }
 
