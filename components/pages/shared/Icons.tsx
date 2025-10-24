@@ -46,7 +46,10 @@ export default function Icons({
   const tablet = useMediaQuery("(min-width:768px)");
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
 
-  if (!isSignedIn) return null;
+  const doNotShow =
+    (listVariant !== "birds" && !isSignedIn) ||
+    (listVariant === "locations" && !tablet);
+  if (doNotShow) return null;
 
   switch (variant) {
     case "multi": {
@@ -54,7 +57,6 @@ export default function Icons({
         ? DESKTOP_REMAINING_COUNT
         : MOBILE_REMAINING_COUNT;
       const remainingCount = count - iconsToShow;
-      if (listVariant === "locations" && !tablet) return null;
       return (
         <>
           <div
@@ -119,7 +121,7 @@ type IconProps = {
 };
 
 function Icon({ commonName, imgSecureUrl }: IconProps) {
-  if (!imgSecureUrl) {
+  if (!imgSecureUrl || imgSecureUrl === "null") {
     return (
       <>
         <Bird strokeWidth={1.5} size={40} className="fill-primary" />
