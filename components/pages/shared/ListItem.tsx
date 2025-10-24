@@ -1,4 +1,4 @@
-import ListItemNEW from "@/components/pages/shared/ListItemNEW";
+import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
@@ -38,7 +38,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
       const { commonName, count, id, imgSecureUrl, scientificName } =
         item as BirdWithCount;
       return (
-        <ListItemNEW
+        <ListItemDetails
           commonName={commonName}
           count={count}
           href={`/birds/${id}`}
@@ -55,7 +55,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
     case "lifeList": {
       const { id, commonName, count, date, imgSecureUrl } = item as LifeList;
       return (
-        <ListItemNEW
+        <ListItemDetails
           commonName={commonName}
           count={count}
           href={`/birds/${id}`}
@@ -77,7 +77,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
         ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
         : "No sightings yet!";
       return (
-        <ListItemNEW
+        <ListItemDetails
           count={count}
           href={href}
           iconVariant="multi"
@@ -97,7 +97,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
         isNew,
       } = item as SightingWithBird;
       return (
-        <ListItemNEW
+        <ListItemDetails
           commonName={commonName}
           href={`/sightings/${id}`}
           iconVariant="single"

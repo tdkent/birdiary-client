@@ -1,4 +1,4 @@
-import ListItemNEW from "@/components/pages/shared/ListItemNEW";
+import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type {
@@ -41,7 +41,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       } = item as SightingWithBird;
       return (
         <>
-          <ListItemNEW
+          <ListItemDetails
             commonName={commonName}
             href={`/sightings/${id}`}
             iconVariant="single"
@@ -60,7 +60,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       const { count, date, id, sightings } = item as Diary;
       return (
         <>
-          <ListItemNEW
+          <ListItemDetails
             count={count}
             href={`/diary/${id}`}
             iconVariant="multi"
@@ -81,7 +81,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
 
       return (
         <>
-          <ListItemNEW
+          <ListItemDetails
             href={`/sightings/${id}`}
             iconVariant="none"
             isNew={isNew}
@@ -104,7 +104,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         ? location.name
         : Messages.SightingLocationUnknown;
       return (
-        <ListItemNEW
+        <ListItemDetails
           commonName={commonName}
           href={`/sightings/${id}`}
           iconVariant="single"
