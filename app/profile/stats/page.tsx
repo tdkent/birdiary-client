@@ -1,3 +1,4 @@
+import Stats from "@/components/pages/profile/Stats";
 import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
@@ -19,7 +20,7 @@ export default function StatsView() {
           descriptionText="View a range of sighting statistics."
         />
         <Suspense fallback={<Pending variant="profile" />}>
-          <p>hello world</p>
+          <Stats />
         </Suspense>
       </ViewWrapper>
     </>

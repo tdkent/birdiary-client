@@ -21,6 +21,21 @@ export async function getUser() {
   }
 }
 
+export async function getUserStats() {
+  const token = await getCookie();
+  try {
+    const response = await fetch(apiRoutes.userStats, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
 export async function editUserProfile(
   reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode">,
 ) {

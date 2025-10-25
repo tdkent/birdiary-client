@@ -96,7 +96,7 @@ export default async function Profile() {
             </div>
           </dl>
           <Button asChild variant="secondary" size="lg">
-            <Link href="/profile/stats">View Stats</Link>
+            <Link href="/profile/stats">View All Stats</Link>
           </Button>
           <TransferStorageData />
           <Separator className="mx-auto w-4/5" />

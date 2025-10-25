@@ -58,6 +58,7 @@ export const apiRoutes = {
   user: `${BASE_URL}/users`,
   userFavoriteBird: `${BASE_URL}/users/favoritebird`,
   userPassword: `${BASE_URL}/users/password`,
+  userStats: `${BASE_URL}/users/stats`,
   userStorage: `${BASE_URL}/users/transferstorage`,
 } as const;
 
