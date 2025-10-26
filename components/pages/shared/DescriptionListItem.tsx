@@ -4,21 +4,29 @@ import { ReactNode } from "react";
 type DescriptionListItemProps = {
   dt: string;
   dd: number | ReactNode | string;
+  fallbackText?: string;
   linkHref?: string;
+  linkText?: string;
+  useItalics?: boolean;
   useList?: boolean;
 };
 
 export default function DescriptionListItem({
   dt,
   dd,
+  fallbackText = "N/A",
   linkHref,
+  linkText,
+  useItalics,
   useList,
 }: DescriptionListItemProps) {
   return (
     <>
       <div className="flex flex-col gap-1">
         <dt className="text-sm font-semibold uppercase md:text-base">{dt}</dt>
-        <dd className="text-xl md:text-2xl">
+        <dd
+          className={`${dd ? "text-xl md:text-2xl" : "text-lg md:text-xl"} ${(useItalics || !dd) && "italic"}`}
+        >
           {useList ? (
             <>
               <ol className="flex flex-col gap-1 text-base sm:text-xl md:text-2xl">
@@ -26,13 +34,13 @@ export default function DescriptionListItem({
               </ol>
             </>
           ) : (
-            dd
+            dd || fallbackText
           )}
         </dd>
         {linkHref && (
           <>
             <Link href={linkHref} className="link-inline text-lg md:text-xl">
-              View bird
+              {linkText}
             </Link>
           </>
         )}

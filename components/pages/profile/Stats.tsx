@@ -1,12 +1,12 @@
 import { getUserStats } from "@/actions/profile";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
+import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Separator } from "@/components/ui/separator";
 import { createLocaleString } from "@/helpers/dates";
 import { ExpectedServerError } from "@/models/api";
 import { UserStats } from "@/models/display";
 import Link from "next/link";
-import { ReactNode } from "react";
 
 export default async function Stats() {
   const result: UserStats | ExpectedServerError = await getUserStats();
@@ -104,6 +104,7 @@ export default async function Stats() {
             dt="Common Name"
             dd={bird.commonName}
             linkHref={`/birds/${bird.id}`}
+            linkText="View bird"
           />
           <DescriptionListItem
             dt="Count of Sightings"
@@ -169,46 +170,6 @@ export default async function Stats() {
           />
         </dl>
       </section>
-    </>
-  );
-}
-
-type DescriptionListItemProps = {
-  dt: string;
-  dd: number | ReactNode | string;
-  linkHref?: string;
-  useList?: boolean;
-};
-
-function DescriptionListItem({
-  dt,
-  dd,
-  linkHref,
-  useList,
-}: DescriptionListItemProps) {
-  return (
-    <>
-      <div className="flex flex-col gap-1">
-        <dt className="text-sm font-semibold uppercase md:text-base">{dt}</dt>
-        <dd className="text-xl md:text-2xl">
-          {useList ? (
-            <>
-              <ol className="flex flex-col gap-1 text-base sm:text-xl md:text-2xl">
-                {dd}
-              </ol>
-            </>
-          ) : (
-            dd
-          )}
-        </dd>
-        {linkHref && (
-          <>
-            <Link href={linkHref} className="link-inline text-lg md:text-xl">
-              View bird
-            </Link>
-          </>
-        )}
-      </div>
     </>
   );
 }
