@@ -1,4 +1,5 @@
 import { getUserStats } from "@/actions/profile";
+import StaticBirdImage from "@/components/image/StaticBirdImage";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Separator } from "@/components/ui/separator";
 import { createLocaleString } from "@/helpers/dates";
@@ -23,14 +24,21 @@ export default async function Stats() {
       countOfSightingsWithoutLocation,
       countOfFavBirdSightings,
       newestSighting,
+      newestFavSighting,
+      oldestFavSighting,
       oldestSighting,
+      newestLifeListSighting: { birdId, commonName, date },
+      topThreeBirds,
+      topThreeDates,
+      topThreeFamilies,
+      topThreeLocations,
     },
-    user,
+    user: { bird },
   } = result;
 
   return (
     <>
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 md:w-[85%]">
         <h3>Basic Stats</h3>
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
@@ -42,12 +50,16 @@ export default async function Stats() {
             dd={countOfLifeListSightings}
           />
           <DescriptionListItem
-            dt="Date of Your First Sighting"
+            dt="First Sighting"
             dd={createLocaleString(oldestSighting, "med")}
           />
           <DescriptionListItem
-            dt="Date of Your Latest Sighting"
+            dt="Latest Sighting"
             dd={createLocaleString(newestSighting, "med")}
+          />
+          <DescriptionListItem
+            dt="Latest Life List Sighting"
+            dd={`${createLocaleString(date, "med")} (${commonName})`}
           />
           <DescriptionListItem
             dt="Sightings of Common Species"
@@ -80,23 +92,35 @@ export default async function Stats() {
         </dl>
       </section>
       <Separator className="mx-auto w-4/5" />
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 md:w-[85%]">
         <h3>Your Favorite Bird</h3>
+        <StaticBirdImage
+          bird={bird}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+        />
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Total Sightings
-            </dt>
-            <dd className="text-xl md:text-2xl">{countOfAllSightings}</dd>
-          </div>
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Life List Species
-            </dt>
-            <dd className="text-xl md:text-2xl">{countOfLifeListSightings}</dd>
-          </div>
+          <DescriptionListItem dt="Common Name" dd={bird.commonName} />
+          <DescriptionListItem
+            dt="Count of Sightings"
+            dd={countOfFavBirdSightings}
+          />
+          <DescriptionListItem
+            dt="First Sighting"
+            dd={createLocaleString(oldestFavSighting, "med")}
+          />
+          <DescriptionListItem
+            dt="Latest Sighting"
+            dd={createLocaleString(newestFavSighting, "med")}
+          />
         </dl>
-        <Separator className="mx-auto w-4/5" />
+      </section>
+      <Separator className="mx-auto w-4/5" />
+      <section className="flex flex-col gap-4 md:w-[85%]">
+        <h3>Your Top 3&apos;s</h3>
+        <div>
+          <h4>Most-Sighted birds</h4>
+          <ol></ol>
+        </div>
       </section>
     </>
   );
