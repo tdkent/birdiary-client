@@ -6,6 +6,7 @@ import { createLocaleString } from "@/helpers/dates";
 import { ExpectedServerError } from "@/models/api";
 import { UserStats } from "@/models/display";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export default async function Stats() {
   const result: UserStats | ExpectedServerError = await getUserStats();
@@ -27,7 +28,7 @@ export default async function Stats() {
       newestFavSighting,
       oldestFavSighting,
       oldestSighting,
-      newestLifeListSighting: { birdId, commonName, date },
+      newestLifeListSighting: { commonName, date },
       topThreeBirds,
       topThreeDates,
       topThreeFamilies,
@@ -39,7 +40,7 @@ export default async function Stats() {
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Basic Stats</h3>
+        <h3>Sightings</h3>
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
             dt="Total Sightings Count"
@@ -93,13 +94,17 @@ export default async function Stats() {
       </section>
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Your Favorite Bird</h3>
+        <h3>Favorite Bird</h3>
         <StaticBirdImage
           bird={bird}
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
         />
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
-          <DescriptionListItem dt="Common Name" dd={bird.commonName} />
+          <DescriptionListItem
+            dt="Common Name"
+            dd={bird.commonName}
+            linkHref={`/birds/${bird.id}`}
+          />
           <DescriptionListItem
             dt="Count of Sightings"
             dd={countOfFavBirdSightings}
@@ -116,11 +121,53 @@ export default async function Stats() {
       </section>
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Your Top 3&apos;s</h3>
-        <div>
-          <h4>Most-Sighted birds</h4>
-          <ol></ol>
-        </div>
+        <h3>Favorites</h3>
+        <dl className="my-4 flex flex-col gap-8 md:gap-12">
+          <DescriptionListItem
+            dt="Most-Sighted Birds"
+            dd={topThreeBirds.map(({ birdId, commonName, count }, idx) => {
+              return (
+                <li className="flex items-center gap-1" key={birdId}>
+                  {idx + 1}. {commonName} ({count})
+                </li>
+              );
+            })}
+            useList
+          />
+          <DescriptionListItem
+            dt="Most-Sighted Bird Families"
+            dd={topThreeFamilies.map(({ count, family }, idx) => {
+              return (
+                <li className="flex items-center gap-1" key={family}>
+                  {idx + 1}. {family} ({count})
+                </li>
+              );
+            })}
+            useList
+          />
+          <DescriptionListItem
+            dt="Days with Most Sightings"
+            dd={topThreeDates.map(({ count, date }, idx) => {
+              return (
+                <li className="flex items-center gap-1" key={date}>
+                  {idx + 1}. {createLocaleString(date, "med")} ({count})
+                </li>
+              );
+            })}
+            useList
+          />
+          <DescriptionListItem
+            dt="Locations with Most Sightings"
+            dd={topThreeLocations.map(({ count, locationId, name }, idx) => {
+              return (
+                <li className="flex items-center gap-1" key={locationId}>
+                  {idx + 1}. {name} ({count})
+                </li>
+              );
+            })}
+            useList
+          />
+        </dl>
       </section>
     </>
   );
@@ -128,15 +175,39 @@ export default async function Stats() {
 
 type DescriptionListItemProps = {
   dt: string;
-  dd: number | string;
+  dd: number | ReactNode | string;
+  linkHref?: string;
+  useList?: boolean;
 };
 
-function DescriptionListItem({ dt, dd }: DescriptionListItemProps) {
+function DescriptionListItem({
+  dt,
+  dd,
+  linkHref,
+  useList,
+}: DescriptionListItemProps) {
   return (
     <>
       <div className="flex flex-col gap-1">
         <dt className="text-sm font-semibold uppercase md:text-base">{dt}</dt>
-        <dd className="text-xl md:text-2xl">{dd}</dd>
+        <dd className="text-xl md:text-2xl">
+          {useList ? (
+            <>
+              <ol className="flex flex-col gap-1 text-base sm:text-xl md:text-2xl">
+                {dd}
+              </ol>
+            </>
+          ) : (
+            dd
+          )}
+        </dd>
+        {linkHref && (
+          <>
+            <Link href={linkHref} className="link-inline text-lg md:text-xl">
+              View bird
+            </Link>
+          </>
+        )}
       </div>
     </>
   );
