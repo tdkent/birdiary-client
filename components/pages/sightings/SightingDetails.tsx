@@ -5,6 +5,7 @@ import { getSighting } from "@/actions/sighting";
 import BirdImage from "@/components/forms/BirdImage";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
+import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
@@ -104,78 +105,30 @@ export default function SightingDetails({ sightingId }: SightingProps) {
           />
         )}
         <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Common Name
-            </dt>
-            <dd className="text-xl md:text-2xl">{bird.commonName}</dd>
-            <Link
-              href={`/birds/${birdId}`}
-              className="link-inline text-lg md:text-xl"
-            >
-              View bird
-            </Link>
-          </div>
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Date
-            </dt>
-            <dd className="text-xl md:text-2xl">
-              {createLocaleString(date, "full")}
-            </dd>
-            <Link
-              href={`/diary/${convertSightingDateToInteger(date)}`}
-              className="link-inline text-lg md:text-xl"
-            >
-              View diary
-            </Link>
-          </div>
+          <DescriptionListItem
+            dt="Common Name"
+            dd={bird.commonName}
+            linkHref={`/birds/${birdId}`}
+            linkText="View bird"
+          />
+          <DescriptionListItem
+            dt="Date"
+            dd={createLocaleString(date, "full")}
+            linkHref={`/diary/${convertSightingDateToInteger(date)}`}
+            linkText="View diary"
+          />
           {isSignedIn && (
-            <>
-              <div className="flex flex-col gap-1">
-                <dt className="text-sm font-semibold uppercase md:text-base">
-                  Location
-                </dt>
-                {location ? (
-                  <>
-                    <dd className="break-words text-xl md:text-2xl">
-                      {location.name}
-                    </dd>
-                    <Link
-                      href={`/locations/${location.id}`}
-                      className="link-inline text-lg md:text-xl"
-                    >
-                      View location
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <dd className="text-lg italic md:text-xl">
-                      No location provided
-                    </dd>
-                  </>
-                )}
-              </div>
-            </>
+            <DescriptionListItem
+              dt="Location"
+              dd={location && location.name}
+              fallbackText="No location provided"
+            />
           )}
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Description
-            </dt>
-            {description ? (
-              <>
-                <dd className="break-words text-xl md:text-2xl">
-                  {description}
-                </dd>
-              </>
-            ) : (
-              <>
-                <dd className="text-lg italic md:text-xl">
-                  No description provided
-                </dd>
-              </>
-            )}
-          </div>
+          <DescriptionListItem
+            dt="Description"
+            dd={description}
+            fallbackText="No description provided"
+          />
         </dl>
         <div className="flex flex-col gap-4 md:gap-6">
           <Button asChild size="lg" variant="secondary">

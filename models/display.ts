@@ -24,11 +24,61 @@ export type UserWithSightingsCount = User & {
   };
 };
 
-export type UserProfile = User & {
-  bird: Bird | null;
+type UserWithFavoriteBird = User & { bird: Bird };
+
+export type UserProfile = UserWithFavoriteBird & {
   count: {
     countOfAllSightings: number;
     countOfLifeListSightings: number;
+  };
+};
+
+export type UserStats = {
+  user: UserWithFavoriteBird;
+  stats: {
+    countOfAllSightings: number;
+    countOfCommonSightings: number;
+    countOfFavBirdSightings: number;
+    countOfLifeListSightings: number;
+    countOfRareSightings: number;
+    countOfSightingsWithoutLocation: number;
+    countOfUncommonSightings: number;
+    newestFavSighting: string | null;
+    oldestFavSighting: string | null;
+    newestSighting: string | null;
+    oldestSighting: string | null;
+    newestLifeListSighting: {
+      birdId: number;
+      commonName: string;
+      date: string;
+      sightingId: number;
+    } | null;
+    topThreeBirds:
+      | {
+          birdId: number;
+          commonName: string;
+          count: number;
+        }[]
+      | null;
+    topThreeDates:
+      | {
+          count: number;
+          date: string;
+        }[]
+      | null;
+    topThreeFamilies:
+      | {
+          count: number;
+          family: string;
+        }[]
+      | null;
+    topThreeLocations:
+      | {
+          count: number;
+          locationId: number;
+          name: string;
+        }[]
+      | null;
   };
 };
 
