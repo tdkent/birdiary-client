@@ -28,7 +28,7 @@ export default async function Stats() {
       newestFavSighting,
       oldestFavSighting,
       oldestSighting,
-      newestLifeListSighting: { commonName, date },
+      newestLifeListSighting,
       topThreeBirds,
       topThreeDates,
       topThreeFamilies,
@@ -44,43 +44,46 @@ export default async function Stats() {
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
             dt="Total Sightings Count"
-            dd={countOfAllSightings}
+            dd={countOfAllSightings || "0"}
           />
           <DescriptionListItem
             dt="Life List Count"
-            dd={countOfLifeListSightings}
+            dd={countOfLifeListSightings || "0"}
           />
           <DescriptionListItem
             dt="First Sighting"
-            dd={createLocaleString(oldestSighting, "med")}
+            dd={oldestSighting && createLocaleString(oldestSighting, "med")}
           />
           <DescriptionListItem
             dt="Latest Sighting"
-            dd={createLocaleString(newestSighting, "med")}
+            dd={newestSighting && createLocaleString(newestSighting, "med")}
           />
           <DescriptionListItem
             dt="Latest Life List Sighting"
-            dd={`${createLocaleString(date, "med")} (${commonName})`}
+            dd={
+              newestLifeListSighting &&
+              `${createLocaleString(newestLifeListSighting.date, "med")} (${newestLifeListSighting.commonName})`
+            }
           />
           <DescriptionListItem
             dt="Sightings of Common Species"
-            dd={countOfCommonSightings}
+            dd={countOfCommonSightings || "0"}
           />
           <DescriptionListItem
             dt="Sightings of Uncommon Species"
-            dd={countOfUncommonSightings}
+            dd={countOfUncommonSightings || "0"}
           />
           <DescriptionListItem
             dt="Sightings of Rare Species"
-            dd={countOfRareSightings}
+            dd={countOfRareSightings || "0"}
           />
           <DescriptionListItem
             dt="Sightings w/o Location"
-            dd={countOfSightingsWithoutLocation}
+            dd={countOfSightingsWithoutLocation || "0"}
           />
           <p className="text-sm">
-            Note: Species rarities are based on the American Birding Association
-            (ABA) Checklist.{" "}
+            Note: Species occurrences are based on the American Birding
+            Association (ABA) Checklist.{" "}
             <Link
               className="link-inline"
               href="https://www.aba.org/aba-checklist"
@@ -95,30 +98,46 @@ export default async function Stats() {
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
         <h3>Favorite Bird</h3>
-        <StaticBirdImage
-          bird={bird}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
-        />
-        <dl className="my-4 flex flex-col gap-8 md:gap-12">
-          <DescriptionListItem
-            dt="Common Name"
-            dd={bird.commonName}
-            linkHref={`/birds/${bird.id}`}
-            linkText="View bird"
-          />
-          <DescriptionListItem
-            dt="Count of Sightings"
-            dd={countOfFavBirdSightings}
-          />
-          <DescriptionListItem
-            dt="First Sighting"
-            dd={createLocaleString(oldestFavSighting, "med")}
-          />
-          <DescriptionListItem
-            dt="Latest Sighting"
-            dd={createLocaleString(newestFavSighting, "med")}
-          />
-        </dl>
+        {bird ? (
+          <>
+            <StaticBirdImage
+              bird={bird}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
+            />
+            <dl className="my-4 flex flex-col gap-8 md:gap-12">
+              <DescriptionListItem
+                dt="Common Name"
+                dd={bird.commonName}
+                linkHref={`/birds/${bird.id}`}
+                linkText="View bird"
+              />
+              <DescriptionListItem
+                dt="Count of Sightings"
+                dd={countOfFavBirdSightings}
+              />
+              <DescriptionListItem
+                dt="First Sighting"
+                dd={
+                  oldestFavSighting &&
+                  createLocaleString(oldestFavSighting, "med")
+                }
+              />
+              <DescriptionListItem
+                dt="Latest Sighting"
+                dd={
+                  newestFavSighting &&
+                  createLocaleString(newestFavSighting, "med")
+                }
+              />
+            </dl>
+          </>
+        ) : (
+          <>
+            <p className="mt-4 text-base italic">
+              You do not have a favorite bird.
+            </p>
+          </>
+        )}
       </section>
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
@@ -126,46 +145,58 @@ export default async function Stats() {
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
             dt="Most-Sighted Birds"
-            dd={topThreeBirds.map(({ birdId, commonName, count }, idx) => {
-              return (
-                <li className="flex items-center gap-1" key={birdId}>
-                  {idx + 1}. {commonName} ({count})
-                </li>
-              );
-            })}
+            dd={
+              topThreeBirds &&
+              topThreeBirds.map(({ birdId, commonName, count }, idx) => {
+                return (
+                  <li className="flex items-center gap-1" key={birdId}>
+                    {idx + 1}. {commonName} ({count})
+                  </li>
+                );
+              })
+            }
             useList
           />
           <DescriptionListItem
             dt="Most-Sighted Bird Families"
-            dd={topThreeFamilies.map(({ count, family }, idx) => {
-              return (
-                <li className="flex items-center gap-1" key={family}>
-                  {idx + 1}. {family} ({count})
-                </li>
-              );
-            })}
+            dd={
+              topThreeFamilies &&
+              topThreeFamilies.map(({ count, family }, idx) => {
+                return (
+                  <li className="flex items-center gap-1" key={family}>
+                    {idx + 1}. {family} ({count})
+                  </li>
+                );
+              })
+            }
             useList
           />
           <DescriptionListItem
             dt="Days with Most Sightings"
-            dd={topThreeDates.map(({ count, date }, idx) => {
-              return (
-                <li className="flex items-center gap-1" key={date}>
-                  {idx + 1}. {createLocaleString(date, "med")} ({count})
-                </li>
-              );
-            })}
+            dd={
+              topThreeDates &&
+              topThreeDates.map(({ count, date }, idx) => {
+                return (
+                  <li className="flex items-center gap-1" key={date}>
+                    {idx + 1}. {createLocaleString(date, "med")} ({count})
+                  </li>
+                );
+              })
+            }
             useList
           />
           <DescriptionListItem
             dt="Locations with Most Sightings"
-            dd={topThreeLocations.map(({ count, locationId, name }, idx) => {
-              return (
-                <li className="flex items-center gap-1" key={locationId}>
-                  {idx + 1}. {name} ({count})
-                </li>
-              );
-            })}
+            dd={
+              topThreeLocations &&
+              topThreeLocations.map(({ count, locationId, name }, idx) => {
+                return (
+                  <li className="flex items-center gap-1" key={locationId}>
+                    {idx + 1}. {name} ({count})
+                  </li>
+                );
+              })
+            }
             useList
           />
         </dl>

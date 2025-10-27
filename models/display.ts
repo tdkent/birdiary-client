@@ -43,34 +43,42 @@ export type UserStats = {
     countOfRareSightings: number;
     countOfSightingsWithoutLocation: number;
     countOfUncommonSightings: number;
-    newestFavSighting: string;
-    oldestFavSighting: string;
-    newestSighting: string;
-    oldestSighting: string;
+    newestFavSighting: string | null;
+    oldestFavSighting: string | null;
+    newestSighting: string | null;
+    oldestSighting: string | null;
     newestLifeListSighting: {
       birdId: number;
       commonName: string;
       date: string;
       sightingId: number;
-    };
-    topThreeBirds: {
-      birdId: number;
-      commonName: string;
-      count: number;
-    }[];
-    topThreeDates: {
-      count: number;
-      date: string;
-    }[];
-    topThreeFamilies: {
-      count: number;
-      family: string;
-    }[];
-    topThreeLocations: {
-      count: number;
-      locationId: number;
-      name: string;
-    }[];
+    } | null;
+    topThreeBirds:
+      | {
+          birdId: number;
+          commonName: string;
+          count: number;
+        }[]
+      | null;
+    topThreeDates:
+      | {
+          count: number;
+          date: string;
+        }[]
+      | null;
+    topThreeFamilies:
+      | {
+          count: number;
+          family: string;
+        }[]
+      | null;
+    topThreeLocations:
+      | {
+          count: number;
+          locationId: number;
+          name: string;
+        }[]
+      | null;
   };
 };
 
