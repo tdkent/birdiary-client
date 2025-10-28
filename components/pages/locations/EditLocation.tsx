@@ -2,10 +2,9 @@
 
 import EditLocationForm from "@/components/forms/EditLocationForm";
 import Modal from "@/components/ui/Modal";
-import { useToast } from "@/hooks/use-toast";
-import { Messages } from "@/models/api";
 import type { Location } from "@/models/db";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type EditLocationProps = {
   location: Location;
@@ -19,16 +18,11 @@ export default function EditLocation({
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (success) {
-      toast({
-        title: Messages.ToastSuccessTitle,
-        description: "Location updated",
-      });
+      toast.success("Location updated");
     }
-  }, [success, toast]);
+  }, [success]);
 
   return (
     <Modal

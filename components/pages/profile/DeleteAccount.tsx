@@ -7,11 +7,11 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { ExpectedServerError, Messages } from "@/models/api";
 import { User } from "@/models/db";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function DeleteAccount() {
   const [open, setOpen] = useState(false);
@@ -19,7 +19,6 @@ export default function DeleteAccount() {
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
-  const { toast } = useToast();
   const router = useRouter();
   const { signOut } = useAuth();
 
@@ -31,10 +30,7 @@ export default function DeleteAccount() {
       setPending(false);
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast({
-            variant: "destructive",
-            description: Messages.InvalidToken,
-          });
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

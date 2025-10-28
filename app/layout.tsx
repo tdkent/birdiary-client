@@ -1,7 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import ApiProvider from "@/context/ApiContext";
 import AuthProvider from "@/context/AuthContext";
 import LogoProvider from "@/context/LogoContext";

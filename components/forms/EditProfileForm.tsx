@@ -24,7 +24,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import type { ServerResponseWithError } from "@/models/api";
 import { Messages } from "@/models/api";
 import type { UserProfile } from "@/models/display";
@@ -35,6 +34,7 @@ import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 type EditProfileFormProps = { user: UserProfile };
@@ -55,7 +55,6 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   });
 
   const isDirty = form.formState.isDirty;
-  const { toast } = useToast();
   const router = useRouter();
   const { signOut } = useAuth();
 
@@ -79,11 +78,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return result.results[0].formatted_address as string;
         })
         .catch(() => {
-          return toast({
-            variant: "destructive",
-            title: Messages.ToastErrorTitle,
-            description: Messages.ZipCodeNoResultsError,
-          });
+          return toast.error(Messages.ZipCodeNoResultsError);
         });
     }
     const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
@@ -98,22 +93,14 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
       if ("error" in response) {
         if (response.statusCode === 401) {
-          toast({
-            variant: "destructive",
-            description: Messages.InvalidToken,
-          });
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
         }
         return setError(response.statusCode);
       }
-
-      toast({
-        variant: "default",
-        title: Messages.ToastSuccessTitle,
-        description: "Profile data updated",
-      });
+      toast.success("Profile data updated");
       router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);

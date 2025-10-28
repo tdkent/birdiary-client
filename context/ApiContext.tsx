@@ -12,7 +12,6 @@
 // Otherwise, they will be directed to local storage
 // Create a generic `request` function to use for fetch requests
 
-import { useToast } from "@/hooks/use-toast";
 import {
   defaultCache,
   Messages,
@@ -32,6 +31,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
+import { toast } from "sonner";
 
 // Define the shape of the API Context object
 type Api = {
@@ -75,7 +75,6 @@ export default function ApiProvider({
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
-    const { toast } = useToast();
     const { signOut } = useAuth();
 
     useEffect(() => {
@@ -95,10 +94,7 @@ export default function ApiProvider({
 
             if ("error" in result) {
               if (result.statusCode === 401) {
-                toast({
-                  variant: "destructive",
-                  description: Messages.InvalidToken,
-                });
+                toast.error(Messages.InvalidToken);
                 signOut();
                 await signOutAction();
               }
@@ -131,7 +127,7 @@ export default function ApiProvider({
       // data state value for that tag will be updated
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [route, signOut, tag, toast]);
+    }, [route, signOut, tag]);
 
     return { count, data, error, pending };
   }
@@ -147,7 +143,6 @@ export default function ApiProvider({
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
-    const { toast } = useToast();
     const { signOut } = useAuth();
 
     async function mutate<T>(formValues: T) {
@@ -171,10 +166,7 @@ export default function ApiProvider({
 
           if ("error" in result) {
             if (result.statusCode === 401) {
-              toast({
-                variant: "destructive",
-                description: Messages.InvalidToken,
-              });
+              toast.error(Messages.InvalidToken);
               signOut();
               await signOutAction();
             }
