@@ -20,7 +20,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { Messages, type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +27,7 @@ import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z
@@ -59,7 +59,6 @@ export default function UpdatePasswordForm() {
   });
 
   const { signOut } = useAuth();
-  const { toast } = useToast();
   const router = useRouter();
   const isDirty = form.formState.isDirty;
 
@@ -74,10 +73,7 @@ export default function UpdatePasswordForm() {
 
       if ("error" in response) {
         if (response.statusCode === 401) {
-          toast({
-            variant: "destructive",
-            description: Messages.InvalidToken,
-          });
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
@@ -85,11 +81,7 @@ export default function UpdatePasswordForm() {
         return setError(response.statusCode);
       }
 
-      toast({
-        variant: "default",
-        title: "Success",
-        description: "Your password has been updated",
-      });
+      toast.success(Messages.PasswordUpdated);
 
       form.reset();
     } catch (error) {

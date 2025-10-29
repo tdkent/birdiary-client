@@ -13,7 +13,6 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createPureIsoDate } from "@/helpers/dates";
-import { useToast } from "@/hooks/use-toast";
 import { apiRoutes, Messages } from "@/models/api";
 import {
   sightingSchema,
@@ -25,13 +24,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function SightingForm() {
   const { isSignedIn } = useAuth();
   const [isMatching, setIsMatching] = useState(false);
   const [location, setLocation] = useState<CreateLocationDto>();
 
-  const { toast } = useToast();
   const router = useRouter();
   const { useMutation } = useApi();
   const {
@@ -61,13 +60,10 @@ export default function SightingForm() {
 
   useEffect(() => {
     if (success) {
-      toast({
-        title: Messages.ToastSuccessTitle,
-        description: Messages.NewSighting,
-      });
+      toast.success(Messages.SightingCreated);
       router.push(`sightings/${sighting!.id}`);
     }
-  }, [router, sighting, success, toast]);
+  }, [router, sighting, success]);
 
   async function onSubmit(values: SightingForm) {
     let validatedLocation: CreateLocationDto | undefined = location;

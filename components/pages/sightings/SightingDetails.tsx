@@ -15,11 +15,11 @@ import {
   convertSightingDateToInteger,
   createLocaleString,
 } from "@/helpers/dates";
-import { useToast } from "@/hooks/use-toast";
 import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type SightingProps = {
   sightingId: number;
@@ -28,7 +28,6 @@ type SightingProps = {
 /** Fetch and display sighting data. */
 export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn, signOut } = useAuth();
-  const { toast } = useToast();
 
   const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
   const [error, setError] = useState<number | string | null>(null);
@@ -45,10 +44,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
 
           if ("error" in result) {
             if (result.statusCode === 401) {
-              toast({
-                variant: "destructive",
-                description: Messages.InvalidToken,
-              });
+              toast.error(Messages.InvalidToken);
               signOut();
               await signOutAction();
             }
@@ -79,7 +75,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
       }
     }
     query();
-  }, [isSignedIn, sightingId, signOut, toast]);
+  }, [isSignedIn, sightingId, signOut]);
 
   if (error) {
     return <ErrorDisplay statusCode={error} />;

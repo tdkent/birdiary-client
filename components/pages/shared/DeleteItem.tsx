@@ -2,11 +2,11 @@ import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
-import { useToast } from "@/hooks/use-toast";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import type { SightingWithLocation } from "@/models/display";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { toast } from "sonner";
 
 type DeleteItemProps = {
   routeTo?: "/sightings";
@@ -19,7 +19,6 @@ export default function DeleteItem({
   item,
   setOpen,
 }: DeleteItemProps) {
-  const { toast } = useToast();
   const router = useRouter();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
@@ -32,13 +31,10 @@ export default function DeleteItem({
   useEffect(() => {
     if (success) {
       setOpen(false);
-      toast({
-        title: "Success",
-        description: "Sighting deleted",
-      });
+      toast.success(Messages.SightingDeleted);
       if (routeTo) router.replace(routeTo);
     }
-  }, [router, routeTo, success, setOpen, toast]);
+  }, [router, routeTo, success, setOpen]);
 
   const onDelete = async () => {
     mutate({});

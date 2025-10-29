@@ -8,7 +8,6 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { Messages, type ServerResponseWithError } from "@/models/api";
 import type { Location } from "@/models/db";
 import {
@@ -20,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type EditLocationFormProps = {
   location: Location;
@@ -42,7 +42,6 @@ export default function EditLocationForm({
   >(location ?? undefined);
 
   const router = useRouter();
-  const { toast } = useToast();
   const { signOut } = useAuth();
 
   const form = useForm<LocationForm>({
@@ -78,10 +77,7 @@ export default function EditLocationForm({
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast({
-            variant: "destructive",
-            description: Messages.InvalidToken,
-          });
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

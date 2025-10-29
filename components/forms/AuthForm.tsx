@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
-import { Messages } from "@/models/api";
 import type { AuthForm } from "@/models/form";
 import { signupFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,7 +29,6 @@ export default function AuthForm() {
 
   const { signIn } = useAuth();
   const pathname = usePathname() as "/signup" | "/signin";
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<AuthForm>({
@@ -54,22 +51,9 @@ export default function AuthForm() {
       if (result && "error" in result) {
         return setError(result.message);
       }
-      if (pathname === "/signin") {
-        signIn();
-        toast({
-          variant: "default",
-          title: Messages.ToastSuccessTitle,
-          description: Messages.SignIn,
-        });
-        router.replace("/diary");
-      } else {
-        toast({
-          variant: "default",
-          title: Messages.ToastSuccessTitle,
-          description: Messages.SignUp,
-        });
-        router.push("/signin");
-      }
+
+      signIn();
+      router.replace("/diary");
     } catch (error) {
       setFetchError(error as Error);
     } finally {

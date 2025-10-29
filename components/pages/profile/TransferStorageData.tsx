@@ -11,19 +11,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { Messages, type ServerResponseWithError } from "@/models/api";
 import type { SightingInStorage } from "@/models/display";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
-  const { toast } = useToast();
   const router = useRouter();
   const { signOut } = useAuth();
 
@@ -42,10 +41,7 @@ export default function TransferStorageData() {
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast({
-            variant: "destructive",
-            description: Messages.InvalidToken,
-          });
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
@@ -53,10 +49,9 @@ export default function TransferStorageData() {
         return setError(result.statusCode);
       }
 
-      toast({
-        title: Messages.ToastSuccessTitle,
-        description: `${result.count} sighting${result.count === 1 ? "" : "s"} transferred.`,
-      });
+      toast.success(
+        `Transferred ${result.count} sighting${result.count === 1 ? "" : "s"}`,
+      );
 
       localStorage.removeItem("sightings");
       localStorage.removeItem("diary");
