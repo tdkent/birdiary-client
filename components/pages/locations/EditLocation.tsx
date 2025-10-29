@@ -20,7 +20,7 @@ export default function EditLocation({
 
   useEffect(() => {
     if (success) {
-      toast.success("Location updated");
+      toast.success("Location updated"); //! Does not work with enum
     }
   }, [success]);
 

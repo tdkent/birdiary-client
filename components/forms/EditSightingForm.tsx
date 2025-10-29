@@ -66,7 +66,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   useEffect(() => {
     if (success) {
-      toast.success("Sighting updated");
+      toast.success(Messages.SightingUpdated);
       router.replace(`/sightings/${sighting.id}`);
     }
   }, [router, sighting.id, success]);

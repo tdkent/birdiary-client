@@ -60,7 +60,7 @@ export default function SightingForm() {
 
   useEffect(() => {
     if (success) {
-      toast.success(Messages.NewSighting);
+      toast.success(Messages.SightingCreated);
       router.push(`sightings/${sighting!.id}`);
     }
   }, [router, sighting, success]);

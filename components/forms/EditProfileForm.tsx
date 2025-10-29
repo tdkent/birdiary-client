@@ -78,7 +78,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return result.results[0].formatted_address as string;
         })
         .catch(() => {
-          return toast.error(Messages.ZipCodeNoResultsError);
+          return toast.error(Messages.InvalidZipcode);
         });
     }
     const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
@@ -100,7 +100,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
         }
         return setError(response.statusCode);
       }
-      toast.success("Profile data updated");
+      toast.success(Messages.ProfileUpdated);
       router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);

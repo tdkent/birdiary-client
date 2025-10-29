@@ -28,7 +28,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
 
   useEffect(() => {
     if (success) {
-      toast.success("Location deleted");
+      toast.success(Messages.LocationDeleted);
     }
   }, [success]);
 

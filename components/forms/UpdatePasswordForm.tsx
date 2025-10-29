@@ -81,7 +81,7 @@ export default function UpdatePasswordForm() {
         return setError(response.statusCode);
       }
 
-      toast.success("Your password has been updated");
+      toast.success(Messages.PasswordUpdated);
 
       form.reset();
     } catch (error) {

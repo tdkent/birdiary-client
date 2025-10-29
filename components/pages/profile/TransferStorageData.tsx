@@ -50,7 +50,7 @@ export default function TransferStorageData() {
       }
 
       toast.success(
-        `${result.count} sighting${result.count === 1 ? "" : "s"} transferred.`,
+        `Transferred ${result.count} sighting${result.count === 1 ? "" : "s"}`,
       );
 
       localStorage.removeItem("sightings");
