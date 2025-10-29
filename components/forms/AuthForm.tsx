@@ -14,14 +14,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
-import { Messages } from "@/models/api";
 import type { AuthForm } from "@/models/form";
 import { signupFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 export default function AuthForm() {
@@ -53,14 +51,9 @@ export default function AuthForm() {
       if (result && "error" in result) {
         return setError(result.message);
       }
-      if (pathname === "/signin") {
-        signIn();
-        toast.success(Messages.SignIn);
-        router.replace("/diary");
-      } else {
-        toast.success(Messages.SignUp);
-        router.push("/signin");
-      }
+
+      signIn();
+      router.replace("/diary");
     } catch (error) {
       setFetchError(error as Error);
     } finally {
