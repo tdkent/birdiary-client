@@ -54,7 +54,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     resolver: zodResolver(sightingSchema),
     defaultValues: {
       commonName,
-      date: new Date(date) || new Date(),
+      date: new Date(date.slice(0, -1)) || new Date(), // remove "Z" from ISO string
       description: description || "",
       location: location?.name || "",
     },
