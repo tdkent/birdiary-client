@@ -47,7 +47,7 @@ export default function BirdImageDisplay({
                 src={imgUrl}
               />
             </div>
-            <figcaption className="px-1 text-xs italic md:text-sm">
+            <figcaption className="px-1 text-left text-xs italic md:text-sm">
               {scientificName}. &copy; {imgAttribute ?? "Public Domain"}
             </figcaption>
           </figure>
