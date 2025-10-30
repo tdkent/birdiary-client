@@ -1,5 +1,9 @@
+"use client";
+
 import { Bird } from "@/models/db";
+import { Bird as BirdIcon } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 type BirdImageDisplayProps = {
   bird: Bird;
@@ -12,15 +16,18 @@ export default function BirdImageDisplay({
   imgUrl,
   sizes,
 }: BirdImageDisplayProps) {
+  const [loading, setLoading] = useState(true);
   const { commonName, imgAttribute, scientificName } = bird;
   return (
     <>
       <figure className="flex flex-col gap-1 md:gap-2">
         <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
+          {loading ? <BirdIcon strokeWidth={1} size={64} /> : null}
           <Image
             alt={commonName}
             className="object-cover"
             fill
+            onLoad={() => setLoading(false)}
             priority
             sizes={sizes}
             src={imgUrl}
