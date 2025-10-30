@@ -49,15 +49,15 @@ export default function BirdImageDisplay({
             </figcaption>
           </figure>
         </DialogTrigger>
-        <DialogContent className="min-w-[95%]">
+        <DialogContent className="min-w-full rounded-none border-none p-0">
           <DialogHeader className="sr-only">
             <DialogTitle>{bird.commonName}</DialogTitle>
             <DialogDescription>
               Full-screen image of {bird.commonName}
             </DialogDescription>
           </DialogHeader>
-          <figure className="flex flex-col gap-1 md:gap-2">
-            <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
+          <figure>
+            <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden">
               {loadingDialog ? <BirdIcon strokeWidth={1} size={64} /> : null}
               <Image
                 alt={commonName}
