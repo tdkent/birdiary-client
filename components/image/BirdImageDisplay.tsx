@@ -25,6 +25,7 @@ export default function BirdImageDisplay({
   sizes,
 }: BirdImageDisplayProps) {
   const [loading, setLoading] = useState(true);
+  const [loadingDialog, setLoadingDialog] = useState(true);
   const { commonName, imgAttribute, scientificName } = bird;
   return (
     <>
@@ -57,12 +58,12 @@ export default function BirdImageDisplay({
           </DialogHeader>
           <figure className="flex flex-col gap-1 md:gap-2">
             <div className="relative flex aspect-[5/3] w-full items-center justify-center gap-2 overflow-hidden rounded-md border">
-              {loading ? <BirdIcon strokeWidth={1} size={64} /> : null}
+              {loadingDialog ? <BirdIcon strokeWidth={1} size={64} /> : null}
               <Image
                 alt={commonName}
                 className="object-cover"
                 fill
-                onLoad={() => setLoading(false)}
+                onLoad={() => setLoadingDialog(false)}
                 priority
                 quality={100}
                 sizes={sizes}
