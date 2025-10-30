@@ -1,15 +1,18 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Bird } from "@/models/db";
-import { Bird as BirdIcon } from "lucide-react";
+import { Bird as BirdIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -49,7 +52,7 @@ export default function BirdImageDisplay({
             </figcaption>
           </figure>
         </DialogTrigger>
-        <DialogContent className="min-w-full rounded-none border-none p-0">
+        <DialogContent className="max-h-full min-w-full rounded-none border-none p-0 [&>button]:hidden">
           <DialogHeader className="sr-only">
             <DialogTitle>{bird.commonName}</DialogTitle>
             <DialogDescription>
@@ -71,6 +74,19 @@ export default function BirdImageDisplay({
               />
             </div>
           </figure>
+          <DialogFooter className="absolute right-2 top-2 scale-90 sm:justify-start md:right-4 md:top-4 md:scale-100 lg:right-8 lg:top-8 lg:scale-125">
+            <DialogClose asChild>
+              <Button
+                aria-label="Close"
+                className="rounded-full text-background dark:text-foreground dark:hover:text-background"
+                size="icon"
+                type="button"
+                variant="ghost"
+              >
+                <X strokeWidth={1.5} />
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
