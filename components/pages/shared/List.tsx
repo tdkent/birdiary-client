@@ -1,3 +1,4 @@
+import SearchForBird from "@/components/pages/bird/SearchForBird";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
 import FilterList from "@/components/pages/shared/FilterList";
@@ -79,7 +80,10 @@ export default async function List({
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
           {variant === "birds" ? (
-            <FilterList startsWith={startsWith} noResults={noResults} />
+            <>
+              <SearchForBird />
+              <FilterList startsWith={startsWith} noResults={noResults} />
+            </>
           ) : (
             <SortItems
               defaultSortOption={defaultSortOption}
