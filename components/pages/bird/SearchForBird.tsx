@@ -23,7 +23,7 @@ export default function SearchForBird() {
 
   return (
     <>
-      <div>
+      <div className="relative">
         <div className="flex items-center rounded-md border">
           <Input
             aria-label="Search"
@@ -37,7 +37,7 @@ export default function SearchForBird() {
         </div>
 
         {filteredResults.length ? (
-          <ul className="absolute max-h-48 w-full overflow-auto rounded-md border bg-background py-2 md:max-h-[300px] md:text-xl">
+          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-background py-2 md:max-h-[300px] md:text-xl">
             {filteredResults.map((birdName) => {
               return (
                 <li
