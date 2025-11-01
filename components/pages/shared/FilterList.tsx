@@ -20,7 +20,7 @@ type FilterListProps = {
 export default function FilterList({ noResults, startsWith }: FilterListProps) {
   const router = useRouter();
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex w-1/2 items-center gap-1">
       <Select
         disabled={noResults}
         onValueChange={(value: string) =>
@@ -28,7 +28,7 @@ export default function FilterList({ noResults, startsWith }: FilterListProps) {
         }
         value={startsWith ?? ""}
       >
-        <SelectTrigger className="w-1/2 py-6 md:h-14 md:w-2/5 md:text-xl">
+        <SelectTrigger className="w-1/2 py-6 sm:w-[220px] md:h-14 md:text-xl">
           <SelectValue placeholder={startsWith ?? "Filter by name"} />
         </SelectTrigger>
         <SelectContent>
@@ -110,12 +110,12 @@ export default function FilterList({ noResults, startsWith }: FilterListProps) {
       </Select>
       {startsWith && (
         <Button
-          className="text-base font-normal"
+          className="w-fit text-base font-normal"
           variant="ghost"
           onClick={() => router.push(`/birds?page=1`)}
         >
           <X strokeWidth={1} size={18} />
-          Clear Filter
+          Clear
         </Button>
       )}
     </div>
