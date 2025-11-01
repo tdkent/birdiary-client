@@ -51,7 +51,7 @@ export default function SearchForBird() {
         </div>
 
         {filteredResults.length ? (
-          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-background py-2 md:max-h-[300px] md:text-xl">
+          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-background py-2 sm:w-3/5 md:max-h-[300px] md:w-1/2 md:text-xl lg:w-full">
             {filteredResults.map((birdName) => {
               return (
                 <li
