@@ -24,7 +24,7 @@ export default function SearchForBird() {
   return (
     <>
       <div className="relative">
-        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring">
+        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring sm:w-1/2">
           <div className="flex w-full items-center justify-between">
             <Input
               aria-label="Search"
@@ -45,7 +45,7 @@ export default function SearchForBird() {
               </>
             )}
           </div>
-          <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0">
+          <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0 md:h-14">
             <Search className="text-foreground" strokeWidth={1.5} />
           </Button>
         </div>

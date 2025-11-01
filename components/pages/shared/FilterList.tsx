@@ -28,7 +28,7 @@ export default function FilterList({ noResults, startsWith }: FilterListProps) {
         }
         value={startsWith ?? ""}
       >
-        <SelectTrigger className="w-[70%] py-6 md:w-2/5 md:py-8 md:text-xl">
+        <SelectTrigger className="w-1/2 py-6 md:h-14 md:w-2/5 md:text-xl">
           <SelectValue placeholder={startsWith ?? "Filter by name"} />
         </SelectTrigger>
         <SelectContent>
