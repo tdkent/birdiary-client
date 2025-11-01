@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import birdNames from "@/data/birds";
-import { ChevronRight, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,11 +24,15 @@ export default function SearchForBird() {
   return (
     <>
       <div>
-        <div className="flex items-center">
-          <Search />
-          <Input onChange={(e) => setCurrInput(e.currentTarget.value)} />
-          <Button size="icon">
-            <ChevronRight />
+        <div className="flex items-center rounded-md border">
+          <Input
+            aria-label="Search"
+            className="rounded-r-none border-none"
+            onChange={(e) => setCurrInput(e.currentTarget.value)}
+            placeholder="Search common name"
+          />
+          <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0">
+            <Search className="text-foreground" strokeWidth={1.5} />
           </Button>
         </div>
 

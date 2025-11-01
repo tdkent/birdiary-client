@@ -80,10 +80,10 @@ export default async function List({
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
           {variant === "birds" ? (
-            <>
+            <div className="flex flex-col gap-4">
               <SearchForBird />
               <FilterList startsWith={startsWith} noResults={noResults} />
-            </>
+            </div>
           ) : (
             <SortItems
               defaultSortOption={defaultSortOption}
