@@ -24,7 +24,7 @@ export default function SearchForBird() {
   return (
     <>
       <div className="relative lg:w-1/2">
-        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring sm:w-1/2 lg:w-full">
+        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring sm:w-3/5 md:w-1/2 lg:w-full">
           <div className="flex w-full items-center justify-between">
             <Input
               aria-label="Search"
