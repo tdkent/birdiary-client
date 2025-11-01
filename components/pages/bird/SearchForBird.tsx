@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import birdNames from "@/data/birds";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,13 +24,16 @@ export default function SearchForBird() {
   return (
     <>
       <div className="relative">
-        <div className="flex items-center rounded-md border">
-          <Input
-            aria-label="Search"
-            className="rounded-r-none border-none"
-            onChange={(e) => setCurrInput(e.currentTarget.value)}
-            placeholder="Search common name"
-          />
+        <div className="flex items-center justify-between rounded-md border">
+          <div className="flex w-full items-center justify-between">
+            <Input
+              aria-label="Search"
+              className="rounded-r-none border-none"
+              onChange={(e) => setCurrInput(e.currentTarget.value)}
+              placeholder="Search common name"
+            />
+            <X className="mx-2" strokeWidth={3} size={20} />
+          </div>
           <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0">
             <Search className="text-foreground" strokeWidth={1.5} />
           </Button>
