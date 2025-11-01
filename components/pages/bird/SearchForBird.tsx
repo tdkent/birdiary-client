@@ -24,15 +24,26 @@ export default function SearchForBird() {
   return (
     <>
       <div className="relative">
-        <div className="flex items-center justify-between rounded-md border">
+        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring">
           <div className="flex w-full items-center justify-between">
             <Input
               aria-label="Search"
-              className="rounded-r-none border-none"
+              className="rounded-r-none border-none focus-visible:ring-0"
               onChange={(e) => setCurrInput(e.currentTarget.value)}
               placeholder="Search common name"
+              value={currInput}
             />
-            <X className="mx-2" strokeWidth={3} size={20} />
+            {currInput && (
+              <>
+                <Button
+                  aria-label="Clear"
+                  className="my-0 w-fit p-0"
+                  onClick={() => setCurrInput("")}
+                >
+                  <X className="mx-2" strokeWidth={3} size={20} />
+                </Button>
+              </>
+            )}
           </div>
           <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0">
             <Search className="text-foreground" strokeWidth={1.5} />
