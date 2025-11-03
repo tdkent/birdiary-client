@@ -50,6 +50,7 @@ export default async function List({
   headingText,
   page,
   resource,
+  search,
   sortBy,
   sortOptions,
   startsWith,
@@ -96,6 +97,7 @@ export default async function List({
           )}
           <FilterAndResultsText
             variant={variant}
+            search={search}
             startsWith={startsWith}
             records={result.countOfRecords}
             page={+page!}

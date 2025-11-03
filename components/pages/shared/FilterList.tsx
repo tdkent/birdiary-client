@@ -81,6 +81,9 @@ export default function FilterList({ noResults, startsWith }: FilterListProps) {
             <SelectItem className="hover:cursor-pointer" value="P">
               P
             </SelectItem>
+            <SelectItem className="hover:cursor-pointer" value="Q">
+              Q
+            </SelectItem>
             <SelectItem className="hover:cursor-pointer" value="R">
               R
             </SelectItem>
@@ -98,6 +101,9 @@ export default function FilterList({ noResults, startsWith }: FilterListProps) {
             </SelectItem>
             <SelectItem className="hover:cursor-pointer" value="W">
               W
+            </SelectItem>
+            <SelectItem className="hover:cursor-pointer" value="X">
+              X
             </SelectItem>
             <SelectItem className="hover:cursor-pointer" value="Y">
               Y

@@ -5,33 +5,36 @@ import {
 import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
-  variant: ListVariant;
-  startsWith?: string;
-  records: number;
-  page: number;
   noResults: boolean;
+  page: number;
+  records: number;
+  search?: string;
+  startsWith?: string;
+  variant: ListVariant;
 };
 
 export default function FilterAndResultsText({
-  startsWith,
-  records,
-  page,
-  variant,
   noResults,
+  page,
+  records,
+  search,
+  startsWith,
+  variant,
 }: FilterByTextProps) {
+  let filterStr = "None";
+  if (startsWith) filterStr = `Name begins with '${startsWith}'`;
+  if (search) filterStr = `Name or family contains '${search}'`;
+
   if (noResults || records === 0) {
     return (
       <>
         <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
+          {search && <p>Filter: {filterStr}</p>}
           <p className="italic">Showing 0 of 0 results</p>
         </div>
       </>
     );
   }
-
-  const filterText = startsWith
-    ? `Filtered by: '${startsWith}'`
-    : "No filter applied";
 
   const detailVariants: (typeof variant)[] = [
     "diaryDetail",
@@ -48,7 +51,7 @@ export default function FilterAndResultsText({
   return (
     <>
       <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
-        {variant === "birds" && <span>{filterText}</span>}
+        {variant === "birds" && <span>Filter: {filterStr}</span>}
         <p className="italic">
           Showing{" "}
           <span className="font-semibold">
