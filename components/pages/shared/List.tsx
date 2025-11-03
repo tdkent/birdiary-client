@@ -118,6 +118,7 @@ export default async function List({
         <PaginateList
           currentPage={page}
           finalPage={pages}
+          search={search}
           startsWith={startsWith}
           sortBy={sortBy}
         />
