@@ -36,6 +36,7 @@ type ListProps =
       headingText?: never;
       page: number;
       resource: string;
+      search: string | undefined;
       sortOptions?: never;
       sortBy?: never;
       startsWith: string | undefined;

@@ -30,7 +30,7 @@ export default function SearchForBird() {
               aria-label="Search"
               className="rounded-r-none border-none focus-visible:ring-0"
               onChange={(e) => setCurrInput(e.currentTarget.value)}
-              placeholder="Search common name"
+              placeholder="Search name or family"
               value={currInput}
             />
             {currInput && (
