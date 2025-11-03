@@ -8,7 +8,11 @@ import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function SearchForBird() {
+type SearchForBirdProps = {
+  page: number;
+};
+
+export default function SearchForBird({ page }: SearchForBirdProps) {
   const [currInput, setCurrInput] = useState("");
   const [filteredResults, setFilteredResults] = useState<string[]>([]);
 
@@ -20,6 +24,11 @@ export default function SearchForBird() {
       : [];
     setFilteredResults(filteredNames);
   }, [currInput]);
+
+  function onSearch() {
+    router.push(`/birds?page=${page}&search=${currInput}`);
+    setCurrInput("");
+  }
 
   return (
     <>
@@ -45,7 +54,10 @@ export default function SearchForBird() {
               </>
             )}
           </div>
-          <Button className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0 md:h-14">
+          <Button
+            className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0 md:h-14"
+            onClick={onSearch}
+          >
             <Search className="text-foreground" strokeWidth={1.5} />
           </Button>
         </div>

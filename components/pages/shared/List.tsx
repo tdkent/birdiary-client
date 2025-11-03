@@ -83,7 +83,7 @@ export default async function List({
           {headingText && <h2 className="mb-10">{headingText}</h2>}
           {variant === "birds" ? (
             <div className="flex gap-4 max-lg:flex-col">
-              <SearchForBird />
+              <SearchForBird page={page} />
               <FilterList startsWith={startsWith} noResults={noResults} />
             </div>
           ) : (

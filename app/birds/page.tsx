@@ -31,6 +31,10 @@ export default async function BirdsView({
     redirect(`/birds?page=1${fallbackQuery}`);
   }
 
+  if (search && startsWith) {
+    redirect(`/birds?page=${page}&search=${search}`);
+  }
+
   const parsedPage = checkValidParamInteger(page);
 
   return (
