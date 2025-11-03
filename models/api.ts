@@ -29,8 +29,12 @@ export const defaultCache: Cache = {
 export const apiRoutes = {
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
   birdOfTheDay: `${BASE_URL}/birdoftheday`,
-  birds: (page: number, startsWith: string | undefined) =>
-    `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
+  birds: (
+    page: number,
+    searchTerm: string | undefined,
+    startsWith: string | undefined,
+  ) =>
+    `${BASE_URL}/birds?page=${page}${searchTerm ? `&search=${searchTerm}` : ""}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsByBirdId: (id: number, page: number, sortBy: string) =>

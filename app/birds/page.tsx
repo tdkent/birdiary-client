@@ -63,7 +63,7 @@ export default async function BirdsView({
                 page={parsedPage}
                 search={search}
                 startsWith={startsWith}
-                resource={apiRoutes.birds(parsedPage, startsWith)}
+                resource={apiRoutes.birds(parsedPage, search, startsWith)}
               />
             </Suspense>
           </>

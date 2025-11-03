@@ -23,6 +23,7 @@ type ListProps =
       headingText?: string;
       page: number;
       resource: string;
+      search?: never;
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
