@@ -15,10 +15,6 @@ import type {
 } from "@/models/display";
 
 type ListItemProps = {
-  variant: Extract<
-    ListVariant,
-    "birds" | "lifeList" | "locations" | "locationDetail"
-  >;
   item:
     | BirdWithCount
     | LifeList
@@ -29,10 +25,15 @@ type ListItemProps = {
     | Diary
     | Group
     | LocationWithSightingsCount;
+  searchTerm?: string;
+  variant: Extract<
+    ListVariant,
+    "birds" | "lifeList" | "locations" | "locationDetail"
+  >;
 };
 
 /** SSR component that renders a single item in List */
-export default function ListItem({ variant, item }: ListItemProps) {
+export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
   switch (variant) {
     case "birds": {
       const { commonName, count, family, id, imgSecureUrl } =
@@ -46,6 +47,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
           imgSecureUrl={imgSecureUrl}
           mainText={commonName}
           id={id}
+          searchTerm={searchTerm}
           subText={family}
           variant={variant}
         />

@@ -110,7 +110,14 @@ export default async function List({
               </>
             ) : (
               data.map((item) => {
-                return <ListItem key={item.id} variant={variant} item={item} />;
+                return (
+                  <ListItem
+                    item={item}
+                    key={item.id}
+                    searchTerm={search}
+                    variant={variant}
+                  />
+                );
               })
             )}
           </ul>
