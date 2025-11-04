@@ -1,3 +1,4 @@
+import SearchForBird from "@/components/pages/bird/SearchForBird";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
 import FilterList from "@/components/pages/shared/FilterList";
@@ -22,6 +23,7 @@ type ListProps =
       headingText?: string;
       page: number;
       resource: string;
+      search?: never;
       sortBy: string;
       sortOptions: SortOptions;
       startsWith?: never;
@@ -35,6 +37,7 @@ type ListProps =
       headingText?: never;
       page: number;
       resource: string;
+      search: string | undefined;
       sortOptions?: never;
       sortBy?: never;
       startsWith: string | undefined;
@@ -47,6 +50,7 @@ export default async function List({
   headingText,
   page,
   resource,
+  search,
   sortBy,
   sortOptions,
   startsWith,
@@ -79,7 +83,10 @@ export default async function List({
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
           {variant === "birds" ? (
-            <FilterList startsWith={startsWith} noResults={noResults} />
+            <div className="flex gap-4 max-lg:flex-col lg:mb-10 lg:items-start">
+              <SearchForBird />
+              <FilterList startsWith={startsWith} />
+            </div>
           ) : (
             <SortItems
               defaultSortOption={defaultSortOption}
@@ -90,6 +97,7 @@ export default async function List({
           )}
           <FilterAndResultsText
             variant={variant}
+            search={search}
             startsWith={startsWith}
             records={result.countOfRecords}
             page={+page!}
@@ -102,7 +110,14 @@ export default async function List({
               </>
             ) : (
               data.map((item) => {
-                return <ListItem key={item.id} variant={variant} item={item} />;
+                return (
+                  <ListItem
+                    item={item}
+                    key={item.id}
+                    searchTerm={search}
+                    variant={variant}
+                  />
+                );
               })
             )}
           </ul>
@@ -110,6 +125,7 @@ export default async function List({
         <PaginateList
           currentPage={page}
           finalPage={pages}
+          search={search}
           startsWith={startsWith}
           sortBy={sortBy}
         />

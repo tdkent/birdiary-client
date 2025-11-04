@@ -14,6 +14,7 @@ type ListItemProps =
       isNew?: boolean;
       mainText: string;
       id?: never;
+      searchTerm?: never;
       sightings: string[];
       subText: string | ReactNode;
       variant: ListVariant;
@@ -27,6 +28,7 @@ type ListItemProps =
       isNew?: boolean;
       mainText: string;
       id?: never;
+      searchTerm?: never;
       sightings?: never;
       subText: string | ReactNode;
       variant: ListVariant;
@@ -40,6 +42,7 @@ type ListItemProps =
       isNew?: boolean;
       mainText: string;
       id: number;
+      searchTerm?: string;
       sightings?: never;
       subText: string | ReactNode;
       variant: ListVariant;
@@ -54,11 +57,13 @@ export default function ListItemDetails({
   isNew,
   mainText,
   id,
+  searchTerm,
   sightings,
   subText,
   variant,
 }: ListItemProps) {
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
+
   return (
     <>
       <li className="list-hover hover:scale-[1.025]">
@@ -72,18 +77,29 @@ export default function ListItemDetails({
               <div
                 className={`flex items-center gap-2 ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:gap-6 lg:gap-8`}
               >
-                <span
+                <p
                   className={`line-clamp-1 break-all ${variant === "locations" ? "text-base md:text-lg" : "text-base md:text-xl"} font-semibold`}
                 >
-                  {mainText}
-                </span>
+                  {searchTerm ? (
+                    <HighlightText searchTerm={searchTerm} text={mainText} />
+                  ) : (
+                    mainText
+                  )}
+                </p>
                 <SightingBadge count={count} isNew={isNew} variant={variant} />
               </div>
-              <span
+              <p
                 className={`line-clamp-1 break-all pr-0.5 text-sm italic ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:shrink-0 md:text-base`}
               >
-                {subText}
-              </span>
+                {searchTerm ? (
+                  <HighlightText
+                    searchTerm={searchTerm}
+                    text={subText as string}
+                  />
+                ) : (
+                  subText
+                )}
+              </p>
             </div>
             {iconVariant === "multi" && (
               <Icons
@@ -105,6 +121,26 @@ export default function ListItemDetails({
           </div>
         </Link>
       </li>
+    </>
+  );
+}
+
+type HighlightTextProps = {
+  searchTerm: string;
+  text: string;
+};
+
+function HighlightText({ searchTerm, text }: HighlightTextProps) {
+  const startIdx = text.toLowerCase().indexOf(searchTerm.toLowerCase());
+  if (startIdx === -1) return text;
+  const endIdx = startIdx + searchTerm.length;
+  return (
+    <>
+      {text.slice(0, startIdx)}
+      <span className="bg-amber-200 dark:bg-violet-600">
+        {text.slice(startIdx, endIdx)}
+      </span>
+      {text.slice(endIdx)}
     </>
   );
 }

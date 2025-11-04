@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 type PaginateListProps = {
   currentPage: number;
   finalPage: number;
+  search?: string;
   startsWith?: string;
   sortBy: string | undefined;
 };
@@ -22,14 +23,16 @@ type PaginateListProps = {
 export default function PaginateList({
   currentPage,
   finalPage,
+  search,
   startsWith,
   sortBy,
 }: PaginateListProps) {
   const pathname = usePathname();
   const updateUrl = (page: number) => {
+    const searchQuery = search ? `&search=${search}` : "";
     const startsWithQuery = startsWith ? `&startsWith=${startsWith}` : "";
     const sortByQuery = sortBy ? `&sortBy=${sortBy}` : "";
-    return `${pathname}?page=${page}${startsWithQuery}${sortByQuery}`;
+    return `${pathname}?page=${page}${searchQuery}${startsWithQuery}${sortByQuery}`;
   };
 
   // TODO: change number of buttons based on screen size

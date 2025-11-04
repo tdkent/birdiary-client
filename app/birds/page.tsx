@@ -21,10 +21,18 @@ export default async function BirdsView({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { page, startsWith } = await searchParams;
+  const { page, search, startsWith } = await searchParams;
+
+  let fallbackQuery = "";
+  if (startsWith) fallbackQuery = `&startsWith=${startsWith}`;
+  if (search) fallbackQuery = `&search=${search}`;
 
   if (!page) {
-    redirect(`/birds?page=1${startsWith ? `&startsWith=${startsWith}` : ""}`);
+    redirect(`/birds?page=1${fallbackQuery}`);
+  }
+
+  if (search && startsWith) {
+    redirect(`/birds?page=${page}&search=${search}`);
   }
 
   const parsedPage = checkValidParamInteger(page);
@@ -38,6 +46,7 @@ export default async function BirdsView({
           descriptionText="Browse more than 800 species of North American birds."
         />
         {!parsedPage ||
+        (search && search.length < 3) ||
         (startsWith &&
           (startsWith.length !== 1 || !/[A-Z]/.test(startsWith))) ? (
           <>
@@ -56,8 +65,9 @@ export default async function BirdsView({
               <List
                 variant="birds"
                 page={parsedPage}
+                search={search}
                 startsWith={startsWith}
-                resource={apiRoutes.birds(parsedPage, startsWith)}
+                resource={apiRoutes.birds(parsedPage, search, startsWith)}
               />
             </Suspense>
           </>

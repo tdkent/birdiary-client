@@ -5,33 +5,38 @@ import {
 import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
-  variant: ListVariant;
-  startsWith?: string;
-  records: number;
-  page: number;
   noResults: boolean;
+  page: number;
+  records: number;
+  search?: string;
+  startsWith?: string;
+  variant: ListVariant;
 };
 
 export default function FilterAndResultsText({
-  startsWith,
-  records,
-  page,
-  variant,
   noResults,
+  page,
+  records,
+  search,
+  startsWith,
+  variant,
 }: FilterByTextProps) {
+  let filterStr = "None";
+  if (startsWith) filterStr = `Name begins with '${startsWith}'`;
+  if (search) filterStr = `Name or family contains '${search}'`;
+
   if (noResults || records === 0) {
     return (
       <>
-        <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
-          <p className="italic">Showing 0 of 0 results</p>
+        <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 md:py-6">
+          <p className="text-base sm:text-lg md:text-xl">Filter: {filterStr}</p>
+          <p className="text-base italic sm:text-lg md:text-xl">
+            Showing 0 of 0 results
+          </p>
         </div>
       </>
     );
   }
-
-  const filterText = startsWith
-    ? `Filtered by: '${startsWith}'`
-    : "No filter applied";
 
   const detailVariants: (typeof variant)[] = [
     "diaryDetail",
@@ -47,9 +52,11 @@ export default function FilterAndResultsText({
 
   return (
     <>
-      <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 text-lg md:py-6 md:text-xl">
-        {variant === "birds" && <span>{filterText}</span>}
-        <p className="italic">
+      <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 md:py-6">
+        {variant === "birds" && (
+          <p className="text-base sm:text-lg md:text-xl">Filter: {filterStr}</p>
+        )}
+        <p className="text-base italic sm:text-lg md:text-xl">
           Showing{" "}
           <span className="font-semibold">
             {minResult} - {maxResult > 0 ? maxResult : "?"}

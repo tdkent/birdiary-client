@@ -29,8 +29,12 @@ export const defaultCache: Cache = {
 export const apiRoutes = {
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
   birdOfTheDay: `${BASE_URL}/birdoftheday`,
-  birds: (page: number, startsWith: string | undefined) =>
-    `${BASE_URL}/birds?page=${page}${startsWith ? `&startsWith=${startsWith}` : ""}`,
+  birds: (
+    page: number,
+    searchTerm: string | undefined,
+    startsWith: string | undefined,
+  ) =>
+    `${BASE_URL}/birds?page=${page}${searchTerm ? `&search=${searchTerm}` : ""}${startsWith ? `&startsWith=${startsWith}` : ""}`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsByBirdId: (id: number, page: number, sortBy: string) =>
@@ -102,6 +106,7 @@ export enum Messages {
   PasswordUpdated = "Password updated",
   PasswordValidationError = "Passwords must 8-36 characters.",
   ProfileUpdated = "Profile updated",
+  SearchValidationError = "Search must be 3-32 characters",
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
   SightingCreated = "Sighting created",
