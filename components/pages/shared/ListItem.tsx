@@ -35,7 +35,7 @@ type ListItemProps = {
 export default function ListItem({ variant, item }: ListItemProps) {
   switch (variant) {
     case "birds": {
-      const { commonName, count, id, imgSecureUrl, scientificName } =
+      const { commonName, count, family, id, imgSecureUrl } =
         item as BirdWithCount;
       return (
         <ListItemDetails
@@ -46,7 +46,7 @@ export default function ListItem({ variant, item }: ListItemProps) {
           imgSecureUrl={imgSecureUrl}
           mainText={commonName}
           id={id}
-          subText={scientificName}
+          subText={family}
           variant={variant}
         />
       );
