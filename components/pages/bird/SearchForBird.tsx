@@ -46,6 +46,7 @@ export default function SearchForBird() {
               aria-label="Search"
               className="rounded-r-none border-none focus-visible:ring-0"
               onChange={(e) => setCurrInput(e.currentTarget.value)}
+              onKeyDown={(e) => e.key === "Enter" && onSearch()}
               placeholder="Search name or family"
               value={currInput}
             />
@@ -62,6 +63,7 @@ export default function SearchForBird() {
             )}
           </div>
           <Button
+            aria-label="Submit"
             className="my-0 w-fit rounded-l-none rounded-r-md border-l bg-input px-2 py-0 md:h-14"
             onClick={onSearch}
           >
