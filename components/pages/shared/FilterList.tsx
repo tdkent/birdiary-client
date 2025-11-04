@@ -13,16 +13,14 @@ import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type FilterListProps = {
-  noResults: boolean;
   startsWith: string | undefined;
 };
 
-export default function FilterList({ noResults, startsWith }: FilterListProps) {
+export default function FilterList({ startsWith }: FilterListProps) {
   const router = useRouter();
   return (
     <div className="flex items-center gap-1 lg:w-1/2">
       <Select
-        disabled={noResults}
         onValueChange={(value: string) =>
           router.push(`/birds?page=1&startsWith=${value}`)
         }

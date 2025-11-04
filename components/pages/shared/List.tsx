@@ -85,7 +85,7 @@ export default async function List({
           {variant === "birds" ? (
             <div className="flex gap-4 max-lg:flex-col">
               <SearchForBird />
-              <FilterList startsWith={startsWith} noResults={noResults} />
+              <FilterList startsWith={startsWith} />
             </div>
           ) : (
             <SortItems

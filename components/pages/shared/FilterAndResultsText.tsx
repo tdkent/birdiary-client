@@ -29,11 +29,7 @@ export default function FilterAndResultsText({
     return (
       <>
         <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 md:py-6">
-          {search && (
-            <p className="text-base sm:text-lg md:text-xl">
-              Filter: {filterStr}
-            </p>
-          )}
+          <p className="text-base sm:text-lg md:text-xl">Filter: {filterStr}</p>
           <p className="text-base italic sm:text-lg md:text-xl">
             Showing 0 of 0 results
           </p>
