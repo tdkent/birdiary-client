@@ -106,6 +106,7 @@ export enum Messages {
   PasswordUpdated = "Password updated",
   PasswordValidationError = "Passwords must 8-36 characters.",
   ProfileUpdated = "Profile updated",
+  SearchValidationError = "Search must be 3-32 characters",
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
   SightingCreated = "Sighting created",
