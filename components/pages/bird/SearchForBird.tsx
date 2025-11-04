@@ -26,6 +26,11 @@ export default function SearchForBird() {
     setFilteredResults(filteredNames);
   }, [currInput]);
 
+  function onClear() {
+    setCurrInput("");
+    setError("");
+  }
+
   function onSearch() {
     setError("");
     const validate = inputSchema.safeParse(currInput);
@@ -33,14 +38,14 @@ export default function SearchForBird() {
       setError(Messages.SearchValidationError);
     } else {
       router.push(`/birds?page=1&search=${currInput}`);
+      setCurrInput("");
     }
-    setCurrInput("");
   }
 
   return (
     <>
       <div className="relative lg:w-1/2">
-        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring sm:w-3/5 md:w-1/2 lg:w-full">
+        <div className="flex items-center justify-between rounded-md border transition focus-within:ring-2 focus-within:ring-ring max-lg:mb-5 sm:w-3/5 md:w-1/2 lg:w-full">
           <div className="flex w-full items-center justify-between">
             <Input
               aria-label="Search"
@@ -55,7 +60,7 @@ export default function SearchForBird() {
                 <Button
                   aria-label="Clear"
                   className="my-0 w-fit p-0"
-                  onClick={() => setCurrInput("")}
+                  onClick={onClear}
                 >
                   <X className="mx-2" strokeWidth={3} size={20} />
                 </Button>
@@ -71,10 +76,14 @@ export default function SearchForBird() {
           </Button>
         </div>
 
-        {error && <p className="my-1 pl-1 text-sm text-destructive">{error}</p>}
+        {error && (
+          <p className="absolute -bottom-1 pl-1 text-sm text-destructive lg:-bottom-6">
+            {error}
+          </p>
+        )}
 
-        {filteredResults.length ? (
-          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-background py-2 sm:w-3/5 md:max-h-[300px] md:w-1/2 md:text-xl lg:w-full">
+        {filteredResults.length && !error ? (
+          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border bg-background py-2 max-lg:top-[58px] max-md:top-[50px] sm:w-3/5 md:max-h-[300px] md:w-1/2 md:text-xl lg:w-full">
             {filteredResults.map((birdName) => {
               return (
                 <li

@@ -83,7 +83,7 @@ export default async function List({
         <div className="min-h-[calc(100vh-600px)]">
           {headingText && <h2 className="mb-10">{headingText}</h2>}
           {variant === "birds" ? (
-            <div className="flex gap-4 max-lg:flex-col">
+            <div className="flex gap-4 max-lg:flex-col lg:mb-10 lg:items-start">
               <SearchForBird />
               <FilterList startsWith={startsWith} />
             </div>
