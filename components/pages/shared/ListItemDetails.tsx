@@ -15,7 +15,7 @@ type ListItemProps =
       mainText: string;
       id?: never;
       searchTerm?: never;
-      sightings: string[];
+      sightings: string[] | null;
       subText: string | ReactNode;
       variant: ListVariant;
     }

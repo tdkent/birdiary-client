@@ -74,9 +74,8 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
     case "locations": {
       const { id, count, name, sightings } = item as LocationWithCount;
       const href = `/locations/${id}`;
-      const sightingCount = count && count > 0 ? count : null;
-      const sightingText = sightingCount
-        ? `${sightingCount} sighting${sightingCount > 1 ? "s" : ""}`
+      const sightingText = count
+        ? `${count} sighting${count > 1 ? "s" : ""}`
         : "No sightings yet!";
       return (
         <ListItemDetails

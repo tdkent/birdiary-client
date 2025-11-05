@@ -19,7 +19,7 @@ type IconsProps =
       listVariant: ListVariant;
       imgSecureUrl?: never;
       sightingId?: never;
-      sightings: string[];
+      sightings: string[] | null;
       variant: "multi";
     }
   | {
@@ -45,15 +45,17 @@ export default function Icons({
   const matches = useMediaQuery("(min-width:640px)");
   const tablet = useMediaQuery("(min-width:768px)");
 
-  const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
-
   const doNotShow =
     (listVariant !== "birds" && !isSignedIn) ||
     (listVariant === "locations" && !tablet);
   if (doNotShow) return null;
 
+  const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
+
   switch (variant) {
     case "multi": {
+      if (!sightings) return null;
+
       const iconsToShow = matches
         ? DESKTOP_REMAINING_COUNT
         : MOBILE_REMAINING_COUNT;

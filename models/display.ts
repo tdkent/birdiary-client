@@ -99,7 +99,7 @@ export type LocationWithCount = {
   id: number; // location id
   count: number;
   name: string;
-  sightings: string[];
+  sightings: string[] | null;
 };
 
 export type ListWithCount = {
