@@ -45,11 +45,8 @@ export async function verifyUser(verificationId: string) {
       },
       body: JSON.stringify({ verificationId }),
     });
-    const data: ExpectedServerError | { id: number } = await response.json();
-
-    if (!response.ok) {
-      return data as ExpectedServerError;
-    }
+    const data: ExpectedServerError | { id: string } = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
     throw new Error(Messages.UnknownUnexpectedError);

@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import VerifyUser from "@/components/pages/auth/VerifyUser";
-import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type VerifyEmailViewProps = {
@@ -19,9 +19,7 @@ export default async function VerifyEmailView({
 
   const regex = /^[0-9a-f]{32}$/;
   const validId = verificationId.match(regex);
-  if (!validId) {
-    return <ErrorDisplay statusCode={400} />;
-  }
+  if (!validId) return notFound();
 
   return (
     <>
