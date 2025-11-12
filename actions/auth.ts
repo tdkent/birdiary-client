@@ -36,14 +36,14 @@ export async function auth({ pathname, ...args }: AuthParams) {
   }
 }
 
-export async function verifyUser(verificationId: string) {
+export async function verifyUser(email: string, verificationId: string) {
   try {
     const response = await fetch(apiRoutes.userVerify, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ verificationId }),
+      body: JSON.stringify({ email, verificationId }),
     });
     const data: ExpectedServerError | { id: string } = await response.json();
     return data;
