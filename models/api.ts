@@ -64,6 +64,7 @@ export const apiRoutes = {
   userPassword: `${BASE_URL}/users/password`,
   userStats: `${BASE_URL}/users/stats`,
   userStorage: `${BASE_URL}/users/transferstorage`,
+  userVerify: `${BASE_URL}/users/verify`,
 } as const;
 
 export type QueryParameters = {

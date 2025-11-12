@@ -2,7 +2,7 @@
 
 import { BASE_URL } from "@/constants/env";
 import { createSession, deleteSession } from "@/lib/session";
-import { ExpectedServerError, Messages } from "@/models/api";
+import { apiRoutes, ExpectedServerError, Messages } from "@/models/api";
 import type { AuthParams, AuthResponse } from "@/models/auth";
 import { redirect } from "next/navigation";
 
@@ -30,6 +30,26 @@ export async function auth({ pathname, ...args }: AuthParams) {
     }
 
     return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
+export async function verifyUser(verificationId: string) {
+  try {
+    const response = await fetch(apiRoutes.userVerify, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ verificationId }),
+    });
+    const data: ExpectedServerError | { id: number } = await response.json();
+
+    if (!response.ok) {
+      return data as ExpectedServerError;
+    }
   } catch (error) {
     console.error(error);
     throw new Error(Messages.UnknownUnexpectedError);
