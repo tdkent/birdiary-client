@@ -48,7 +48,8 @@ export async function resendVerification(
       },
       body: JSON.stringify({ email, verificationId }),
     });
-    const data: ExpectedServerError | { email: string } = await response.json();
+    const data: ExpectedServerError | { success: boolean } =
+      await response.json();
     return data;
   } catch (error) {
     console.error(error);
