@@ -3,7 +3,7 @@ import { deleteSession } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = ["/lifelist", "/locations", "/profile"];
-const authRoutes = ["/signin", "/signup"];
+const authRoutes = ["/signin", "/signup", "/verify", "/verify/status"];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
