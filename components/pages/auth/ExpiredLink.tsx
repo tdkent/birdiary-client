@@ -45,7 +45,7 @@ export default function ExpiredLink({
         {error && <ErrorDisplay showInline />}
         {success ? (
           <>
-            <div className="dark:text-green-600">
+            <div className="text-green-600">
               <CircleCheck
                 className="inline -translate-y-0.5"
                 strokeWidth={1.5}
