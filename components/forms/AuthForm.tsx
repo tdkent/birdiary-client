@@ -25,6 +25,7 @@ import { z } from "zod";
 export default function AuthForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [verificationError, setVerificationError] = useState(false);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const { signIn } = useAuth();
@@ -44,12 +45,18 @@ export default function AuthForm() {
 
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     setError(null);
+    setVerificationError(false);
     setFetchError(null);
     setPending(true);
     try {
       const result = await auth({ ...values, pathname });
-      if (result && "error" in result) {
+
+      if ("error" in result) {
         return setError(result.message);
+      }
+
+      if ("success" in result) {
+        return setVerificationError(true);
       }
 
       signIn();
@@ -68,6 +75,15 @@ export default function AuthForm() {
   return (
     <>
       {error && <ErrorDisplay authErrorMessage={error} showInline />}
+      {verificationError && (
+        <>
+          <p className="text-base text-destructive">
+            Your email isn&apos;t verified yet. We&apos;ve sent you another
+            verification email. It should arrive within a few minutes — be sure
+            to check your spam or junk folder.
+          </p>
+        </>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

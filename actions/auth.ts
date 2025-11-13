@@ -17,7 +17,8 @@ export async function auth({ pathname, ...args }: AuthParams) {
       body: JSON.stringify(args),
     });
 
-    const data: ExpectedServerError | AuthResponse = await response.json();
+    const data: ExpectedServerError | AuthResponse | { success: boolean } =
+      await response.json();
 
     if (!response.ok) {
       return data as ExpectedServerError;
@@ -25,8 +26,6 @@ export async function auth({ pathname, ...args }: AuthParams) {
 
     if ("id" in data) {
       await createSession(data.id);
-    } else {
-      throw new Error("Invalid data format in response object");
     }
 
     return data;
@@ -66,7 +65,8 @@ export async function verifyUser(email: string, verificationId: string) {
       },
       body: JSON.stringify({ email, verificationId }),
     });
-    const data: ExpectedServerError | { email: string } = await response.json();
+    const data: ExpectedServerError | { success: boolean } =
+      await response.json();
     return data;
   } catch (error) {
     console.error(error);

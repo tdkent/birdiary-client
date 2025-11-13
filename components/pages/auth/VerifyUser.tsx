@@ -19,6 +19,7 @@ export default async function VerifyUser({
       case 403: {
         return <ExpiredLink email={email} verificationId={verificationId} />;
       }
+      //! Provide more info without allowing email resend
       case 404: {
         return <ErrorDisplay statusCode={404} />;
       }
