@@ -55,6 +55,11 @@ export default function AuthForm() {
         return setError(result.message);
       }
 
+      if ("email" in result) {
+        if (pathname !== "/signup") throw new Error();
+        return router.replace(`/verify/new?email=${result.email}`);
+      }
+
       if ("success" in result) {
         return setVerificationError(true);
       }

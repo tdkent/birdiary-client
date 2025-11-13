@@ -17,8 +17,11 @@ export async function auth({ pathname, ...args }: AuthParams) {
       body: JSON.stringify(args),
     });
 
-    const data: ExpectedServerError | AuthResponse | { success: boolean } =
-      await response.json();
+    const data:
+      | ExpectedServerError
+      | AuthResponse
+      | { email: string }
+      | { success: boolean } = await response.json();
 
     if (!response.ok) {
       return data as ExpectedServerError;

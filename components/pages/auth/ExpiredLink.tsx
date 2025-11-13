@@ -33,7 +33,7 @@ export default function ExpiredLink({
   }
   return (
     <>
-      <div className="flex flex-col gap-4 px-4 py-8 md:gap-6">
+      <section className="flex flex-col gap-4 px-4 py-8 md:gap-6">
         <h1 className="font-heading text-3xl">Expired link</h1>
         <p className="text-lg">
           The verification link you followed has expired.
@@ -73,7 +73,7 @@ export default function ExpiredLink({
             )}
           </Button>
         )}
-      </div>
+      </section>
     </>
   );
 }
