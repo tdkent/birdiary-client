@@ -36,6 +36,26 @@ export async function auth({ pathname, ...args }: AuthParams) {
   }
 }
 
+export async function resendVerification(
+  email: string,
+  verificationId: string,
+) {
+  try {
+    const response = await fetch(apiRoutes.userVerify, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, verificationId }),
+    });
+    const data: ExpectedServerError | { email: string } = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
 export async function verifyUser(email: string, verificationId: string) {
   try {
     const response = await fetch(apiRoutes.userVerify, {
@@ -45,7 +65,7 @@ export async function verifyUser(email: string, verificationId: string) {
       },
       body: JSON.stringify({ email, verificationId }),
     });
-    const data: ExpectedServerError | { id: string } = await response.json();
+    const data: ExpectedServerError | { email: string } = await response.json();
     return data;
   } catch (error) {
     console.error(error);
