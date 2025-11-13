@@ -19,9 +19,18 @@ export default async function VerifyUser({
       case 403: {
         return <ExpiredLink email={email} verificationId={verificationId} />;
       }
-      //! Provide more info without allowing email resend
       case 404: {
-        return <ErrorDisplay statusCode={404} />;
+        return (
+          <>
+            <div className="flex flex-col gap-4 px-4 py-8 md:gap-6">
+              <h1 className="font-heading text-3xl">Expired link</h1>
+              <p className="text-lg">
+                The verification link you followed is invalid or expired.
+              </p>
+              {/* Add support email */}
+            </div>
+          </>
+        );
       }
       default:
         return <ErrorDisplay />;
