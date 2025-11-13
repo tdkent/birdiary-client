@@ -29,7 +29,7 @@ export default async function VerifyUser({
 
   return (
     <>
-      <VerifySuccess />
+      <VerifySuccess email={email} />
     </>
   );
 }
