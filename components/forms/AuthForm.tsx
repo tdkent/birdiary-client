@@ -83,8 +83,8 @@ export default function AuthForm() {
       {verificationError && (
         <>
           <p className="text-base text-destructive">
-            Your email isn&apos;t verified yet. We&apos;ve sent another link;
-            check your inbox or spam folder in the next few minutes.
+            Your email isn&apos;t verified yet. Please check your inbox for a
+            new verification email.
           </p>
         </>
       )}

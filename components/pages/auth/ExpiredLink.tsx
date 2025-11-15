@@ -52,9 +52,7 @@ export default function ExpiredLink({
                 size={16}
               />
               <p className="ml-1 inline text-base">
-                We&apos;ve sent you another verification email. It should arrive
-                within a few minutes — be sure to check your spam or junk
-                folder.
+                We&apos;ve sent you another verification email.
               </p>
             </div>
           </>
