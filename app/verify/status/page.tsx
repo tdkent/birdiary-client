@@ -23,7 +23,7 @@ export default async function VerifyStatusView({
 
   return (
     <>
-      <div className="flex flex-col gap-4 px-4 py-8 md:gap-6">
+      <div className="my-12 flex flex-col gap-4 px-4 py-8 md:gap-6 lg:my-20">
         <div className="flex items-center gap-2">
           <CircleCheck />
           <h1 className="font-heading text-3xl">Success</h1>

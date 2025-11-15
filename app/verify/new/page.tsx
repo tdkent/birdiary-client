@@ -1,5 +1,12 @@
+import { Mail } from "lucide-react";
+import type { Metadata } from "next";
+
 type VerifyNewUserViewProps = {
   searchParams: Promise<{ [key: string]: string }>;
+};
+
+export const metadata: Metadata = {
+  title: "Verify your email address | Birdiary",
 };
 
 export default async function VerifyNewUserView({
@@ -9,17 +16,21 @@ export default async function VerifyNewUserView({
 
   return (
     <>
-      <section className="flex flex-col gap-4 px-4 py-8 md:gap-6">
-        <h1 className="font-heading text-3xl">Please verify your account</h1>
-        <p className="text-lg">Welcome to Birdiary!</p>
+      <section className="my-12 flex flex-col gap-4 px-4 py-8 md:gap-6 lg:my-20">
+        <div className="">
+          <Mail
+            className="inline -translate-y-1.5"
+            strokeWidth={1.5}
+            size={30}
+          />
+          <h1 className="ml-2.5 inline font-heading text-3xl">
+            Please check your email
+          </h1>
+        </div>
         <p className="text-lg">
-          Please check your inbox at{" "}
-          <span className="font-semibold">{email}</span> for an email with a
-          link you can use to verify your new account. The email should arrive
-          in the next few minutes.
-        </p>
-        <p className="text-lg">
-          Didn&apos;t get it? Check your spam or contact us at ...
+          We&apos;ve just sent a message to{" "}
+          <span className="font-semibold">{email}</span> with a link to verify
+          your new account.
         </p>
       </section>
     </>
