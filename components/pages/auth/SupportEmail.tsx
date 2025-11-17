@@ -1,9 +1,13 @@
 import { SUPPORT_EMAIL_ADDRESS } from "@/constants/env";
 
-export default function SupportEmail() {
+type SupportEmailProps = {
+  textSize?: string;
+};
+
+export default function SupportEmail({ textSize }: SupportEmailProps) {
   return (
     <>
-      <p className="text-lg">
+      <p className={`${textSize || "text-lg"}`}>
         Need help? Contact us at{" "}
         <span className="font-semibold">
           <a href={`mailto:${SUPPORT_EMAIL_ADDRESS}`}>

@@ -2,7 +2,7 @@
 
 import { auth } from "@/actions/auth";
 import PendingIcon from "@/components/forms/PendingIcon";
-import SupportEmail from "@/components/pages/auth/SupportEmail";
+import UnverifiedAccount from "@/components/pages/auth/UnverifiedAccount";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import {
@@ -81,15 +81,7 @@ export default function AuthForm() {
   return (
     <>
       {error && <ErrorDisplay authErrorMessage={error} showInline />}
-      {verificationError && (
-        <>
-          <p className="text-base text-destructive">
-            Your account isn&apos;t verified yet. Check your inbox or spam for a
-            new verification email.
-          </p>
-          <SupportEmail />
-        </>
-      )}
+      {verificationError && <UnverifiedAccount />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
