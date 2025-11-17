@@ -1,8 +1,8 @@
 import { verifyUser } from "@/actions/auth";
-import ExpiredLink from "@/components/pages/auth/ExpiredLink";
+import ExpiredVerificationLink from "@/components/pages/auth/ExpiredVerificationLink";
+import InvalidVerificationLink from "@/components/pages/auth/InvalidVerificationLink";
 import VerifySuccess from "@/components/pages/auth/VerifySuccess";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { SUPPORT_EMAIL_ADDRESS } from "@/constants/constants";
 
 type VerifyUserProps = {
   email: string;
@@ -18,23 +18,15 @@ export default async function VerifyUser({
   if ("error" in result) {
     switch (result.statusCode) {
       case 403: {
-        return <ExpiredLink email={email} verificationId={verificationId} />;
+        return (
+          <ExpiredVerificationLink
+            email={email}
+            verificationId={verificationId}
+          />
+        );
       }
       case 404: {
-        return (
-          <>
-            <div className="my-12 flex flex-col gap-4 px-4 py-8 md:gap-6 lg:my-20">
-              <h1 className="font-heading text-3xl">Expired link</h1>
-              <p className="text-lg">
-                The verification link you followed is invalid or expired.
-              </p>
-              <p className="text-lg">
-                Need help? Contact us at{" "}
-                <span className="font-semibold">{SUPPORT_EMAIL_ADDRESS}</span>.
-              </p>
-            </div>
-          </>
-        );
+        return <InvalidVerificationLink />;
       }
       default:
         return <ErrorDisplay />;
