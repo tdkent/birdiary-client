@@ -1,3 +1,5 @@
+import { SUPPORT_EMAIL_ADDRESS } from "@/constants/env";
+
 export default function Footer() {
   const attributions = [
     {
@@ -21,6 +23,12 @@ export default function Footer() {
     <footer className="flex min-h-28 items-center border-t px-6 py-8">
       <div className="mx-auto flex w-full max-w-[1024px] flex-col gap-4">
         <p className="text-sm">&copy; 2025 Birdiary. All Rights Reserved.</p>
+        <p className="text-sm">
+          Contact:{" "}
+          <a href={`mailto:${SUPPORT_EMAIL_ADDRESS}`}>
+            {SUPPORT_EMAIL_ADDRESS}
+          </a>
+        </p>
         <details className="text-xs hover:cursor-pointer">
           <summary>Icon and logo image attributions</summary>
           <dl className="flex flex-col gap-2 p-3">
