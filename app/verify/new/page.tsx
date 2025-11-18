@@ -32,6 +32,10 @@ export default async function VerifyNewUserView({
           <span className="font-semibold">{email}</span> with a link to verify
           your new account.
         </p>
+        <p className="text-lg">
+          Check your spam folder if the email does not arrive after a few
+          minutes.
+        </p>
       </section>
     </>
   );
