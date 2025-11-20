@@ -1,5 +1,4 @@
 import { verifyUser } from "@/actions/auth";
-import ExpiredVerificationLink from "@/components/pages/auth/ExpiredVerificationLink";
 import InvalidVerificationLink from "@/components/pages/auth/InvalidVerificationLink";
 import VerifySuccess from "@/components/pages/auth/VerifySuccess";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -16,26 +15,9 @@ export default async function VerifyUser({
   const result = await verifyUser(email, verificationId);
 
   if ("error" in result) {
-    switch (result.statusCode) {
-      case 403: {
-        return (
-          <ExpiredVerificationLink
-            email={email}
-            verificationId={verificationId}
-          />
-        );
-      }
-      case 404: {
-        return <InvalidVerificationLink />;
-      }
-      default:
-        return <ErrorDisplay />;
-    }
+    if (result.statusCode === 400) return <InvalidVerificationLink />;
+    return <ErrorDisplay />;
   }
 
-  return (
-    <>
-      <VerifySuccess email={email} />
-    </>
-  );
+  return <VerifySuccess email={email} />;
 }
