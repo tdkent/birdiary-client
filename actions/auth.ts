@@ -43,7 +43,7 @@ export async function resendVerification(
   verificationId: string,
 ) {
   try {
-    const response = await fetch(apiRoutes.userVerify, {
+    const response = await fetch(apiRoutes.userVerifyResend, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,8 +61,8 @@ export async function resendVerification(
 
 export async function verifyUser(email: string, verificationId: string) {
   try {
-    const response = await fetch(apiRoutes.userVerify, {
-      method: "DELETE",
+    const response = await fetch(apiRoutes.userVerifyComplete, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
