@@ -57,3 +57,5 @@ export function convertDateIdToValidDate(dateId: string) {
   if (!parseDateToInt) return null;
   return `${dateId.slice(0, 4)}-${dateId.slice(4, 6)}-${dateId.slice(6)}`;
 }
+
+export const CURR_YEAR = DateTime.now().year;
