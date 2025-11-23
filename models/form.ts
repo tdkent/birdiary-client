@@ -17,6 +17,10 @@ export const signupFormSchema = z.object({
   }),
 });
 
+export const emailFormSchema = z.object({
+  email: z.string().email({ message: Messages.EmailValidationError }),
+});
+
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date(),
