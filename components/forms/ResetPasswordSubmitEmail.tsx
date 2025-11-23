@@ -2,6 +2,7 @@
 
 import { forgotPassword } from "@/actions/auth";
 import PendingIcon from "@/components/forms/PendingIcon";
+import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,6 +21,7 @@ import z from "zod";
 
 export default function ResetPasswordSubmitEmail() {
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const form = useForm<Pick<AuthForm, "email">>({
     resolver: zodResolver(emailFormSchema),
@@ -31,10 +33,15 @@ export default function ResetPasswordSubmitEmail() {
   const email = form.getValues("email");
 
   async function onSubmit(values: z.infer<typeof emailFormSchema>) {
+    setError(null);
     setFetchError(null);
     setPending(true);
     try {
-      await forgotPassword(values.email);
+      const result = await forgotPassword(values.email);
+      console.log(result);
+      if ("error" in result) {
+        return setError(result.message);
+      }
     } catch (error) {
       setFetchError(error as Error);
     } finally {
@@ -46,6 +53,7 @@ export default function ResetPasswordSubmitEmail() {
 
   return (
     <>
+      {error && <ErrorDisplay authErrorMessage={error} showInline />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

@@ -86,7 +86,8 @@ export async function forgotPassword(email: string) {
       },
       body: JSON.stringify({ email }),
     });
-    const data: { success: boolean } = await response.json();
+    const data: ExpectedServerError | { success: boolean } =
+      await response.json();
     return data;
   } catch (error) {
     console.error(error);
