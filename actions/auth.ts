@@ -77,6 +77,23 @@ export async function verifyUser(email: string, verificationId: string) {
   }
 }
 
+export async function forgotPassword(email: string) {
+  try {
+    const response = await fetch(apiRoutes.forgotPassword, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const data: { success: boolean } = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
 export async function deleteSessionCookie() {
   await deleteSession();
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { forgotPassword } from "@/actions/auth";
 import PendingIcon from "@/components/forms/PendingIcon";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +34,7 @@ export default function ResetPasswordSubmitEmail() {
     setFetchError(null);
     setPending(true);
     try {
+      await forgotPassword(values.email);
     } catch (error) {
       setFetchError(error as Error);
     } finally {

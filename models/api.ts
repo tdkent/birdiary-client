@@ -35,6 +35,7 @@ export const apiRoutes = {
     startsWith: string | undefined,
   ) =>
     `${BASE_URL}/birds?page=${page}${searchTerm ? `&search=${searchTerm}` : ""}${startsWith ? `&startsWith=${startsWith}` : ""}`,
+  forgotPassword: `${BASE_URL}/users/forgotpassword`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsByBirdId: (id: number, page: number, sortBy: string) =>
