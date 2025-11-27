@@ -35,7 +35,6 @@ export const apiRoutes = {
     startsWith: string | undefined,
   ) =>
     `${BASE_URL}/birds?page=${page}${searchTerm ? `&search=${searchTerm}` : ""}${startsWith ? `&startsWith=${startsWith}` : ""}`,
-  forgotPassword: `${BASE_URL}/users/forgotpassword`,
   getSightings: (page: number, sortBy: string) =>
     `${BASE_URL}/sightings?page=${page}&sortBy=${sortBy}`,
   getSightingsByBirdId: (id: number, page: number, sortBy: string) =>
@@ -62,9 +61,12 @@ export const apiRoutes = {
   signin: `${BASE_URL}/users/signin`,
   user: `${BASE_URL}/users`,
   userFavoriteBird: `${BASE_URL}/users/favoritebird`,
+  userForgotPassword: `${BASE_URL}/users/forgotpassword`,
   userPassword: `${BASE_URL}/users/password`,
   userStats: `${BASE_URL}/users/stats`,
   userStorage: `${BASE_URL}/users/transferstorage`,
+  userVerifyResetPassword: (token: string) =>
+    `${BASE_URL}/users/forgotPassword?token=${token}`,
   userVerifyResend: `${BASE_URL}/verify`,
   userVerifyComplete: `${BASE_URL}/verify/complete`,
 } as const;

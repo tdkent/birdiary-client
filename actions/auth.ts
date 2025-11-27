@@ -79,13 +79,25 @@ export async function verifyUser(email: string, verificationId: string) {
 
 export async function forgotPassword(email: string) {
   try {
-    const response = await fetch(apiRoutes.forgotPassword, {
+    const response = await fetch(apiRoutes.userForgotPassword, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email }),
     });
+    const data: ExpectedServerError | { success: boolean } =
+      await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
+export async function verifyResetPassword(token: string) {
+  try {
+    const response = await fetch(apiRoutes.userVerifyResetPassword(token));
     const data: ExpectedServerError | { success: boolean } =
       await response.json();
     return data;
