@@ -15,7 +15,7 @@ export default async function VerifyUser({
   const result = await verifyUser(email, verificationId);
 
   if ("error" in result) {
-    if (result.statusCode === 400) return <InvalidVerificationLink />;
+    if (result.statusCode === 400) return <InvalidVerificationLink isVerify />;
     return <ErrorDisplay />;
   }
 

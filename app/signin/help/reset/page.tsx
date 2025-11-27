@@ -1,5 +1,6 @@
 import { verifyResetPassword } from "@/actions/auth";
 import ResetPasswordSubmitPassword from "@/components/forms/ResetPasswordSubmitPassword";
+import InvalidVerificationLink from "@/components/pages/auth/InvalidVerificationLink";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
@@ -15,7 +16,8 @@ export default async function ResetPasswordView({
   const result = await verifyResetPassword(token);
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={`${result.statusCode}`} />;
+    if (result.statusCode === 400) return <InvalidVerificationLink />;
+    return <ErrorDisplay />;
   }
 
   return (
