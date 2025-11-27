@@ -1,7 +1,6 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { updatePassword } from "@/actions/profile";
+import { resetPassword } from "@/actions/auth";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -19,57 +18,52 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
-import type { User } from "@/models/db";
-import { updatePasswordFormSchema } from "@/models/form";
+import { ExpectedServerError, Messages } from "@/models/api";
+import { resetPasswordFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import z from "zod";
 
-export default function UpdatePasswordForm() {
+type ResetPasswordSubmitPasswordProps = {
+  token: string;
+};
+
+export default function ResetPasswordSubmitPassword({
+  token,
+}: ResetPasswordSubmitPasswordProps) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<number | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
-  const form = useForm<z.infer<typeof updatePasswordFormSchema>>({
-    resolver: zodResolver(updatePasswordFormSchema),
+
+  const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
+    resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
-      currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
     },
   });
 
-  const { signOut } = useAuth();
   const router = useRouter();
   const isDirty = form.formState.isDirty;
 
-  async function onSubmit(values: z.infer<typeof updatePasswordFormSchema>) {
+  async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {
     setPending(true);
     setError(null);
     try {
-      const response: User | ExpectedServerError = await updatePassword(
-        values.currentPassword,
-        values.newPassword,
-      );
+      const response: { success: boolean } | ExpectedServerError =
+        await resetPassword(values.newPassword, token);
 
       if ("error" in response) {
-        if (response.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
-          signOut();
-          deleteSessionCookie();
-          router.replace("/signin");
-        }
         return setError(response.statusCode);
       }
 
       toast.success(Messages.PasswordUpdated);
-
       form.reset();
+      router.replace("/signin");
     } catch (error) {
       setFetchError(error as Error);
     } finally {
@@ -84,24 +78,6 @@ export default function UpdatePasswordForm() {
       {error && <ErrorDisplay showInline statusCode={error} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="currentPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Current Password</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="current-password"
-                    disabled={pending}
-                    type="password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="newPassword"

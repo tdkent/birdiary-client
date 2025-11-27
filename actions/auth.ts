@@ -107,6 +107,24 @@ export async function verifyResetPassword(token: string) {
   }
 }
 
+export async function resetPassword(password: string, token: string) {
+  try {
+    const response = await fetch(apiRoutes.userResetPassword, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password, token }),
+    });
+    const data: ExpectedServerError | { success: boolean } =
+      await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(Messages.UnknownUnexpectedError);
+  }
+}
+
 export async function deleteSessionCookie() {
   await deleteSession();
 }
