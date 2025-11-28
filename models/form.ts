@@ -21,6 +21,8 @@ export const emailFormSchema = z.object({
   email: z.string().email({ message: Messages.EmailValidationError }),
 });
 
+export const validJwtFormat = z.string().jwt();
+
 export const updatePasswordFormSchema = z
   .object({
     currentPassword: z.string().trim().min(8).max(36),

@@ -4,6 +4,7 @@ import InvalidVerificationLink from "@/components/pages/auth/InvalidVerification
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { validJwtFormat } from "@/models/form";
 
 type ResetPasswordViewProps = {
   searchParams: Promise<{ [key: string]: string }>;
@@ -13,6 +14,11 @@ export default async function ResetPasswordView({
   searchParams,
 }: ResetPasswordViewProps) {
   const { token } = await searchParams;
+
+  const isValidJwt = validJwtFormat.safeParse(token);
+
+  if (!isValidJwt.success) return <ErrorDisplay statusCode={400} />;
+
   const result = await verifyResetPassword(token);
 
   if ("error" in result) {
