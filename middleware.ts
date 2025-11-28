@@ -6,6 +6,7 @@ const protectedRoutes = ["/lifelist", "/locations", "/profile"];
 const authRoutes = [
   "/signin",
   "/signin/help",
+  "/signin/help/reset",
   "/signup",
   "/verify",
   "/verify/new",

@@ -75,7 +75,12 @@ export default function ResetPasswordSubmitPassword({
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && (
+        <ErrorDisplay
+          authErrorMessage="Invalid request. Your reset link may be invalid or expired."
+          showInline
+        />
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
