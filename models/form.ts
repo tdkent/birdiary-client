@@ -5,16 +5,13 @@ import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 // Zod Schemas
+
+const pswMsg = Messages.PasswordValidationError;
+const Password = z.string().trim().min(8, pswMsg).max(64, pswMsg);
+
 export const signupFormSchema = z.object({
   email: z.string().email({ message: Messages.EmailValidationError }),
-  password: z.string().superRefine((val, ctx) => {
-    if (val.length < 8 || val.length > 64) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: Messages.PasswordValidationError,
-      });
-    }
-  }),
+  password: Password,
 });
 
 export const emailFormSchema = z.object({
@@ -25,9 +22,9 @@ export const validJwtFormat = z.string().jwt();
 
 export const updatePasswordFormSchema = z
   .object({
-    currentPassword: z.string().trim().min(8).max(64),
-    newPassword: z.string().trim().min(8).max(64),
-    confirmNewPassword: z.string().trim().min(8).max(64),
+    currentPassword: Password,
+    newPassword: Password,
+    confirmNewPassword: Password,
   })
   .refine((data) => data.currentPassword !== data.newPassword, {
     message: "New password must be different from old password.",
@@ -40,8 +37,8 @@ export const updatePasswordFormSchema = z
 
 export const resetPasswordFormSchema = z
   .object({
-    newPassword: z.string().trim().min(8).max(64),
-    confirmNewPassword: z.string().trim().min(8).max(64),
+    newPassword: Password,
+    confirmNewPassword: Password,
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "Passwords do not match",
