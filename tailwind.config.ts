@@ -58,8 +58,8 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["Quicksand", "sans-serif"],
-        playful: ["Caveat", "sans-serif"],
         numbers: ["Short Stack", "cursive"],
+        script: ["Caveat", "sans-serif"],
       },
     },
   },

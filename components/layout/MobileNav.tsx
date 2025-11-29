@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/AuthContext";
 import { mobile as mobileNavLinks } from "@/data/nav";
-import { caveat } from "@/lib/fonts";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { AlignJustify } from "lucide-react";
 import Link from "next/link";
@@ -36,9 +35,7 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader>
-          <SheetTitle
-            className={`${caveat.className} mt-12 font-normal antialiased`}
-          >
+          <SheetTitle className="mt-12 font-normal antialiased">
             <Logo
               logoStyles="h-14 w-14 md:h-16 md:w-16"
               textStyles="text-4xl md:text-[42px]"

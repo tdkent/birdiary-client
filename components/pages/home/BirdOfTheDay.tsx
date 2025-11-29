@@ -15,7 +15,7 @@ export default async function BirdOfTheDay() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
-              <h3 className="font-playful text-3xl md:text-4xl">
+              <h3 className="font-script text-3xl md:text-4xl">
                 Bird of the Day
               </h3>
             </CardTitle>
