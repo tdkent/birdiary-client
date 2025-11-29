@@ -2,22 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
+
+// Generic type accepts any combination of field values and specific field path.
+type TField = ControllerRenderProps<FieldValues, FieldPath<FieldValues>>;
 
 type PasswordInputProps = {
-  field: ControllerRenderProps<
-    {
-      email: string;
-      password: string;
-    },
-    "password"
-  >;
+  field: TField;
+  autocomplete: "current-password" | "new-password";
   pending: boolean;
 };
 
 export default function PasswordInput({
+  autocomplete,
   field,
-
   pending,
 }: PasswordInputProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,7 +25,7 @@ export default function PasswordInput({
         <Input
           {...field}
           aria-required
-          autoComplete="current-password"
+          autoComplete={autocomplete}
           className="border-none"
           disabled={pending}
           type={isVisible ? "text" : "password"}
