@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
@@ -15,7 +15,11 @@ type PasswordInputProps = {
   pending: boolean;
 };
 
-export default function PasswordInput({ field, pending }: PasswordInputProps) {
+export default function PasswordInput({
+  field,
+
+  pending,
+}: PasswordInputProps) {
   const [isVisible, setIsVisible] = useState(false);
   return (
     <>
@@ -26,10 +30,20 @@ export default function PasswordInput({ field, pending }: PasswordInputProps) {
           autoComplete="current-password"
           className="border-none"
           disabled={pending}
-          type="password"
+          type={isVisible ? "text" : "password"}
         />
-        <Button aria-label="Show Password" className="border" size="icon">
-          <Eye size={24} strokeWidth={1.5} />
+        <Button
+          aria-label={`${isVisible ? "Hide" : "Show"} Password`}
+          className="my-0 h-14 px-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 md:px-6"
+          onClick={() => setIsVisible((prev) => !prev)}
+          size="icon"
+          type="button"
+        >
+          {isVisible ? (
+            <Eye size={22} strokeWidth={1.5} />
+          ) : (
+            <EyeOff size={22} strokeWidth={1.5} />
+          )}
         </Button>
       </div>
     </>
