@@ -8,7 +8,7 @@ import { z } from "zod";
 export const signupFormSchema = z.object({
   email: z.string().email({ message: Messages.EmailValidationError }),
   password: z.string().superRefine((val, ctx) => {
-    if (val.length < 8 || val.length > 36) {
+    if (val.length < 8 || val.length > 64) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: Messages.PasswordValidationError,
@@ -25,9 +25,9 @@ export const validJwtFormat = z.string().jwt();
 
 export const updatePasswordFormSchema = z
   .object({
-    currentPassword: z.string().trim().min(8).max(36),
-    newPassword: z.string().trim().min(8).max(36),
-    confirmNewPassword: z.string().trim().min(8).max(36),
+    currentPassword: z.string().trim().min(8).max(64),
+    newPassword: z.string().trim().min(8).max(64),
+    confirmNewPassword: z.string().trim().min(8).max(64),
   })
   .refine((data) => data.currentPassword !== data.newPassword, {
     message: "New password must be different from old password.",
@@ -40,8 +40,8 @@ export const updatePasswordFormSchema = z
 
 export const resetPasswordFormSchema = z
   .object({
-    newPassword: z.string().trim().min(8).max(36),
-    confirmNewPassword: z.string().trim().min(8).max(36),
+    newPassword: z.string().trim().min(8).max(64),
+    confirmNewPassword: z.string().trim().min(8).max(64),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "Passwords do not match",
