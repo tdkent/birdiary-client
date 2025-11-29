@@ -1,6 +1,7 @@
 "use client";
 
 import { resetPassword } from "@/actions/auth";
+import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -12,16 +13,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { ExpectedServerError, Messages } from "@/models/api";
 import { resetPasswordFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -88,23 +82,12 @@ export default function ResetPasswordSubmitPassword({
             name="newPassword"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center justify-between">
-                  <FormLabel>New Password</FormLabel>
-                  <Popover>
-                    <PopoverTrigger className="pr-1 text-sm">
-                      <CircleQuestionMark strokeWidth={1.5} size={20} />
-                    </PopoverTrigger>
-                    <PopoverContent className="text-sm md:text-base">
-                      Passwords must be 8-36 characters.
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input
-                    autoComplete="new-password"
-                    disabled={pending}
-                    type="password"
-                    {...field}
+                  <PasswordInput
+                    autocomplete="new-password"
+                    field={field}
+                    pending={pending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -118,11 +101,10 @@ export default function ResetPasswordSubmitPassword({
               <FormItem>
                 <FormLabel>Confirm New Password</FormLabel>
                 <FormControl>
-                  <Input
-                    autoComplete="new-password"
-                    disabled={pending}
-                    type="password"
-                    {...field}
+                  <PasswordInput
+                    autocomplete="new-password"
+                    field={field}
+                    pending={pending}
                   />
                 </FormControl>
                 <FormMessage />
