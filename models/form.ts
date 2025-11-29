@@ -17,6 +17,37 @@ export const signupFormSchema = z.object({
   }),
 });
 
+export const emailFormSchema = z.object({
+  email: z.string().email({ message: Messages.EmailValidationError }),
+});
+
+export const validJwtFormat = z.string().jwt();
+
+export const updatePasswordFormSchema = z
+  .object({
+    currentPassword: z.string().trim().min(8).max(36),
+    newPassword: z.string().trim().min(8).max(36),
+    confirmNewPassword: z.string().trim().min(8).max(36),
+  })
+  .refine((data) => data.currentPassword !== data.newPassword, {
+    message: "New password must be different from old password.",
+    path: ["newPassword"],
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords do not match",
+    path: ["confirmNewPassword"],
+  });
+
+export const resetPasswordFormSchema = z
+  .object({
+    newPassword: z.string().trim().min(8).max(36),
+    confirmNewPassword: z.string().trim().min(8).max(36),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords do not match",
+    path: ["confirmNewPassword"],
+  });
+
 export const sightingSchema = z.object({
   commonName: z.string(),
   date: z.date(),

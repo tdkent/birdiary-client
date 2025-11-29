@@ -14,12 +14,17 @@ export default function SignInView() {
       <ViewWrapper>
         <ViewHeader headingText="Sign in to your account" />
         <AuthForm />
-        <p className="text-base md:text-xl">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="link-inline">
-            Sign up
+        <div className="flex flex-col gap-8">
+          <Link className="link-inline w-fit md:text-xl" href="/signin/help">
+            Forgot your password?
           </Link>
-        </p>
+          <p className="text-base md:text-xl">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="link-inline">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </ViewWrapper>
     </>
   );

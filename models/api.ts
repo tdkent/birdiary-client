@@ -61,9 +61,13 @@ export const apiRoutes = {
   signin: `${BASE_URL}/users/signin`,
   user: `${BASE_URL}/users`,
   userFavoriteBird: `${BASE_URL}/users/favoritebird`,
+  userForgotPassword: `${BASE_URL}/users/forgotpassword`,
   userPassword: `${BASE_URL}/users/password`,
+  userResetPassword: `${BASE_URL}/users/forgotpassword/complete`,
   userStats: `${BASE_URL}/users/stats`,
   userStorage: `${BASE_URL}/users/transferstorage`,
+  userVerifyResetPassword: (token: string) =>
+    `${BASE_URL}/users/forgotPassword?token=${token}`,
   userVerifyResend: `${BASE_URL}/verify`,
   userVerifyComplete: `${BASE_URL}/verify/complete`,
 } as const;

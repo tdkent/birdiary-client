@@ -1,4 +1,5 @@
 import { SUPPORT_EMAIL_ADDRESS } from "@/constants/env";
+import { CURR_YEAR } from "@/helpers/dates";
 
 export default function Footer() {
   const attributions = [
@@ -22,7 +23,9 @@ export default function Footer() {
   return (
     <footer className="flex min-h-28 items-center border-t px-6 py-8">
       <div className="mx-auto flex w-full max-w-[1024px] flex-col gap-4">
-        <p className="text-sm">&copy; 2025 Birdiary. All Rights Reserved.</p>
+        <p className="text-sm">
+          &copy; {CURR_YEAR} Birdiary. All Rights Reserved.
+        </p>
         <p className="text-sm">
           Contact:{" "}
           <a href={`mailto:${SUPPORT_EMAIL_ADDRESS}`}>
