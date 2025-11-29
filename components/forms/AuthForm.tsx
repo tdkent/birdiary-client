@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/actions/auth";
+import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import UnverifiedAccount from "@/components/pages/auth/UnverifiedAccount";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -109,13 +110,14 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
+                  <PasswordInput field={field} pending={pending} />
+                  {/* <Input
                     {...field}
                     aria-required
                     autoComplete="current-password"
                     disabled={pending}
                     type="password"
-                  />
+                  /> */}
                 </FormControl>
                 <FormMessage />
               </FormItem>
