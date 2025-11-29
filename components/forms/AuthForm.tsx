@@ -110,14 +110,11 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <PasswordInput field={field} pending={pending} />
-                  {/* <Input
-                    {...field}
-                    aria-required
-                    autoComplete="current-password"
-                    disabled={pending}
-                    type="password"
-                  /> */}
+                  <PasswordInput
+                    autocomplete="current-password"
+                    field={field}
+                    pending={pending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
