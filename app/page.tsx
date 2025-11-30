@@ -18,7 +18,9 @@ export default function HomeView() {
           </h1>
         </header>
         <section className="flex flex-col gap-6">
-          <h2 className="font-script">Welcome to Birdiary!</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Welcome to Birdiary!
+          </h2>
           <p>
             Spot a bird? Choose from our comprehensive list of North American
             bird species and save the details of your sighting.
@@ -38,7 +40,9 @@ export default function HomeView() {
             species, from crows and jays to swifts and thrushes!
           </p>
           <BirdOfTheDay />
-          <h2 className="font-script">Go further with an account</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Go further with an account
+          </h2>
           <p>
             Interested in more? Create a free account to permanently store
             unlimited data, keep track of your birdwatching life list, and add
@@ -50,7 +54,9 @@ export default function HomeView() {
           </p>
         </section>
         <section className="flex flex-col gap-6">
-          <h2 className="font-script">Ready to get started?</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Ready to get started?
+          </h2>
           <NewSightingButton />
         </section>
       </ViewWrapper>
