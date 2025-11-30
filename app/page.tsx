@@ -13,7 +13,7 @@ export default function HomeView() {
     <>
       <ViewWrapper>
         <header>
-          <h1 className="bg-gradient-to-r from-sky-400 to-violet-600 bg-clip-text px-1 py-4 text-[42px] text-transparent dark:from-rose-100 dark:to-violet-400 md:text-7xl lg:text-[88px]">
+          <h1 className="bg-gradient-to-r from-blue-500 to-violet-300 bg-clip-text px-1 py-4 text-[42px] text-transparent drop-shadow dark:from-rose-100 dark:to-violet-400 dark:text-transparent dark:drop-shadow-none md:text-7xl lg:text-[88px]">
             Quickly log bird sightings and build your birding diary.
           </h1>
         </header>

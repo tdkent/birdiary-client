@@ -67,7 +67,7 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-heading text-2xl font-bold leading-tight md:text-4xl;
+    @apply font-heading text-2xl font-bold leading-tight dark:text-blue-300 md:text-4xl;
   }
   h2 {
     @apply font-heading text-xl font-semibold leading-tight md:text-3xl;
