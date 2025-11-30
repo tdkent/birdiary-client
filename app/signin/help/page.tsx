@@ -8,7 +8,7 @@ export default function SignInHelpView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="Reset Password" />
+        <ViewHeader headingText="Forgot Your Password?" />
         <div className="flex flex-col gap-8">
           <ResetPasswordSubmitEmail />
           <Button asChild variant="secondary" size="lg">
