@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -77,6 +78,9 @@ export default function ResetPasswordSubmitPassword({
       )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormDescription>
+            This will reset the password you use to access your account.
+          </FormDescription>
           <FormField
             control={form.control}
             name="newPassword"

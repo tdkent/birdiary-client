@@ -29,10 +29,7 @@ export default async function ResetPasswordView({
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Update Your Password"
-          descriptionText="Update the password you use to sign in to your account with."
-        />
+        <ViewHeader headingText="Reset Your Password" />
         <ResetPasswordSubmitPassword token={token} />
       </ViewWrapper>
     </>
