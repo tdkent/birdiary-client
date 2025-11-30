@@ -79,7 +79,7 @@ export default function ResetPasswordSubmitPassword({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>
-            This will reset the password you use to access your account.
+            {Messages.ResetPasswordFormDescription}
           </FormDescription>
           <FormField
             control={form.control}

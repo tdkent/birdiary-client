@@ -13,10 +13,7 @@ export default async function UpdatePasswordView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Update Password"
-          descriptionText="Change the password used to sign in to your account."
-        />
+        <ViewHeader headingText="Update Password" />
         <div className="flex flex-col gap-4">
           <UpdatePasswordForm />
           <Button asChild size="lg" variant="secondary">
