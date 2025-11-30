@@ -1,4 +1,6 @@
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
 import { CircleCheck } from "lucide-react";
 import type { Metadata } from "next";
@@ -23,19 +25,21 @@ export default async function VerifyStatusView({
 
   return (
     <>
-      <div className="my-12 flex flex-col gap-4 px-4 py-8 md:gap-6 lg:my-20">
-        <div className="flex items-center gap-2">
-          <CircleCheck />
-          <h1 className="font-heading text-3xl">Success</h1>
+      <ViewWrapper>
+        <ViewHeader headingText="Verification Complete" icon={CircleCheck} />
+        <div className="flex flex-col gap-6">
+          <p className="max-md:text-lg">
+            Your email address <span className="font-semibold">{email}</span>{" "}
+            has been successfully verified.
+          </p>
+          <p className="max-md:text-lg">
+            Use the link below to sign in to your account.
+          </p>
+          <Button asChild className="my-4" size="lg" variant="secondary">
+            <Link href="/signin">Sign in</Link>
+          </Button>
         </div>
-        <p className="text-lg">
-          Your email address <span className="font-semibold">{email}</span> is
-          now verified.
-        </p>
-        <Button asChild className="my-2" size="lg" variant="secondary">
-          <Link href="/signin">Sign in</Link>
-        </Button>
-      </div>
+      </ViewWrapper>
     </>
   );
 }
