@@ -14,8 +14,7 @@ export default function HomeView() {
       <ViewWrapper>
         <header>
           <h1 className="text-[42px] md:text-7xl lg:text-[88px]">
-            Quickly log bird sightings and build your{" "}
-            <span className="font-script">birding diary.</span>
+            Quickly log bird sightings and build your birding diary.
           </h1>
         </header>
         <section className="flex flex-col gap-6">
@@ -39,9 +38,7 @@ export default function HomeView() {
             species, from crows and jays to swifts and thrushes!
           </p>
           <BirdOfTheDay />
-          <h2>
-            <span className="font-script">Go further</span> with an account
-          </h2>
+          <h2 className="font-script">Go further with an account</h2>
           <p>
             Interested in more? Create a free account to permanently store
             unlimited data, keep track of your birdwatching life list, and add
@@ -53,7 +50,7 @@ export default function HomeView() {
           </p>
         </section>
         <section className="flex flex-col gap-6">
-          <h2>Ready to get started?</h2>
+          <h2 className="font-script">Ready to get started?</h2>
           <NewSightingButton />
         </section>
       </ViewWrapper>
