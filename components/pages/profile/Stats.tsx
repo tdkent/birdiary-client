@@ -40,7 +40,7 @@ export default async function Stats() {
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Sightings</h3>
+        <h2>All Sightings</h2>
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
             dt="Total Sightings Count"
@@ -97,7 +97,7 @@ export default async function Stats() {
       </section>
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Favorite Bird</h3>
+        <h2 className="mb-4">My Favorite Bird</h2>
         {bird ? (
           <>
             <StaticBirdImage
@@ -141,7 +141,7 @@ export default async function Stats() {
       </section>
       <Separator className="mx-auto w-4/5" />
       <section className="flex flex-col gap-4 md:w-[85%]">
-        <h3>Favorites</h3>
+        <h2>My Favorites</h2>
         <dl className="my-4 flex flex-col gap-8 md:gap-12">
           <DescriptionListItem
             dt="Most-Sighted Birds"

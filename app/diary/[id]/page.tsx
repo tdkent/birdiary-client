@@ -52,7 +52,7 @@ export default async function DiaryDetailsView({
         <ViewHeader
           backLinkHref="diary"
           backLinkText="Go to my diary"
-          headingText={`My Diary on ${createLocaleString(validDateId!, "med")}`}
+          headingText={`My Birding Diary: ${createLocaleString(validDateId!, "med")}`}
         />
         {validDateId &&
         parsedPage &&

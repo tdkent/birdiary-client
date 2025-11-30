@@ -90,7 +90,7 @@ export default async function BirdDetailsView({
             <Separator className="mx-auto w-4/5" />
             <CsrList
               defaultSortOption={defaultSortOption}
-              headingText="Sightings"
+              headingText="My Sightings of This Species"
               page={parsedPage}
               pendingVariant="list"
               route={apiRoutes.getSightingsByBirdId(

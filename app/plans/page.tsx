@@ -21,7 +21,7 @@ export default async function PlansView() {
     <>
       <ViewWrapper>
         <header>
-          <h1 className="text-[42px] md:text-7xl lg:text-[88px]">Plans</h1>
+          <h1>Plans</h1>
           <p className="mt-12 text-xl md:mt-16 md:text-2xl">
             Birdiary is free to use — no sign-up necessary. Start recording your
             bird sightings instantly. Want access to more features? Explore the

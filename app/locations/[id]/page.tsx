@@ -80,7 +80,7 @@ export default async function LocationDetailsView({
             >
               <List
                 defaultSortOption={defaultSortOption}
-                headingText="Sightings"
+                headingText="My Sightings at This Location"
                 page={parsedPage}
                 resource={apiRoutes.getSightingsByLocation(
                   validId,
