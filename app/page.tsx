@@ -1,6 +1,5 @@
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -13,12 +12,11 @@ export default function HomeView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Quickly log your bird sightings and build your birding diary"
-          useSeparator
-        />
+        <header className="flex flex-col gap-10">
+          <h1>Quickly log bird sightings and build your birding diary.</h1>
+        </header>
         <section className="flex flex-col gap-6">
-          <h2>Create your birding diary</h2>
+          <h2>Welcome to Birdiary!</h2>
           <p>
             Spot a bird? Pick from our database of more than 800 North American
             bird species, and log the sighting details.
