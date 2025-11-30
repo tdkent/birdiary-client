@@ -35,7 +35,7 @@ export async function generateMetadata({
   if (!validBirdId) {
     return {
       title: `Bird Details: Invalid Bird | Birdiary`,
-      description: "Details of a bird.",
+      description: "Details of a North American bird species.",
     };
   }
 
@@ -69,8 +69,12 @@ export default async function BirdDetailsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
+          backLinkHref="birds"
+          backLinkText="Go to Birdpedia"
           headingText={
-            validBirdId ? birdNames[validBirdId - 1] : "Bird Details"
+            validBirdId
+              ? `Bird Details: ${birdNames[validBirdId - 1]}`
+              : "Bird Details"
           }
         />
         {validBirdId &&

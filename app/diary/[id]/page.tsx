@@ -43,15 +43,16 @@ export default async function DiaryDetailsView({
   const sortOptions = [...sortByAlphaOptions];
   const defaultSortOption = sortBy as SortValues;
 
+  console.log(createLocaleString(validDateId!, "med"));
+
   return (
     <>
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
           backLinkHref="diary"
-          backLinkText="Go to diary"
-          headingText="Diary Details"
-          descriptionText="View your birding diary details."
+          backLinkText="Go to my diary"
+          headingText={`My Diary on ${createLocaleString(validDateId!, "med")}`}
         />
         {validDateId &&
         parsedPage &&

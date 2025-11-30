@@ -34,11 +34,7 @@ export default async function EditSightingView({
     <>
       <SignedOffBanner />
       <ViewWrapper>
-        <ViewHeader
-          headingText="Edit Sighting"
-          descriptionText="Update the details of one of your sightings."
-          useSeparator
-        />
+        <ViewHeader headingText="Edit Sighting" />
         {validId ? (
           <>
             <EditSighting sightingId={validId} />

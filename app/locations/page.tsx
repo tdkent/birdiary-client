@@ -37,10 +37,7 @@ export default async function LocationsView({
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Locations"
-          descriptionText="A list of all the locations where you have observed birds."
-        />
+        <ViewHeader headingText="My Birding Locations" />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <>
             <Suspense

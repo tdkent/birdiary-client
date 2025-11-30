@@ -13,12 +13,7 @@ export default async function EditProfileView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Edit Profile"
-          descriptionText="Update your profile data including nickname, location, and privacy
-            settings."
-          useSeparator
-        />
+        <ViewHeader headingText="Edit Profile" />
         <Suspense fallback={<Pending variant="profileForm" />}>
           <EditProfile />
         </Suspense>

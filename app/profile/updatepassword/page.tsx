@@ -16,7 +16,6 @@ export default async function UpdatePasswordView() {
         <ViewHeader
           headingText="Update Password"
           descriptionText="Change the password used to sign in to your account."
-          useSeparator
         />
         <div className="flex flex-col gap-4">
           <UpdatePasswordForm />

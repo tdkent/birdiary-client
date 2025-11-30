@@ -38,8 +38,7 @@ export default async function LifeListView({
     <>
       <ViewWrapper>
         <ViewHeader
-          headingText="Life List"
-          descriptionText="View your complete North American birdwatching life list."
+          headingText="My Birding Life List"
           backLinkHref="sightings"
           backLinkText="Go to sightings"
         />

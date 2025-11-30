@@ -36,10 +36,7 @@ export default async function DiaryView({
     <>
       <SignedOffBanner />
       <ViewWrapper>
-        <ViewHeader
-          headingText="Diary"
-          descriptionText="View a list of your sightings grouped by date."
-        />
+        <ViewHeader headingText="My Birding Diary" />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <CsrList
             route={apiRoutes.getSightingsGroupByType(
