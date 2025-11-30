@@ -4,7 +4,7 @@ export default function ViewWrapper({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <div className="flex flex-col gap-16 md:gap-20 lg:gap-28">{children}</div>
+      <div className="flex flex-col gap-16 md:gap-20 lg:gap-24">{children}</div>
     </>
   );
 }

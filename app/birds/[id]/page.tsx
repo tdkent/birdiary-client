@@ -27,6 +27,18 @@ export async function generateMetadata({
   params,
 }: BirdDetailsViewProps): Promise<Metadata> {
   const birdId = (await params).id;
+  const validBirdId =
+    checkValidParamInteger(birdId) && Number(birdId) <= BIRD_COUNT
+      ? Number(birdId)
+      : null;
+
+  if (!validBirdId) {
+    return {
+      title: `Bird Details: Invalid Bird | Birdiary`,
+      description: "Details of a bird.",
+    };
+  }
+
   const bird = (await getBird(Number(birdId))) as Bird;
 
   return {
@@ -57,9 +69,6 @@ export default async function BirdDetailsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          backLinkHref="birds"
-          backLinkText="Go to birdpedia"
-          descriptionText="Information on this species, along with your recorded observations"
           headingText={
             validBirdId ? birdNames[validBirdId - 1] : "Bird Details"
           }

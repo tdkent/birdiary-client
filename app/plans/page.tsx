@@ -1,4 +1,3 @@
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import {
   Card,
@@ -21,13 +20,14 @@ export default async function PlansView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Plans"
-          descriptionText="Birdiary is free to use — no sign-up necessary. Start
-          recording your bird sightings instantly. Want access to more features?
-          Explore the added benefits of creating a free account below."
-          useSeparator
-        />
+        <header>
+          <h1 className="text-[42px] md:text-7xl lg:text-[88px]">Plans</h1>
+          <p className="mt-12 text-xl md:mt-16 md:text-2xl">
+            Birdiary is free to use — no sign-up necessary. Start recording your
+            bird sightings instantly. Want access to more features? Explore the
+            added benefits of creating a free account below.
+          </p>
+        </header>
         <section className="flex flex-col gap-8">
           <h2>Plan Details</h2>
           <div className="flex flex-col gap-6 md:flex-row">
