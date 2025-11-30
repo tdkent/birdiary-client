@@ -57,9 +57,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        heading: ["Quicksand", "sans-serif"],
-        playful: ["Caveat", "sans-serif"],
+        heading: ["Cabin", "sans-serif"],
         numbers: ["Short Stack", "cursive"],
+        script: ["Caveat", "sans-serif"],
+        text: ["Quicksand", "sans-serif"],
       },
     },
   },

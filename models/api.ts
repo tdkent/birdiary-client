@@ -112,6 +112,7 @@ export enum Messages {
   PasswordUpdated = "Password updated",
   PasswordValidationError = "Password length must be 8-64 characters.",
   ProfileUpdated = "Profile updated",
+  ResetPasswordFormDescription = "This will reset the password you use to access your account.",
   SearchValidationError = "Search must be 3-32 characters",
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",

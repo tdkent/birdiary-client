@@ -41,10 +41,7 @@ export default async function BirdsView({
     <>
       <SignedOffBanner />
       <ViewWrapper>
-        <ViewHeader
-          headingText="Birdpedia"
-          descriptionText="Browse more than 800 species of North American birds."
-        />
+        <ViewHeader headingText="Birdpedia" />
         {!parsedPage ||
         (search && search.length < 3) ||
         (startsWith &&

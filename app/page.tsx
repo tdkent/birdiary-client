@@ -1,6 +1,5 @@
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
-import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -13,22 +12,37 @@ export default function HomeView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Quickly log your bird sightings and build your birding diary"
-          useSeparator
-        />
+        <header>
+          <h1 className="bg-gradient-to-r from-blue-500 to-violet-300 bg-clip-text px-1 py-4 text-[42px] text-transparent drop-shadow dark:from-rose-100 dark:to-violet-400 dark:text-transparent dark:drop-shadow-none md:text-7xl lg:text-[88px]">
+            Quickly log bird sightings and build your birding diary.
+          </h1>
+        </header>
         <section className="flex flex-col gap-6">
-          <h2>Create your birding diary</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Welcome to Birdiary!
+          </h2>
           <p>
-            Spot a bird? Pick from our database of more than 800 North American
-            bird species, and log the sighting details.
+            Spot a bird? Choose from our comprehensive list of North American
+            bird species and save the details of your sighting.
           </p>
           <p>
-            Your sightings will be used to create your birding diary, tracking
-            your sightings by date and species.
+            Every observation you make automatically builds your personal
+            birding diary&mdash;organized by date, location, and
+            species&mdash;so you can revisit your sightings anytime.
+          </p>
+          <h3>Learn more about birds</h3>
+          <p>
+            Visit the{" "}
+            <Link className="link-inline" href="/birds">
+              Birdpedia
+            </Link>{" "}
+            and dive into detailed pages for more than 800 North American bird
+            species, from crows and jays to swifts and thrushes!
           </p>
           <BirdOfTheDay />
-          <h2>Go further with an account</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Go further with an account
+          </h2>
           <p>
             Interested in more? Create a free account to permanently store
             unlimited data, keep track of your birdwatching life list, and add
@@ -40,7 +54,9 @@ export default function HomeView() {
           </p>
         </section>
         <section className="flex flex-col gap-6">
-          <h2>Ready to get started?</h2>
+          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
+            Ready to get started?
+          </h2>
           <NewSightingButton />
         </section>
       </ViewWrapper>

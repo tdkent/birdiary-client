@@ -8,10 +8,7 @@ export default function SignInHelpView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Reset Password"
-          descriptionText="Enter the email address associated with your Birdiary account."
-        />
+        <ViewHeader headingText="Forgot Your Password?" />
         <div className="flex flex-col gap-8">
           <ResetPasswordSubmitEmail />
           <Button asChild variant="secondary" size="lg">

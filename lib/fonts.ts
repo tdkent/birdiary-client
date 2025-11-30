@@ -1,4 +1,9 @@
-import { Caveat, Quicksand, Short_Stack } from "next/font/google";
+import { Cabin, Caveat, Quicksand, Short_Stack } from "next/font/google";
+
+export const cabin = Cabin({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export const caveat = Caveat({
   subsets: ["latin"],

@@ -27,6 +27,7 @@ type LocationDetailsViewProps = {
 export async function generateMetadata({
   params,
 }: LocationDetailsViewProps): Promise<Metadata> {
+  //? check for valid id
   const locationId = (await params).id;
   const location = (await getLocation(Number(locationId))) as Location;
 
@@ -58,9 +59,8 @@ export default async function LocationDetailsView({
       <ViewWrapper>
         <ViewHeader
           headingText="Location Details"
-          descriptionText="View details of this location."
           backLinkHref="locations"
-          backLinkText="Go to locations"
+          backLinkText="Go to all my locations"
         />
         {validId &&
         parsedPage &&
@@ -80,7 +80,7 @@ export default async function LocationDetailsView({
             >
               <List
                 defaultSortOption={defaultSortOption}
-                headingText="Sightings"
+                headingText="My Sightings at This Location"
                 page={parsedPage}
                 resource={apiRoutes.getSightingsByLocation(
                   validId,

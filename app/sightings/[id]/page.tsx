@@ -41,8 +41,9 @@ export default async function SightingView({ params }: SightingViewProps) {
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
+          backLinkHref="sightings"
+          backLinkText="Go to all my sightings"
           headingText="Sighting Details"
-          descriptionText="View and edit the details of one of your sightings."
         />
         {validId ? (
           <>

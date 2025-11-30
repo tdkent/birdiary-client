@@ -15,10 +15,7 @@ export default function ProfileView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Profile"
-          descriptionText="View profile information and account settings."
-        />
+        <ViewHeader headingText="My Profile" />
         <Suspense fallback={<Pending variant="profile" />}>
           <Profile />
         </Suspense>

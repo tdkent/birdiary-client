@@ -4,7 +4,9 @@ import InvalidVerificationLink from "@/components/pages/auth/InvalidVerification
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { Button } from "@/components/ui/button";
 import { validJwtFormat } from "@/models/form";
+import Link from "next/link";
 
 type ResetPasswordViewProps = {
   searchParams: Promise<{ [key: string]: string }>;
@@ -29,11 +31,13 @@ export default async function ResetPasswordView({
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          headingText="Update Your Password"
-          descriptionText="Update the password you use to sign in to your account with."
-        />
-        <ResetPasswordSubmitPassword token={token} />
+        <ViewHeader headingText="Reset Your Password" />
+        <div className="flex flex-col gap-8">
+          <ResetPasswordSubmitPassword token={token} />
+          <Button asChild variant="secondary" size="lg">
+            <Link href="/signin">Cancel</Link>
+          </Button>
+        </div>
       </ViewWrapper>
     </>
   );

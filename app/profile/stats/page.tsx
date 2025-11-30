@@ -15,11 +15,7 @@ export default function StatsView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader
-          descriptionText="View a range of sighting statistics."
-          headingText="Sighting Stats"
-          useSeparator
-        />
+        <ViewHeader headingText="My Sighting Statistics" />
         <Suspense fallback={<Pending variant="profile" />}>
           <Stats />
         </Suspense>

@@ -37,10 +37,9 @@ export default async function Profile() {
 
   return (
     <>
-      <Separator className="mx-auto w-4/5" />
-      <div className="flex flex-col gap-10 md:w-[85%]">
+      <div className="flex flex-col gap-16 md:w-[85%]">
         <section className="flex flex-col gap-4">
-          <h2 className="font-heading text-2xl md:text-3xl">Profile Details</h2>
+          <h2 className="font-heading">My Info</h2>
           <dl className="my-4 flex flex-col gap-8 md:gap-12">
             <DescriptionListItem dt="Name" dd={name} />
             <DescriptionListItem dt="Location" dd={address} />
@@ -52,7 +51,7 @@ export default async function Profile() {
         </section>
         <Separator className="mx-auto w-4/5" />
         <section className="flex flex-col gap-4">
-          <h3>Sightings Data</h3>
+          <h2>Sightings Data</h2>
           <dl className="my-4 flex flex-col gap-8 md:gap-12">
             <DescriptionListItem
               dt="Favorite Bird"
@@ -71,10 +70,10 @@ export default async function Profile() {
             <Link href="/profile/stats">View All Stats</Link>
           </Button>
           <TransferStorageData />
-          <Separator className="mx-auto w-4/5" />
         </section>
+        <Separator className="mx-auto w-4/5" />
         <section className="flex flex-col gap-4">
-          <h3>Account Details</h3>
+          <h2>Account Details</h2>
           <dl className="my-4 flex flex-col gap-8 md:gap-12">
             <DescriptionListItem dt="Account Created" dd={accountCreatedDate} />
             <DescriptionListItem dt="Email" dd={email} />

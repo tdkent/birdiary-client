@@ -37,8 +37,7 @@ export default async function SightingsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          headingText="Sightings"
-          descriptionText="View a list of all your sightings sorted by date or bird."
+          headingText="My Bird Sightings"
           backLinkHref="lifelist"
           backLinkText="Go to life list"
         />

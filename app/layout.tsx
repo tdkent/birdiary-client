@@ -33,7 +33,7 @@ export default function RootLayout({
               <LogoProvider>
                 <div className="min-h-[calc(100vh-116px)]">
                   <Header />
-                  <main className="mx-auto max-w-[1024px] py-10 pl-4 pr-6 md:pl-8 md:pr-12 lg:pr-48">
+                  <main className="mx-auto max-w-[1024px] px-6 py-14 md:py-20 md:pl-8 md:pr-12 lg:py-24 lg:pr-48">
                     {children}
                   </main>
                   <Toaster richColors />

@@ -1,3 +1,5 @@
+import ViewHeader from "@/components/pages/shared/ViewHeader";
+import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Mail } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -6,7 +8,7 @@ type VerifyNewUserViewProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Verify your email address | Birdiary",
+  title: "Verify email address | Birdiary",
 };
 
 export default async function VerifyNewUserView({
@@ -16,27 +18,20 @@ export default async function VerifyNewUserView({
 
   return (
     <>
-      <section className="my-12 flex flex-col gap-4 px-4 py-8 md:gap-6 lg:my-20">
-        <div className="">
-          <Mail
-            className="inline -translate-y-1.5"
-            strokeWidth={1.5}
-            size={30}
-          />
-          <h1 className="ml-2.5 inline font-heading text-3xl">
-            Please check your email
-          </h1>
+      <ViewWrapper>
+        <ViewHeader headingText="Please check your email" icon={Mail} />
+        <div className="flex flex-col gap-8">
+          <p className="max-md:text-lg">
+            We&apos;ve just sent a message to{" "}
+            <span className="font-semibold">{email}</span> with a link to verify
+            your new account.
+          </p>
+          <p className="max-md:text-lg">
+            Check your spam folder if the email does not arrive after a few
+            minutes.
+          </p>
         </div>
-        <p className="text-lg">
-          We&apos;ve just sent a message to{" "}
-          <span className="font-semibold">{email}</span> with a link to verify
-          your new account.
-        </p>
-        <p className="text-lg">
-          Check your spam folder if the email does not arrive after a few
-          minutes.
-        </p>
-      </section>
+      </ViewWrapper>
     </>
   );
 }

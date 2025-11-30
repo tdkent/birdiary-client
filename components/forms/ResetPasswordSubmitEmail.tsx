@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -61,6 +62,10 @@ export default function ResetPasswordSubmitEmail() {
       {success && <EmailDispatched email={email} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormDescription>
+            Enter the email address associated with your Birdiary account and we
+            will send a link to reset your password.
+          </FormDescription>
           <FormField
             control={form.control}
             name="email"
