@@ -13,7 +13,7 @@ export default function HomeView() {
     <>
       <ViewWrapper>
         <header>
-          <h1 className="bg-gradient-to-r from-blue-500 to-violet-300 bg-clip-text px-1 py-4 text-[42px] text-transparent drop-shadow dark:from-rose-100 dark:to-violet-400 dark:text-transparent dark:drop-shadow-none md:text-7xl lg:text-[88px]">
+          <h1 className="bg-gradient-to-r from-primary to-violet-400 bg-clip-text px-1 py-4 text-[42px] text-transparent drop-shadow dark:from-rose-100 dark:to-violet-400 dark:text-transparent dark:drop-shadow-none md:text-7xl lg:text-[88px]">
             Quickly log bird sightings and build your birding diary.
           </h1>
         </header>
@@ -39,7 +39,9 @@ export default function HomeView() {
             and dive into detailed pages for more than 800 North American bird
             species, from crows and jays to swifts and thrushes!
           </p>
-          <BirdOfTheDay />
+        </section>
+        <BirdOfTheDay />
+        <section className="flex flex-col gap-6">
           <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
             Go further with an account
           </h2>
