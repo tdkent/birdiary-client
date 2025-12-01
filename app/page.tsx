@@ -1,5 +1,6 @@
 import BirdOfTheDay from "@/components/pages/home/BirdOfTheDay";
-import NewSightingButton from "@/components/pages/shared/NewSightingButton";
+import CTA from "@/components/pages/home/CTA";
+import Plans from "@/components/pages/home/Plans";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   title: "Home | Birdiary",
 };
 
-export default function HomeView() {
+export default async function HomeView() {
   return (
     <>
       <ViewWrapper>
@@ -41,26 +42,8 @@ export default function HomeView() {
           </p>
         </section>
         <BirdOfTheDay />
-        <section className="flex flex-col gap-6">
-          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
-            Go further with an account
-          </h2>
-          <p>
-            Interested in more? Create a free account to permanently store
-            unlimited data, keep track of your birdwatching life list, and add
-            location data to your sightings.{" "}
-            <Link href="/plans" className="link-inline">
-              View plans and accounts
-            </Link>
-            .
-          </p>
-        </section>
-        <section className="flex flex-col gap-6">
-          <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
-            Ready to get started?
-          </h2>
-          <NewSightingButton />
-        </section>
+        <Plans />
+        <CTA />
       </ViewWrapper>
     </>
   );
