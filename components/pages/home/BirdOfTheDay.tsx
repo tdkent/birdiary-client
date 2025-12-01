@@ -12,10 +12,10 @@ export default async function BirdOfTheDay() {
   return (
     <>
       <section className="my-4">
-        <Card className="w-full">
+        <Card className="w-full rounded-none border border-primary bg-blue-100 shadow-[12px_12px_0_0_rgba(192,132,252,0.8)] dark:border-foreground dark:bg-background lg:border-2 lg:shadow-[32px_32px_0_0_rgba(192,132,252,0.8)]">
           <CardHeader>
             <CardTitle>
-              <h3 className="font-script text-3xl md:text-4xl">
+              <h3 className="font-script text-3xl text-primary dark:text-foreground md:text-4xl">
                 Bird of the Day
               </h3>
             </CardTitle>
@@ -41,7 +41,7 @@ async function BirdOfTheDayImage() {
   return (
     <>
       <StaticBirdImage bird={result} sizes="(max-width: 1024px) 100vw, 780px" />
-      <h4 className="text-xl hover:text-primary md:text-2xl">
+      <h4 className="text-xl text-foreground hover:text-primary md:text-2xl">
         <Link href={`/birds/${result.id}`}>{result.commonName}</Link>
       </h4>
     </>
