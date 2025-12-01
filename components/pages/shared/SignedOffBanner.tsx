@@ -35,7 +35,7 @@ export default function SignedOffBanner() {
               />
               <AlertTitle className="mb-0 font-semibold text-purple-600 dark:text-purple-400">
                 You are currently signed out.{" "}
-                <Link className="text-primary hover:underline" href="/plans">
+                <Link className="text-primary hover:underline" href="/#plans">
                   Learn more
                 </Link>
               </AlertTitle>

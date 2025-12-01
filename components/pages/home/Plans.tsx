@@ -9,7 +9,7 @@ import {
 export default async function Plans() {
   return (
     <>
-      <section className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6" id="plans">
         <h2 className="font-script text-4xl md:text-5xl lg:text-6xl">
           Free to use, no account required.
         </h2>
