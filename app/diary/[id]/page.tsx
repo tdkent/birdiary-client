@@ -3,6 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { getUsername } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
@@ -18,12 +19,14 @@ type DiaryViewProps = {
 export async function generateMetadata({
   params,
 }: DiaryViewProps): Promise<Metadata> {
+  const username = await getUsername();
+
   const diaryId = (await params).id;
   const iso = convertDateIdToValidDate(diaryId) as string;
   const date = createLocaleString(iso, "med");
 
   return {
-    title: `My diary for ${date} | Birdiary`,
+    title: `${username ? `${username}'s` : "My"} diary for ${date} | Birdiary`,
   };
 }
 
@@ -38,12 +41,12 @@ export default async function DiaryDetailsView({
     redirect(`/diary/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const username = await getUsername();
+
   const validDateId = convertDateIdToValidDate(id);
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions];
   const defaultSortOption = sortBy as SortValues;
-
-  console.log(createLocaleString(validDateId!, "med"));
 
   return (
     <>
@@ -52,7 +55,7 @@ export default async function DiaryDetailsView({
         <ViewHeader
           backLinkHref="diary"
           backLinkText="Go to my diary"
-          headingText={`My Birding Diary: ${createLocaleString(validDateId!, "med")}`}
+          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${createLocaleString(validDateId!, "med")}`}
         />
         {validDateId &&
         parsedPage &&

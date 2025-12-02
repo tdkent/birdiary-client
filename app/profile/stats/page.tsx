@@ -4,18 +4,26 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Suspense } from "react";
 
+import { getUsername } from "@/helpers/auth";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "View my sighting stats | Birdiary",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const username = await getUsername();
+
+  return {
+    title: `${username ? `${username}'s` : "My"} sighting stats | Birdiary`,
+  };
+}
 
 /** View of user's basic profile information */
-export default function StatsView() {
+export default async function StatsView() {
+  const username = await getUsername();
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="My Sighting Statistics" />
+        <ViewHeader
+          headingText={`${username ? `${username}'s` : "My"} Sighting Statistics`}
+        />
         <Suspense fallback={<Pending variant="profile" />}>
           <Stats />
         </Suspense>
