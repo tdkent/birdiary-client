@@ -11,7 +11,7 @@ type VerifyStatusViewProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Email successfully verified - Birdiary",
+  title: "Email verification status - Birdiary",
 };
 
 export default async function VerifyStatusView({

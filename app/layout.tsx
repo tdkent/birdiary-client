@@ -11,7 +11,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Birdiary",
-  description: "Quickly log your bird sightings and build your birding diary.",
+  description:
+    "Birdiary makes bird-tracking easy: log sightings, explore 800+ North American bird species, and build a personal birdwatching diary—all for free.",
 };
 
 export default function RootLayout({

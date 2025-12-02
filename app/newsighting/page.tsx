@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Log a new bird sighting - Birdiary",
+  description:
+    "Record a new bird sighting, including the date, description and location. The sighting will be added to your birdwatching diary.",
 };
 
 export default function NewView() {

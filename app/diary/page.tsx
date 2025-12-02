@@ -18,6 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const username = await getUsername();
   return {
     title: `${username ? `${username}'s` : "My"} birdwatching diary - Birdiary`,
+    description:
+      "View your birdwatching diary with all sightings grouped by date. Sort diary entires by date or count of bird sightings. Click on any entry for full details.",
   };
 }
 

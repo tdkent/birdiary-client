@@ -6,10 +6,15 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
 import { validJwtFormat } from "@/models/form";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 type ResetPasswordViewProps = {
   searchParams: Promise<{ [key: string]: string }>;
+};
+
+export const metadata: Metadata = {
+  title: "Reset your password - Birdiary",
 };
 
 export default async function ResetPasswordView({

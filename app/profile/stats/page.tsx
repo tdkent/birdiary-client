@@ -12,6 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: `${username ? `${username}'s` : "My"} sighting stats - Birdiary`,
+    description:
+      "View your personal birdwatching statistics including sighting counts and favorites.",
   };
 }
 

@@ -13,7 +13,8 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Browse 800+ species of birds - Birdiary",
-  description: "Browse more than 800 species of North American birds.",
+  description:
+    "View a list of more than 800 North American bird species. Search by name or family. Click on any bird for full details.",
 };
 
 export default async function BirdsView({

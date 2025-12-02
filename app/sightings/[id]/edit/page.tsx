@@ -12,6 +12,8 @@ type EditSightingViewProps = {
 
 export const metadata: Metadata = {
   title: "Edit sighting - Birdiary",
+  description:
+    "Edit the common name, date, description, or location of one of your bird sightings.",
 };
 
 export default async function EditSightingView({

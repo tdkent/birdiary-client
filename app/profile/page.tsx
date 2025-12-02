@@ -12,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: `${username ? `${username}'s` : "My"} profile - Birdiary`,
+    description: "View and edit your personal profile and account details.",
   };
 }
 
