@@ -118,6 +118,8 @@ export default function SightingDetails({ sightingId }: SightingProps) {
               dt="Location"
               dd={location && location.name}
               fallbackText="No location provided"
+              linkHref={location ? `/locations/${location.id}` : ""}
+              linkText="View location"
             />
           )}
           <DescriptionListItem
