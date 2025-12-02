@@ -19,14 +19,20 @@ type DiaryViewProps = {
 export async function generateMetadata({
   params,
 }: DiaryViewProps): Promise<Metadata> {
+  const { id: diaryId } = await params;
+  const isoStr = convertDateIdToValidDate(diaryId);
+
+  if (!isoStr) {
+    return {
+      title: "My diary: invalid date | Birdiary",
+    };
+  }
+
+  const localeStr = createLocaleString(isoStr, "med");
   const username = await getUsername();
 
-  const diaryId = (await params).id;
-  const iso = convertDateIdToValidDate(diaryId) as string;
-  const date = createLocaleString(iso, "med");
-
   return {
-    title: `${username ? `${username}'s` : "My"} diary for ${date} | Birdiary`,
+    title: `${username ? `${username}'s` : "My"} diary on ${localeStr} | Birdiary`,
   };
 }
 
@@ -55,7 +61,7 @@ export default async function DiaryDetailsView({
         <ViewHeader
           backLinkHref="diary"
           backLinkText="Go to my diary"
-          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${createLocaleString(validDateId!, "med")}`}
+          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${validDateId ? createLocaleString(validDateId, "med") : "Invalid Date"}`}
         />
         {validDateId &&
         parsedPage &&
