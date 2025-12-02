@@ -1,29 +1,20 @@
-import { getSighting } from "@/actions/sighting";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import EditSighting from "@/components/pages/sightings/EditSighting";
 import { checkValidParamInteger } from "@/helpers/data";
-import type { SightingWithLocation } from "@/models/display";
 import type { Metadata } from "next";
 
 type EditSightingViewProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({
-  params,
-}: EditSightingViewProps): Promise<Metadata> {
-  const sightingId = (await params).id;
-  const sighting = (await getSighting(
-    Number(sightingId),
-  )) as SightingWithLocation;
-
-  return {
-    title: `Edit Sighting (ID #${sighting.id}) | Birdiary`,
-  };
-}
+export const metadata: Metadata = {
+  title: "Edit sighting - Birdiary",
+  description:
+    "Edit the common name, date, description, or location of one of your bird sightings.",
+};
 
 export default async function EditSightingView({
   params,

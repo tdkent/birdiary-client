@@ -67,7 +67,7 @@ export default function ErrorDisplay({
 
   return (
     <>
-      <div className="my-8 flex flex-col gap-2 rounded-md border border-destructive p-4 md:w-3/4">
+      <div className="my-8 flex flex-col gap-2 rounded-md md:w-3/4">
         <span className="flex items-center gap-2 text-xl font-semibold text-destructive md:gap-3 md:text-2xl">
           <CircleAlert strokeWidth={1.5} size={28} />
           An error occurred

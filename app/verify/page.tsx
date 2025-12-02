@@ -10,7 +10,7 @@ type VerifyEmailViewProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Verify your email address | Birdiary",
+  title: "Verify your email address - Birdiary",
 };
 
 const emailSchema = z.string().email();

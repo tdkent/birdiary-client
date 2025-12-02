@@ -5,7 +5,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Sign in to your account | Birdiary",
+  title: "Sign in to your account - Birdiary",
+  description:
+    "Sign in to your Birdiary account using your account email and password.",
 };
 
 export default function SignInView() {

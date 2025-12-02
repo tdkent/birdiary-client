@@ -12,7 +12,6 @@ import { BIRD_COUNT } from "@/constants/constants";
 import birdNames from "@/data/birds";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
-import { Bird } from "@/models/db";
 import { SortValues, sortByDateOptions } from "@/models/form";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -27,23 +26,29 @@ export async function generateMetadata({
   params,
 }: BirdDetailsViewProps): Promise<Metadata> {
   const birdId = (await params).id;
-  const validBirdId =
-    checkValidParamInteger(birdId) && Number(birdId) <= BIRD_COUNT
-      ? Number(birdId)
-      : null;
+  const validBirdId = checkValidParamInteger(birdId, true);
 
   if (!validBirdId) {
     return {
-      title: `Bird Details: Invalid Bird | Birdiary`,
-      description: "Details of a North American bird species.",
+      title: `Bird details - Birdiary`,
+      description:
+        "Learn about a North American bird species and view your sightings.",
     };
   }
 
-  const bird = (await getBird(Number(birdId))) as Bird;
+  const bird = await getBird(Number(birdId));
+
+  if ("error" in bird) {
+    return {
+      title: `Bird details - Birdiary`,
+      description:
+        "Learn about a North American bird species and view your sightings.",
+    };
+  }
 
   return {
-    title: `${bird.commonName} | Birdiary`,
-    description: bird.description,
+    title: `${bird.commonName} - Birdiary`,
+    description: `Learn about the ${bird.commonName} and view sightings of this bird.`,
   };
 }
 

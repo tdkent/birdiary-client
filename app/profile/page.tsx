@@ -11,7 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const username = await getUsername();
 
   return {
-    title: `${username ? `${username}'s` : "My"} profile | Birdiary`,
+    title: `${username ? `${username}'s` : "My"} profile - Birdiary`,
+    description: "View and edit your personal profile and account details.",
   };
 }
 

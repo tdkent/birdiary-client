@@ -51,10 +51,13 @@ export function convertSightingDateToInteger(date: string) {
   return Number(date.slice(0, 10).replaceAll("-", ""));
 }
 
+/** Check 8-digit id for valid date and convert to ISO date string. */
 export function convertDateIdToValidDate(dateId: string) {
-  if (dateId.length !== 8) return null;
-  const parseDateToInt = Number(dateId);
-  if (!parseDateToInt) return null;
+  if (dateId.length !== 8 || isNaN(Number(dateId))) return null;
+  const isoStr = `${dateId.slice(0, 4)}-${dateId.slice(4, 6)}-${dateId.slice(6)}`;
+  const validDate = DateTime.fromISO(isoStr);
+  if (!validDate || validDate > DateTime.now() || validDate.year < 1950)
+    return null;
   return `${dateId.slice(0, 4)}-${dateId.slice(4, 6)}-${dateId.slice(6)}`;
 }
 
