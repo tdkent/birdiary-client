@@ -3,6 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { getUsername } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -13,9 +14,12 @@ import {
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "My birdwatching diary | Birdiary",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const username = await getUsername();
+  return {
+    title: `${username ? `${username}'s` : "My"} birdwatching diary | Birdiary`,
+  };
+}
 
 export default async function DiaryView({
   searchParams,
@@ -28,6 +32,8 @@ export default async function DiaryView({
     redirect(`/diary?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
+  const username = await getUsername();
+
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
   const defaultSortOption = sortBy as SortValues;
@@ -36,7 +42,9 @@ export default async function DiaryView({
     <>
       <SignedOffBanner />
       <ViewWrapper>
-        <ViewHeader headingText="My Birding Diary" />
+        <ViewHeader
+          headingText={`${username ? `${username}'s` : "My"} Birding Diary`}
+        />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <CsrList
             route={apiRoutes.getSightingsGroupByType(

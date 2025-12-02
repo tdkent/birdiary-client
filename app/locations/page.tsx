@@ -4,6 +4,7 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { getUsername } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -15,9 +16,13 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export const metadata: Metadata = {
-  title: "My bird sighting locations | Birdiary",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const username = await getUsername();
+
+  return {
+    title: `${username ? `${username}'s` : "My"} birding locations | Birdiary`,
+  };
+}
 
 export default async function LocationsView({
   searchParams,
@@ -30,6 +35,8 @@ export default async function LocationsView({
     redirect(`/locations?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
+  const username = await getUsername();
+
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
   const defaultSortOption: SortValues = "alphaAsc";
@@ -37,7 +44,9 @@ export default async function LocationsView({
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="My Birding Locations" />
+        <ViewHeader
+          headingText={`${username ? `${username}'s` : "My"} Birding Locations`}
+        />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <>
             <Suspense

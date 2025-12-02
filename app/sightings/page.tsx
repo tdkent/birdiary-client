@@ -3,6 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
+import { getUsername } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -13,9 +14,13 @@ import {
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "My bird sightings | Birdiary",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const username = await getUsername();
+
+  return {
+    title: `${username ? `${username}'s` : "My"} bird sightings | Birdiary`,
+  };
+}
 
 export default async function SightingsView({
   searchParams,
@@ -28,6 +33,8 @@ export default async function SightingsView({
     redirect(`/sightings?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
+  const username = await getUsername();
+
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
@@ -37,7 +44,7 @@ export default async function SightingsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          headingText="My Bird Sightings"
+          headingText={`${username ? `${username}'s` : "My"} bird sightings`}
           backLinkHref="lifelist"
           backLinkText="Go to life list"
         />
