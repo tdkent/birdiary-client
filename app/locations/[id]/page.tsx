@@ -60,7 +60,7 @@ export default async function LocationDetailsView({
         <ViewHeader
           headingText="Location Details"
           backLinkHref="locations"
-          backLinkText="Go to all my locations"
+          backLinkText="Go to my locations"
         />
         {validId &&
         parsedPage &&

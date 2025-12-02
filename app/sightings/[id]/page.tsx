@@ -42,7 +42,7 @@ export default async function SightingView({ params }: SightingViewProps) {
       <ViewWrapper>
         <ViewHeader
           backLinkHref="sightings"
-          backLinkText="Go to all my sightings"
+          backLinkText="Go to my sightings"
           headingText="Sighting Details"
         />
         {validId ? (
