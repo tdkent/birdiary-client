@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   if (!validBirdId) {
     return {
-      title: `Bird Details: Invalid Bird | Birdiary`,
+      title: `Bird Details: Invalid Bird - Birdiary`,
       description: "Details of a North American bird species.",
     };
   }
@@ -42,7 +42,7 @@ export async function generateMetadata({
   const bird = (await getBird(Number(birdId))) as Bird;
 
   return {
-    title: `${bird.commonName} | Birdiary`,
+    title: `${bird.commonName} - Birdiary`,
     description: bird.description,
   };
 }

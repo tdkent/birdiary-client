@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
-import type { Location } from "@/models/db";
 import {
   type SortValues,
   sortByAlphaOptions,
@@ -27,12 +26,23 @@ type LocationDetailsViewProps = {
 export async function generateMetadata({
   params,
 }: LocationDetailsViewProps): Promise<Metadata> {
-  //? check for valid id
-  const locationId = (await params).id;
-  const location = (await getLocation(Number(locationId))) as Location;
+  const { id } = await params;
+  const validId = checkValidParamInteger(id);
+
+  if (!validId)
+    return {
+      title: `Location details: invalid URL - Birdiary`,
+    };
+
+  const location = await getLocation(validId);
+
+  if ("name" in location)
+    return {
+      title: `${location.name} - Birdiary`,
+    };
 
   return {
-    title: `${location.name} | Birdiary`,
+    title: `Location details: invalid URL - Birdiary`,
   };
 }
 

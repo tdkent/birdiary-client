@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const username = await getUsername();
 
   return {
-    title: `${username ? `${username}'s` : "My"} bird sightings | Birdiary`,
+    title: `${username ? `${username}'s` : "My"} bird sightings - Birdiary`,
   };
 }
 

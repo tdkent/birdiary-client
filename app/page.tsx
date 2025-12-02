@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Home | Birdiary",
+  title: "Create your birdwatching diary - Birdiary",
 };
 
 export default async function HomeView() {

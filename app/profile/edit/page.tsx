@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Edit my profile | Birdiary",
+  title: "Edit my profile - Birdiary",
 };
 
 export default async function EditProfileView() {

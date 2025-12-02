@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Update my password | Birdiary",
+  title: "Update my password - Birdiary",
 };
 
 export default async function UpdatePasswordView() {

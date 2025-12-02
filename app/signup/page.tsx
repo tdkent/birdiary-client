@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Register a new account | Birdiary",
+  title: "Register a new account - Birdiary",
 };
 
 export default function SignUpView() {

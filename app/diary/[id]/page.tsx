@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   if (!isoStr) {
     return {
-      title: "My diary: invalid date | Birdiary",
+      title: "My diary: invalid URL - Birdiary",
     };
   }
 
@@ -32,7 +32,7 @@ export async function generateMetadata({
   const username = await getUsername();
 
   return {
-    title: `${username ? `${username}'s` : "My"} diary on ${localeStr} | Birdiary`,
+    title: `${username ? `${username}'s` : "My"} diary on ${localeStr} - Birdiary`,
   };
 }
 
@@ -61,7 +61,7 @@ export default async function DiaryDetailsView({
         <ViewHeader
           backLinkHref="diary"
           backLinkText="Go to my diary"
-          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${validDateId ? createLocaleString(validDateId, "med") : "Invalid Date"}`}
+          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${validDateId ? createLocaleString(validDateId, "med") : "Invalid URL"}`}
         />
         {validDateId &&
         parsedPage &&

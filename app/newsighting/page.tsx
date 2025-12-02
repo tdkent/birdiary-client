@@ -4,7 +4,7 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Log a new bird sighting | Birdiary",
+  title: "Log a new bird sighting - Birdiary",
 };
 
 export default function NewView() {
