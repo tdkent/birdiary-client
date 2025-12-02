@@ -47,7 +47,7 @@ export default async function LifeListView({
         <ViewHeader
           headingText={`${username ? `${username}'s` : "My"} Birding Life List`}
           backLinkHref="sightings"
-          backLinkText="Go to sightings"
+          backLinkText="Go to my sightings"
         />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <>

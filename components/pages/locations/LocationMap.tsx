@@ -7,6 +7,7 @@ import {
   Map,
   Pin,
 } from "@vis.gl/react-google-maps";
+import { useEffect, useState } from "react";
 
 type LocationMapProps = {
   lat: number | undefined;
@@ -14,6 +15,10 @@ type LocationMapProps = {
 };
 
 export default function LocationMap({ lat, lng }: LocationMapProps) {
+  // Force refresh of map view after update.
+  const [mapKey, setMapKey] = useState(0);
+  useEffect(() => setMapKey((prev) => prev + 1), [lat, lng]);
+
   if (!lat || !lng) {
     return (
       <>
@@ -32,6 +37,7 @@ export default function LocationMap({ lat, lng }: LocationMapProps) {
             defaultZoom={12}
             defaultCenter={{ lat, lng }}
             mapId={GOOGLE_LOCATION_MAP_ID}
+            key={mapKey}
           >
             <AdvancedMarker position={{ lat, lng }}>
               <Pin

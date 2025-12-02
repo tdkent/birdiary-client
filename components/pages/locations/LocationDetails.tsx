@@ -2,6 +2,7 @@ import { getLocation } from "@/actions/location";
 import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import EditLocation from "@/components/pages/locations/EditLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
+import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import type { ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
@@ -24,8 +25,17 @@ export default async function LocationDetails({
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
-        <h2>{location.name}</h2>
-        <LocationMap lat={location.lat} lng={location.lng} />
+        <dl className="flex flex-col gap-8 px-2 md:gap-12">
+          <DescriptionListItem dt={"Name"} dd={location.name} />
+          <div className="flex flex-col gap-4">
+            <dt className="text-sm font-semibold uppercase md:text-base">
+              Map
+            </dt>
+            <dd>
+              <LocationMap lat={location.lat} lng={location.lng} />
+            </dd>
+          </div>
+        </dl>
         <div className="my-8 flex flex-col gap-4">
           <EditLocation location={location} locationId={locationId} />
           <DeleteLocation locationId={locationId} />
