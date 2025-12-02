@@ -31,18 +31,23 @@ export async function generateMetadata({
 
   if (!validId)
     return {
-      title: `Location details: invalid URL - Birdiary`,
+      title: `Location details - Birdiary`,
+      description:
+        "View details of a birdwatching location including a list of your sightings.",
     };
 
   const location = await getLocation(validId);
 
-  if ("name" in location)
+  if (!("name" in location))
     return {
-      title: `${location.name} - Birdiary`,
+      title: `Location details - Birdiary`,
+      description:
+        "View details of a birdwatching location including a list of your sightings.",
     };
 
   return {
-    title: `Location details: invalid URL - Birdiary`,
+    title: `${location.name} - Birdiary`,
+    description: `View details and a map of ${location.name}, and a list of your bird sightings at this location.`,
   };
 }
 
