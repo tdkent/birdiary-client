@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   if (!isoStr) {
     return {
-      title: "My diary: invalid URL - Birdiary",
+      title: "My diary - Birdiary",
     };
   }
 
