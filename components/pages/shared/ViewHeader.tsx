@@ -8,12 +8,14 @@ type ViewHeaderProps =
       backLinkText?: never;
       headingText: string;
       icon?: LucideIcon;
+      subtext?: never;
     }
   | {
       backLinkHref: "birds" | "diary" | "lifelist" | "locations" | "sightings";
       backLinkText: string;
       headingText: string;
       icon?: never;
+      subtext?: string;
     };
 
 export default function ViewHeader({
@@ -21,6 +23,7 @@ export default function ViewHeader({
   backLinkText,
   headingText,
   icon: Icon,
+  subtext,
 }: ViewHeaderProps) {
   return (
     <>
@@ -37,6 +40,7 @@ export default function ViewHeader({
         ) : (
           <h1>{headingText}</h1>
         )}
+        <p className="text-sm text-foreground/60 md:text-base">{subtext}</p>
         {backLinkHref && (
           <Link
             href={`/${backLinkHref}`}
