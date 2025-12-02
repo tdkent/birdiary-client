@@ -66,7 +66,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
       <Modal
         buttonSize="lg"
         buttonVariant="destructive"
-        description="Delete the current location. Sightings associated with this location will also be updated."
+        description="Delete the current location. Sightings associated with this location will not be deleted."
         open={open}
         setOpen={setOpen}
         title="Delete Location"

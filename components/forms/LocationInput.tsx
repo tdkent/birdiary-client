@@ -45,7 +45,7 @@ export default function LocationInput({
           name="location"
           render={({ field }) => (
             <FormItem className="form-item">
-              <FormLabel>Location of sighting</FormLabel>
+              <FormLabel>Address</FormLabel>
               <FormControl>
                 <APIProvider apiKey={GOOGLE_API_KEY}>
                   <LocationAutocomplete field={field} {...rest} />

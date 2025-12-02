@@ -28,7 +28,7 @@ export default function EditLocation({
     <Modal
       buttonSize="lg"
       buttonVariant="secondary"
-      description="Update the address and map of the current location. Sightings associated with this location will also be updated."
+      description="Update the address and map of the current location."
       open={open}
       setOpen={setOpen}
       title="Edit Location"
