@@ -24,7 +24,7 @@ export default function ViewHeader({
 }: ViewHeaderProps) {
   return (
     <>
-      <header className="flex flex-col gap-6">
+      <header className="flex flex-col gap-6 break-words">
         {Icon ? (
           <div>
             <Icon
