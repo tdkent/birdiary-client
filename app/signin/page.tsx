@@ -14,7 +14,7 @@ export default function SignInView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="Sign in to your account" />
+        <ViewHeader headingText="Sign In to Your Account" />
         <AuthForm />
         <div className="flex flex-col gap-8">
           <Link className="link-inline w-fit md:text-xl" href="/signin/help">
