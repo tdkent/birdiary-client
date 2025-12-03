@@ -23,7 +23,7 @@ export default function Logo({ logoStyles, textStyles }: LogoProps) {
             className="rounded-full object-cover"
           />
         </div>
-        <span className={`font-script uppercase antialiased ${textStyles}`}>
+        <span className={`font-script antialiased ${textStyles}`}>
           Birdiary
         </span>
       </div>
