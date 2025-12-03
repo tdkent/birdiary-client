@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import ApiProvider from "@/context/ApiContext";
 import AuthProvider from "@/context/AuthContext";
-import LogoProvider from "@/context/LogoContext";
 import type { Metadata } from "next";
 import { quicksand } from "../lib/fonts";
 import "./globals.css";
@@ -31,16 +30,14 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ApiProvider>
-              <LogoProvider>
-                <div className="min-h-[calc(100vh-116px)]">
-                  <Header />
-                  <main className="mx-auto max-w-[1024px] px-6 py-14 md:py-20 md:pl-8 md:pr-12 lg:py-24 lg:pr-48">
-                    {children}
-                  </main>
-                  <Toaster richColors />
-                </div>
-                <Footer />
-              </LogoProvider>
+              <div className="min-h-[calc(100vh-116px)]">
+                <Header />
+                <main className="mx-auto max-w-[1024px] px-6 py-14 md:py-20 md:pl-8 md:pr-12 lg:py-24 lg:pr-48">
+                  {children}
+                </main>
+                <Toaster richColors />
+              </div>
+              <Footer />
             </ApiProvider>
           </AuthProvider>
         </ThemeProvider>

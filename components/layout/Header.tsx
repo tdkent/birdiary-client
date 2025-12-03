@@ -15,7 +15,7 @@ export default function Header() {
       <Link href="/" aria-label="Home">
         <Logo
           logoStyles="h-14 w-14 md:h-16 md:w-16"
-          textStyles="max-[480px]:hidden text-4xl md:text-[42px]"
+          textStyles="max-[480px]:hidden text-4xl md:text-5xl"
         />
       </Link>
       <div className="flex items-center gap-4 md:max-lg:gap-8">

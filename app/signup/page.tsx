@@ -14,7 +14,7 @@ export default function SignUpView() {
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="Create a new account" />
+        <ViewHeader headingText="Create a New Account" />
         <AuthForm />
         <p className="text-base md:text-xl">
           Already have an account?{" "}

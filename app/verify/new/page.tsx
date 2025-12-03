@@ -19,7 +19,7 @@ export default async function VerifyNewUserView({
   return (
     <>
       <ViewWrapper>
-        <ViewHeader headingText="Please check your email" icon={Mail} />
+        <ViewHeader headingText="Please Check Your Email" icon={Mail} />
         <div className="flex flex-col gap-8">
           <p className="max-md:text-lg">
             We&apos;ve just sent a message to{" "}

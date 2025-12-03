@@ -46,7 +46,7 @@ export default async function SightingsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          headingText={`${username ? `${username}'s` : "My"} bird sightings`}
+          headingText={`${username ? `${username}'s` : "My"} Bird Sightings`}
           backLinkHref="lifelist"
           backLinkText="Go to my life list"
         />
