@@ -38,6 +38,7 @@ export default async function LifeListView({
   }
 
   const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
@@ -64,16 +65,17 @@ export default async function LifeListView({
               }
             >
               <List
-                variant="lifeList"
+                defaultSortOption={defaultSortOption}
+                favBirdId={favBirdId}
+                page={parsedPage}
                 resource={apiRoutes.getSightingsGroupByType(
                   "lifelist",
                   parsedPage,
                   sortBy,
                 )}
-                page={parsedPage}
                 sortBy={sortBy}
-                defaultSortOption={defaultSortOption}
                 sortOptions={sortOptions}
+                variant="lifeList"
               />
             </Suspense>
           </>

@@ -5,6 +5,7 @@ import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import type { Metadata } from "next";
@@ -36,6 +37,9 @@ export default async function BirdsView({
     redirect(`/birds?page=${page}&search=${search}`);
   }
 
+  const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
+
   const parsedPage = checkValidParamInteger(page);
 
   return (
@@ -61,11 +65,12 @@ export default async function BirdsView({
               }
             >
               <List
-                variant="birds"
+                favBirdId={favBirdId}
                 page={parsedPage}
+                resource={apiRoutes.birds(parsedPage, search, startsWith)}
                 search={search}
                 startsWith={startsWith}
-                resource={apiRoutes.birds(parsedPage, search, startsWith)}
+                variant="birds"
               />
             </Suspense>
           </>
