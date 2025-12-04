@@ -113,7 +113,7 @@ export default async function Stats() {
               />
               <DescriptionListItem
                 dt="Count of Sightings"
-                dd={countOfFavBirdSightings}
+                dd={countOfFavBirdSightings || "0"}
               />
               <DescriptionListItem
                 dt="First Sighting"

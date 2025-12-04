@@ -10,6 +10,8 @@ const badgeVariants = cva(
       variant: {
         default:
           "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        favorite:
+          "bg-pink-500 dark:bg-pink-600 text-background dark:text-foreground gap-1",
         lifeList:
           "bg-green-500 text-background dark:text-foreground dark:bg-green-600 gap-1",
         secondary:

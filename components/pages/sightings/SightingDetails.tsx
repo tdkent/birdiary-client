@@ -12,13 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import {
   convertSightingDateToInteger,
   createLocaleString,
 } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -31,7 +32,10 @@ type SightingProps = {
 export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn, signOut } = useAuth();
 
-  const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
+  const [sighting, setSighting] = useState<SightingWithBirdAndLocation | null>(
+    null,
+  );
+  const [favBirdId, setFavBirdId] = useState<number | null>(null);
   const [error, setError] = useState<number | string | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
@@ -42,18 +46,21 @@ export default function SightingDetails({ sightingId }: SightingProps) {
       if (isSignedIn) {
         setPending(true);
         try {
-          const result = await getSighting(sightingId);
+          const sighting = await getSighting(sightingId);
 
-          if ("error" in result) {
-            if (result.statusCode === 401) {
+          if ("error" in sighting) {
+            if (sighting.statusCode === 401) {
               toast.error(Messages.InvalidToken);
               signOut();
               await signOutAction();
             }
-            throw new Error(`${result.statusCode}`);
+            throw new Error(`${sighting.statusCode}`);
           }
 
-          setData(result);
+          const user = await getUserProfileOrNull();
+
+          setSighting(sighting);
+          if (user) setFavBirdId(user?.favoriteBirdId);
         } catch (error) {
           if (error instanceof Error) {
             setError(error.message);
@@ -73,7 +80,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
 
         const sighting = data.find((s) => s.id === sightingId);
         if (!sighting) return setError(404);
-        setData(sighting);
+        setSighting(sighting);
       }
     }
     query();
@@ -83,11 +90,13 @@ export default function SightingDetails({ sightingId }: SightingProps) {
     return <ErrorDisplay statusCode={error} />;
   }
 
-  if (!data || pending) {
+  if (!sighting || pending) {
     return <Pending variant="sightingDetails" />;
   }
 
-  const { bird, birdId, date, description, isNew, location } = data;
+  const { bird, birdId, date, description, isNew, location } = sighting;
+
+  const isFavBird = birdId === favBirdId;
 
   return (
     <>
@@ -103,12 +112,27 @@ export default function SightingDetails({ sightingId }: SightingProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
           />
         )}
-        {isNew && (
-          <Badge className="w-fit px-3 font-text text-base" variant="lifeList">
-            <CircleCheck size={16} />
-            Life List
-          </Badge>
+        {(isNew || isFavBird) && (
+          <div className="mt-4 flex gap-2">
+            {isNew && (
+              <Badge className="w-fit px-3 text-sm" variant="lifeList">
+                <CircleCheck size={16} strokeWidth={1.5} />
+                Life List
+              </Badge>
+            )}
+            {isFavBird && (
+              <Badge className="w-fit px-3 text-sm" variant="favorite">
+                <Heart
+                  className="fill-fuchsia-400 text-fuchsia-300"
+                  strokeWidth={1.5}
+                  size={16}
+                />
+                Fav Bird
+              </Badge>
+            )}
+          </div>
         )}
+
         <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
           <DescriptionListItem
             dt="Common Name"
@@ -150,7 +174,11 @@ export default function SightingDetails({ sightingId }: SightingProps) {
             title="Confirm Delete"
             triggerText="Delete"
           >
-            <DeleteItem item={data} setOpen={setOpen} routeTo="/sightings" />
+            <DeleteItem
+              item={sighting}
+              setOpen={setOpen}
+              routeTo="/sightings"
+            />
           </Modal>
         </div>
       </section>
