@@ -68,6 +68,7 @@ export default function CsrListItem({
         <>
           <ListItemDetails
             count={count}
+            favBirdId={favBirdId}
             href={`/diary/${id}`}
             iconVariant="multi"
             mainText={createLocaleString(date, "med")}

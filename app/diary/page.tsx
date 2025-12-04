@@ -35,6 +35,7 @@ export default async function DiaryView({
   }
 
   const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
@@ -49,18 +50,19 @@ export default async function DiaryView({
         />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <CsrList
+            defaultSortOption={defaultSortOption}
+            favBirdId={favBirdId}
+            page={parsedPage}
+            pendingVariant="list"
             route={apiRoutes.getSightingsGroupByType(
               "date",
               parsedPage,
               sortBy,
             )}
-            variant="diary"
-            pendingVariant="list"
-            tag="diary"
-            page={parsedPage}
             sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
+            tag="diary"
+            variant="diary"
           />
         ) : (
           <ErrorDisplay statusCode={400} />

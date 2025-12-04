@@ -8,6 +8,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count: number;
+      favBirdId?: number | null;
       isFavBird?: never;
       href: string;
       iconVariant?: "multi";
@@ -23,6 +24,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count?: never;
+      favBirdId?: never;
       isFavBird?: never;
       href: string;
       iconVariant: "none";
@@ -38,6 +40,7 @@ type ListItemProps =
   | {
       commonName: string;
       count?: number;
+      favBirdId?: never;
       isFavBird?: boolean;
       href: string;
       iconVariant?: "single";
@@ -54,6 +57,7 @@ type ListItemProps =
 export default function ListItemDetails({
   commonName,
   count,
+  favBirdId,
   isFavBird,
   href,
   iconVariant,
@@ -107,6 +111,7 @@ export default function ListItemDetails({
             {iconVariant === "multi" && (
               <Icons
                 count={count}
+                favBirdId={favBirdId}
                 listVariant={variant}
                 sightings={sightings}
                 variant={iconVariant}

@@ -16,6 +16,7 @@ type IconsProps =
   | {
       commonName?: never;
       count: number;
+      favBirdId?: number | null;
       isFavBird?: never;
       listVariant: ListVariant;
       imgSecureUrl?: never;
@@ -26,6 +27,7 @@ type IconsProps =
   | {
       commonName: string;
       count?: never;
+      favBirdId?: never;
       imgSecureUrl: string | null;
       isFavBird?: boolean;
       listVariant: ListVariant;
@@ -37,6 +39,7 @@ type IconsProps =
 export default function Icons({
   commonName,
   count,
+  favBirdId,
   imgSecureUrl,
   isFavBird,
   listVariant,
@@ -75,15 +78,27 @@ export default function Icons({
             className={`flex grow justify-end sm:gap-1 ${listVariant === "locations" ? "md:min-w-[336px]" : "md:w-3/5"} md:grow-0 lg:gap-2`}
           >
             {sightings.slice(0, iconsToShow).map((sighting) => {
-              const [sightingId, commonName, imgSecureUrl] =
-                sighting.split(",");
-              //? For birds w/o an image imgSecureUrl is coalesced to 'null'
+              const [commonName, birdId, imgSecureUrl] = sighting.split(",");
+              const birdIdInt = Number(birdId);
+              const isFavBird = birdIdInt === favBirdId;
+              //? For birds w/o an image imgSecureUrl is coalesced to "null"
               return (
-                <React.Fragment key={sightingId}>
-                  <div
-                    className={`relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} sm:ml-[-10px] md:w-16`}
-                  >
-                    <Icon commonName={commonName} imgSecureUrl={imgSecureUrl} />
+                <React.Fragment key={birdIdInt}>
+                  <div className="relative">
+                    <div
+                      className={`relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} sm:ml-[-10px] md:w-16`}
+                    >
+                      <Icon
+                        commonName={commonName}
+                        imgSecureUrl={imgSecureUrl}
+                      />
+                    </div>
+                    {isFavBird && (
+                      <Heart
+                        className="absolute bottom-0.5 right-0 size-5 shrink-0 grow-0 fill-fuchsia-400/90 text-fuchsia-300/90 md:size-6"
+                        strokeWidth={1.5}
+                      />
+                    )}
                   </div>
                 </React.Fragment>
               );
@@ -119,7 +134,7 @@ export default function Icons({
             </div>
             {isFavBird && (
               <Heart
-                className="absolute bottom-0.5 size-5 shrink-0 grow-0 fill-fuchsia-400/80 text-fuchsia-300/80 md:size-6"
+                className="absolute bottom-0.5 size-5 shrink-0 grow-0 fill-fuchsia-400/90 text-fuchsia-300/90 md:size-6"
                 strokeWidth={1.5}
               />
             )}
