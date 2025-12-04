@@ -7,7 +7,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { Messages } from "@/models/api";
 import type { ListVariant } from "@/models/display";
-import { Bird, Plus } from "lucide-react";
+import { Bird, Heart, Plus } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -16,6 +16,7 @@ type IconsProps =
   | {
       commonName?: never;
       count: number;
+      isFavBird?: never;
       listVariant: ListVariant;
       imgSecureUrl?: never;
       sightingId?: never;
@@ -26,6 +27,7 @@ type IconsProps =
       commonName: string;
       count?: never;
       imgSecureUrl: string | null;
+      isFavBird?: boolean;
       listVariant: ListVariant;
       sightingId: number;
       sightings?: never;
@@ -36,6 +38,7 @@ export default function Icons({
   commonName,
   count,
   imgSecureUrl,
+  isFavBird,
   listVariant,
   sightingId,
   sightings,
@@ -106,16 +109,20 @@ export default function Icons({
       return (
         <>
           <div
-            className={`ml-4 flex w-fit justify-end sm:gap-1 md:grow-0 lg:gap-2 ${leftAlignSubtext.includes(listVariant) ? "" : "md:w-1/5 lg:w-1/4"}`}
+            className={`relative ml-4 flex w-fit justify-end sm:gap-1 md:grow-0 lg:gap-2 ${leftAlignSubtext.includes(listVariant) ? "" : "md:w-1/5 lg:w-1/4"}`}
             key={sightingId}
           >
-            <React.Fragment>
-              <div
-                className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} md:w-16`}
-              >
-                <Icon commonName={commonName} imgSecureUrl={imgSecureUrl} />
-              </div>
-            </React.Fragment>
+            <div
+              className={`relative flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border ${imgSecureUrl ? "bg-background" : "icon-crosshatch"} md:w-16`}
+            >
+              <Icon commonName={commonName} imgSecureUrl={imgSecureUrl} />
+            </div>
+            {isFavBird && (
+              <Heart
+                className="absolute bottom-0.5 size-5 shrink-0 grow-0 fill-fuchsia-400/80 text-fuchsia-300/80 md:size-6"
+                strokeWidth={1.5}
+              />
+            )}
           </div>
         </>
       );

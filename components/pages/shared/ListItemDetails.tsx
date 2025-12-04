@@ -1,7 +1,6 @@
 import Icons from "@/components/pages/shared/Icons";
 import SightingBadge from "@/components/pages/shared/SightingBadge";
 import type { ListVariant } from "@/models/display";
-import { Heart } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -91,12 +90,6 @@ export default function ListItemDetails({
                   )}
                 </p>
                 <SightingBadge count={count} isNew={isNew} variant={variant} />
-                {isFavBird && (
-                  <Heart
-                    className="inline size-4 shrink-0 grow-0 fill-fuchsia-400 text-fuchsia-300 md:size-5"
-                    strokeWidth={1.5}
-                  />
-                )}
               </div>
               <p
                 className={`line-clamp-1 break-all pr-0.5 text-sm italic ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:shrink-0 md:text-base`}
@@ -123,6 +116,7 @@ export default function ListItemDetails({
               <Icons
                 commonName={commonName}
                 imgSecureUrl={imgSecureUrl}
+                isFavBird={isFavBird}
                 listVariant={variant}
                 sightingId={id}
                 variant={iconVariant}
