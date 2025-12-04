@@ -1,6 +1,7 @@
 import Icons from "@/components/pages/shared/Icons";
 import SightingBadge from "@/components/pages/shared/SightingBadge";
 import type { ListVariant } from "@/models/display";
+import { Heart } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -8,7 +9,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count: number;
-      favBirdId?: never;
+      isFavBird?: never;
       href: string;
       iconVariant?: "multi";
       imgSecureUrl?: never;
@@ -23,7 +24,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count?: never;
-      favBirdId?: never;
+      isFavBird?: never;
       href: string;
       iconVariant: "none";
       imgSecureUrl?: never;
@@ -38,7 +39,7 @@ type ListItemProps =
   | {
       commonName: string;
       count?: number;
-      favBirdId?: number | null;
+      isFavBird?: boolean;
       href: string;
       iconVariant?: "single";
       imgSecureUrl: string | null;
@@ -54,7 +55,7 @@ type ListItemProps =
 export default function ListItemDetails({
   commonName,
   count,
-  favBirdId,
+  isFavBird,
   href,
   iconVariant,
   imgSecureUrl,
@@ -69,7 +70,7 @@ export default function ListItemDetails({
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
   return (
     <>
-      <li className="list-hover hover:scale-[1.025]">
+      <li className={`list-hover hover:scale-[1.025]`}>
         <Link href={href}>
           <div
             className={`flex h-[72px] items-center justify-between ${leftAlignSubtext.includes(variant) && "gap-4"} px-4 md:h-20`}
@@ -78,7 +79,7 @@ export default function ListItemDetails({
               className={`flex flex-col max-md:gap-1.5 md:grow ${variant !== "locations" && "md:flex-row md:items-center"} ${leftAlignSubtext.includes(variant) ? "md:gap-8" : "md:justify-between"}`}
             >
               <div
-                className={`flex items-center gap-2 ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:gap-6 lg:gap-8`}
+                className={`flex items-center gap-1 ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:gap-6 lg:gap-8`}
               >
                 <p
                   className={`line-clamp-1 break-all ${variant === "locations" ? "text-base md:text-lg" : "text-base md:text-xl"} font-semibold`}
@@ -90,6 +91,12 @@ export default function ListItemDetails({
                   )}
                 </p>
                 <SightingBadge count={count} isNew={isNew} variant={variant} />
+                {isFavBird && (
+                  <Heart
+                    className="inline size-4 shrink-0 grow-0 fill-fuchsia-400 text-fuchsia-300 md:size-5"
+                    strokeWidth={1.5}
+                  />
+                )}
               </div>
               <p
                 className={`line-clamp-1 break-all pr-0.5 text-sm italic ${leftAlignSubtext.includes(variant) && "md:w-1/2"} md:shrink-0 md:text-base`}

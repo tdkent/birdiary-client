@@ -39,7 +39,7 @@ export default function CsrListItem({
   switch (variant) {
     case "sighting": {
       const {
-        bird: { commonName, imgSecureUrl },
+        bird: { commonName, id: birdId, imgSecureUrl },
         date,
         id,
         isNew,
@@ -48,7 +48,7 @@ export default function CsrListItem({
         <>
           <ListItemDetails
             commonName={commonName}
-            favBirdId={favBirdId}
+            isFavBird={favBirdId === birdId}
             href={`/sightings/${id}`}
             iconVariant="single"
             imgSecureUrl={imgSecureUrl}
