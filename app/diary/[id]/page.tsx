@@ -3,7 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { getUsername } from "@/helpers/auth";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
@@ -29,10 +29,10 @@ export async function generateMetadata({
   }
 
   const localeStr = createLocaleString(isoStr, "med");
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
 
   return {
-    title: `${username ? `${username}'s` : "My"} diary on ${localeStr} - Birdiary`,
+    title: `${user && user.name ? `${user.name}'s` : "My"} diary on ${localeStr} - Birdiary`,
     description: `View your personal birdwatching diary on ${localeStr}, including a list with each bird sighting.`,
   };
 }
@@ -48,7 +48,7 @@ export default async function DiaryDetailsView({
     redirect(`/diary/${id}?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
 
   const validDateId = convertDateIdToValidDate(id);
   const parsedPage = checkValidParamInteger(page);
@@ -62,7 +62,7 @@ export default async function DiaryDetailsView({
         <ViewHeader
           backLinkHref="diary"
           backLinkText="Go to my diary"
-          headingText={`${username ? `${username}'s` : "My"} Birding Diary: ${validDateId ? createLocaleString(validDateId, "med") : "Invalid URL"}`}
+          headingText={`${user && user.name ? `${user.name}'s` : "My"} Birding Diary: ${validDateId ? createLocaleString(validDateId, "med") : "Invalid URL"}`}
         />
         {validDateId &&
         parsedPage &&

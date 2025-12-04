@@ -4,7 +4,7 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
-import { getUsername } from "@/helpers/auth";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -17,10 +17,10 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
 
   return {
-    title: `${username ? `${username}'s` : "My"} birding life list - Birdiary`,
+    title: `${user && user.name ? `${user.name}'s` : "My"} birding life list - Birdiary`,
     description:
       "View your personal birdwatching life list. Shows every unique bird you have observed along with the date. Click on any sighting for full details.",
   };
@@ -37,7 +37,7 @@ export default async function LifeListView({
     redirect(`/lifelist?page=${page || "1"}&sortBy=${sortBy || "alphaAsc"}`);
   }
 
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
@@ -49,7 +49,7 @@ export default async function LifeListView({
         <ViewHeader
           backLinkHref="sightings"
           backLinkText="Go to my sightings"
-          headingText={`${username ? `${username}'s` : "My"} Birding Life List`}
+          headingText={`${user && user.name ? `${user.name}'s` : "My"} Birding Life List`}
           subtext="Your life list displays each unique bird species that you have
           observed and the date of your first sighting."
         />
