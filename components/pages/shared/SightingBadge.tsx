@@ -29,7 +29,7 @@ export default function SightingBadge({
 function LifeListBadge() {
   return (
     <>
-      1<sup className="relative top-[-2.5px]">st</sup>
+      <span>LL</span>
     </>
   );
 }
