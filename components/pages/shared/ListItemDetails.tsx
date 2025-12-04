@@ -110,7 +110,6 @@ export default function ListItemDetails({
             </div>
             {iconVariant === "multi" && (
               <Icons
-                count={count}
                 favBirdId={favBirdId}
                 listVariant={variant}
                 sightings={sightings}

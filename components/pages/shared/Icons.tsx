@@ -15,7 +15,6 @@ import { useMediaQuery } from "usehooks-ts";
 type IconsProps =
   | {
       commonName?: never;
-      count: number;
       favBirdId?: number | null;
       isFavBird?: never;
       listVariant: ListVariant;
@@ -26,7 +25,6 @@ type IconsProps =
     }
   | {
       commonName: string;
-      count?: never;
       favBirdId?: never;
       imgSecureUrl: string | null;
       isFavBird?: boolean;
@@ -38,7 +36,6 @@ type IconsProps =
 
 export default function Icons({
   commonName,
-  count,
   favBirdId,
   imgSecureUrl,
   isFavBird,
@@ -62,10 +59,11 @@ export default function Icons({
     case "multi": {
       if (!sightings) return null;
 
+      const distinctBirdCount = sightings.length;
       const iconsToShow = matches
         ? DESKTOP_REMAINING_COUNT
         : MOBILE_REMAINING_COUNT;
-      const remainingCount = count - iconsToShow;
+      const remainingCount = distinctBirdCount - iconsToShow;
       const remainingCountFontSize =
         remainingCount >= 100
           ? "text-lg"
