@@ -10,6 +10,7 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
 import { BIRD_COUNT } from "@/constants/constants";
 import birdNames from "@/data/birds";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import { SortValues, sortByDateOptions } from "@/models/form";
@@ -69,6 +70,9 @@ export default async function BirdDetailsView({
   const sortOptions = [...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
 
+  const user = await getUserProfileOrNull();
+  const isFavBird = user && user.favoriteBirdId === validBirdId;
+
   return (
     <>
       <SignedOffBanner />
@@ -81,6 +85,7 @@ export default async function BirdDetailsView({
               ? `Bird Details: ${birdNames[validBirdId - 1]}`
               : "Bird Details"
           }
+          isFavBird={isFavBird}
         />
         {validBirdId &&
         parsedPage &&

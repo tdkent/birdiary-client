@@ -42,7 +42,7 @@ export default function SelectFavoriteBird({
           {isCurrFav ? (
             <>
               <Heart
-                className="fill-pink-400 stroke-pink-900"
+                className="fill-fuchsia-400 text-fuchsia-300"
                 size={18}
                 strokeWidth={1.5}
               />

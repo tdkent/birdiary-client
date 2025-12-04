@@ -1,5 +1,6 @@
 /** Generic header and heading element for views. */
 import type { LucideIcon } from "lucide-react";
+import { Heart } from "lucide-react";
 import Link from "next/link";
 
 type ViewHeaderProps =
@@ -8,6 +9,7 @@ type ViewHeaderProps =
       backLinkText?: never;
       headingText: string;
       icon?: LucideIcon;
+      isFavBird?: never;
       subtext?: never;
     }
   | {
@@ -15,6 +17,7 @@ type ViewHeaderProps =
       backLinkText: string;
       headingText: string;
       icon?: never;
+      isFavBird?: boolean | null;
       subtext?: string;
     };
 
@@ -23,6 +26,7 @@ export default function ViewHeader({
   backLinkText,
   headingText,
   icon: Icon,
+  isFavBird,
   subtext,
 }: ViewHeaderProps) {
   return (
@@ -38,9 +42,20 @@ export default function ViewHeader({
             <h1 className="ml-2.5 inline">{headingText}</h1>
           </div>
         ) : (
-          <h1>{headingText}</h1>
+          <h1>
+            <span className="mr-1">{headingText}</span>
+            {isFavBird && (
+              <Heart
+                className="inline -translate-y-0.5 fill-fuchsia-400 text-fuchsia-300"
+                strokeWidth={1.5}
+                size={26}
+              />
+            )}
+          </h1>
         )}
-        <p className="text-sm text-foreground/60 md:text-base">{subtext}</p>
+        {subtext && (
+          <p className="text-sm text-foreground/60 md:text-base">{subtext}</p>
+        )}
         {backLinkHref && (
           <Link
             href={`/${backLinkHref}`}
