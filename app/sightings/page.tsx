@@ -36,6 +36,7 @@ export default async function SightingsView({
   }
 
   const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
@@ -53,14 +54,15 @@ export default async function SightingsView({
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <>
             <CsrList
-              variant="sighting"
+              defaultSortOption={defaultSortOption}
+              favBirdId={favBirdId}
+              page={parsedPage}
               pendingVariant="list"
               route={apiRoutes.getSightings(parsedPage, sortBy)}
-              tag="sightings"
-              page={parsedPage}
               sortBy={sortBy}
-              defaultSortOption={defaultSortOption}
               sortOptions={sortOptions}
+              tag="sightings"
+              variant="sighting"
             />
           </>
         ) : (

@@ -17,6 +17,7 @@ import type {
 import { MapPin } from "lucide-react";
 
 type CsrListItemProps = {
+  favBirdId?: number | null;
   item:
     | BirdWithCount
     | LifeList
@@ -30,7 +31,11 @@ type CsrListItemProps = {
   variant: ListVariant;
 };
 
-export default function CsrListItem({ item, variant }: CsrListItemProps) {
+export default function CsrListItem({
+  favBirdId,
+  item,
+  variant,
+}: CsrListItemProps) {
   switch (variant) {
     case "sighting": {
       const {
@@ -43,6 +48,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         <>
           <ListItemDetails
             commonName={commonName}
+            favBirdId={favBirdId}
             href={`/sightings/${id}`}
             iconVariant="single"
             imgSecureUrl={imgSecureUrl}

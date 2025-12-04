@@ -8,6 +8,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count: number;
+      favBirdId?: never;
       href: string;
       iconVariant?: "multi";
       imgSecureUrl?: never;
@@ -22,6 +23,7 @@ type ListItemProps =
   | {
       commonName?: never;
       count?: never;
+      favBirdId?: never;
       href: string;
       iconVariant: "none";
       imgSecureUrl?: never;
@@ -36,6 +38,7 @@ type ListItemProps =
   | {
       commonName: string;
       count?: number;
+      favBirdId?: number | null;
       href: string;
       iconVariant?: "single";
       imgSecureUrl: string | null;
@@ -51,6 +54,7 @@ type ListItemProps =
 export default function ListItemDetails({
   commonName,
   count,
+  favBirdId,
   href,
   iconVariant,
   imgSecureUrl,
@@ -63,7 +67,6 @@ export default function ListItemDetails({
   variant,
 }: ListItemProps) {
   const leftAlignSubtext = ["diaryDetail", "birds", "lifeList"];
-
   return (
     <>
       <li className="list-hover hover:scale-[1.025]">
