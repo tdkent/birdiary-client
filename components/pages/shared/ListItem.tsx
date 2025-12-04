@@ -89,6 +89,7 @@ export default function ListItem({
         <ListItemDetails
           count={count}
           href={href}
+          favBirdId={favBirdId}
           iconVariant="multi"
           mainText={name}
           sightings={sightings}

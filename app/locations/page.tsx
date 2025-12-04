@@ -38,6 +38,7 @@ export default async function LocationsView({
   }
 
   const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
@@ -60,12 +61,13 @@ export default async function LocationsView({
               }
             >
               <List
-                variant="locations"
-                resource={apiRoutes.locations(parsedPage, sortBy)}
-                page={parsedPage}
-                sortBy={sortBy}
                 defaultSortOption={defaultSortOption}
+                favBirdId={favBirdId}
+                page={parsedPage}
+                resource={apiRoutes.locations(parsedPage, sortBy)}
+                sortBy={sortBy}
                 sortOptions={sortOptions}
+                variant="locations"
               />
             </Suspense>
           </>
