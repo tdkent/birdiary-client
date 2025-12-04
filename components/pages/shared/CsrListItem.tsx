@@ -102,7 +102,7 @@ export default function CsrListItem({
     case "diaryDetail": {
       const {
         id,
-        bird: { commonName, imgSecureUrl },
+        bird: { commonName, id: birdId, imgSecureUrl },
         isNew,
         location,
       } = item as SightingWithBirdAndLocation;
@@ -112,6 +112,7 @@ export default function CsrListItem({
       return (
         <ListItemDetails
           commonName={commonName}
+          isFavBird={favBirdId === birdId}
           href={`/sightings/${id}`}
           iconVariant="single"
           imgSecureUrl={imgSecureUrl}

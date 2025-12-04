@@ -49,6 +49,7 @@ export default async function DiaryDetailsView({
   }
 
   const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const validDateId = convertDateIdToValidDate(id);
   const parsedPage = checkValidParamInteger(page);
@@ -68,19 +69,20 @@ export default async function DiaryDetailsView({
         parsedPage &&
         sortOptions.find((option) => option.value === sortBy) ? (
           <CsrList
+            defaultSortOption={defaultSortOption}
+            favBirdId={favBirdId}
+            page={parsedPage}
+            pendingVariant="list"
             route={apiRoutes.getSightingsListByType(
               "dateId",
               validDateId,
               parsedPage,
               sortBy,
             )}
-            variant="diaryDetail"
-            pendingVariant="list"
-            tag="sightings"
-            page={parsedPage}
             sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
+            tag="sightings"
+            variant="diaryDetail"
           />
         ) : (
           <ErrorDisplay statusCode={400} />
