@@ -76,7 +76,7 @@ export default function ListItemDetails({
       <li className={`list-hover hover:scale-[1.025]`}>
         <Link href={href}>
           <div
-            className={`flex h-[72px] items-center justify-between ${leftAlignSubtext.includes(variant) && "gap-4"} px-4 md:h-20`}
+            className={`flex h-[72px] items-center justify-between ${leftAlignSubtext.includes(variant) && "gap-4"} sm:px-4 md:h-20`}
           >
             <div
               className={`flex flex-col max-md:gap-1.5 md:grow ${variant !== "locations" && "md:flex-row md:items-center"} ${leftAlignSubtext.includes(variant) ? "md:gap-8" : "md:justify-between"}`}
