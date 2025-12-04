@@ -8,6 +8,7 @@ import DeleteItem from "@/components/pages/shared/DeleteItem";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
@@ -17,6 +18,7 @@ import {
 } from "@/helpers/dates";
 import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
+import { CircleCheck } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -85,7 +87,8 @@ export default function SightingDetails({ sightingId }: SightingProps) {
     return <Pending variant="sightingDetails" />;
   }
 
-  const { bird, birdId, date, description, location } = data;
+  const { bird, birdId, date, description, isNew, location } = data;
+
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
@@ -99,6 +102,12 @@ export default function SightingDetails({ sightingId }: SightingProps) {
             currBirdName={bird.commonName}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 85vw, 678px"
           />
+        )}
+        {isNew && (
+          <Badge className="w-fit px-3 font-text text-base" variant="lifeList">
+            <CircleCheck size={16} />
+            Life List
+          </Badge>
         )}
         <dl className="my-8 flex flex-col gap-8 px-2 md:gap-12">
           <DescriptionListItem
