@@ -12,7 +12,7 @@ import { Form } from "@/components/ui/form";
 import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
-import { createPureIsoDate } from "@/helpers/dates";
+import { createIsoDateFromJsDate } from "@/helpers/dates";
 import { apiRoutes, Messages } from "@/models/api";
 import {
   sightingSchema,
@@ -81,7 +81,7 @@ export default function SightingForm() {
 
     const formValues: CreateSightingDto = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
-      date: createPureIsoDate(values.date!),
+      date: createIsoDateFromJsDate(values.date!),
       description: values.description ? values.description.trim() : null,
       location: validatedLocation,
     };

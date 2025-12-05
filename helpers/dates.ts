@@ -1,12 +1,13 @@
 import { DateTime } from "luxon";
 
-/** Create pure ISO date from JavaScript date. */
-export function createPureIsoDate(date: Date) {
-  const day = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}`;
-  const adjustedMonth = date.getMonth() + 1;
-  const month = `${adjustedMonth < 10 ? "0" : ""}${adjustedMonth}`;
-  const isoDate = `${date.getFullYear()}-${month}-${day}`;
-  return isoDate;
+/** Returns an ISO date w/o time. */
+export function createIsoDateFromJsDate(date: Date) {
+  const jsDate = DateTime.fromJSDate(date);
+  return DateTime.fromObject({
+    year: jsDate.year,
+    month: jsDate.month,
+    day: jsDate.day,
+  }).toISODate() as string;
 }
 
 /** Returns a locale string based on provided format
