@@ -26,8 +26,7 @@ export function createLocaleString(
   date: string,
   format?: "med" | "full" | "huge",
 ) {
-  const removeTz = date.slice(-1) === "Z" ? date.slice(0, -1) : date;
-  const dateFromIso = DateTime.fromISO(removeTz);
+  const dateFromIso = DateTime.fromISO(removeTimeZoneFromDateString(date));
   switch (format) {
     case "med":
       return dateFromIso.toLocaleString(DateTime.DATE_MED);
@@ -42,7 +41,9 @@ export function createLocaleString(
 
 /** Returns a relative date string (ex: "Today"). */
 export function createRelativeDate(date: string) {
-  const relativeDate = DateTime.fromISO(date.slice(0, -1)).toRelativeCalendar();
+  const relativeDate = DateTime.fromISO(
+    removeTimeZoneFromDateString(date),
+  ).toRelativeCalendar();
   return relativeDate
     ? relativeDate.slice(0, 1).toUpperCase() + relativeDate.slice(1)
     : "N/A";
@@ -50,6 +51,10 @@ export function createRelativeDate(date: string) {
 
 export function convertSightingDateToInteger(date: string) {
   return Number(date.slice(0, 10).replaceAll("-", ""));
+}
+
+function removeTimeZoneFromDateString(date: string) {
+  return date.slice(-1) === "Z" ? date.slice(0, -1) : date;
 }
 
 /** Check 8-digit id for valid date and convert to ISO date string. */
