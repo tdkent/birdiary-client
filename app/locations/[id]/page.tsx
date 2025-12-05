@@ -7,6 +7,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
 import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -64,6 +65,9 @@ export default async function LocationDetailsView({
     );
   }
 
+  const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
+
   const validId = checkValidParamInteger(id);
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
@@ -95,6 +99,7 @@ export default async function LocationDetailsView({
             >
               <List
                 defaultSortOption={defaultSortOption}
+                favBirdId={favBirdId}
                 headingText="My Sightings at This Location"
                 page={parsedPage}
                 resource={apiRoutes.getSightingsByLocation(

@@ -3,7 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { getUsername } from "@/helpers/auth";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -15,9 +15,9 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
   return {
-    title: `${username ? `${username}'s` : "My"} birdwatching diary - Birdiary`,
+    title: `${user && user.name ? `${user.name}'s` : "My"} birdwatching diary - Birdiary`,
     description:
       "View your birdwatching diary with all sightings grouped by date. Sort diary entires by date or count of bird sightings. Click on any entry for full details.",
   };
@@ -34,7 +34,8 @@ export default async function DiaryView({
     redirect(`/diary?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
@@ -45,22 +46,23 @@ export default async function DiaryView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          headingText={`${username ? `${username}'s` : "My"} Birding Diary`}
+          headingText={`${user && user.name ? `${user.name}'s` : "My"} Birding Diary`}
         />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <CsrList
+            defaultSortOption={defaultSortOption}
+            favBirdId={favBirdId}
+            page={parsedPage}
+            pendingVariant="list"
             route={apiRoutes.getSightingsGroupByType(
               "date",
               parsedPage,
               sortBy,
             )}
-            variant="diary"
-            pendingVariant="list"
-            tag="diary"
-            page={parsedPage}
             sortBy={sortBy}
-            defaultSortOption={defaultSortOption}
             sortOptions={sortOptions}
+            tag="diary"
+            variant="diary"
           />
         ) : (
           <ErrorDisplay statusCode={400} />

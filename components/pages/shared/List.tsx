@@ -20,6 +20,7 @@ import type { SortOptions, SortValues } from "@/models/form";
 type ListProps =
   | {
       defaultSortOption: SortValues;
+      favBirdId?: number | null;
       headingText?: string;
       page: number;
       resource: string;
@@ -34,6 +35,7 @@ type ListProps =
     }
   | {
       defaultSortOption?: never;
+      favBirdId?: number | null;
       headingText?: never;
       page: number;
       resource: string;
@@ -47,6 +49,7 @@ type ListProps =
 /** SSR component that renders a list of items */
 export default async function List({
   defaultSortOption,
+  favBirdId,
   headingText,
   page,
   resource,
@@ -112,6 +115,7 @@ export default async function List({
               data.map((item) => {
                 return (
                   <ListItem
+                    favBirdId={favBirdId}
                     item={item}
                     key={item.id}
                     searchTerm={search}

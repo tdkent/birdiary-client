@@ -17,6 +17,7 @@ import type {
 import { MapPin } from "lucide-react";
 
 type CsrListItemProps = {
+  favBirdId?: number | null;
   item:
     | BirdWithCount
     | LifeList
@@ -30,11 +31,15 @@ type CsrListItemProps = {
   variant: ListVariant;
 };
 
-export default function CsrListItem({ item, variant }: CsrListItemProps) {
+export default function CsrListItem({
+  favBirdId,
+  item,
+  variant,
+}: CsrListItemProps) {
   switch (variant) {
     case "sighting": {
       const {
-        bird: { commonName, imgSecureUrl },
+        bird: { commonName, id: birdId, imgSecureUrl },
         date,
         id,
         isNew,
@@ -43,6 +48,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         <>
           <ListItemDetails
             commonName={commonName}
+            isFavBird={favBirdId === birdId}
             href={`/sightings/${id}`}
             iconVariant="single"
             imgSecureUrl={imgSecureUrl}
@@ -62,6 +68,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
         <>
           <ListItemDetails
             count={count}
+            favBirdId={favBirdId}
             href={`/diary/${id}`}
             iconVariant="multi"
             mainText={createLocaleString(date, "med")}
@@ -96,7 +103,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
     case "diaryDetail": {
       const {
         id,
-        bird: { commonName, imgSecureUrl },
+        bird: { commonName, id: birdId, imgSecureUrl },
         isNew,
         location,
       } = item as SightingWithBirdAndLocation;
@@ -106,6 +113,7 @@ export default function CsrListItem({ item, variant }: CsrListItemProps) {
       return (
         <ListItemDetails
           commonName={commonName}
+          isFavBird={favBirdId === birdId}
           href={`/sightings/${id}`}
           iconVariant="single"
           imgSecureUrl={imgSecureUrl}

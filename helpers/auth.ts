@@ -23,10 +23,13 @@ export async function getCookie() {
   return cookie;
 }
 
-export async function getUsername() {
+export async function getUserProfileOrNull() {
   const hasSession = await checkSession();
   if (!hasSession) return null;
-  const user: ExpectedServerError | User = await getUser();
-  if ("name" in user && user.name) return user.name;
-  return null;
+  const result: ExpectedServerError | User = await getUser();
+  if ("error" in result) return null;
+  return {
+    name: result.name ?? null,
+    favoriteBirdId: result.favoriteBirdId ?? null,
+  };
 }

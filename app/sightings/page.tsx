@@ -3,7 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { getUsername } from "@/helpers/auth";
+import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
 import {
@@ -15,10 +15,10 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
 
   return {
-    title: `${username ? `${username}'s` : "My"} bird sightings - Birdiary`,
+    title: `${user && user.name ? `${user.name}'s` : "My"} bird sightings - Birdiary`,
     description:
       "View all your recorded bird sightings in one place. Sort sightings by date or bird. Click on any sighting for full details.",
   };
@@ -35,7 +35,8 @@ export default async function SightingsView({
     redirect(`/sightings?page=${page || "1"}&sortBy=${sortBy || "dateDesc"}`);
   }
 
-  const username = await getUsername();
+  const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
@@ -46,21 +47,22 @@ export default async function SightingsView({
       <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
-          headingText={`${username ? `${username}'s` : "My"} Bird Sightings`}
+          headingText={`${user && user.name ? `${user.name}'s` : "My"} Bird Sightings`}
           backLinkHref="lifelist"
           backLinkText="Go to my life list"
         />
         {parsedPage && sortOptions.find((option) => option.value === sortBy) ? (
           <>
             <CsrList
-              variant="sighting"
+              defaultSortOption={defaultSortOption}
+              favBirdId={favBirdId}
+              page={parsedPage}
               pendingVariant="list"
               route={apiRoutes.getSightings(parsedPage, sortBy)}
-              tag="sightings"
-              page={parsedPage}
               sortBy={sortBy}
-              defaultSortOption={defaultSortOption}
               sortOptions={sortOptions}
+              tag="sightings"
+              variant="sighting"
             />
           </>
         ) : (

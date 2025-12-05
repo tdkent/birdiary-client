@@ -15,6 +15,7 @@ import type {
 } from "@/models/display";
 
 type ListItemProps = {
+  favBirdId?: number | null;
   item:
     | BirdWithCount
     | LifeList
@@ -33,7 +34,12 @@ type ListItemProps = {
 };
 
 /** SSR component that renders a single item in List */
-export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
+export default function ListItem({
+  favBirdId,
+  item,
+  searchTerm,
+  variant,
+}: ListItemProps) {
   switch (variant) {
     case "birds": {
       const { commonName, count, family, id, imgSecureUrl } =
@@ -45,6 +51,7 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
           href={`/birds/${id}`}
           iconVariant="single"
           imgSecureUrl={imgSecureUrl}
+          isFavBird={id === favBirdId}
           mainText={commonName}
           id={id}
           searchTerm={searchTerm}
@@ -62,9 +69,10 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
           count={count}
           href={`/birds/${id}`}
           iconVariant="single"
-          imgSecureUrl={imgSecureUrl}
-          mainText={commonName}
           id={id}
+          imgSecureUrl={imgSecureUrl}
+          isFavBird={id === favBirdId}
+          mainText={commonName}
           subText={`First observed ${createLocaleString(date, "med")}`}
           variant={variant}
         />
@@ -81,6 +89,7 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
         <ListItemDetails
           count={count}
           href={href}
+          favBirdId={favBirdId}
           iconVariant="multi"
           mainText={name}
           sightings={sightings}
@@ -92,7 +101,7 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
 
     case "locationDetail": {
       const {
-        bird: { commonName, imgSecureUrl },
+        bird: { commonName, id: birdId, imgSecureUrl },
         date,
         id,
         isNew,
@@ -101,6 +110,7 @@ export default function ListItem({ item, searchTerm, variant }: ListItemProps) {
         <ListItemDetails
           commonName={commonName}
           href={`/sightings/${id}`}
+          isFavBird={birdId === favBirdId}
           iconVariant="single"
           id={id}
           imgSecureUrl={imgSecureUrl}

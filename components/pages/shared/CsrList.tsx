@@ -16,6 +16,7 @@ import type { SortOptions, SortValues } from "@/models/form";
 
 type CsrListProps = {
   defaultSortOption: SortValues;
+  favBirdId?: number | null;
   headingText?: string;
   page: number;
   pendingVariant: "list";
@@ -29,6 +30,7 @@ type CsrListProps = {
 /** CSR component that renders a list of items */
 export default function CsrList({
   defaultSortOption,
+  favBirdId,
   headingText,
   page,
   pendingVariant,
@@ -90,7 +92,14 @@ export default function CsrList({
           ) : (
             <ul className="my-8 divide-y">
               {items.map((item, idx) => {
-                return <CsrListItem key={idx} variant={variant} item={item} />;
+                return (
+                  <CsrListItem
+                    favBirdId={favBirdId}
+                    item={item}
+                    key={idx}
+                    variant={variant}
+                  />
+                );
               })}
             </ul>
           )}
