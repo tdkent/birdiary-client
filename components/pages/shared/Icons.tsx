@@ -84,7 +84,7 @@ export default function Icons({
                 <React.Fragment key={birdIdInt}>
                   <div className="relative">
                     <div
-                      className={`relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} sm:ml-[-10px] md:w-16`}
+                      className={`relative ml-[-8px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-background ${imgSecureUrl === "null" ? "icon-crosshatch" : "bg-background"} md:w-16`}
                     >
                       <Icon
                         commonName={commonName}
@@ -93,7 +93,7 @@ export default function Icons({
                     </div>
                     {isFavBird && (
                       <Heart
-                        className="absolute bottom-0.5 right-0 size-5 shrink-0 grow-0 fill-fuchsia-400/90 text-fuchsia-300/90 md:size-6"
+                        className="absolute bottom-0.5 right-1 size-5 shrink-0 grow-0 fill-fuchsia-400/90 text-fuchsia-300/90 sm:right-0 md:size-6"
                         strokeWidth={1.5}
                       />
                     )}
@@ -103,7 +103,7 @@ export default function Icons({
             })}
             {remainingCount >= 1 && (
               <>
-                <div className="relative ml-[-20px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-gray-100 dark:bg-blue-950 sm:ml-[-10px] md:w-16">
+                <div className="relative ml-[-8px] flex aspect-square w-14 items-center justify-center overflow-hidden rounded-full border bg-gray-100 dark:bg-blue-950 md:w-16">
                   <p
                     className={`flex items-center gap-1 text-foreground ${remainingCountFontSize}`}
                   >
