@@ -1,3 +1,8 @@
+/**
+ * Example date format: "2025-12-02T00:00:00.000Z".
+ * Functions remove 'Z' (UTC) from end of string to remove timezone drift.
+ */
+
 import { DateTime } from "luxon";
 
 /** Returns an ISO date w/o time. */
@@ -21,8 +26,8 @@ export function createLocaleString(
   date: string,
   format?: "med" | "full" | "huge",
 ) {
-  const dateFromIso = DateTime.fromISO(date, { zone: "utc" });
-
+  const removeTz = date.slice(-1) === "Z" ? date.slice(0, -1) : date;
+  const dateFromIso = DateTime.fromISO(removeTz);
   switch (format) {
     case "med":
       return dateFromIso.toLocaleString(DateTime.DATE_MED);
@@ -37,15 +42,10 @@ export function createLocaleString(
 
 /** Returns a relative date string (ex: "Today"). */
 export function createRelativeDate(date: string) {
-  // `toRelativeCalendar()` may return null if the date is invalid
-  const relativeDate = DateTime.fromISO(date, {
-    zone: "utc",
-  }).toRelativeCalendar();
-  if (relativeDate) {
-    return relativeDate.slice(0, 1).toUpperCase() + relativeDate.slice(1);
-  }
-  // Return original date string if a relative date cannot be made
-  return date;
+  const relativeDate = DateTime.fromISO(date.slice(0, -1)).toRelativeCalendar();
+  return relativeDate
+    ? relativeDate.slice(0, 1).toUpperCase() + relativeDate.slice(1)
+    : "N/A";
 }
 
 export function convertSightingDateToInteger(date: string) {
@@ -59,7 +59,11 @@ export function convertDateIdToValidDate(dateId: string) {
   const validDate = DateTime.fromISO(isoStr);
   if (!validDate || validDate > DateTime.now() || validDate.year < 1950)
     return null;
-  return `${dateId.slice(0, 4)}-${dateId.slice(4, 6)}-${dateId.slice(6)}`;
+  return DateTime.fromObject({
+    year: Number(dateId.slice(0, 4)),
+    month: Number(dateId.slice(4, 6)),
+    day: Number(dateId.slice(6)),
+  }).toISODate() as string;
 }
 
 export const CURR_YEAR = DateTime.now().year;
