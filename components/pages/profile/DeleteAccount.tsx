@@ -9,6 +9,7 @@ import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
 import { ExpectedServerError, Messages } from "@/models/api";
 import { User } from "@/models/db";
+import { CircleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -52,8 +53,15 @@ export default function DeleteAccount() {
         <h4 className="text-lg font-semibold text-destructive md:text-xl">
           Delete Account
         </h4>
-        <p className="my-6 text-base md:text-lg">
+        <p className="mt-4 text-base md:text-lg">
           Permanently delete your account and all sighting data.
+        </p>
+        <p className="mb-6 mt-4 text-sm md:text-base">
+          <CircleAlert
+            className="mr-1.5 inline size-3.5 -translate-y-[1px] md:size-4 md:-translate-y-[2px]"
+            strokeWidth={1.5}
+          />
+          Remember to export your sightings data before taking this action.
         </p>
         <Modal
           buttonSize="lg"
@@ -65,7 +73,7 @@ export default function DeleteAccount() {
           triggerText="Delete"
         >
           <Button
-            className={`${pending && "bg-destructive/90"} mt-4`}
+            className={`${pending && "bg-destructive/90"}`}
             disabled={pending}
             size="lg"
             onClick={handleClick}
