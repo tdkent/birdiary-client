@@ -115,21 +115,6 @@ export async function updatePassword(
   }
 }
 
-export async function exportSightingsData() {
-  const token = await getCookie();
-  try {
-    const response = await fetch(BASE_URL + "/users/exportdata", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw new Error(Messages.UnknownUnexpectedError);
-  }
-}
-
 export async function deleteAccount() {
   try {
     const token = await getCookie();

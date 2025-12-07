@@ -1,27 +1,46 @@
 "use client";
 
-import { exportSightingsData } from "@/actions/profile";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
-import { ExpectedServerError } from "@/models/api";
+import { useAuth } from "@/context/AuthContext";
+import { apiRoutes } from "@/models/api";
 import { Download } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function ExportCsv() {
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const [pending, setPending] = useState(false);
 
+  const { token } = useAuth();
+  const linkRef = useRef(null);
+
   async function handleClick() {
     setError(null);
     setFetchError(null);
     setPending(true);
     try {
-      const result: ExpectedServerError = await exportSightingsData();
-      if ("error" in result) {
-        return setError(`${result.statusCode}`);
-      }
+      const response = await fetch(apiRoutes.userExportData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) return setError("500");
+
+      // Create href from blob object
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = linkRef.current as HTMLAnchorElement | null;
+
+      if (!link) return;
+
+      // Simulate click on <a> element to trigger download
+      link.href = url;
+      link.download = "my-sightings.csv";
+      link.click();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
       setFetchError(error as Error);
@@ -40,6 +59,7 @@ export default function ExportCsv() {
         <p className="my-6 text-base">
           Download your sightings data to a CSV file.
         </p>
+        <a ref={linkRef} style={{ display: "none" }}></a>
         <Button
           disabled={pending}
           onClick={handleClick}
