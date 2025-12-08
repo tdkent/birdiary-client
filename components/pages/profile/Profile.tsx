@@ -1,4 +1,5 @@
 import DeleteAccount from "@/components/pages/profile/DeleteAccount";
+import ExportCsv from "@/components/pages/profile/ExportCsv";
 import TransferStorageData from "@/components/pages/profile/TransferStorageData";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -70,6 +71,7 @@ export default async function Profile() {
             <Link href="/profile/stats">View All Stats</Link>
           </Button>
           <TransferStorageData />
+          <ExportCsv />
         </section>
         <Separator className="mx-auto w-4/5" />
         <section className="flex flex-col gap-4">
