@@ -25,7 +25,7 @@ export default function DescriptionListItem({
       <div className="flex flex-col gap-1">
         <dt className="text-sm font-semibold uppercase md:text-base">{dt}</dt>
         <dd
-          className={`${dd ? "text-xl md:text-2xl" : "text-lg md:text-xl"} ${(useItalics || !dd) && "italic"}`}
+          className={`whitespace-pre-wrap break-words ${dd ? "text-xl md:text-2xl" : "text-lg md:text-xl"} ${(useItalics || !dd) && "italic"}`}
         >
           {useList ? (
             dd ? (

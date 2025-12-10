@@ -34,8 +34,8 @@ export function sortSightings(
         } else {
           const diaryA = a as Group;
           const diaryB = b as Group;
-          const dateA = DateTime.fromISO(diaryA.text).toMillis();
-          const dateB = DateTime.fromISO(diaryB.text).toMillis();
+          const dateA = DateTime.fromISO(diaryA.date).toMillis();
+          const dateB = DateTime.fromISO(diaryB.date).toMillis();
           return dateA - dateB;
         }
       });
@@ -48,16 +48,16 @@ export function sortSightings(
         } else {
           const diaryA = a as Group;
           const diaryB = b as Group;
-          const dateA = DateTime.fromISO(diaryA.text).toMillis();
-          const dateB = DateTime.fromISO(diaryB.text).toMillis();
+          const dateA = DateTime.fromISO(diaryA.date).toMillis();
+          const dateB = DateTime.fromISO(diaryB.date).toMillis();
           return dateB - dateA;
         }
       });
     case "count": {
       const group = arr as Group[];
       return group.sort((a, b) => {
-        const dateA = DateTime.fromISO(a.text).toMillis();
-        const dateB = DateTime.fromISO(b.text).toMillis();
+        const dateA = DateTime.fromISO(a.date).toMillis();
+        const dateB = DateTime.fromISO(b.date).toMillis();
         return b.count - a.count || dateB - dateA;
       });
     }
