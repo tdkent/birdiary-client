@@ -135,6 +135,7 @@ function addSighting(formValues: CreateSightingDto) {
     ...formValues,
     id: sightings.length ? sightings[sightings.length - 1].id + 1 : 1,
     bird: { commonName: birdNames[formValues.birdId - 1] },
+    date: formValues.date + "T00:00:00.000Z",
   };
   sightings.push(sighting);
   window.localStorage.setItem("sightings", JSON.stringify(sightings));
