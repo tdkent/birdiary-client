@@ -84,7 +84,7 @@ export type UserStats = {
 
 export type Group = {
   id: number;
-  text: string;
+  date: string;
   count: number;
 };
 

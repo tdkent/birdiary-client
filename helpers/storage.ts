@@ -131,15 +131,17 @@ function addSighting(formValues: CreateSightingDto) {
     window.localStorage.getItem("sightings")!,
   );
 
+  const dateWithTimeStamp = formValues.date + "T00:00:00.000Z";
+
   const sighting = {
     ...formValues,
     id: sightings.length ? sightings[sightings.length - 1].id + 1 : 1,
     bird: { commonName: birdNames[formValues.birdId - 1] },
-    date: formValues.date + "T00:00:00.000Z",
+    date: dateWithTimeStamp,
   };
   sightings.push(sighting);
   window.localStorage.setItem("sightings", JSON.stringify(sightings));
-  addToDiary(formValues.date);
+  addToDiary(dateWithTimeStamp);
   return sighting;
 }
 
@@ -148,7 +150,8 @@ function editSighting(formValues: CreateSightingDto, route: string) {
   const sightings: SightingInStorage[] = JSON.parse(
     window.localStorage.getItem("sightings")!,
   );
-  let sightingDate: string = "";
+  let sightingDate = "";
+  const formDateWithTimeStamp = formValues.date + "T00:00:00.000Z";
   const updateSighting = sightings.map((sighting) => {
     if (sighting.id === id) {
       sightingDate = sighting.date;
@@ -156,14 +159,15 @@ function editSighting(formValues: CreateSightingDto, route: string) {
         ...sighting,
         ...formValues,
         bird: { commonName: birdNames[formValues.birdId - 1] },
+        date: formDateWithTimeStamp,
       };
     }
     return sighting;
   });
   window.localStorage.setItem("sightings", JSON.stringify(updateSighting));
   const updatedSighting = updateSighting.find((s) => s.id === id)!;
-  if (formValues.date === sightingDate) return updatedSighting;
-  addToDiary(formValues.date);
+  if (formDateWithTimeStamp === sightingDate) return updatedSighting;
+  addToDiary(formDateWithTimeStamp);
   removeFromDiary(sightingDate);
   return updatedSighting;
 }
@@ -211,7 +215,7 @@ function removeFromDiary(date: string) {
   const diary: Group[] = JSON.parse(window.localStorage.getItem("diary")!);
   const updateDiary = diary
     .map((entry) => {
-      if (entry.text === date) {
+      if (entry.date === date) {
         return { ...entry, count: --entry.count };
       }
       return entry;
