@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import ApiProvider from "@/context/ApiContext";
@@ -32,9 +33,12 @@ export default function RootLayout({
             <ApiProvider>
               <div className="min-h-[calc(100vh-116px)]">
                 <Header />
-                <main className="mx-auto max-w-[1024px] px-6 py-14 md:py-20 md:pl-8 md:pr-12 lg:py-24 lg:pr-48">
-                  {children}
-                </main>
+                <div>
+                  <SignedOffBanner />
+                  <main className="mx-auto max-w-[1024px] px-6 py-14 md:py-20 md:pl-8 md:pr-12 lg:py-24 lg:pr-48">
+                    {children}
+                  </main>
+                </div>
                 <Toaster richColors />
               </div>
               <Footer />

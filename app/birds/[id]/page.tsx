@@ -4,7 +4,6 @@ import FavoriteBird from "@/components/pages/bird/FavoriteBird";
 import CsrList from "@/components/pages/shared/CsrList";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending, { ButtonSkeleton } from "@/components/pages/shared/Pending";
-import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
@@ -75,7 +74,6 @@ export default async function BirdDetailsView({
 
   return (
     <>
-      <SignedOffBanner />
       <ViewWrapper>
         <ViewHeader
           backLinkHref="birds"
