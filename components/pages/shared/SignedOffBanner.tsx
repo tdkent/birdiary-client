@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircleIcon, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SignedOffBanner() {
   const { isSignedIn } = useAuth();
+  const path = usePathname();
+
   const [open, setOpen] = useState(!isSignedIn);
 
   useEffect(() => {
@@ -16,6 +19,14 @@ export default function SignedOffBanner() {
   }, []);
 
   if (isSignedIn || !open) return null;
+
+  const currPath = path.slice(1).split("/")[0];
+  const routes = ["birds", "diary", "newsighting", "sightings"];
+  const showBanner = routes.some(
+    (route) => currPath && route.startsWith(currPath),
+  );
+
+  if (!showBanner) return null;
 
   const handleClick = () => {
     setOpen(false);
