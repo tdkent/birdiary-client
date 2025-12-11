@@ -24,17 +24,20 @@ export default function SignedOffBanner() {
 
   return (
     <>
-      <div className="mb-8 grid w-full max-w-xl">
-        <Alert className="border-0 bg-purple-100 px-2.5 py-1 dark:bg-purple-900 md:px-4">
+      <div className="fixed left-0 top-[88px] z-50 grid w-full">
+        <Alert className="rounded-none border-none bg-purple-100/90 px-2.5 py-1 dark:bg-purple-900/90 sm:px-6 lg:px-8 dark:lg:bg-purple-900/70">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:gap-4">
               <AlertCircleIcon
-                className="size-6 shrink-0 grow-0 stroke-purple-600 dark:stroke-purple-400"
+                className="size-5 shrink-0 grow-0 stroke-purple-600 dark:stroke-purple-400 sm:size-6"
                 strokeWidth={1.5}
               />
-              <AlertTitle className="mx-2 mb-0 font-semibold leading-6 text-purple-600 dark:text-purple-400">
+              <AlertTitle className="mb-0 text-[15px] leading-6 text-purple-600 dark:text-purple-400 sm:text-lg">
                 You are currently signed out.{" "}
-                <Link className="text-primary hover:underline" href="/#plans">
+                <Link
+                  className="font-semibold text-primary hover:underline"
+                  href="/#plans"
+                >
                   Learn more
                 </Link>
               </AlertTitle>
@@ -47,7 +50,7 @@ export default function SignedOffBanner() {
             >
               <X
                 strokeWidth={1.5}
-                className="size-6 stroke-purple-600 dark:stroke-purple-400"
+                className="size-5 stroke-purple-600 dark:stroke-purple-400 sm:size-6"
               />
             </Button>
           </div>
