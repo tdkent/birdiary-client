@@ -24,7 +24,7 @@ export default function SignedOffBanner() {
 
   return (
     <>
-      <div className="fixed left-0 top-[88px] z-50 grid w-full">
+      <div className="sticky top-0 z-50 grid w-full">
         <Alert className="rounded-none border-none bg-purple-100/90 px-2.5 py-1 dark:bg-purple-900/90 sm:px-6 lg:px-8 dark:lg:bg-purple-900/70">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-4">
