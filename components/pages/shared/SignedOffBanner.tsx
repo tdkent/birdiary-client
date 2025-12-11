@@ -1,9 +1,15 @@
 "use client";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircleIcon, X } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -33,6 +39,8 @@ export default function SignedOffBanner() {
     sessionStorage.setItem("showSignedOutBanner", "false");
   };
 
+  // Use Dialog instead of Popover
+
   return (
     <>
       <div className="sticky top-0 z-50 grid w-full">
@@ -45,12 +53,36 @@ export default function SignedOffBanner() {
               />
               <AlertTitle className="mb-0 text-[15px] leading-6 text-purple-600 dark:text-purple-400 sm:text-lg">
                 You are currently signed out.{" "}
-                <Link
-                  className="font-semibold text-primary hover:underline"
-                  href="/#plans"
-                >
-                  Learn more
-                </Link>
+                <Dialog>
+                  <DialogTrigger className="font-semibold text-primary hover:underline">
+                    Learn More
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        Adding Sightings as a Guest User
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div>
+                      <ul className="list-disc">
+                        <div className="my-4 flex flex-col gap-2 px-4">
+                          <li>
+                            Sightings you create without an account are stored
+                            in your browser.
+                          </li>
+                          <li>
+                            Create an account to transfer sightings from your
+                            browser to our database for permanent storage.
+                          </li>
+                          <li>
+                            Note that data added to a public browser will be
+                            viewable by others.
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </AlertTitle>
             </div>
             <Button
