@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircleIcon, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -80,6 +81,14 @@ export default function SignedOffBanner() {
                           </li>
                         </div>
                       </ul>
+                      <div className="my-8 flex gap-4">
+                        <Button asChild size="lg" variant="secondary">
+                          <Link href="/#plans">View Plans</Link>
+                        </Button>
+                        <Button asChild size="lg" variant="new">
+                          <Link href="/signup">Sign Up</Link>
+                        </Button>
+                      </div>
                     </div>
                   </DialogContent>
                 </Dialog>
