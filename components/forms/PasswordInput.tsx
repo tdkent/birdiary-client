@@ -38,9 +38,9 @@ export default function PasswordInput({
           type="button"
         >
           {isVisible ? (
-            <Eye size={22} strokeWidth={1.5} />
-          ) : (
             <EyeOff size={22} strokeWidth={1.5} />
+          ) : (
+            <Eye size={22} strokeWidth={1.5} />
           )}
         </Button>
       </div>
