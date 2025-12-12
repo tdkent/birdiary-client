@@ -98,6 +98,23 @@
   .list-hover {
     @apply hover:cursor-pointer hover:bg-accent hover:text-accent-foreground;
   }
+
+  #tos {
+    h2 {
+      @apply mt-4;
+    }
+
+    h3 {
+      @apply text-lg;
+    }
+    p {
+      @apply text-lg;
+    }
+
+    ul {
+      @apply list-disc px-4 text-lg;
+    }
+  }
 }
 
 /* Null Bird Image Icons */
