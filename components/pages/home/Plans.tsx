@@ -5,6 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default async function Plans() {
   return (
@@ -29,11 +36,40 @@ export default async function Plans() {
             <CardContent>
               <ul className="flex list-disc flex-col gap-1 px-4 text-lg md:gap-2 md:text-xl">
                 <li>Start birdwatching right away — no sign-up required.</li>
+                <li>Add, save, and view bird sightings.</li>
                 <li>
-                  Add, <span className="after:content-['*']">save</span>, and
-                  view bird sightings.
+                  Explore bird species, diary entries, and summaries.{" "}
+                  <Dialog>
+                    <DialogTrigger className="link-inline">
+                      Learn More
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          Adding Sightings as a Guest User
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div>
+                        <ul className="list-disc">
+                          <div className="my-4 flex flex-col gap-2 px-4">
+                            <li>
+                              Sightings you create without an account are stored
+                              in your browser.
+                            </li>
+                            <li>
+                              Create an account to transfer sightings from your
+                              browser to our database for permanent storage.
+                            </li>
+                            <li>
+                              Note that data added to a public browser will be
+                              viewable by others.
+                            </li>
+                          </div>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </li>
-                <li>Explore bird species, diary entries, and summaries.</li>
               </ul>
             </CardContent>
           </Card>

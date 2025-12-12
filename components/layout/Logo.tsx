@@ -17,7 +17,7 @@ export default function Logo({ logoStyles, textStyles }: LogoProps) {
         >
           <Image
             src="/icon/Northern-Cardinal.webp"
-            alt="Northern Cardinal"
+            alt="Northern Cardinal. © Paul Danese"
             fill
             sizes="(max-width: 768px) 48px, 64px"
             className="rounded-full object-cover"

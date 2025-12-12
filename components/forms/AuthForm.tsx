@@ -19,6 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 import type { AuthForm } from "@/models/form";
 import { signupFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -81,55 +82,66 @@ export default function AuthForm() {
 
   return (
     <>
-      {error && <ErrorDisplay authErrorMessage={error} showInline />}
-      {verificationError && <UnverifiedAccount />}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    aria-required
-                    autoComplete="email"
-                    disabled={pending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    autocomplete="current-password"
-                    field={field}
-                    pending={pending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            size="lg"
-            variant="new"
-            disabled={!email || !password || pending}
-          >
-            {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
-          </Button>
-        </form>
-      </Form>
+      <div>
+        {error && <ErrorDisplay authErrorMessage={error} showInline />}
+        {verificationError && <UnverifiedAccount />}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      aria-required
+                      autoComplete="email"
+                      disabled={pending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      autocomplete="current-password"
+                      field={field}
+                      pending={pending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              size="lg"
+              variant="new"
+              disabled={!email || !password || pending}
+            >
+              {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
+            </Button>
+          </form>
+        </Form>
+        {pathname === "/signup" && (
+          <p className="mt-12 text-sm">
+            By signing up, you agree to the{" "}
+            <Link className="link-inline" href="/legal">
+              Terms of Service &amp; Privacy Policy
+            </Link>
+            .
+          </p>
+        )}
+      </div>
     </>
   );
 }
