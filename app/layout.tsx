@@ -1,6 +1,6 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import SignedOffBanner from "@/components/pages/shared/SignedOffBanner";
+import SignedOffBanner from "@/components/layout/SignedOffBanner";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import ApiProvider from "@/context/ApiContext";
