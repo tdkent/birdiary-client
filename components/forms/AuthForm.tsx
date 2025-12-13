@@ -3,6 +3,7 @@
 import { auth } from "@/actions/auth";
 import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
+import Turnstile from "@/components/pages/auth/Turnstile";
 import UnverifiedAccount from "@/components/pages/auth/UnverifiedAccount";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -133,6 +134,7 @@ export default function AuthForm() {
                 </FormItem>
               )}
             />
+            <Turnstile />
             <Button
               type="submit"
               size="lg"
