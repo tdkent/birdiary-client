@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import type { AuthForm } from "@/models/form";
-import { signupFormSchema } from "@/models/form";
+import { authFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ export default function AuthForm() {
   const router = useRouter();
 
   const form = useForm<AuthForm>({
-    resolver: zodResolver(signupFormSchema),
+    resolver: zodResolver(authFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -46,7 +46,7 @@ export default function AuthForm() {
   const email = form.getValues().email;
   const password = form.getValues().password;
 
-  async function onSubmit(values: z.infer<typeof signupFormSchema>) {
+  async function onSubmit(values: z.infer<typeof authFormSchema>) {
     setError(null);
     setVerificationError(false);
     setFetchError(null);
@@ -119,6 +119,17 @@ export default function AuthForm() {
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="favoriteColor"
+              render={({ field }) => (
+                <FormItem className="hidden">
+                  <FormControl>
+                    <Input {...field} aria-hidden disabled={pending} />
+                  </FormControl>
                 </FormItem>
               )}
             />
