@@ -35,7 +35,7 @@ export default function ViewHeader({
         {Icon ? (
           <div>
             <Icon
-              className="inline -translate-y-2 max-md:-translate-y-1"
+              className="inline -translate-y-2 text-primary dark:text-blue-300 max-md:-translate-y-1"
               strokeWidth={1.5}
               size={30}
             />
