@@ -82,6 +82,7 @@ export default function UpdatePasswordForm() {
           <FormDescription>
             {Messages.ResetPasswordFormDescription}
           </FormDescription>
+          <input name="username" type="hidden" value="default" />
           <FormField
             control={form.control}
             name="currentPassword"

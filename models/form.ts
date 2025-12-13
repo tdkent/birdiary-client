@@ -9,9 +9,10 @@ import { z } from "zod";
 const pswMsg = Messages.PasswordValidationError;
 const Password = z.string().trim().min(8, pswMsg).max(64, pswMsg);
 
-export const signupFormSchema = z.object({
+export const authFormSchema = z.object({
   email: z.string().email({ message: Messages.EmailValidationError }),
   password: Password,
+  favoriteColor: z.string().optional(),
 });
 
 export const emailFormSchema = z.object({
@@ -70,7 +71,7 @@ export const editProfileSchema = z.object({
 });
 
 // Form types
-export type AuthForm = z.infer<typeof signupFormSchema>;
+export type AuthForm = z.infer<typeof authFormSchema>;
 export type SightingForm = z.infer<typeof sightingSchema>;
 export type LocationForm = z.infer<typeof editLocationSchema>;
 export type CreateLocationDto = Pick<Location, "lat" | "lng" | "name">;

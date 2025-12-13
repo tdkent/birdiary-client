@@ -94,12 +94,6 @@ export default async function Plans() {
             </CardContent>
           </Card>
         </div>
-        <p className="px-2 text-sm before:content-['*'] md:text-base">
-          Sighting data created as a guest user is stored in your browser, where
-          it is subject to capacity limits and may be lost if the cache is
-          cleared. Sightings may be transferred from your browser to your
-          account at any time.
-        </p>
       </section>
     </>
   );
