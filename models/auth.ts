@@ -10,6 +10,7 @@ export type AuthState = {
 // signup and signin routes. `pathname` is used
 // to determine the auth route.
 export type AuthParams = {
+  cftToken: string;
   email: string;
   password: string;
   pathname: "/signup" | "/signin";

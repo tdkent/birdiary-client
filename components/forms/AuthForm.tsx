@@ -3,6 +3,7 @@
 import { auth } from "@/actions/auth";
 import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
+import Turnstile from "@/components/pages/auth/Turnstile";
 import UnverifiedAccount from "@/components/pages/auth/UnverifiedAccount";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
+import { Messages } from "@/models/api";
 import type { AuthForm } from "@/models/form";
 import { authFormSchema } from "@/models/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function AuthForm() {
+  const [cftToken, setCftToken] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState(false);
@@ -52,21 +55,18 @@ export default function AuthForm() {
     setFetchError(null);
     setPending(true);
     try {
-      const result = await auth({ ...values, pathname });
-
+      if (!cftToken) return setError(Messages.InvalidRequest);
+      const result = await auth({ ...values, cftToken, pathname });
       if ("error" in result) {
         return setError(result.message);
       }
-
       if ("email" in result) {
         if (pathname !== "/signup") throw new Error();
         return router.replace(`/verify/new?email=${result.email}`);
       }
-
       if ("success" in result) {
         return setVerificationError(true);
       }
-
       signIn();
       router.replace("/diary");
     } catch (error) {
@@ -133,11 +133,12 @@ export default function AuthForm() {
                 </FormItem>
               )}
             />
+            <Turnstile setToken={setCftToken} />
             <Button
               type="submit"
               size="lg"
               variant="new"
-              disabled={!email || !password || pending}
+              disabled={!cftToken || !email || !password || pending}
             >
               {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
             </Button>
