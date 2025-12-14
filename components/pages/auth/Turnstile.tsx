@@ -11,16 +11,23 @@ declare global {
         id: string,
         options: { sitekey: string; callback: (token: string) => void },
       ) => {};
+      reset: (id: string) => {};
     };
   }
 }
 
 type TurnstileProps = {
+  isExpired: boolean;
+  setIsExpired: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<string | null>>;
 };
 
 // https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicit-rendering
-export default function Turnstile({ setToken }: TurnstileProps) {
+export default function Turnstile({
+  isExpired,
+  setIsExpired,
+  setToken,
+}: TurnstileProps) {
   const [widgetId, setWidgetId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -43,6 +50,13 @@ export default function Turnstile({ setToken }: TurnstileProps) {
       document.head.removeChild(script);
     };
   }, [setToken]);
+
+  useEffect(() => {
+    if (isExpired && widgetId) {
+      window.turnstile.reset(widgetId);
+      setIsExpired(false);
+    }
+  }, [isExpired, setIsExpired, widgetId]);
 
   return (
     <>

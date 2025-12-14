@@ -29,6 +29,7 @@ import { z } from "zod";
 
 export default function AuthForm() {
   const [cftToken, setCftToken] = useState<string | null>(null);
+  const [isExpired, setIsExpired] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState(false);
@@ -58,6 +59,10 @@ export default function AuthForm() {
       if (!cftToken) return setError(Messages.InvalidRequest);
       const result = await auth({ ...values, cftToken, pathname });
       if ("error" in result) {
+        if (result.message === "timeout-or-duplicate") {
+          setIsExpired(true); // Refresh widget
+          return setError(Messages.BadRequestFailedValidation);
+        }
         return setError(result.message);
       }
       if ("email" in result) {
@@ -133,7 +138,11 @@ export default function AuthForm() {
                 </FormItem>
               )}
             />
-            <Turnstile setToken={setCftToken} />
+            <Turnstile
+              isExpired={isExpired}
+              setIsExpired={setIsExpired}
+              setToken={setCftToken}
+            />
             <Button
               type="submit"
               size="lg"

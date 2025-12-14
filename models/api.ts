@@ -102,6 +102,7 @@ export enum Messages {
   ForbiddenError = "You do not have access to this resource. Please try signing in again.",
   InvalidLocationError = "Select a location from the dropdown menu.",
   InvalidRequest = "Invalid request",
+  BadRequestFailedValidation = "Request validation failed. Please try again.",
   InvalidSwitchCase = "The provided switch case is not valid.",
   InvalidToken = "Session expired, please log in again.",
   InvalidZipcode = "Invalid zip code",
