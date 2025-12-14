@@ -2,7 +2,7 @@
 
 import { TURNSTILE_URL } from "@/constants/constants";
 import { TURNSTILE_SITE_KEY } from "@/constants/env";
-import { type Dispatch, type SetStateAction, useEffect } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -21,6 +21,8 @@ type TurnstileProps = {
 
 // https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicit-rendering
 export default function Turnstile({ setToken }: TurnstileProps) {
+  const [widgetId, setWidgetId] = useState<string | null>(null);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = TURNSTILE_URL;
@@ -31,7 +33,8 @@ export default function Turnstile({ setToken }: TurnstileProps) {
         callback: function (token) {
           setToken(token);
         },
-      });
+      }) as string;
+      setWidgetId(id);
     };
 
     document.head.appendChild(script);
