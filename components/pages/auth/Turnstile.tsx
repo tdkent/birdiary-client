@@ -7,6 +7,7 @@ import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 declare global {
   interface Window {
     turnstile: {
+      remove: (id: string) => {};
       render: (
         id: string,
         options: { sitekey: string; callback: (token: string) => void },
@@ -18,6 +19,7 @@ declare global {
 
 type TurnstileProps = {
   isExpired: boolean;
+  isValidated: boolean;
   setIsExpired: Dispatch<SetStateAction<boolean>>;
   setToken: Dispatch<SetStateAction<string | null>>;
 };
@@ -25,11 +27,13 @@ type TurnstileProps = {
 // https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicit-rendering
 export default function Turnstile({
   isExpired,
+  isValidated,
   setIsExpired,
   setToken,
 }: TurnstileProps) {
   const [widgetId, setWidgetId] = useState<string | null>(null);
 
+  // Init cft widget and script
   useEffect(() => {
     const script = document.createElement("script");
     script.src = TURNSTILE_URL;
@@ -51,12 +55,20 @@ export default function Turnstile({
     };
   }, [setToken]);
 
+  // Handle expired cft token
   useEffect(() => {
     if (isExpired && widgetId) {
       window.turnstile.reset(widgetId);
       setIsExpired(false);
     }
   }, [isExpired, setIsExpired, widgetId]);
+
+  // Remove widget if validated
+  useEffect(() => {
+    if (isValidated && widgetId && window.turnstile) {
+      window.turnstile.remove(widgetId);
+    }
+  }, [isValidated, widgetId]);
 
   return (
     <>

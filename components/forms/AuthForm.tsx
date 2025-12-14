@@ -29,11 +29,12 @@ import { z } from "zod";
 
 export default function AuthForm() {
   const [cftToken, setCftToken] = useState<string | null>(null);
-  const [isExpired, setIsExpired] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [verificationError, setVerificationError] = useState(false);
   const [fetchError, setFetchError] = useState<Error | null>(null);
+  const [isExpired, setIsExpired] = useState(false);
+  const [isValidated, setIsValidated] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [verificationError, setVerificationError] = useState(false);
 
   const { signIn } = useAuth();
   const pathname = usePathname() as "/signup" | "/signin";
@@ -72,6 +73,7 @@ export default function AuthForm() {
       if ("success" in result) {
         return setVerificationError(true);
       }
+      setIsValidated(true);
       signIn();
       router.replace("/diary");
     } catch (error) {
@@ -140,6 +142,7 @@ export default function AuthForm() {
             />
             <Turnstile
               isExpired={isExpired}
+              isValidated={isValidated}
               setIsExpired={setIsExpired}
               setToken={setCftToken}
             />
