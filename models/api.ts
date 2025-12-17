@@ -95,6 +95,7 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
+  BadRequest = "The request is not valid. Please try again.",
   BioValidationError = "Bio must be 150 or fewer characters.",
   ContextError = "Context must be used within a provider.",
   DescriptionValidationError = "Description must be 150 or fewer characters.",

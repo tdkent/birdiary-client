@@ -11,8 +11,8 @@ import { BIRD_COUNT } from "@/constants/constants";
 import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
-import { SortValues, sortByDateOptions } from "@/models/form";
+import { apiRoutes, Messages } from "@/models/api";
+import { sortByDateOptions, SortValues } from "@/models/form";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -113,7 +113,7 @@ export default async function BirdDetailsView({
             />
           </>
         ) : (
-          <ErrorDisplay statusCode={400} />
+          <ErrorDisplay msg={Messages.BadRequest} />
         )}
       </ViewWrapper>
     </>

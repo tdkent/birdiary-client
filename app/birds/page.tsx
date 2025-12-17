@@ -6,7 +6,7 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -50,7 +50,7 @@ export default async function BirdsView({
         (startsWith &&
           (startsWith.length !== 1 || !/[A-Z]/.test(startsWith))) ? (
           <>
-            <ErrorDisplay statusCode={400} />
+            <ErrorDisplay msg={Messages.BadRequest} />
           </>
         ) : (
           <>
