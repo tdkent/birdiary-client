@@ -1,52 +1,12 @@
-import { Messages } from "@/models/api";
 import { CircleAlert } from "lucide-react";
 
-type ErrorDisplayProps =
-  | {
-      authErrorMessage: string;
-      showInline?: boolean;
-      statusCode?: never;
-    }
-  | {
-      authErrorMessage?: never;
-      showInline?: boolean;
-      statusCode?: number | string;
-    };
+type ErrorDisplayProps = {
+  msg: string;
+  showInline?: boolean;
+};
 
 /** Show error information and optional reload button */
-export default function ErrorDisplay({
-  authErrorMessage,
-  showInline,
-  statusCode,
-}: ErrorDisplayProps) {
-  let errorMessage: string = Messages.UnknownUnexpectedError;
-
-  if (authErrorMessage) errorMessage = authErrorMessage;
-  else {
-    const parseStatusCode = Number(statusCode);
-
-    switch (parseStatusCode) {
-      case 400: {
-        errorMessage = Messages.InvalidRequest;
-        break;
-      }
-      case 401: {
-        errorMessage = Messages.InvalidToken;
-        break;
-      }
-      case 403: {
-        errorMessage = Messages.ForbiddenError;
-        break;
-      }
-      case 404: {
-        errorMessage = Messages.NotFoundError;
-        break;
-      }
-      default:
-        break;
-    }
-  }
-
+export default function ErrorDisplay({ msg, showInline }: ErrorDisplayProps) {
   if (showInline) {
     return (
       <>
@@ -57,7 +17,7 @@ export default function ErrorDisplay({
               size={20}
               className="mr-2 inline-flex -translate-y-0.5"
             />
-            {errorMessage}
+            {msg}
           </span>
         </div>
       </>
@@ -71,7 +31,7 @@ export default function ErrorDisplay({
           <CircleAlert className="size-6" strokeWidth={1.5} />
           An error occurred
         </span>
-        <p className="mt-4 text-lg md:text-xl">{errorMessage}</p>
+        <p className="mt-4 text-lg md:text-xl">{msg}</p>
       </div>
     </>
   );
