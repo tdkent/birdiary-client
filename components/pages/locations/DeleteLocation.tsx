@@ -46,7 +46,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(`${result.statusCode}`);
+        return setError(result.message);
       }
 
       setOpen(false);
@@ -72,7 +72,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
         title="Delete Location"
         triggerText="Delete"
       >
-        {error && <ErrorDisplay showInline statusCode={error} />}
+        {error && <ErrorDisplay showInline msg={error} />}
         <Button
           className={`mt-4 ${pending && "bg-destructive/90"}`}
           disabled={pending}

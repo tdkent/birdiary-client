@@ -16,9 +16,9 @@ import {
   defaultCache,
   Messages,
   type Cache,
+  type ExpectedServerError,
   type MutationParameters,
   type QueryParameters,
-  type ServerResponseWithError,
   type ServerResponseWithList,
 } from "@/models/api";
 import type { Sighting } from "@/models/db";
@@ -89,7 +89,7 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const result: ServerResponseWithList | ServerResponseWithError =
+            const result: ServerResponseWithList | ExpectedServerError =
               await response.json();
 
             if ("error" in result) {
@@ -98,17 +98,14 @@ export default function ApiProvider({
                 signOut();
                 await signOutAction();
               }
-              throw new Error(`${result.statusCode}`);
+              return setError(result.message);
             }
 
             setData(result.data);
             setCount(result.countOfRecords);
           } catch (error) {
-            if (error instanceof Error) {
-              setError(error.message);
-            } else {
-              setError(Messages.UnknownUnexpectedError);
-            }
+            console.error(error);
+            setError(Messages.UnknownUnexpectedError);
           } finally {
             setPending(false);
           }
@@ -161,8 +158,7 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const result: Sighting | ServerResponseWithError =
-            await response.json();
+          const result: Sighting | ExpectedServerError = await response.json();
 
           if ("error" in result) {
             if (result.statusCode === 401) {
@@ -170,17 +166,14 @@ export default function ApiProvider({
               signOut();
               await signOutAction();
             }
-            throw new Error(`${result.statusCode}`);
+            return setError(result.message);
           }
 
           setData(result);
           setSuccess(true);
         } catch (error) {
-          if (error instanceof Error) {
-            setError(error.message);
-          } else {
-            setError(Messages.UnknownUnexpectedError);
-          }
+          console.error(error);
+          setError(Messages.UnknownUnexpectedError);
         } finally {
           setPending(false);
         }

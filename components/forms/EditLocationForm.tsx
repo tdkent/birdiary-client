@@ -8,7 +8,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ServerResponseWithError } from "@/models/api";
+import { Messages, type ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
 import {
   editLocationSchema,
@@ -70,19 +70,19 @@ export default function EditLocationForm({
         location: updatedLocation,
       };
 
-      const result: Location | ServerResponseWithError = await editLocation(
+      const result: ExpectedServerError | Location = await editLocation(
         locationId,
         formValues.location,
       );
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(result.message);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(`${result.statusCode}`);
+        return setError(result.message);
       }
 
       setOpen(false);
@@ -99,7 +99,7 @@ export default function EditLocationForm({
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay msg={error} showInline />}
       <Form {...form}>
         <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
           <LocationInput

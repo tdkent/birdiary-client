@@ -83,7 +83,7 @@ export default function AuthForm() {
   return (
     <>
       <div className="flex flex-col gap-8">
-        {error && <ErrorDisplay authErrorMessage={error} showInline />}
+        {error && <ErrorDisplay msg={error} showInline />}
         {verificationError && <UnverifiedAccount />}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

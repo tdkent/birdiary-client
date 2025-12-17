@@ -36,7 +36,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
     null,
   );
   const [favBirdId, setFavBirdId] = useState<number | null>(null);
-  const [error, setError] = useState<number | string | null>(null);
+  const [error, setError] = useState<string | string | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -54,7 +54,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
               signOut();
               await signOutAction();
             }
-            throw new Error(`${sighting.statusCode}`);
+            return setError(sighting.message);
           }
 
           const user = await getUserProfileOrNull();
@@ -62,11 +62,8 @@ export default function SightingDetails({ sightingId }: SightingProps) {
           setSighting(sighting);
           if (user) setFavBirdId(user?.favoriteBirdId);
         } catch (error) {
-          if (error instanceof Error) {
-            setError(error.message);
-          } else {
-            setError(500);
-          }
+          console.error(error);
+          setError(Messages.UnknownUnexpectedError);
         } finally {
           setPending(false);
         }
@@ -79,7 +76,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
         ) as SightingWithBirdAndLocation[];
 
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError(404);
+        if (!sighting) return setError(Messages.NotFoundError);
         setSighting(sighting);
       }
     }
@@ -87,7 +84,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
   }, [isSignedIn, sightingId, signOut]);
 
   if (error) {
-    return <ErrorDisplay statusCode={error} />;
+    return <ErrorDisplay msg={error} />;
   }
 
   if (!sighting || pending) {

@@ -42,7 +42,7 @@ export default function DeleteItem({
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <Button
         className={`mt-4 ${pending && "bg-destructive/90"}`}
         disabled={pending}

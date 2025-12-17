@@ -31,7 +31,7 @@ export default function ResetPasswordSubmitPassword({
   token,
 }: ResetPasswordSubmitPasswordProps) {
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
@@ -53,7 +53,12 @@ export default function ResetPasswordSubmitPassword({
         await resetPassword(values.newPassword, token);
 
       if ("error" in response) {
-        return setError(response.statusCode);
+        console.log(response);
+        const msg =
+          response.statusCode === 400
+            ? Messages.ExpiredResetToken
+            : response.message;
+        return setError(msg);
       }
 
       toast.success(Messages.PasswordUpdated);
@@ -70,12 +75,7 @@ export default function ResetPasswordSubmitPassword({
 
   return (
     <>
-      {error && (
-        <ErrorDisplay
-          authErrorMessage="Invalid request. Your reset link may be invalid or expired."
-          showInline
-        />
-      )}
+      {error && <ErrorDisplay msg={error} showInline />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>

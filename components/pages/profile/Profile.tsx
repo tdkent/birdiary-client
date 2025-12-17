@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getCookie } from "@/helpers/auth";
 import { createLocaleString } from "@/helpers/dates";
-import { apiRoutes, ServerResponseWithError } from "@/models/api";
+import { apiRoutes, type ExpectedServerError } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import Link from "next/link";
 
@@ -18,10 +18,10 @@ export default async function Profile() {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  const result: UserProfile | ServerResponseWithError = await response.json();
+  const result: UserProfile | ExpectedServerError = await response.json();
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   const {

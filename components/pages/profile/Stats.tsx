@@ -12,7 +12,7 @@ export default async function Stats() {
   const result: UserStats | ExpectedServerError = await getUserStats();
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   const {
