@@ -50,14 +50,13 @@ export default function ErrorDisplay({
   if (showInline) {
     return (
       <>
-        <div className="rounded-md border border-destructive p-4 md:w-3/4">
-          <span className="text-lg text-destructive">
+        <div className="w-full border-b border-destructive px-2 pb-2 md:w-3/4">
+          <span className="text-base text-destructive">
             <CircleAlert
               strokeWidth={1.5}
               size={20}
               className="mr-2 inline-flex -translate-y-0.5"
             />
-
             {errorMessage}
           </span>
         </div>
@@ -67,19 +66,12 @@ export default function ErrorDisplay({
 
   return (
     <>
-      <div className="my-8 flex flex-col gap-2 rounded-md md:w-3/4">
-        <span className="flex items-center gap-2 text-xl font-semibold text-destructive md:gap-3 md:text-2xl">
-          <CircleAlert strokeWidth={1.5} size={28} />
+      <div className="flex flex-col gap-2 border-b-2 border-t-2 border-destructive px-4 py-6 text-destructive md:w-3/4">
+        <span className="flex items-center gap-2 text-xl font-semibold md:gap-3 md:text-2xl">
+          <CircleAlert className="size-6" strokeWidth={1.5} />
           An error occurred
         </span>
-        <dl className="my-8 flex flex-col gap-8 px-2">
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Message
-            </dt>
-            <dd className="text-xl">{errorMessage}</dd>
-          </div>
-        </dl>
+        <p className="mt-4 text-lg md:text-xl">{errorMessage}</p>
       </div>
     </>
   );
