@@ -9,10 +9,12 @@ type ErrorBoundaryProps = {
 };
 
 export default function ErrorBoundary({ error }: ErrorBoundaryProps) {
-  const msg =
-    error.message === "fetch failed"
-      ? Messages.ServerOutageError
-      : Messages.UnknownUnexpectedError;
+  let msg = Messages.UnknownUnexpectedError;
+
+  if (error.message === "Failed to fetch" || error.message === "fetch failed") {
+    msg = Messages.ServerOutageError;
+  }
+
   return (
     <>
       <ErrorDisplay msg={msg} />
