@@ -33,22 +33,6 @@ export async function auth({ pathname, ...args }: AuthParams) {
   return data;
 }
 
-export async function resendVerification(
-  email: string,
-  verificationId: string,
-) {
-  const response = await fetch(apiRoutes.userVerifyResend, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, verificationId }),
-  });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
-}
-
 export async function verifyUser(email: string, verificationId: string) {
   const response = await fetch(apiRoutes.userVerifyComplete, {
     method: "POST",

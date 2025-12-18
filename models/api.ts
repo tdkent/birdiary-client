@@ -69,7 +69,6 @@ export const apiRoutes = {
   userStorage: `${BASE_URL}/users/transferstorage`,
   userVerifyResetPassword: (token: string) =>
     `${BASE_URL}/users/forgotPassword?token=${token}`,
-  userVerifyResend: `${BASE_URL}/verify`,
   userVerifyComplete: `${BASE_URL}/verify/complete`,
 } as const;
 
