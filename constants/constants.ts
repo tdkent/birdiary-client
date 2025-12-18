@@ -10,3 +10,6 @@ export const AUTH_TIMEOUT_INTERVAL = 60 * 5; //5 minutes
 // Sighting Icons
 export const MOBILE_REMAINING_COUNT = 3;
 export const DESKTOP_REMAINING_COUNT = MOBILE_REMAINING_COUNT + 1;
+// Turnstile
+export const TURNSTILE_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";

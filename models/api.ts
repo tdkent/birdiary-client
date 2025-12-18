@@ -96,12 +96,15 @@ export type ExpectedServerError = {
 
 export enum Messages {
   BadRequest = "The request is not valid. Please try again.",
+  BadRequestFailedValidation = "Request validation failed. Please try again.",
   BioValidationError = "Bio must be 150 or fewer characters.",
+  CftTokenTimeoutError = "timeout-or-duplicate",
   ContextError = "Context must be used within a provider.",
   DescriptionValidationError = "Description must be 150 or fewer characters.",
   EmailValidationError = "Please enter a valid email address.",
   ExpiredResetToken = "Invalid request. Your reset link may be invalid or expired. Please try signing in again to receive a new reset link.",
   InvalidLocationError = "Select a location from the dropdown menu.",
+  InvalidRequest = "Invalid request",
   InvalidSwitchCase = "The provided switch case is not valid.",
   InvalidToken = "Session expired, please log in again.",
   InvalidZipcode = "Invalid zip code",
