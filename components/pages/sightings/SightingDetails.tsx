@@ -37,6 +37,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
   );
   const [favBirdId, setFavBirdId] = useState<number | null>(null);
   const [error, setError] = useState<string | string | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -63,7 +64,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
           if (user) setFavBirdId(user?.favoriteBirdId);
         } catch (error) {
           console.error(error);
-          setError(Messages.UnknownUnexpectedError);
+          setFetchError(error as Error);
         } finally {
           setPending(false);
         }
@@ -82,6 +83,8 @@ export default function SightingDetails({ sightingId }: SightingProps) {
     }
     query();
   }, [isSignedIn, sightingId, signOut]);
+
+  if (fetchError) throw fetchError;
 
   if (error) {
     return <ErrorDisplay msg={error} />;

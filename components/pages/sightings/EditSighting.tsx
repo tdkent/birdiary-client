@@ -22,6 +22,7 @@ type EditSightingProps = {
 export default function EditSighting({ sightingId }: EditSightingProps) {
   const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
   const [error, setError] = useState<string | string | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const [pending, setPending] = useState(false);
 
   const { signOut } = useAuth();
@@ -47,7 +48,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
           setData(result);
         } catch (error) {
           console.error(error);
-          setError(Messages.UnknownUnexpectedError);
+          setFetchError(error as Error);
         } finally {
           setPending(false);
         }
@@ -65,6 +66,8 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
     }
     query();
   }, [sightingId, signOut]);
+
+  if (fetchError) throw fetchError;
 
   if (error) {
     return <ErrorDisplay msg={error} />;

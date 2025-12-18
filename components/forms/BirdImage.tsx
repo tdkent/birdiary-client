@@ -37,7 +37,11 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
       setData(result);
     } catch (error) {
       console.error(error);
-      setError(Messages.UnknownUnexpectedError);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(Messages.UnknownUnexpectedError);
+      }
     } finally {
       setPending(false);
     }
@@ -65,7 +69,7 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
         ) : error ? (
           <>
             <CircleAlert strokeWidth={1} size={28} />
-            <span className="text-sm">An error occurred.</span>
+            <span className="text-sm">{error}</span>
           </>
         ) : !data ? (
           <ImageIcon strokeWidth={1} size={32} />

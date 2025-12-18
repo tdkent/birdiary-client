@@ -73,6 +73,7 @@ export default function ApiProvider({
     const [data, setData] = useState<ServerResponseWithList["data"]>([]);
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
+    const [fetchError, setFetchError] = useState<Error | null>(null);
     const [pending, setPending] = useState(false);
 
     const { signOut } = useAuth();
@@ -105,7 +106,11 @@ export default function ApiProvider({
             setCount(result.countOfRecords);
           } catch (error) {
             console.error(error);
-            setError(Messages.UnknownUnexpectedError);
+            if (error instanceof Error) {
+              setFetchError(error);
+            } else {
+              setError(Messages.ServerOutageError);
+            }
           } finally {
             setPending(false);
           }
@@ -126,6 +131,8 @@ export default function ApiProvider({
       query();
     }, [route, signOut, tag]);
 
+    if (fetchError) throw fetchError;
+
     return { count, data, error, pending };
   }
 
@@ -138,6 +145,7 @@ export default function ApiProvider({
     const [success, setSuccess] = useState(false);
     const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [fetchError, setFetchError] = useState<Error | null>(null);
     const [pending, setPending] = useState(false);
 
     const { signOut } = useAuth();
@@ -173,7 +181,11 @@ export default function ApiProvider({
           setSuccess(true);
         } catch (error) {
           console.error(error);
-          setError(Messages.UnknownUnexpectedError);
+          if (error instanceof Error) {
+            setFetchError(error);
+          } else {
+            setError(Messages.ServerOutageError);
+          }
         } finally {
           setPending(false);
         }
@@ -195,6 +207,8 @@ export default function ApiProvider({
       // For each tag, call query() attached to same property in `cache`
       tagsToUpdate.forEach((tag) => cache[tag].forEach((query) => query()));
     }
+
+    if (fetchError) throw fetchError;
 
     return { success, data, error, pending, mutate };
   }
