@@ -1,12 +1,28 @@
+import TimeOutTimer from "@/components/pages/shared/TimeOutTimer";
 import { CircleAlert } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 
-type ErrorDisplayProps = {
-  msg: string;
-  showInline?: boolean;
-};
+type ErrorDisplayProps =
+  | {
+      isThrottled: boolean;
+      setIsThrottled: Dispatch<SetStateAction<boolean>>;
+      msg: string;
+      showInline?: boolean;
+    }
+  | {
+      isThrottled?: never;
+      setIsThrottled?: never;
+      msg: string;
+      showInline?: boolean;
+    };
 
-/** Show error information and optional reload button */
-export default function ErrorDisplay({ msg, showInline }: ErrorDisplayProps) {
+/** Show error information. */
+export default function ErrorDisplay({
+  isThrottled,
+  msg,
+  setIsThrottled,
+  showInline,
+}: ErrorDisplayProps) {
   if (showInline) {
     return (
       <>
@@ -19,6 +35,12 @@ export default function ErrorDisplay({ msg, showInline }: ErrorDisplayProps) {
             />
             {msg}
           </span>
+          {isThrottled && (
+            <TimeOutTimer
+              isThrottled={isThrottled}
+              setIsThrottled={setIsThrottled}
+            />
+          )}
         </div>
       </>
     );
