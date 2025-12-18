@@ -26,8 +26,8 @@ export default function ErrorDisplay({
   if (showInline) {
     return (
       <>
-        <div className="w-full border-b border-destructive px-2 pb-2 md:w-3/4">
-          <span className="text-base text-destructive">
+        <div className="flex w-full flex-col gap-1 border-b border-destructive px-2 pb-2 text-base text-destructive md:w-3/4">
+          <span className="">
             <CircleAlert
               strokeWidth={1.5}
               size={20}

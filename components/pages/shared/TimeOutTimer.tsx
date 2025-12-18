@@ -1,5 +1,6 @@
 "use client";
 
+import { AUTH_TIMEOUT_INTERVAL } from "@/constants/constants";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 type TimeOutTimerProps = {
@@ -15,7 +16,7 @@ export default function TimeOutTimer({
 
   // Activate throttle timer.
   useEffect(() => {
-    if (isThrottled) setThrottleTime(3);
+    if (isThrottled) setThrottleTime(AUTH_TIMEOUT_INTERVAL);
   }, [isThrottled]);
 
   // Monitor throttle state.
@@ -45,7 +46,7 @@ export default function TimeOutTimer({
 
   return (
     <>
-      <p className="px-4 text-destructive">Try again: {throttleTime}</p>
+      <span>Try again: {throttleTime}</span>
     </>
   );
 }
