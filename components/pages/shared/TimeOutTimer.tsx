@@ -1,6 +1,7 @@
 "use client";
 
 import { AUTH_TIMEOUT_INTERVAL } from "@/constants/constants";
+import { Duration } from "luxon";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 type TimeOutTimerProps = {
@@ -26,7 +27,7 @@ export default function TimeOutTimer({
 
   // Update timer state each second.
   useEffect(() => {
-    // if (!throttleTime) return;
+    if (!throttleTime) return;
     let intervalId: NodeJS.Timeout;
     if (throttleTime) {
       intervalId = setInterval(
@@ -44,9 +45,13 @@ export default function TimeOutTimer({
     return () => clearInterval(intervalId);
   }, [setIsThrottled, throttleTime]);
 
+  const duration = Duration.fromObject({ seconds: throttleTime });
+  const timer = duration.toFormat("m:ss");
+
   return (
     <>
-      <span>Try again: {throttleTime}</span>
+      {" "}
+      <span>Retry: {timer}</span>
     </>
   );
 }
