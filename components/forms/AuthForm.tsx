@@ -109,7 +109,7 @@ export default function AuthForm() {
                       {...field}
                       aria-required
                       autoComplete="email"
-                      disabled={pending}
+                      disabled={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -126,7 +126,7 @@ export default function AuthForm() {
                     <PasswordInput
                       autocomplete="current-password"
                       field={field}
-                      pending={pending}
+                      pending={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -139,7 +139,11 @@ export default function AuthForm() {
               render={({ field }) => (
                 <FormItem className="hidden">
                   <FormControl>
-                    <Input {...field} aria-hidden disabled={pending} />
+                    <Input
+                      {...field}
+                      aria-hidden
+                      disabled={isThrottled || pending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -148,7 +152,7 @@ export default function AuthForm() {
               type="submit"
               size="lg"
               variant="new"
-              disabled={!email || !password || pending}
+              disabled={!email || isThrottled || !password || pending}
             >
               {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
             </Button>
