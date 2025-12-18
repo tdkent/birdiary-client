@@ -6,7 +6,7 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { RESULTS_PER_PAGE } from "@/constants/constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
@@ -73,7 +73,7 @@ export default async function LocationsView({
           </>
         ) : (
           <>
-            <ErrorDisplay statusCode={400} />
+            <ErrorDisplay msg={Messages.BadRequest} />
           </>
         )}
       </ViewWrapper>

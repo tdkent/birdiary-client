@@ -1,65 +1,46 @@
-import { Messages } from "@/models/api";
+import TimeOutTimer from "@/components/pages/shared/TimeOutTimer";
 import { CircleAlert } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 
 type ErrorDisplayProps =
   | {
-      authErrorMessage: string;
+      isThrottled: boolean;
+      setIsThrottled: Dispatch<SetStateAction<boolean>>;
+      msg: string;
       showInline?: boolean;
-      statusCode?: never;
     }
   | {
-      authErrorMessage?: never;
+      isThrottled?: never;
+      setIsThrottled?: never;
+      msg: string;
       showInline?: boolean;
-      statusCode?: number | string;
     };
 
-/** Show error information and optional reload button */
+/** Show error information. */
 export default function ErrorDisplay({
-  authErrorMessage,
+  isThrottled,
+  msg,
+  setIsThrottled,
   showInline,
-  statusCode,
 }: ErrorDisplayProps) {
-  let errorMessage: string = Messages.UnknownUnexpectedError;
-
-  if (authErrorMessage) errorMessage = authErrorMessage;
-  else {
-    const parseStatusCode = Number(statusCode);
-
-    switch (parseStatusCode) {
-      case 400: {
-        errorMessage = Messages.InvalidRequest;
-        break;
-      }
-      case 401: {
-        errorMessage = Messages.InvalidToken;
-        break;
-      }
-      case 403: {
-        errorMessage = Messages.ForbiddenError;
-        break;
-      }
-      case 404: {
-        errorMessage = Messages.NotFoundError;
-        break;
-      }
-      default:
-        break;
-    }
-  }
-
   if (showInline) {
     return (
       <>
-        <div className="rounded-md border border-destructive p-4 md:w-3/4">
-          <span className="text-lg text-destructive">
+        <div className="w-full border-b border-destructive px-2 pb-2 text-base text-destructive md:w-3/4">
+          <span className="">
             <CircleAlert
               strokeWidth={1.5}
               size={20}
               className="mr-2 inline-flex -translate-y-0.5"
             />
-
-            {errorMessage}
+            {msg}
           </span>
+          {isThrottled && (
+            <TimeOutTimer
+              isThrottled={isThrottled}
+              setIsThrottled={setIsThrottled}
+            />
+          )}
         </div>
       </>
     );
@@ -67,19 +48,12 @@ export default function ErrorDisplay({
 
   return (
     <>
-      <div className="my-8 flex flex-col gap-2 rounded-md md:w-3/4">
-        <span className="flex items-center gap-2 text-xl font-semibold text-destructive md:gap-3 md:text-2xl">
-          <CircleAlert strokeWidth={1.5} size={28} />
+      <div className="flex flex-col gap-2 border-b-2 border-t-2 border-destructive px-4 py-6 text-destructive md:w-3/4">
+        <span className="flex items-center gap-2 text-xl font-semibold md:gap-3 md:text-2xl">
+          <CircleAlert className="size-6" strokeWidth={1.5} />
           An error occurred
         </span>
-        <dl className="my-8 flex flex-col gap-8 px-2">
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm font-semibold uppercase md:text-base">
-              Message
-            </dt>
-            <dd className="text-xl">{errorMessage}</dd>
-          </div>
-        </dl>
+        <p className="mt-4 text-lg md:text-xl">{msg}</p>
       </div>
     </>
   );

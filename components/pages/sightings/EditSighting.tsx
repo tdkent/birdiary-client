@@ -21,7 +21,8 @@ type EditSightingProps = {
 /** Fetch sighting data and render update form. */
 export default function EditSighting({ sightingId }: EditSightingProps) {
   const [data, setData] = useState<SightingWithBirdAndLocation | null>(null);
-  const [error, setError] = useState<number | string | null>(null);
+  const [error, setError] = useState<string | string | null>(null);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
   const [pending, setPending] = useState(false);
 
   const { signOut } = useAuth();
@@ -41,16 +42,13 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
               signOut();
               await signOutAction();
             }
-            throw new Error(`${result.statusCode}`);
+            return setError(result.message);
           }
 
           setData(result);
         } catch (error) {
-          if (error instanceof Error) {
-            setError(error.message);
-          } else {
-            setError(500);
-          }
+          console.error(error);
+          setFetchError(error as Error);
         } finally {
           setPending(false);
         }
@@ -62,15 +60,17 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
           window.localStorage.getItem("sightings")!,
         ) as SightingWithBirdAndLocation[];
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError(404);
+        if (!sighting) return setError(Messages.NotFoundError);
         setData(sighting);
       }
     }
     query();
   }, [sightingId, signOut]);
 
+  if (fetchError) throw fetchError;
+
   if (error) {
-    return <ErrorDisplay statusCode={error} />;
+    return <ErrorDisplay msg={error} />;
   }
 
   if (!data || pending) {

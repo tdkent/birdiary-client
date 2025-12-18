@@ -3,6 +3,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import EditSighting from "@/components/pages/sightings/EditSighting";
 import { checkValidParamInteger } from "@/helpers/data";
+import { Messages } from "@/models/api";
 import type { Metadata } from "next";
 
 type EditSightingViewProps = {
@@ -30,7 +31,7 @@ export default async function EditSightingView({
           </>
         ) : (
           <>
-            <ErrorDisplay statusCode={400} />
+            <ErrorDisplay msg={Messages.BadRequest} />
           </>
         )}
       </ViewWrapper>

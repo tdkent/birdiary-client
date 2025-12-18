@@ -17,7 +17,7 @@ export default function SelectFavoriteBird({
   birdId,
   favoriteBirdId,
 }: SelectFavoriteBirdType) {
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const isCurrFav = birdId === favoriteBirdId;
 
@@ -26,13 +26,13 @@ export default function SelectFavoriteBird({
     const newId = isCurrFav ? null : birdId;
     const result: User | ExpectedServerError = await updateFavoriteBird(newId);
     if ("error" in result) {
-      return setError(result.statusCode);
+      return setError(result.message);
     }
   };
   return (
     <>
       <div className="flex flex-col gap-4">
-        {error && <ErrorDisplay showInline statusCode={error} />}
+        {error && <ErrorDisplay showInline msg={error} />}
         <Button
           className="text-base font-normal"
           onClick={handleClick}

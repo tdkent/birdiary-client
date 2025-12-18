@@ -17,7 +17,7 @@ import { toast } from "sonner";
 export default function DeleteAccount() {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const router = useRouter();
@@ -36,7 +36,7 @@ export default function DeleteAccount() {
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(result.statusCode);
+        return setError(result.message);
       }
       signOutAction();
     } catch (error) {
@@ -48,7 +48,7 @@ export default function DeleteAccount() {
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <div className="my-8 rounded-md border border-destructive p-4 md:p-6">
         <h4 className="text-lg font-semibold text-destructive md:text-xl">
           Delete Account

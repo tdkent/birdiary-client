@@ -69,7 +69,6 @@ export const apiRoutes = {
   userStorage: `${BASE_URL}/users/transferstorage`,
   userVerifyResetPassword: (token: string) =>
     `${BASE_URL}/users/forgotPassword?token=${token}`,
-  userVerifyResend: `${BASE_URL}/verify`,
   userVerifyComplete: `${BASE_URL}/verify/complete`,
 } as const;
 
@@ -89,20 +88,23 @@ export type MutationParameters = {
 // ======= RESPONSES =======
 
 export type ExpectedServerError = {
-  error: string;
-  statusCode: number;
+  error: boolean;
   message: string;
+  statusCode: number;
+  timestamp: string;
 };
 
 export enum Messages {
+  BadRequest = "The request is not valid. Please try again.",
+  BadRequestFailedValidation = "Request validation failed. Please try again.",
   BioValidationError = "Bio must be 150 or fewer characters.",
+  CftTokenTimeoutError = "timeout-or-duplicate",
   ContextError = "Context must be used within a provider.",
   DescriptionValidationError = "Description must be 150 or fewer characters.",
   EmailValidationError = "Please enter a valid email address.",
-  ForbiddenError = "You do not have access to this resource. Please try signing in again.",
+  ExpiredResetToken = "Invalid request. Your reset link may be invalid or expired. Please try signing in again to receive a new reset link.",
   InvalidLocationError = "Select a location from the dropdown menu.",
   InvalidRequest = "Invalid request",
-  BadRequestFailedValidation = "Request validation failed. Please try again.",
   InvalidSwitchCase = "The provided switch case is not valid.",
   InvalidToken = "Session expired, please log in again.",
   InvalidZipcode = "Invalid zip code",
@@ -110,12 +112,13 @@ export enum Messages {
   LocationUpdated = "Location updated",
   NameValidationError = "Name must be 24 or fewer characters.",
   NewSighting = "New sighting created!",
-  NotFoundError = "The requested resource could not be found.",
+  NotFoundError = "The requested resource was not found.",
   PasswordUpdated = "Password updated",
   PasswordValidationError = "Password length must be 8-64 characters.",
   ProfileUpdated = "Profile updated",
   ResetPasswordFormDescription = "This will reset the password you use to access your account.",
   SearchValidationError = "Search must be 3-32 characters",
+  ServerOutageError = `We’re having trouble reaching the server right now. Please try again in a moment.`,
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
   SightingCreated = "Sighting created",
@@ -124,7 +127,7 @@ export enum Messages {
   SightingLocationUnknown = "No location",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
-  UnknownUnexpectedError = "An unexpected error occurred. Refreshing the page may help, or you can try again later.",
+  UnknownUnexpectedError = "An unexpected error occurred. Reloading the page may help, or you can try again later.",
   ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
   ZipCodeNoResultsError = "The provided zip code did not return any results.",
 }
@@ -136,10 +139,5 @@ export type QuerySuccess = {
   data: ListWithCount | Bird;
 };
 
-export type ServerResponseWithError = {
-  error: string;
-  statusCode: number;
-  message: Exclude<string | string[], "ok">;
-};
 export type ServerResponseWithObject = Bird | SightingWithLocation;
 export type ServerResponseWithList = List & CountOfRecords;

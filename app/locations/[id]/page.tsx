@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
@@ -115,7 +115,7 @@ export default async function LocationDetailsView({
           </>
         ) : (
           <>
-            <ErrorDisplay statusCode={400} />
+            <ErrorDisplay msg={Messages.BadRequest} />
           </>
         )}
       </ViewWrapper>

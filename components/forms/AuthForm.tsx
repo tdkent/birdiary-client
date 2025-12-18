@@ -34,6 +34,7 @@ export default function AuthForm() {
   const [isExpired, setIsExpired] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [pending, setPending] = useState(false);
+  const [isThrottled, setIsThrottled] = useState(false);
   const [verificationError, setVerificationError] = useState(false);
 
   const { signIn } = useAuth();
@@ -60,9 +61,12 @@ export default function AuthForm() {
       if (!cftToken) return setError(Messages.InvalidRequest);
       const result = await auth({ ...values, cftToken, pathname });
       if ("error" in result) {
-        if (result.message === "timeout-or-duplicate") {
+        if (result.message === Messages.CftTokenTimeoutError) {
           setIsExpired(true); // Refresh widget
           return setError(Messages.BadRequestFailedValidation);
+        }
+        if (result.statusCode === 429) {
+          setIsThrottled(true);
         }
         return setError(result.message);
       }
@@ -90,7 +94,14 @@ export default function AuthForm() {
   return (
     <>
       <div className="flex flex-col gap-8">
-        {error && <ErrorDisplay authErrorMessage={error} showInline />}
+        {error && (
+          <ErrorDisplay
+            isThrottled={isThrottled}
+            setIsThrottled={setIsThrottled}
+            msg={error}
+            showInline
+          />
+        )}
         {verificationError && <UnverifiedAccount />}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -105,7 +116,7 @@ export default function AuthForm() {
                       {...field}
                       aria-required
                       autoComplete="email"
-                      disabled={pending}
+                      disabled={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -122,7 +133,7 @@ export default function AuthForm() {
                     <PasswordInput
                       autocomplete="current-password"
                       field={field}
-                      pending={pending}
+                      pending={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -135,7 +146,11 @@ export default function AuthForm() {
               render={({ field }) => (
                 <FormItem className="hidden">
                   <FormControl>
-                    <Input {...field} aria-hidden disabled={pending} />
+                    <Input
+                      {...field}
+                      aria-hidden
+                      disabled={isThrottled || pending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -150,7 +165,9 @@ export default function AuthForm() {
               type="submit"
               size="lg"
               variant="new"
-              disabled={!cftToken || !email || !password || pending}
+              disabled={
+                !cftToken || !email || isThrottled || !password || pending
+              }
             >
               {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
             </Button>
