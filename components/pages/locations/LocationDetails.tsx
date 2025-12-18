@@ -17,7 +17,7 @@ export default async function LocationDetails({
   const result: Location | ExpectedServerError = await getLocation(locationId);
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   const location = result;

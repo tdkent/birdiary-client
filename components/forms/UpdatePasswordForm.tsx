@@ -28,7 +28,7 @@ import { z } from "zod";
 
 export default function UpdatePasswordForm() {
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const form = useForm<z.infer<typeof updatePasswordFormSchema>>({
     resolver: zodResolver(updatePasswordFormSchema),
@@ -59,7 +59,7 @@ export default function UpdatePasswordForm() {
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(response.statusCode);
+        return setError(response.message);
       }
 
       toast.success(Messages.PasswordUpdated);
@@ -76,7 +76,7 @@ export default function UpdatePasswordForm() {
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>

@@ -58,7 +58,7 @@ export default function ResetPasswordSubmitEmail() {
 
   return (
     <>
-      {error && <ErrorDisplay authErrorMessage={error} showInline />}
+      {error && <ErrorDisplay msg={error} showInline />}
       {success && <EmailDispatched email={email} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>

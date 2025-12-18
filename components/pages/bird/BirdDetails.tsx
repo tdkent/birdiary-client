@@ -11,7 +11,7 @@ export default async function BirdDetails({ birdId }: BirdDetailsProps) {
   const result = await getBird(birdId);
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   const { commonName, scientificName, family, rarity, description } = result;

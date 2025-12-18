@@ -16,7 +16,7 @@ export default async function VerifyUser({
 
   if ("error" in result) {
     if (result.statusCode === 400) return <InvalidVerificationLink isVerify />;
-    return <ErrorDisplay />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   return <VerifySuccess email={email} />;

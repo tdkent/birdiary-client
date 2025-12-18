@@ -4,7 +4,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, Messages } from "@/models/api";
 import {
   type SortValues,
   sortByDateOptions,
@@ -63,7 +63,7 @@ export default async function DiaryView({
             variant="diary"
           />
         ) : (
-          <ErrorDisplay statusCode={400} />
+          <ErrorDisplay msg={Messages.BadRequest} />
         )}
       </ViewWrapper>
     </>

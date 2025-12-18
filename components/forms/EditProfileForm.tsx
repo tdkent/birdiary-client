@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
 import { GOOGLE_API_KEY } from "@/constants/env";
 import { useAuth } from "@/context/AuthContext";
-import type { ServerResponseWithError } from "@/models/api";
+import type { ExpectedServerError } from "@/models/api";
 import { Messages } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import { editProfileSchema } from "@/models/form";
@@ -41,7 +41,7 @@ type EditProfileFormProps = { user: UserProfile };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const { bio, name, zipcode } = user;
 
@@ -88,7 +88,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
       zipcode: values.zipcode || null,
     };
     try {
-      const response: UserProfile | ServerResponseWithError =
+      const response: ExpectedServerError | UserProfile =
         await editUserProfile(reqBody);
 
       if ("error" in response) {
@@ -98,7 +98,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(response.statusCode);
+        return setError(response.message);
       }
       toast.success(Messages.ProfileUpdated);
       router.push("/profile");
@@ -113,7 +113,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

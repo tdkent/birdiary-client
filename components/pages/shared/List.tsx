@@ -10,10 +10,7 @@ import {
   RESULTS_PER_PAGE,
 } from "@/constants/constants";
 import { getCookie } from "@/helpers/auth";
-import type {
-  ServerResponseWithError,
-  ServerResponseWithList,
-} from "@/models/api";
+import type { ExpectedServerError, ServerResponseWithList } from "@/models/api";
 import type { ListVariant } from "@/models/display";
 import type { SortOptions, SortValues } from "@/models/form";
 
@@ -65,11 +62,11 @@ export default async function List({
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
   const response = await fetch(resource, { headers: requestHeaders });
-  const result: ServerResponseWithList | ServerResponseWithError =
+  const result: ServerResponseWithList | ExpectedServerError =
     await response.json();
 
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   const { countOfRecords, data } = result;

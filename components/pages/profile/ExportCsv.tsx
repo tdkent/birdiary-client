@@ -4,7 +4,7 @@ import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { apiRoutes } from "@/models/api";
+import { apiRoutes, ExpectedServerError } from "@/models/api";
 import { Download } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -27,7 +27,10 @@ export default function ExportCsv() {
         },
       });
 
-      if (!response.ok) return setError("500");
+      if (!response.ok) {
+        const result: ExpectedServerError = await response.json();
+        return setError(result.message);
+      }
 
       // Create href from blob object
       const blob = await response.blob();
@@ -53,7 +56,7 @@ export default function ExportCsv() {
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <div className="my-6 rounded-md border p-4 md:p-6">
         <h4 className="text-lg md:text-xl">Export Sightings</h4>
         <p className="my-6 text-base">

@@ -28,8 +28,9 @@ import { z } from "zod";
 export default function AuthForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [verificationError, setVerificationError] = useState(false);
   const [fetchError, setFetchError] = useState<Error | null>(null);
+  const [isThrottled, setIsThrottled] = useState(false);
+  const [verificationError, setVerificationError] = useState(false);
 
   const { signIn } = useAuth();
   const pathname = usePathname() as "/signup" | "/signin";
@@ -55,6 +56,9 @@ export default function AuthForm() {
       const result = await auth({ ...values, pathname });
 
       if ("error" in result) {
+        if (result.statusCode === 429) {
+          setIsThrottled(true);
+        }
         return setError(result.message);
       }
 
@@ -83,7 +87,14 @@ export default function AuthForm() {
   return (
     <>
       <div className="flex flex-col gap-8">
-        {error && <ErrorDisplay authErrorMessage={error} showInline />}
+        {error && (
+          <ErrorDisplay
+            isThrottled={isThrottled}
+            setIsThrottled={setIsThrottled}
+            msg={error}
+            showInline
+          />
+        )}
         {verificationError && <UnverifiedAccount />}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -98,7 +109,7 @@ export default function AuthForm() {
                       {...field}
                       aria-required
                       autoComplete="email"
-                      disabled={pending}
+                      disabled={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,7 +126,7 @@ export default function AuthForm() {
                     <PasswordInput
                       autocomplete="current-password"
                       field={field}
-                      pending={pending}
+                      pending={isThrottled || pending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -128,7 +139,11 @@ export default function AuthForm() {
               render={({ field }) => (
                 <FormItem className="hidden">
                   <FormControl>
-                    <Input {...field} aria-hidden disabled={pending} />
+                    <Input
+                      {...field}
+                      aria-hidden
+                      disabled={isThrottled || pending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -137,7 +152,7 @@ export default function AuthForm() {
               type="submit"
               size="lg"
               variant="new"
-              disabled={!email || !password || pending}
+              disabled={!email || isThrottled || !password || pending}
             >
               {pending ? <PendingIcon strokeWidth={1.5} size={28} /> : btnText}
             </Button>

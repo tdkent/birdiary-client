@@ -3,7 +3,7 @@
 import PendingIcon from "@/components/forms/PendingIcon";
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
 import birdNames from "@/data/birds";
-import { apiRoutes, Messages, ServerResponseWithError } from "@/models/api";
+import { apiRoutes, ExpectedServerError, Messages } from "@/models/api";
 import type { Bird } from "@/models/db";
 import { CircleAlert, Image as ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -28,16 +28,15 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
     try {
       const birdId = birdNames.findIndex((name) => name === currBirdName) + 1;
       const response = await fetch(apiRoutes.bird(birdId));
-      const result: Bird | ServerResponseWithError = await response.json();
+      const result: Bird | ExpectedServerError = await response.json();
 
       if ("error" in result) {
-        const msg = Array.isArray(result.message)
-          ? result.message.join(",")
-          : result.message;
-        throw new Error(`${result.error}: ${msg}`);
+        return setError(result.message);
       }
+
       setData(result);
     } catch (error) {
+      console.error(error);
       if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -70,7 +69,7 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
         ) : error ? (
           <>
             <CircleAlert strokeWidth={1} size={28} />
-            <span className="text-sm">An error occurred.</span>
+            <span className="text-sm">{error}</span>
           </>
         ) : !data ? (
           <ImageIcon strokeWidth={1} size={32} />

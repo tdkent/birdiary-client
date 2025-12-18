@@ -53,7 +53,7 @@ export default function CsrList({
   });
 
   if (error) {
-    return <ErrorDisplay statusCode={error} />;
+    return <ErrorDisplay msg={error} />;
   }
 
   const detailVariants: (typeof variant)[] = ["diaryDetail", "birdDetail"];

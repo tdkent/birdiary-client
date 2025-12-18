@@ -35,7 +35,7 @@ async function BirdOfTheDayImage() {
   const response = await fetch(apiRoutes.birdOfTheDay);
   const result: Bird | ExpectedServerError = await response.json();
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
 
   return (

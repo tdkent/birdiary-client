@@ -15,7 +15,7 @@ export default async function FavoriteBird({ birdId }: FavoriteBirdProps) {
 
   const result: User | ExpectedServerError = await getUser();
   if ("error" in result) {
-    return <ErrorDisplay statusCode={result.statusCode} />;
+    return <ErrorDisplay msg={result.message} />;
   }
   const { favoriteBirdId } = result;
 

@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ServerResponseWithError } from "@/models/api";
+import { Messages, type ExpectedServerError } from "@/models/api";
 import type { SightingInStorage } from "@/models/display";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 export default function TransferStorageData() {
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
   const router = useRouter();
@@ -35,9 +35,8 @@ export default function TransferStorageData() {
     setError(null);
     setPending(true);
     try {
-      const result: { count: number } | ServerResponseWithError =
+      const result: { count: number } | ExpectedServerError =
         await transferStorageData(parsedSightings);
-      setPending(false);
 
       if ("error" in result) {
         if (result.statusCode === 401) {
@@ -46,7 +45,7 @@ export default function TransferStorageData() {
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(result.statusCode);
+        return setError(result.message);
       }
 
       toast.success(
@@ -57,6 +56,8 @@ export default function TransferStorageData() {
       localStorage.removeItem("diary");
     } catch (error) {
       setFetchError(error as Error);
+    } finally {
+      setPending(false);
     }
   };
 
@@ -64,7 +65,7 @@ export default function TransferStorageData() {
 
   return (
     <>
-      {error && <ErrorDisplay showInline statusCode={error} />}
+      {error && <ErrorDisplay showInline msg={error} />}
       <div className="my-6 rounded-md border p-4 md:p-6">
         <div className="flex items-center justify-between">
           <h4 className="text-lg md:text-xl">Transfer Browser Data</h4>
