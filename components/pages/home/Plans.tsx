@@ -79,7 +79,7 @@ export default async function Plans() {
                 Registered User
               </CardTitle>
               <CardDescription className="text-base italic md:text-lg">
-                Free account w/ extra features.
+                Free account + extra features.
               </CardDescription>
             </CardHeader>
             <CardContent>

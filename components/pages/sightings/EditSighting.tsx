@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut as signOutAction } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth";
 import { getSighting } from "@/actions/sighting";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -11,6 +11,7 @@ import { checkSession } from "@/helpers/auth";
 import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -25,6 +26,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const [pending, setPending] = useState(false);
 
+  const router = useRouter();
   const { signOut } = useAuth();
 
   useEffect(() => {
@@ -40,7 +42,8 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
             if (result.statusCode === 401) {
               toast.error(Messages.InvalidToken);
               signOut();
-              await signOutAction();
+              deleteSessionCookie();
+              router.replace("/signin");
             }
             return setError(result.message);
           }
@@ -65,7 +68,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
       }
     }
     query();
-  }, [sightingId, signOut]);
+  }, [router, sightingId, signOut]);
 
   if (fetchError) throw fetchError;
 
