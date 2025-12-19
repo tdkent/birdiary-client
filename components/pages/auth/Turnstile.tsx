@@ -2,6 +2,7 @@
 
 import { TURNSTILE_URL } from "@/constants/constants";
 import { TURNSTILE_SITE_KEY } from "@/constants/env";
+import { useTheme } from "next-themes";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 declare global {
@@ -10,7 +11,11 @@ declare global {
       remove: (id: string) => {};
       render: (
         id: string,
-        options: { sitekey: string; callback: (token: string) => void },
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          theme: string;
+        },
       ) => {};
       reset: (id: string) => {};
     };
@@ -33,6 +38,8 @@ export default function Turnstile({
 }: TurnstileProps) {
   const [widgetId, setWidgetId] = useState<string | null>(null);
 
+  const { theme } = useTheme();
+
   // Init cft widget and script
   useEffect(() => {
     const script = document.createElement("script");
@@ -44,6 +51,7 @@ export default function Turnstile({
         callback: function (token) {
           setToken(token);
         },
+        theme: `${theme}`,
       }) as string;
       setWidgetId(id);
     };
@@ -53,6 +61,7 @@ export default function Turnstile({
     return () => {
       document.head.removeChild(script);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setToken]);
 
   // Handle expired cft token
