@@ -26,11 +26,12 @@ import type { CreateSightingDto } from "@/models/form";
 import { createContext, useContext, useEffect, useState } from "react";
 // import type { Group } from "@/models/display";
 // import type { Sighting } from "@/models/db";
-import { signOut as signOutAction } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 // Define the shape of the API Context object
@@ -77,6 +78,7 @@ export default function ApiProvider({
     const [pending, setPending] = useState(false);
 
     const { signOut } = useAuth();
+    const router = useRouter();
 
     useEffect(() => {
       async function query() {
@@ -97,7 +99,8 @@ export default function ApiProvider({
               if (result.statusCode === 401) {
                 toast.error(Messages.InvalidToken);
                 signOut();
-                await signOutAction();
+                deleteSessionCookie();
+                router.replace("/signin");
               }
               return setError(result.message);
             }
@@ -129,7 +132,7 @@ export default function ApiProvider({
       // data state value for that tag will be updated
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [route, signOut, tag]);
+    }, [route, router, signOut, tag]);
 
     if (fetchError) throw fetchError;
 
@@ -149,6 +152,7 @@ export default function ApiProvider({
     const [pending, setPending] = useState(false);
 
     const { signOut } = useAuth();
+    const router = useRouter();
 
     async function mutate<T>(formValues: T) {
       setSuccess(false);
@@ -172,7 +176,8 @@ export default function ApiProvider({
             if (result.statusCode === 401) {
               toast.error(Messages.InvalidToken);
               signOut();
-              await signOutAction();
+              deleteSessionCookie();
+              router.replace("/signin");
             }
             return setError(result.message);
           }

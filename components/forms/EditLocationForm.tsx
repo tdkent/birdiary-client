@@ -77,7 +77,7 @@ export default function EditLocationForm({
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast.error(result.message);
+          toast.error(Messages.InvalidToken);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

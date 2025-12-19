@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut as signOutAction } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth";
 import { getSighting } from "@/actions/sighting";
 import BirdImage from "@/components/forms/BirdImage";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
@@ -21,6 +21,7 @@ import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -31,6 +32,7 @@ type SightingProps = {
 /** Fetch and display sighting data. */
 export default function SightingDetails({ sightingId }: SightingProps) {
   const { isSignedIn, signOut } = useAuth();
+  const router = useRouter();
 
   const [sighting, setSighting] = useState<SightingWithBirdAndLocation | null>(
     null,
@@ -53,7 +55,8 @@ export default function SightingDetails({ sightingId }: SightingProps) {
             if (sighting.statusCode === 401) {
               toast.error(Messages.InvalidToken);
               signOut();
-              await signOutAction();
+              deleteSessionCookie();
+              router.replace("/signin");
             }
             return setError(sighting.message);
           }
@@ -82,7 +85,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
       }
     }
     query();
-  }, [isSignedIn, sightingId, signOut]);
+  }, [isSignedIn, router, sightingId, signOut]);
 
   if (fetchError) throw fetchError;
 
