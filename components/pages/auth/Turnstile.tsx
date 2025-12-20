@@ -40,6 +40,8 @@ export default function Turnstile({
 
   const { theme } = useTheme();
 
+  const widgetTheme = theme !== "light" && theme !== "dark" ? "auto" : theme;
+
   // Init cft widget and script
   useEffect(() => {
     const script = document.createElement("script");
@@ -51,7 +53,7 @@ export default function Turnstile({
         callback: function (token) {
           setToken(token);
         },
-        theme: `${theme}`,
+        theme: widgetTheme,
       }) as string;
       setWidgetId(id);
     };
