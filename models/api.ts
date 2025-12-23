@@ -28,7 +28,7 @@ export const defaultCache: Cache = {
 /** Server request URLs */
 export const apiRoutes = {
   bird: (id: number) => `${BASE_URL}/birds/${id}`,
-  birdOfTheDay: `${BASE_URL}/birdoftheday`,
+  birdOfTheDay: `${BASE_URL}/bird-of-the-day`,
   birds: (
     page: number,
     searchTerm: string | undefined,
