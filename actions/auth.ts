@@ -34,7 +34,7 @@ export async function auth({ pathname, ...args }: AuthParams) {
 }
 
 export async function verifyUser(email: string, verificationId: string) {
-  const response = await fetch(apiRoutes.userVerifyComplete, {
+  const response = await fetch(apiRoutes.userVerifyEmail, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
