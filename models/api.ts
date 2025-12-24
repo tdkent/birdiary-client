@@ -114,7 +114,7 @@ export enum Messages {
   NewSighting = "New sighting created!",
   NotFoundError = "The requested resource was not found.",
   PasswordUpdated = "Password updated",
-  PasswordValidationError = "Password length must be 8-64 characters.",
+  PasswordValidationError = "Please enter a valid password 8-64 characters long.",
   ProfileUpdated = "Profile updated",
   ResetPasswordFormDescription = "This will reset the password you use to access your account.",
   SearchValidationError = "Search must be 3-32 characters",
