@@ -21,14 +21,18 @@ const EditLocation = z.string().min(1);
 
 const Location = z.string().trim().optional();
 
-// Forms
-export const SightingForm = z.object({
+// Form Schemas
+export const SightingFormSchema = z.object({
   commonName: CommonName,
   date: Date,
   description: Description,
   location: Location,
 });
 
-export const EditLocationForm = z.object({
+export const EditLocationFormSchema = z.object({
   location: EditLocation,
 });
+
+// Form Types
+export type SightingForm = z.infer<typeof SightingFormSchema>;
+export type EditLocationForm = z.infer<typeof EditLocationFormSchema>;

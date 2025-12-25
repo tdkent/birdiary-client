@@ -17,8 +17,11 @@ const ZipCode = z
   .or(z.literal(""));
 
 // Forms
-export const EditProfileForm = z.object({
+export const EditProfileFormSchema = z.object({
   bio: Biography,
   name: UserName,
   zipcode: ZipCode,
 });
+
+// Form Types
+export type EditProfileForm = z.infer<typeof EditProfileFormSchema>;

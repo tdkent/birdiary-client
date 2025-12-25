@@ -17,17 +17,17 @@ const Password = z
   .min(8, Messages.PasswordValidationError)
   .max(64, Messages.PasswordValidationError);
 
-// Forms
-export const EmailInput = z.object({
+// Form Schemas
+export const ForgotPasswordFormSchema = z.object({
   email: Email,
 });
 
-export const AuthForm = EmailInput.extend({
+export const AuthFormSchema = ForgotPasswordFormSchema.extend({
   password: Password,
   favoriteColor: FavoriteColor,
 });
 
-export const UpdatePasswordForm = z
+export const UpdatePasswordFormSchema = z
   .object({
     currentPassword: Password,
     newPassword: Password,
@@ -42,7 +42,7 @@ export const UpdatePasswordForm = z
     path: ["confirmNewPassword"],
   });
 
-export const ResetPasswordForm = z
+export const ResetPasswordFormSchema = z
   .object({
     newPassword: Password,
     confirmNewPassword: Password,
@@ -51,3 +51,9 @@ export const ResetPasswordForm = z
     message: "Passwords do not match",
     path: ["confirmNewPassword"],
   });
+
+// Form Types
+export type AuthForm = z.infer<typeof AuthFormSchema>;
+export type ForgotPasswordForm = z.infer<typeof ForgotPasswordFormSchema>;
+export type ResetPasswordForm = z.infer<typeof ResetPasswordFormSchema>;
+export type UpdatePasswordForm = z.infer<typeof UpdatePasswordFormSchema>;
