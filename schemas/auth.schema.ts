@@ -2,7 +2,7 @@ import { Messages } from "@/models/api";
 import { z } from "zod";
 
 // Inputs
-const Email = z
+export const Email = z
   .string()
   .trim()
   .email({ message: Messages.EmailValidationError });

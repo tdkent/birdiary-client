@@ -32,6 +32,7 @@ export default function UpdatePasswordForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
+
   const form = useForm<UpdatePasswordForm>({
     resolver: zodResolver(UpdatePasswordFormSchema),
     defaultValues: {
