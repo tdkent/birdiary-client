@@ -1,13 +1,10 @@
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
-import birdNames from "@/data/birds";
 import { Messages } from "@/models/api";
+import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 // Inputs
-const CommonName = z
-  .string()
-  .trim()
-  .refine((val) => !birdNames.includes(val), "Please select a valid bird.");
+const CommonName = z.string().trim();
 
 const Date = z.date();
 
@@ -36,3 +33,7 @@ export const EditLocationFormSchema = z.object({
 // Form Types
 export type SightingForm = z.infer<typeof SightingFormSchema>;
 export type EditLocationForm = z.infer<typeof EditLocationFormSchema>;
+
+// React-hook-form Types (applies `react-hook-form` methods to type).
+export type FormReturnSightingForm = UseFormReturn<SightingForm>;
+export type FormReturnEditLocationForm = UseFormReturn<EditLocationForm>;

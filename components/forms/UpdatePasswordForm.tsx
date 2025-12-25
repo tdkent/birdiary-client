@@ -18,20 +18,22 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { Messages, type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
-import { updatePasswordFormSchema } from "@/models/form";
+import {
+  UpdatePasswordFormSchema,
+  type UpdatePasswordForm,
+} from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 export default function UpdatePasswordForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
-  const form = useForm<z.infer<typeof updatePasswordFormSchema>>({
-    resolver: zodResolver(updatePasswordFormSchema),
+  const form = useForm<UpdatePasswordForm>({
+    resolver: zodResolver(UpdatePasswordFormSchema),
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -43,7 +45,7 @@ export default function UpdatePasswordForm() {
   const router = useRouter();
   const isDirty = form.formState.isDirty;
 
-  async function onSubmit(values: z.infer<typeof updatePasswordFormSchema>) {
+  async function onSubmit(values: UpdatePasswordForm) {
     setPending(true);
     setError(null);
     try {

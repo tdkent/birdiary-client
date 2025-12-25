@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { FREE_TEXT_LENGTH } from "@/constants/constants";
-import type { SightingFormProp } from "@/models/form";
+import type { FormReturnSightingForm } from "@/schemas/sighting.schema";
 
 type DescInputProps = {
-  form: SightingFormProp;
+  form: FormReturnSightingForm;
   pending: boolean;
 };
 

@@ -8,24 +8,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { GOOGLE_API_KEY } from "@/constants/env";
+import type { CreateLocationDto } from "@/models/form";
 import type {
-  CreateLocationDto,
-  EditLocationFormSchemaProp,
-  SightingFormProp,
-} from "@/models/form";
+  FormReturnEditLocationForm,
+  FormReturnSightingForm,
+} from "@/schemas/sighting.schema";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Dispatch, SetStateAction } from "react";
 
 type NameInputProps =
   | {
       variant: "create";
-      form: SightingFormProp;
+      form: FormReturnSightingForm;
       pending: boolean;
       setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     }
   | {
       variant: "update";
-      form: EditLocationFormSchemaProp;
+      form: FormReturnEditLocationForm;
       pending: boolean;
       setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
     };
@@ -37,7 +37,7 @@ export default function LocationInput({
   ...rest
 }: NameInputProps) {
   if (variant === "update") {
-    const editForm = form as EditLocationFormSchemaProp;
+    const editForm = form as FormReturnEditLocationForm;
     return (
       <>
         <FormField

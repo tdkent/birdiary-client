@@ -1,79 +1,5 @@
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
-import { Messages } from "@/models/api";
 import { Location } from "@/models/db";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 
-// Zod Schemas
-
-const pswMsg = Messages.PasswordValidationError;
-const Password = z.string().trim().min(8, pswMsg).max(64, pswMsg);
-
-export const authFormSchema = z.object({
-  email: z.string().email({ message: Messages.EmailValidationError }),
-  password: Password,
-  favoriteColor: z.string().optional(),
-});
-
-export const emailFormSchema = z.object({
-  email: z.string().email({ message: Messages.EmailValidationError }),
-});
-
-export const validJwtFormat = z.string().jwt();
-
-export const updatePasswordFormSchema = z
-  .object({
-    currentPassword: Password,
-    newPassword: Password,
-    confirmNewPassword: Password,
-  })
-  .refine((data) => data.currentPassword !== data.newPassword, {
-    message: "New password must be different from old password.",
-    path: ["newPassword"],
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords do not match",
-    path: ["confirmNewPassword"],
-  });
-
-export const resetPasswordFormSchema = z
-  .object({
-    newPassword: Password,
-    confirmNewPassword: Password,
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords do not match",
-    path: ["confirmNewPassword"],
-  });
-
-export const sightingSchema = z.object({
-  commonName: z.string(),
-  date: z.date(),
-  description: z
-    .string()
-    .max(FREE_TEXT_LENGTH, Messages.DescriptionValidationError)
-    .optional(),
-  location: z.string().optional(),
-});
-
-export const editLocationSchema = z.object({
-  location: z.string().min(1),
-});
-
-export const editProfileSchema = z.object({
-  name: z.string().max(24, Messages.NameValidationError).optional(),
-  zipcode: z
-    .string()
-    .regex(/^\d{5}$/, Messages.ZipCodeValidationError)
-    .optional()
-    .or(z.literal("")),
-  bio: z.string().max(FREE_TEXT_LENGTH, Messages.BioValidationError).optional(),
-});
-
-// Form types
-export type AuthForm = z.infer<typeof authFormSchema>;
-export type SightingForm = z.infer<typeof sightingSchema>;
-export type LocationForm = z.infer<typeof editLocationSchema>;
 export type CreateLocationDto = Pick<Location, "lat" | "lng" | "name">;
 export type CreateSightingDto = {
   birdId: number;
@@ -81,11 +7,6 @@ export type CreateSightingDto = {
   description: string | null;
   location?: CreateLocationDto;
 };
-
-// react-hook-form types
-export type AuthFormProp = UseFormReturn<AuthForm>;
-export type SightingFormProp = UseFormReturn<SightingForm>;
-export type EditLocationFormSchemaProp = UseFormReturn<LocationForm>;
 
 // Form controls
 //? Merge with SortValues

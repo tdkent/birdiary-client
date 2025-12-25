@@ -27,7 +27,10 @@ import { useAuth } from "@/context/AuthContext";
 import type { ExpectedServerError } from "@/models/api";
 import { Messages } from "@/models/api";
 import type { UserProfile } from "@/models/display";
-import { editProfileSchema } from "@/models/form";
+import {
+  EditProfileFormSchema,
+  type EditProfileForm,
+} from "@/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { CircleQuestionMark } from "lucide-react";
@@ -35,7 +38,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 type EditProfileFormProps = { user: UserProfile };
 
@@ -45,8 +47,8 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const { bio, name, zipcode } = user;
 
-  const form = useForm<z.infer<typeof editProfileSchema>>({
-    resolver: zodResolver(editProfileSchema),
+  const form = useForm<EditProfileForm>({
+    resolver: zodResolver(EditProfileFormSchema),
     defaultValues: {
       bio: bio || "",
       name: name || "",
@@ -58,7 +60,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
   const router = useRouter();
   const { signOut } = useAuth();
 
-  async function onSubmit(values: z.infer<typeof editProfileSchema>) {
+  async function onSubmit(values: EditProfileForm) {
     setPending(true);
     setError(null);
     let address;

@@ -10,11 +10,11 @@ import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
 import { Messages, type ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
+import { type CreateLocationDto } from "@/models/form";
 import {
-  editLocationSchema,
-  type CreateLocationDto,
-  type LocationForm,
-} from "@/models/form";
+  EditLocationFormSchema,
+  type EditLocationForm,
+} from "@/schemas/sighting.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -44,8 +44,8 @@ export default function EditLocationForm({
   const router = useRouter();
   const { signOut } = useAuth();
 
-  const form = useForm<LocationForm>({
-    resolver: zodResolver(editLocationSchema),
+  const form = useForm<EditLocationForm>({
+    resolver: zodResolver(EditLocationFormSchema),
     defaultValues: {
       location: location.name,
     },
@@ -53,7 +53,7 @@ export default function EditLocationForm({
 
   const isDirty = form.formState.isDirty;
 
-  async function onSubmit(values: LocationForm) {
+  async function onSubmit(values: EditLocationForm) {
     setError(null);
     setPending(true);
     // If input has a value and autocomplete is empty, OR

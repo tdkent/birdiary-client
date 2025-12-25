@@ -16,7 +16,10 @@ import { createIsoDateFromJsDate } from "@/helpers/dates";
 import { apiRoutes, Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
 import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
-import { sightingSchema, type SightingForm } from "@/models/form";
+import {
+  SightingFormSchema,
+  type SightingForm,
+} from "@/schemas/sighting.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -51,7 +54,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   });
 
   const form = useForm<SightingForm>({
-    resolver: zodResolver(sightingSchema),
+    resolver: zodResolver(SightingFormSchema),
     defaultValues: {
       commonName,
       date: new Date(date.slice(0, -1)) || new Date(), // remove "Z" from ISO string

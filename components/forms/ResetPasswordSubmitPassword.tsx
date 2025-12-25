@@ -15,13 +15,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ExpectedServerError, Messages } from "@/models/api";
-import { resetPasswordFormSchema } from "@/models/form";
+import {
+  ResetPasswordFormSchema,
+  type ResetPasswordForm,
+} from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
 
 type ResetPasswordSubmitPasswordProps = {
   token: string;
@@ -34,8 +36,8 @@ export default function ResetPasswordSubmitPassword({
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
 
-  const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
-    resolver: zodResolver(resetPasswordFormSchema),
+  const form = useForm<ResetPasswordForm>({
+    resolver: zodResolver(ResetPasswordFormSchema),
     defaultValues: {
       newPassword: "",
       confirmNewPassword: "",
@@ -45,7 +47,7 @@ export default function ResetPasswordSubmitPassword({
   const router = useRouter();
   const isDirty = form.formState.isDirty;
 
-  async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {
+  async function onSubmit(values: ResetPasswordForm) {
     setPending(true);
     setError(null);
     try {

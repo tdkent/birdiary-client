@@ -9,11 +9,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SightingFormProp } from "@/models/form";
+import type { FormReturnSightingForm } from "@/schemas/sighting.schema";
 import type { Dispatch, SetStateAction } from "react";
 
 type NameInputProps = {
-  form: SightingFormProp;
+  form: FormReturnSightingForm;
   pending: boolean;
   isMatching: boolean;
   setIsMatching: Dispatch<SetStateAction<boolean>>;

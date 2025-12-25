@@ -18,14 +18,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { Messages } from "@/models/api";
-import type { AuthForm } from "@/models/form";
-import { authFormSchema } from "@/models/form";
+import { type AuthForm, AuthFormSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 export default function AuthForm() {
   const [cftToken, setCftToken] = useState<string | null>(null);
@@ -42,7 +40,7 @@ export default function AuthForm() {
   const router = useRouter();
 
   const form = useForm<AuthForm>({
-    resolver: zodResolver(authFormSchema),
+    resolver: zodResolver(AuthFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -52,7 +50,7 @@ export default function AuthForm() {
   const email = form.getValues().email;
   const password = form.getValues().password;
 
-  async function onSubmit(values: z.infer<typeof authFormSchema>) {
+  async function onSubmit(values: AuthForm) {
     setError(null);
     setVerificationError(false);
     setFetchError(null);
