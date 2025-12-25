@@ -6,7 +6,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
 import { Messages } from "@/models/api";
-import { validJwtFormat } from "@/models/form";
+import { Jwt } from "@/schemas/auth.schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -23,7 +23,7 @@ export default async function ResetPasswordView({
 }: ResetPasswordViewProps) {
   const { token } = await searchParams;
 
-  const isValidJwt = validJwtFormat.safeParse(token);
+  const isValidJwt = Jwt.safeParse(token);
 
   if (!isValidJwt.success) return <ErrorDisplay msg={Messages.BadRequest} />;
 

@@ -14,12 +14,11 @@ import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
 import { apiRoutes, Messages } from "@/models/api";
+import { type CreateLocationDto, type CreateSightingDto } from "@/models/form";
 import {
-  sightingSchema,
-  type CreateLocationDto,
-  type CreateSightingDto,
+  SightingFormSchema,
   type SightingForm,
-} from "@/models/form";
+} from "@/schemas/sighting.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -47,7 +46,7 @@ export default function SightingForm() {
   });
 
   const form = useForm<SightingForm>({
-    resolver: zodResolver(sightingSchema),
+    resolver: zodResolver(SightingFormSchema),
     defaultValues: {
       commonName: "",
       date: new Date(),

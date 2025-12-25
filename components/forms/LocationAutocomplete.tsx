@@ -1,7 +1,8 @@
 // Renders form input and selectable autocomplete
 // Location autocomplete use legacy Google Place API
 import { Input } from "@/components/ui/input";
-import type { CreateLocationDto, SightingForm } from "@/models/form";
+import type { CreateLocationDto } from "@/models/form";
+import type { SightingForm } from "@/schemas/sighting.schema";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import {
   useEffect,

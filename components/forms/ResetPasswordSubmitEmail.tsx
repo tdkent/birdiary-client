@@ -15,20 +15,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthForm, emailFormSchema } from "@/models/form";
+
+import {
+  ForgotPasswordFormSchema,
+  type ForgotPasswordForm,
+} from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
 
 export default function ResetPasswordSubmitEmail() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const [success, setSuccess] = useState(false);
-  const form = useForm<Pick<AuthForm, "email">>({
-    resolver: zodResolver(emailFormSchema),
+
+  const form = useForm<ForgotPasswordForm>({
+    resolver: zodResolver(ForgotPasswordFormSchema),
     defaultValues: {
       email: "",
     },
@@ -36,7 +40,7 @@ export default function ResetPasswordSubmitEmail() {
 
   const email = form.getValues("email");
 
-  async function onSubmit(values: z.infer<typeof emailFormSchema>) {
+  async function onSubmit(values: ForgotPasswordForm) {
     setError(null);
     setFetchError(null);
     setPending(true);

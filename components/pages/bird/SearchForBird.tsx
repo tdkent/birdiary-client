@@ -4,13 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import birdNames from "@/data/birds";
 import { Messages } from "@/models/api";
+import { SearchInputSchema } from "@/schemas/search.schema";
 import { Search, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { z } from "zod";
-
-const inputSchema = z.string().min(3).max(100);
 
 export default function SearchForBird() {
   const [error, setError] = useState("");
@@ -33,7 +31,7 @@ export default function SearchForBird() {
 
   function onSearch() {
     setError("");
-    const validate = inputSchema.safeParse(currInput);
+    const validate = SearchInputSchema.safeParse(currInput);
     if (!validate.success) {
       setError(Messages.SearchValidationError);
     } else {

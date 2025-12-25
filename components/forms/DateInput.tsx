@@ -13,13 +13,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { SightingFormProp } from "@/models/form";
+import type { FormReturnSightingForm } from "@/schemas/sighting.schema";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
 type DateInputProps = {
-  form: SightingFormProp;
+  form: FormReturnSightingForm;
   pending: boolean;
 };
 
