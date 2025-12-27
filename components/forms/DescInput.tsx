@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { FORM } from "@/constants/app.constants";
 import type { FormReturnSightingForm } from "@/schemas/sighting.schema";
 
 type DescInputProps = {
@@ -33,7 +33,7 @@ export default function DescInput({ form, pending }: DescInputProps) {
               />
             </FormControl>
             <TextRemainingLength
-              allowedLength={FREE_TEXT_LENGTH}
+              allowedLength={FORM.TEXTAREA_MAX_CHARS}
               currLength={form.watch("description")!.length}
             />
             <FormMessage />

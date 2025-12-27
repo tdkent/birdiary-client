@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { GOOGLE_API_KEY } from "@/constants/env";
+import CONFIG from "@/constants/config.constants";
 import type { CreateLocationDto } from "@/models/form";
 import type {
   FormReturnEditLocationForm,
@@ -47,7 +47,7 @@ export default function LocationInput({
             <FormItem className="form-item">
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <APIProvider apiKey={GOOGLE_API_KEY}>
+                <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                   <LocationAutocomplete field={field} {...rest} />
                 </APIProvider>
               </FormControl>
@@ -84,7 +84,7 @@ export default function LocationInput({
               </Button>
             </div>
             <FormControl>
-              <APIProvider apiKey={GOOGLE_API_KEY}>
+              <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                 <LocationAutocomplete field={field} {...rest} />
               </APIProvider>
             </FormControl>

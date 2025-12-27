@@ -7,7 +7,7 @@ import Pending, { ButtonSkeleton } from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
-import { BIRD_COUNT } from "@/constants/constants";
+import { BIRD } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
@@ -64,7 +64,9 @@ export default async function BirdDetailsView({
   }
 
   const validBirdId =
-    checkValidParamInteger(id) && Number(id) <= BIRD_COUNT ? Number(id) : null;
+    checkValidParamInteger(id) && Number(id) <= BIRD.BIRD_COUNT
+      ? Number(id)
+      : null;
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;

@@ -21,8 +21,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
-import { GOOGLE_API_KEY } from "@/constants/env";
+import { FORM } from "@/constants/app.constants";
+import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
 import type { ExpectedServerError } from "@/models/api";
 import { Messages } from "@/models/api";
@@ -153,7 +153,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                   </Popover>
                 </div>
                 <FormControl>
-                  <APIProvider apiKey={GOOGLE_API_KEY}>
+                  <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                     <Input disabled={pending} {...field} />
                   </APIProvider>
                 </FormControl>
@@ -176,7 +176,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                   />
                 </FormControl>
                 <TextRemainingLength
-                  allowedLength={FREE_TEXT_LENGTH}
+                  allowedLength={FORM.TEXTAREA_MAX_CHARS}
                   currLength={form.watch("bio")!.length}
                 />
                 <FormMessage />

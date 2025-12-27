@@ -1,8 +1,5 @@
 // Functions to process data in local storage
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
@@ -36,8 +33,8 @@ export function queryStorage(
       const sortBy = query[2].slice(7);
       const sightings = sortSightings(data as Group[], sortBy as SortValues);
       const paginated = sightings.slice(
-        RESULTS_PER_PAGE * (page - 1),
-        RESULTS_PER_PAGE * page,
+        PAGINATE.LARGE_LIST * (page - 1),
+        PAGINATE.LARGE_LIST * page,
       );
       return { items: paginated, countOfRecords: sightings.length };
     }
@@ -54,8 +51,8 @@ export function queryStorage(
       );
       const sorted = sortSightings(filterByDate, sortBy as SortValues);
       const paginated = sorted.slice(
-        DETAILS_RESULTS_PER_PAGE * (page - 1),
-        DETAILS_RESULTS_PER_PAGE * page,
+        PAGINATE.SMALL_LIST * (page - 1),
+        PAGINATE.SMALL_LIST * page,
       );
       return { items: paginated, countOfRecords: filterByDate.length };
     }
@@ -72,8 +69,8 @@ export function queryStorage(
       );
       const sorted = sortSightings(filterByBird, sortBy as SortValues);
       const paginated = sorted.slice(
-        DETAILS_RESULTS_PER_PAGE * (page - 1),
-        DETAILS_RESULTS_PER_PAGE * page,
+        PAGINATE.SMALL_LIST * (page - 1),
+        PAGINATE.SMALL_LIST * page,
       );
       return { items: paginated, countOfRecords: filterByBird.length };
     }
@@ -88,8 +85,8 @@ export function queryStorage(
         sortBy as SortValues,
       );
       const paginated = sorted.slice(
-        RESULTS_PER_PAGE * (page - 1),
-        RESULTS_PER_PAGE * page,
+        PAGINATE.LARGE_LIST * (page - 1),
+        PAGINATE.LARGE_LIST * page,
       );
       return { items: paginated, countOfRecords: data.length };
     }

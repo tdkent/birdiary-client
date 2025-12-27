@@ -1,4 +1,4 @@
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { FORM } from "@/constants/app.constants";
 import { Messages } from "@/models/api";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -11,7 +11,7 @@ const Date = z.date();
 const Description = z
   .string()
   .trim()
-  .max(FREE_TEXT_LENGTH, Messages.DescriptionValidationError)
+  .max(FORM.TEXTAREA_MAX_CHARS, Messages.DescriptionValidationError)
   .optional();
 
 const EditLocation = z.string().min(1);

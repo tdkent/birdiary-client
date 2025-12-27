@@ -5,10 +5,7 @@ import FilterList from "@/components/pages/shared/FilterList";
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import SortItems from "@/components/pages/shared/SortItems";
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { getCookie } from "@/helpers/auth";
 import type { ExpectedServerError, ServerResponseWithList } from "@/models/api";
 import type { ListVariant } from "@/models/display";
@@ -74,8 +71,8 @@ export default async function List({
   const records = countOfRecords;
   const pages =
     variant === "locationDetail"
-      ? Math.ceil(records / DETAILS_RESULTS_PER_PAGE)
-      : Math.ceil(records / RESULTS_PER_PAGE);
+      ? Math.ceil(records / PAGINATE.SMALL_LIST)
+      : Math.ceil(records / PAGINATE.LARGE_LIST);
 
   return (
     <>

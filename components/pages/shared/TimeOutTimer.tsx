@@ -1,6 +1,5 @@
 "use client";
 
-import { AUTH_TIMEOUT_INTERVAL } from "@/constants/constants";
 import { Duration } from "luxon";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
@@ -15,9 +14,11 @@ export default function TimeOutTimer({
 }: TimeOutTimerProps) {
   const [throttleTime, setThrottleTime] = useState<number>(-1);
 
+  const TIMEOUT_INTERVAL = 300; // seconds
+
   // Activate throttle timer.
   useEffect(() => {
-    if (isThrottled) setThrottleTime(AUTH_TIMEOUT_INTERVAL);
+    if (isThrottled) setThrottleTime(TIMEOUT_INTERVAL);
   }, [isThrottled]);
 
   // Monitor throttle state.

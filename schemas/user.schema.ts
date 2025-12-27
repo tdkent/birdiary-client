@@ -1,11 +1,11 @@
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
+import { FORM } from "@/constants/app.constants";
 import { Messages } from "@/models/api";
 import { z } from "zod";
 
 // Inputs
 const Biography = z
   .string()
-  .max(FREE_TEXT_LENGTH, Messages.BioValidationError)
+  .max(FORM.TEXTAREA_MAX_CHARS, Messages.BioValidationError)
   .optional();
 
 const UserName = z.string().max(24, Messages.NameValidationError).optional();

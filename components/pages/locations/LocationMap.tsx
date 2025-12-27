@@ -1,6 +1,6 @@
 "use client";
 
-import { GOOGLE_API_KEY, GOOGLE_LOCATION_MAP_ID } from "@/constants/env";
+import CONFIG from "@/constants/config.constants";
 import {
   AdvancedMarker,
   APIProvider,
@@ -32,11 +32,11 @@ export default function LocationMap({ lat, lng }: LocationMapProps) {
   return (
     <>
       <div className="aspect-square w-full md:aspect-[5/4] lg:aspect-[5/3]">
-        <APIProvider apiKey={GOOGLE_API_KEY}>
+        <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
           <Map
             defaultZoom={12}
             defaultCenter={{ lat, lng }}
-            mapId={GOOGLE_LOCATION_MAP_ID}
+            mapId={CONFIG.GOOGLE_LOCATION_MAP_ID}
             key={mapKey}
           >
             <AdvancedMarker position={{ lat, lng }}>

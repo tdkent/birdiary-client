@@ -3,7 +3,7 @@ import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes, Messages } from "@/models/api";
@@ -58,7 +58,7 @@ export default async function BirdsView({
               fallback={
                 <Pending
                   variant="listWithSorting"
-                  listSize={RESULTS_PER_PAGE}
+                  listSize={PAGINATE.LARGE_LIST}
                 />
               }
             >

@@ -1,4 +1,4 @@
-import { BIRD_COUNT } from "@/constants/constants";
+import { BIRD } from "@/constants/app.constants";
 import type { Group, SightingInStorage } from "@/models/display";
 import type { SortValues } from "@/models/form";
 import { DateTime } from "luxon";
@@ -79,7 +79,7 @@ export function formatUrlToBirdName(urlSegment: string) {
 /** Check if string parses to a valid integer.  */
 export function checkValidParamInteger(id: string, isBirdId?: boolean) {
   const parsedId = Number(id);
-  if (!parsedId || parsedId < 1 || (isBirdId && parsedId > BIRD_COUNT))
+  if (!parsedId || parsedId < 1 || (isBirdId && parsedId > BIRD.BIRD_COUNT))
     return null;
   return parsedId;
 }

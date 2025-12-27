@@ -7,10 +7,7 @@ import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { useApi } from "@/context/ApiContext";
 import type { SortOptions, SortValues } from "@/models/form";
 
@@ -61,11 +58,11 @@ export default function CsrList({
   const noResults = !items.length;
   const currentPage = page;
   const pages = detailVariants.includes(variant)
-    ? Math.ceil(count / DETAILS_RESULTS_PER_PAGE)
-    : Math.ceil(count / RESULTS_PER_PAGE);
+    ? Math.ceil(count / PAGINATE.SMALL_LIST)
+    : Math.ceil(count / PAGINATE.LARGE_LIST);
   const listSize = detailVariants.includes(variant)
-    ? DETAILS_RESULTS_PER_PAGE
-    : RESULTS_PER_PAGE;
+    ? PAGINATE.SMALL_LIST
+    : PAGINATE.LARGE_LIST;
 
   return (
     <>

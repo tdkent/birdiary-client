@@ -1,7 +1,4 @@
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
@@ -44,8 +41,8 @@ export default function FilterAndResultsText({
     "locationDetail",
   ];
   const resultsPerPage = detailVariants.includes(variant)
-    ? DETAILS_RESULTS_PER_PAGE
-    : RESULTS_PER_PAGE;
+    ? PAGINATE.SMALL_LIST
+    : PAGINATE.LARGE_LIST;
   const minResult = page * resultsPerPage - (resultsPerPage - 1);
   const maxResult =
     records < page * resultsPerPage ? records : page * resultsPerPage;
