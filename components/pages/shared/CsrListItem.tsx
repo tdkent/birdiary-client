@@ -127,7 +127,7 @@ export default function CsrListItem({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }
 

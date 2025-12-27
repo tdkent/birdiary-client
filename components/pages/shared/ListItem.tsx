@@ -1,6 +1,5 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
-import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Diary,
@@ -123,6 +122,6 @@ export default function ListItem({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }

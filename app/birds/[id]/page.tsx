@@ -11,8 +11,9 @@ import { BIRD } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import { sortByDateOptions, SortValues } from "@/models/form";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -115,7 +116,7 @@ export default async function BirdDetailsView({
             />
           </>
         ) : (
-          <ErrorDisplay msg={Messages.BadRequest} />
+          <ErrorDisplay msg={ErrorMessages.BadRequest} />
         )}
       </ViewWrapper>
     </>

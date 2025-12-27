@@ -11,8 +11,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
+import { type ExpectedServerError } from "@/models/api";
 import type { SightingInStorage } from "@/models/display";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,7 +41,7 @@ export default function TransferStorageData() {
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

@@ -7,8 +7,9 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { ExpectedServerError, Messages } from "@/models/api";
+import { ExpectedServerError } from "@/models/api";
 import { User } from "@/models/db";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,7 +32,7 @@ export default function DeleteAccount() {
       setPending(false);
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

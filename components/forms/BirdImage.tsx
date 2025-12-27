@@ -3,8 +3,9 @@
 import PendingIcon from "@/components/forms/PendingIcon";
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
 import birdNames from "@/data/birds";
-import { apiRoutes, ExpectedServerError, Messages } from "@/models/api";
+import { apiRoutes, ExpectedServerError } from "@/models/api";
 import type { Bird } from "@/models/db";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleAlert, Image as ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
@@ -40,7 +41,7 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError(Messages.UnknownUnexpectedError);
+        setError(ErrorMessages.Unexpected);
       }
     } finally {
       setPending(false);

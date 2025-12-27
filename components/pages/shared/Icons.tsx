@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { Messages } from "@/models/api";
 import type { ListVariant } from "@/models/display";
 import { Bird, Heart, Plus } from "lucide-react";
 import Image from "next/image";
@@ -141,7 +140,7 @@ export default function Icons({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }
 

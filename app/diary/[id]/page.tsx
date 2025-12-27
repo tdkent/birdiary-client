@@ -5,8 +5,9 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import { type SortValues, sortByAlphaOptions } from "@/models/form";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -83,7 +84,7 @@ export default async function DiaryDetailsView({
             variant="diaryDetail"
           />
         ) : (
-          <ErrorDisplay msg={Messages.BadRequest} />
+          <ErrorDisplay msg={ErrorMessages.BadRequest} />
         )}
       </ViewWrapper>
     </>

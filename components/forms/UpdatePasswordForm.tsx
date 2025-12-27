@@ -22,6 +22,7 @@ import {
   UpdatePasswordFormSchema,
   type UpdatePasswordForm,
 } from "@/schemas/auth.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -57,7 +58,7 @@ export default function UpdatePasswordForm() {
 
       if ("error" in response) {
         if (response.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

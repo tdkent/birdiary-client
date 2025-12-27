@@ -2,7 +2,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
-import { Messages } from "@/models/api";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default async function VerifyStatusView({
   const { email, result } = await searchParams;
 
   if (!result || result !== "success" || !email) {
-    return <ErrorDisplay msg={Messages.BadRequest} />;
+    return <ErrorDisplay msg={ErrorMessages.BadRequest} />;
   }
 
   return (

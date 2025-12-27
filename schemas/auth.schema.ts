@@ -1,11 +1,10 @@
-import { Messages } from "@/models/api";
 import { z } from "zod";
 
 // Inputs
 export const Email = z
   .string()
   .trim()
-  .email({ message: Messages.EmailValidationError });
+  .email({ message: "Please enter a valid email address." });
 
 const FavoriteColor = z.string().optional();
 
@@ -14,8 +13,8 @@ export const Jwt = z.string().jwt();
 const Password = z
   .string()
   .trim()
-  .min(8, Messages.PasswordValidationError)
-  .max(64, Messages.PasswordValidationError);
+  .min(8, "Please enter a valid password 8-64 characters long.")
+  .max(64, "Please enter a valid password 8-64 characters long.");
 
 // Form Schemas
 export const ForgotPasswordFormSchema = z.object({

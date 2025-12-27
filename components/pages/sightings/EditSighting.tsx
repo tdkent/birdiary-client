@@ -8,8 +8,8 @@ import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { checkSession } from "@/helpers/auth";
-import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
 
           if ("error" in result) {
             if (result.statusCode === 401) {
-              toast.error(Messages.InvalidToken);
+              toast.error(ErrorMessages.InvalidSession);
               signOut();
               deleteSessionCookie();
               router.replace("/signin");
@@ -63,7 +63,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
           window.localStorage.getItem("sightings")!,
         ) as SightingWithBirdAndLocation[];
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError(Messages.NotFoundError);
+        if (!sighting) return setError(ErrorMessages.NotFound);
         setData(sighting);
       }
     }

@@ -1,8 +1,8 @@
 "use client";
 
 import { checkSession, getCookie } from "@/helpers/auth";
-import { Messages } from "@/models/api";
 import type { AuthState } from "@/models/auth";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -62,6 +62,6 @@ export default function AuthProvider({
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error(Messages.ContextError);
+  if (!context) throw new Error(ErrorMessages.InvalidContext);
   return context;
 }

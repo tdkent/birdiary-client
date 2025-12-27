@@ -8,13 +8,14 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
+import { type ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
 import { type CreateLocationDto } from "@/models/form";
 import {
   EditLocationFormSchema,
   type EditLocationForm,
 } from "@/schemas/sighting.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -61,7 +62,7 @@ export default function EditLocationForm({
     if (!updatedLocation || updatedLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.InvalidLocationError,
+        message: ErrorMessages.InvalidLocation,
       });
     }
 
@@ -77,7 +78,7 @@ export default function EditLocationForm({
 
       if ("error" in result) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

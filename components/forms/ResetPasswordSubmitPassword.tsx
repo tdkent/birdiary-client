@@ -19,6 +19,7 @@ import {
   ResetPasswordFormSchema,
   type ResetPasswordForm,
 } from "@/schemas/auth.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -55,10 +56,9 @@ export default function ResetPasswordSubmitPassword({
         await resetPassword(values.newPassword, token);
 
       if ("error" in response) {
-        console.log(response);
         const msg =
           response.statusCode === 400
-            ? Messages.ExpiredResetToken
+            ? ErrorMessages.ExpiredResetToken
             : response.message;
         return setError(msg);
       }

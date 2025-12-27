@@ -31,6 +31,7 @@ import {
   EditProfileFormSchema,
   type EditProfileForm,
 } from "@/schemas/user.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { CircleQuestionMark } from "lucide-react";
@@ -80,7 +81,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return result.results[0].formatted_address as string;
         })
         .catch(() => {
-          return toast.error(Messages.InvalidZipcode);
+          return toast.error(ErrorMessages.InvalidZip);
         });
     }
     const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
@@ -95,7 +96,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
 
       if ("error" in response) {
         if (response.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");

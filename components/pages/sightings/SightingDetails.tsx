@@ -17,8 +17,8 @@ import {
   convertSightingDateToInteger,
   createLocaleString,
 } from "@/helpers/dates";
-import { Messages } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -53,7 +53,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
 
           if ("error" in sighting) {
             if (sighting.statusCode === 401) {
-              toast.error(Messages.InvalidToken);
+              toast.error(ErrorMessages.InvalidSession);
               signOut();
               deleteSessionCookie();
               router.replace("/signin");
@@ -80,7 +80,7 @@ export default function SightingDetails({ sightingId }: SightingProps) {
         ) as SightingWithBirdAndLocation[];
 
         const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError(Messages.NotFoundError);
+        if (!sighting) return setError(ErrorMessages.NotFound);
         setSighting(sighting);
       }
     }

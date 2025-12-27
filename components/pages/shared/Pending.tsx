@@ -1,5 +1,4 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Messages } from "@/models/api";
 
 type PendingProps = {
   variant:
@@ -176,7 +175,7 @@ export default function Pending({ variant, listSize }: PendingProps) {
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }
 

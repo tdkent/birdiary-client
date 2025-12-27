@@ -19,6 +19,7 @@ import {
   SightingFormSchema,
   type SightingForm,
 } from "@/schemas/sighting.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -74,7 +75,7 @@ export default function SightingForm() {
     else if (!location || location.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.InvalidLocationError,
+        message: ErrorMessages.InvalidLocation,
       });
     }
 

@@ -14,7 +14,6 @@
 
 import {
   defaultCache,
-  Messages,
   type Cache,
   type ExpectedServerError,
   type MutationParameters,
@@ -31,6 +30,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
 import { Group, SightingInStorage } from "@/models/display";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -97,7 +97,7 @@ export default function ApiProvider({
 
             if ("error" in result) {
               if (result.statusCode === 401) {
-                toast.error(Messages.InvalidToken);
+                toast.error(ErrorMessages.InvalidSession);
                 signOut();
                 deleteSessionCookie();
                 router.replace("/signin");
@@ -112,7 +112,7 @@ export default function ApiProvider({
             if (error instanceof Error) {
               setFetchError(error);
             } else {
-              setError(Messages.ServerOutageError);
+              setError(ErrorMessages.ServerOutage);
             }
           } finally {
             setPending(false);
@@ -174,7 +174,7 @@ export default function ApiProvider({
 
           if ("error" in result) {
             if (result.statusCode === 401) {
-              toast.error(Messages.InvalidToken);
+              toast.error(ErrorMessages.InvalidSession);
               signOut();
               deleteSessionCookie();
               router.replace("/signin");
@@ -189,7 +189,7 @@ export default function ApiProvider({
           if (error instanceof Error) {
             setFetchError(error);
           } else {
-            setError(Messages.ServerOutageError);
+            setError(ErrorMessages.ServerOutage);
           }
         } finally {
           setPending(false);
@@ -229,6 +229,6 @@ export default function ApiProvider({
 // Put the context into a hook for ease of use and error handling
 export function useApi() {
   const context = useContext(ApiContext);
-  if (!context) throw new Error(Messages.ContextError);
+  if (!context) throw new Error(ErrorMessages.InvalidContext);
   return context;
 }

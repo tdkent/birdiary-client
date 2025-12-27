@@ -95,30 +95,12 @@ export type ExpectedServerError = {
 };
 
 export enum Messages {
-  BadRequest = "The request is not valid. Please try again.",
-  BadRequestFailedValidation = "Request validation failed. Please try again.",
-  BioValidationError = "Bio must be 150 or fewer characters.",
-  CftTokenTimeoutError = "timeout-or-duplicate",
-  ContextError = "Context must be used within a provider.",
-  DescriptionValidationError = "Description must be 150 or fewer characters.",
-  EmailValidationError = "Please enter a valid email address.",
-  ExpiredResetToken = "Invalid request. Your reset link may be invalid or expired. Please try signing in again to receive a new reset link.",
-  InvalidLocationError = "Select a location from the dropdown menu.",
-  InvalidRequest = "Invalid request",
-  InvalidSwitchCase = "The provided switch case is not valid.",
-  InvalidToken = "Session expired, please log in again.",
-  InvalidZipcode = "Invalid zip code",
   LocationDeleted = "Location deleted",
   LocationUpdated = "Location updated",
-  NameValidationError = "Name must be 24 or fewer characters.",
   NewSighting = "New sighting created!",
-  NotFoundError = "The requested resource was not found.",
   PasswordUpdated = "Password updated",
-  PasswordValidationError = "Please enter a valid password 8-64 characters long.",
   ProfileUpdated = "Profile updated",
   ResetPasswordFormDescription = "This will reset the password you use to access your account.",
-  SearchValidationError = "Search must be 3-32 characters",
-  ServerOutageError = `We’re having trouble reaching the server right now. Please try again in a moment.`,
   SignIn = "You are signed in.",
   SignUp = "Your account has been created.",
   SightingCreated = "Sighting created",
@@ -127,9 +109,6 @@ export enum Messages {
   SightingLocationUnknown = "No location",
   ToastErrorTitle = "Error!",
   ToastSuccessTitle = "Success!",
-  UnknownUnexpectedError = "An unexpected error occurred. Reloading the page may help, or you can try again later.",
-  ZipCodeValidationError = "Input must be a valid 5-digit zip code.",
-  ZipCodeNoResultsError = "The provided zip code did not return any results.",
 }
 
 export type CsrQuerySuccess = { data: ListWithCount };

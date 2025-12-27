@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
-import { Messages } from "@/models/api";
 import { type AuthForm, AuthFormSchema } from "@/schemas/auth.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,12 +56,12 @@ export default function AuthForm() {
     setFetchError(null);
     setPending(true);
     try {
-      if (!cftToken) return setError(Messages.InvalidRequest);
+      if (!cftToken) return setError(ErrorMessages.BadRequest);
       const result = await auth({ ...values, cftToken, pathname });
       if ("error" in result) {
-        if (result.message === Messages.CftTokenTimeoutError) {
+        if (result.message === "timeout-or-duplicate") {
           setIsExpired(true); // Refresh widget
-          return setError(Messages.BadRequestFailedValidation);
+          return setError(ErrorMessages.CftExpired);
         }
         if (result.statusCode === 429) {
           setIsThrottled(true);

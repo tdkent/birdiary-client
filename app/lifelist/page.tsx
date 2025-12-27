@@ -6,12 +6,13 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/models/form";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -81,7 +82,7 @@ export default async function LifeListView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg={Messages.BadRequest} />
+            <ErrorDisplay msg={ErrorMessages.BadRequest} />
           </>
         )}
       </ViewWrapper>

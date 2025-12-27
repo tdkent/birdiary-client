@@ -5,8 +5,8 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
-import { Messages } from "@/models/api";
 import { Jwt } from "@/schemas/auth.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -25,7 +25,8 @@ export default async function ResetPasswordView({
 
   const isValidJwt = Jwt.safeParse(token);
 
-  if (!isValidJwt.success) return <ErrorDisplay msg={Messages.BadRequest} />;
+  if (!isValidJwt.success)
+    return <ErrorDisplay msg={ErrorMessages.BadRequest} />;
 
   const result = await verifyResetPassword(token);
 
