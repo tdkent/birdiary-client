@@ -7,12 +7,12 @@ import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortBySightingsCount,
-} from "@/models/form";
-import { ErrorMessages } from "@/types/error-messages.enum";
+} from "@/types/list-sort.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";

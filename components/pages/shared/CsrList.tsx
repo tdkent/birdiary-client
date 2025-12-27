@@ -9,7 +9,7 @@ import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
 import { PAGINATE } from "@/constants/app.constants";
 import { useApi } from "@/context/ApiContext";
-import type { SortOptions, SortValues } from "@/models/form";
+import type { SortOptions, SortValues } from "@/types/list-sort.types";
 
 type CsrListProps = {
   defaultSortOption: SortValues;

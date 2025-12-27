@@ -8,11 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import CONFIG from "@/constants/config.constants";
-import type { CreateLocationDto } from "@/models/form";
 import type {
   FormReturnEditLocationForm,
   FormReturnSightingForm,
 } from "@/schemas/sighting.schema";
+import type { CreateLocationDto } from "@/types/list-sort.types";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Dispatch, SetStateAction } from "react";
 

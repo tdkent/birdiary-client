@@ -1,6 +1,5 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
-import { Messages } from "@/models/api";
 import type {
   BirdWithCount,
   Diary,
@@ -82,9 +81,7 @@ export default function CsrListItem({
 
     case "birdDetail": {
       const { id, date, isNew, location } = item as SightingWithLocation;
-      const locationString = location
-        ? location.name
-        : Messages.SightingLocationUnknown;
+      const locationString = location ? location.name : "No location";
 
       return (
         <>
@@ -107,9 +104,7 @@ export default function CsrListItem({
         isNew,
         location,
       } = item as SightingWithBirdAndLocation;
-      const locationString = location
-        ? location.name
-        : Messages.SightingLocationUnknown;
+      const locationString = location ? location.name : "No location";
       return (
         <ListItemDetails
           commonName={commonName}

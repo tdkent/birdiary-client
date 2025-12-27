@@ -13,19 +13,21 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import type { SightingWithBirdAndLocation } from "@/models/display";
-import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
 import {
   SightingFormSchema,
   type SightingForm,
 } from "@/schemas/sighting.schema";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type {
+  CreateLocationDto,
+  CreateSightingDto,
+} from "@/types/list-sort.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 type EditSightingFormProps = {
   sighting: SightingWithBirdAndLocation;
@@ -70,7 +72,6 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   useEffect(() => {
     if (success) {
-      toast.success(Messages.SightingUpdated);
       router.replace(`/sightings/${sighting.id}`);
     }
   }, [router, sighting.id, success]);

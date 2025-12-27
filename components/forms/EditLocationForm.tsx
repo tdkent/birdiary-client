@@ -10,12 +10,12 @@ import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
 import { type ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
-import { type CreateLocationDto } from "@/models/form";
 import {
   EditLocationFormSchema,
   type EditLocationForm,
 } from "@/schemas/sighting.schema";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import { type CreateLocationDto } from "@/types/list-sort.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";

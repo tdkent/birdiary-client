@@ -1,16 +1,13 @@
 import { Location } from "@/models/db";
 
 export type CreateLocationDto = Pick<Location, "lat" | "lng" | "name">;
+
 export type CreateSightingDto = {
   birdId: number;
   date: string;
   description: string | null;
   location?: CreateLocationDto;
 };
-
-// Form controls
-//? Merge with SortValues
-export type DiarySortOptions = "dateDesc" | "dateAsc" | "sightings";
 
 export type SortValues =
   | "alphaAsc"

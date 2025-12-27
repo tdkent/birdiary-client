@@ -9,7 +9,7 @@ import { PAGINATE } from "@/constants/app.constants";
 import { getCookie } from "@/helpers/auth";
 import type { ExpectedServerError, ServerResponseWithList } from "@/models/api";
 import type { ListVariant } from "@/models/display";
-import type { SortOptions, SortValues } from "@/models/form";
+import type { SortOptions, SortValues } from "@/types/list-sort.types";
 
 type ListProps =
   | {

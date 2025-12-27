@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ExpectedServerError, Messages } from "@/models/api";
+import { ExpectedServerError } from "@/models/api";
 import {
   ResetPasswordFormSchema,
   type ResetPasswordForm,
@@ -63,7 +63,7 @@ export default function ResetPasswordSubmitPassword({
         return setError(msg);
       }
 
-      toast.success(Messages.PasswordUpdated);
+      toast.success("Password updated");
       form.reset();
       router.replace("/signin");
     } catch (error) {
@@ -81,7 +81,7 @@ export default function ResetPasswordSubmitPassword({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>
-            {Messages.ResetPasswordFormDescription}
+            Reset the password you use to access your account.
           </FormDescription>
           <FormField
             control={form.control}

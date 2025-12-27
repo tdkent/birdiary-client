@@ -17,13 +17,6 @@ export type SightingWithBirdAndLocation = Sighting & { bird: Bird } & {
   location: Location;
 };
 
-export type UserWithSightingsCount = User & {
-  count: {
-    totalSightings: number;
-    totalDistinctSightings: number;
-  };
-};
-
 type UserWithFavoriteBird = User & { bird: Bird };
 
 export type UserProfile = UserWithFavoriteBird & {
@@ -100,11 +93,6 @@ export type LocationWithCount = {
   count: number;
   name: string;
   sightings: string[] | null;
-};
-
-export type ListWithCount = {
-  data: Sighting[] | SightingWithLocation[] | BirdWithCount[] | Group[];
-  countOfRecords: number;
 };
 
 export type ListVariant =

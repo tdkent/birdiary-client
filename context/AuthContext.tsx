@@ -1,12 +1,18 @@
 "use client";
 
 import { checkSession, getCookie } from "@/helpers/auth";
-import type { AuthState } from "@/models/auth";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext<AuthState>({
+type Auth = {
+  isSignedIn: boolean;
+  token: string;
+  signIn: () => void;
+  signOut: () => void;
+};
+
+export const AuthContext = createContext<Auth>({
   isSignedIn: false,
   token: "",
   signIn: () => {},
@@ -50,7 +56,7 @@ export default function AuthProvider({
     setToken("");
   }
 
-  const auth: AuthState = {
+  const auth: Auth = {
     isSignedIn,
     token,
     signIn,

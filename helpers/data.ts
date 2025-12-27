@@ -1,6 +1,6 @@
 import { BIRD } from "@/constants/app.constants";
 import type { Group, SightingInStorage } from "@/models/display";
-import type { SortValues } from "@/models/form";
+import type { SortValues } from "@/types/list-sort.types";
 import { DateTime } from "luxon";
 
 /** Sort and filter storage data */

@@ -13,18 +13,20 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes, Messages } from "@/models/api";
-import { type CreateLocationDto, type CreateSightingDto } from "@/models/form";
+import { apiRoutes } from "@/models/api";
 import {
   SightingFormSchema,
   type SightingForm,
 } from "@/schemas/sighting.schema";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import {
+  type CreateLocationDto,
+  type CreateSightingDto,
+} from "@/types/list-sort.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 export default function SightingForm() {
   const { isSignedIn } = useAuth();
@@ -60,7 +62,6 @@ export default function SightingForm() {
 
   useEffect(() => {
     if (success) {
-      toast.success(Messages.SightingCreated);
       router.push(`sightings/${sighting!.id}`);
     }
   }, [router, sighting, success]);

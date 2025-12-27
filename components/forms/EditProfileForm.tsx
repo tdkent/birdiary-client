@@ -25,7 +25,6 @@ import { FORM } from "@/constants/app.constants";
 import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
 import type { ExpectedServerError } from "@/models/api";
-import { Messages } from "@/models/api";
 import type { UserProfile } from "@/models/display";
 import {
   EditProfileFormSchema,
@@ -103,7 +102,6 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
         }
         return setError(response.message);
       }
-      toast.success(Messages.ProfileUpdated);
       router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);

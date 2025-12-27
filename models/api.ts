@@ -1,29 +1,5 @@
 import { BASE_URL } from "@/constants/env";
-import type { Bird } from "@/models/db";
-import type {
-  CountOfRecords,
-  List,
-  ListVariant,
-  ListWithCount,
-  SightingWithLocation,
-} from "@/models/display";
-
-// ======= CACHE =======
-
-// The cache stores query functions that correspond to tags
-// Tags represent slices of state
-// The query functions can be called to update the state
-// in response to mutations
-
-export type Cache = {
-  sightings: Array<() => void>;
-  diary: Array<() => void>;
-};
-
-export const defaultCache: Cache = {
-  sightings: [],
-  diary: [],
-};
+import type { CountOfRecords, List } from "@/models/display";
 
 /** Server request URLs */
 export const apiRoutes = {
@@ -72,19 +48,6 @@ export const apiRoutes = {
   userVerifyEmail: `${BASE_URL}/users/verify-email`,
 } as const;
 
-export type QueryParameters = {
-  route: string;
-  tag: "sightings" | "diary";
-  variant: ListVariant;
-};
-
-export type MutationParameters = {
-  route: string;
-  tag: "sightings";
-  method: "POST" | "PUT" | "PATCH" | "DELETE";
-  tagsToUpdate: "sightings"[];
-};
-
 // ======= RESPONSES =======
 
 export type ExpectedServerError = {
@@ -94,29 +57,4 @@ export type ExpectedServerError = {
   timestamp: string;
 };
 
-export enum Messages {
-  LocationDeleted = "Location deleted",
-  LocationUpdated = "Location updated",
-  NewSighting = "New sighting created!",
-  PasswordUpdated = "Password updated",
-  ProfileUpdated = "Profile updated",
-  ResetPasswordFormDescription = "This will reset the password you use to access your account.",
-  SignIn = "You are signed in.",
-  SignUp = "Your account has been created.",
-  SightingCreated = "Sighting created",
-  SightingDeleted = "Sighting deleted",
-  SightingUpdated = "Sighting updated",
-  SightingLocationUnknown = "No location",
-  ToastErrorTitle = "Error!",
-  ToastSuccessTitle = "Success!",
-}
-
-export type CsrQuerySuccess = { data: ListWithCount };
-
-export type QuerySuccess = {
-  message: "ok";
-  data: ListWithCount | Bird;
-};
-
-export type ServerResponseWithObject = Bird | SightingWithLocation;
 export type ServerResponseWithList = List & CountOfRecords;

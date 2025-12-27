@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
+import { type ExpectedServerError } from "@/models/api";
 import type { User } from "@/models/db";
 import {
   UpdatePasswordFormSchema,
@@ -66,7 +66,7 @@ export default function UpdatePasswordForm() {
         return setError(response.message);
       }
 
-      toast.success(Messages.PasswordUpdated);
+      toast.success("Password updated");
       form.reset();
       router.replace("/profile");
     } catch (error) {
@@ -84,7 +84,7 @@ export default function UpdatePasswordForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>
-            {Messages.ResetPasswordFormDescription}
+            Reset the password you use to access your account.
           </FormDescription>
           <input name="username" type="hidden" value="default" />
           <FormField

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SortOptions, SortValues } from "@/models/form";
+import type { SortOptions, SortValues } from "@/types/list-sort.types";
 import { usePathname, useRouter } from "next/navigation";
 
 type SortItemsProps =

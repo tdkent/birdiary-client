@@ -6,8 +6,8 @@ import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
-import { type SortValues, sortByAlphaOptions } from "@/models/form";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import { type SortValues, sortByAlphaOptions } from "@/types/list-sort.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 

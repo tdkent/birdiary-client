@@ -3,11 +3,16 @@
 import { BASE_URL } from "@/constants/env";
 import { createSession, deleteSession } from "@/lib/session";
 import { apiRoutes, ExpectedServerError } from "@/models/api";
-import type { AuthParams, AuthResponse } from "@/models/auth";
 import { redirect } from "next/navigation";
 
 /** Sign up or sign in a user */
-export async function auth({ pathname, ...args }: AuthParams) {
+export async function auth({
+  pathname,
+  ...args
+}: {
+  pathname: "/signup" | "/signin";
+  [key: string]: string;
+}) {
   const response = await fetch(`${BASE_URL}/users${pathname}`, {
     method: "POST",
     headers: {
@@ -18,7 +23,7 @@ export async function auth({ pathname, ...args }: AuthParams) {
 
   const data:
     | ExpectedServerError
-    | AuthResponse
+    | { id: string; count: number | null }
     | { email: string }
     | { success: boolean } = await response.json();
 

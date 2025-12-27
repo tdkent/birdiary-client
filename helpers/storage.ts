@@ -3,13 +3,16 @@ import { PAGINATE } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { sortSightings } from "@/helpers/data";
 import { convertSightingDateToInteger } from "@/helpers/dates";
-import type { MutationParameters, QueryParameters } from "@/models/api";
 import type {
   DiaryInStorage,
   Group,
   SightingInStorage,
 } from "@/models/display";
-import type { CreateSightingDto, SortValues } from "@/models/form";
+import type {
+  UseMutationInputs,
+  UseQueryInputs,
+} from "@/types/api-context.types";
+import type { CreateSightingDto, SortValues } from "@/types/list-sort.types";
 
 type QueryStorageData = {
   items: SightingInStorage[] | Group[];
@@ -19,7 +22,7 @@ type QueryStorageData = {
 /** Query, filter, and sort data in storage based on route */
 export function queryStorage(
   route: string,
-  key: QueryParameters["tag"],
+  key: UseQueryInputs["tag"],
 ): QueryStorageData {
   if (!window.localStorage.getItem(key)) {
     window.localStorage.setItem(key, "[]");
@@ -99,7 +102,7 @@ export function queryStorage(
 /** Mutate sighting data in storage based on method */
 export function mutateStorage(
   tag: "sightings" | "locations",
-  method: MutationParameters["method"],
+  method: UseMutationInputs["method"],
   formValues: CreateSightingDto,
   route: string,
 ) {
