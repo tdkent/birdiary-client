@@ -1,7 +1,7 @@
 import { getCookie } from "@/helpers/auth";
 import { apiRoutes, type ExpectedServerError } from "@/models/api";
 import type { Location } from "@/models/db";
-import type { RequestBody } from "@/types/api.types";
+import type { RequestBody } from "@/types/api-request.types";
 import { cache } from "react";
 
 export const getLocation = cache(
