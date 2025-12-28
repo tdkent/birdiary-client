@@ -2,7 +2,7 @@ import { PAGINATE } from "@/constants/app.constants";
 import { ListVariant } from "@/models/display";
 
 type FilterByTextProps = {
-  noResults: boolean;
+  hasCount: boolean;
   page: number;
   records: number;
   search?: string;
@@ -11,7 +11,7 @@ type FilterByTextProps = {
 };
 
 export default function FilterAndResultsText({
-  noResults,
+  hasCount,
   page,
   records,
   search,
@@ -22,7 +22,7 @@ export default function FilterAndResultsText({
   if (startsWith) filterStr = `Name begins with '${startsWith}'`;
   if (search) filterStr = `Name or family contains '${search}'`;
 
-  if (noResults || records === 0) {
+  if (!hasCount || records === 0) {
     return (
       <>
         <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 md:py-6">

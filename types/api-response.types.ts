@@ -1,4 +1,4 @@
-// API RESPONSE SHAPE -------------------- //
+// API RESPONSE SHAPE - data/error -------------------- //
 export type ApiResponse<T> =
   | {
       count: number;
@@ -16,6 +16,12 @@ export type ApiResponse<T> =
       statusCode: number;
       timestamp: string;
     };
+
+// IDENTIFIABLE - all `data` has an id
+
+export type Identifiable = {
+  id: number;
+};
 
 // BIRDS -------------------- //
 
