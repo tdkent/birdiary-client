@@ -57,8 +57,10 @@ export default function AuthForm() {
     setPending(true);
     try {
       if (!cftToken) return setError(ErrorMessages.BadRequest);
+
       const result = await auth({ ...values, cftToken, pathname });
-      if ("error" in result) {
+
+      if (result.error) {
         if (result.message === "timeout-or-duplicate") {
           setIsExpired(true); // Refresh widget
           return setError(ErrorMessages.CftExpired);
@@ -68,13 +70,15 @@ export default function AuthForm() {
         }
         return setError(result.message);
       }
-      if ("email" in result) {
-        if (pathname !== "/signup") throw new Error();
-        return router.replace(`/verify/new?email=${result.email}`);
+
+      if (pathname === "/signup") {
+        return router.replace(`/verify/new?email=${values.email}`);
       }
-      if ("success" in result) {
+
+      if (!result.data) {
         return setVerificationError(true);
       }
+
       setIsValidated(true);
       signIn();
       router.replace("/diary");

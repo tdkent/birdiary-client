@@ -3,6 +3,7 @@
 import { BASE_URL } from "@/constants/env";
 import { createSession, deleteSession } from "@/lib/session";
 import { apiRoutes, ExpectedServerError } from "@/models/api";
+import type { ApiResponse, Identifiable } from "@/types/api-response.types";
 import { redirect } from "next/navigation";
 
 /** Sign up or sign in a user */
@@ -21,21 +22,15 @@ export async function auth({
     body: JSON.stringify(args),
   });
 
-  const data:
-    | ExpectedServerError
-    | { id: string; count: number | null }
-    | { email: string }
-    | { success: boolean } = await response.json();
+  const result: ApiResponse<Identifiable | null> = await response.json();
 
-  if (!response.ok) {
-    return data as ExpectedServerError;
+  if (result.error) return result;
+
+  if (result.data) {
+    await createSession(result.data.id);
   }
 
-  if ("id" in data) {
-    await createSession(data.id);
-  }
-
-  return data;
+  return result;
 }
 
 export async function verifyUser(email: string, verificationId: string) {
