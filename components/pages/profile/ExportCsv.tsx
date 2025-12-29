@@ -4,7 +4,8 @@ import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { apiRoutes, ExpectedServerError } from "@/models/api";
+import { apiRoutes } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
 import { Download } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -28,7 +29,7 @@ export default function ExportCsv() {
       });
 
       if (!response.ok) {
-        const result: ExpectedServerError = await response.json();
+        const result: ApiResponse<null> = await response.json();
         return setError(result.message);
       }
 

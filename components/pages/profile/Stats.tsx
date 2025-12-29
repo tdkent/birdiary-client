@@ -4,14 +4,14 @@ import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Separator } from "@/components/ui/separator";
 import { createLocaleString } from "@/helpers/dates";
-import { ExpectedServerError } from "@/models/api";
-import { UserStats } from "@/models/display";
+import type { ApiResponse } from "@/types/api.types";
+import type { UserSightingStats } from "@/types/user.types";
 import Link from "next/link";
 
 export default async function Stats() {
-  const result: UserStats | ExpectedServerError = await getUserStats();
+  const result: ApiResponse<UserSightingStats> = await getUserStats();
 
-  if ("error" in result) {
+  if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }
 
@@ -35,7 +35,7 @@ export default async function Stats() {
       topThreeLocations,
     },
     user: { bird },
-  } = result;
+  } = result.data;
 
   return (
     <>
@@ -189,13 +189,15 @@ export default async function Stats() {
             dt="Locations with Most Sightings"
             dd={
               topThreeLocations &&
-              topThreeLocations.map(({ count, locationId, name }, idx) => {
-                return (
-                  <li className="flex items-center gap-1" key={locationId}>
-                    {idx + 1}. {name} ({count})
-                  </li>
-                );
-              })
+              topThreeLocations
+                .filter(({ name }) => name)
+                .map(({ count, locationId, name }, idx) => {
+                  return (
+                    <li className="flex items-center gap-1" key={locationId}>
+                      {idx + 1}. {name} ({count})
+                    </li>
+                  );
+                })
             }
             useList
           />

@@ -6,6 +6,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Button } from "@/components/ui/button";
 import { Jwt } from "@/schemas/auth.schema";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -28,9 +29,9 @@ export default async function ResetPasswordView({
   if (!isValidJwt.success)
     return <ErrorDisplay msg={ErrorMessages.BadRequest} />;
 
-  const result = await verifyResetPassword(token);
+  const result: ApiResponse<null> = await verifyResetPassword(token);
 
-  if ("error" in result) {
+  if (result.error) {
     if (result.statusCode === 400) return <InvalidVerificationLink />;
     return <ErrorDisplay msg={result.message} />;
   }

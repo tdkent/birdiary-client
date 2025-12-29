@@ -3,8 +3,9 @@
 import PendingIcon from "@/components/forms/PendingIcon";
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
 import birdNames from "@/data/birds";
-import { apiRoutes, ExpectedServerError } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import type { Bird } from "@/models/db";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleAlert, Image as ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -29,13 +30,11 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
     try {
       const birdId = birdNames.findIndex((name) => name === currBirdName) + 1;
       const response = await fetch(apiRoutes.bird(birdId));
-      const result: Bird | ExpectedServerError = await response.json();
+      const result: ApiResponse<Bird> = await response.json();
 
-      if ("error" in result) {
-        return setError(result.message);
-      }
+      if (result.error) return setError(result.message);
 
-      setData(result);
+      setData(result.data);
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {

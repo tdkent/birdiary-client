@@ -14,11 +14,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ExpectedServerError } from "@/models/api";
 import {
   ResetPasswordFormSchema,
   type ResetPasswordForm,
 } from "@/schemas/auth.schema";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -52,14 +52,16 @@ export default function ResetPasswordSubmitPassword({
     setPending(true);
     setError(null);
     try {
-      const response: { success: boolean } | ExpectedServerError =
-        await resetPassword(values.newPassword, token);
+      const result: ApiResponse<null> = await resetPassword(
+        values.newPassword,
+        token,
+      );
 
-      if ("error" in response) {
+      if (result.error) {
         const msg =
-          response.statusCode === 400
+          result.statusCode === 400
             ? ErrorMessages.ExpiredResetToken
-            : response.message;
+            : result.message;
         return setError(msg);
       }
 

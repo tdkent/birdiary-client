@@ -8,7 +8,7 @@ import SortItems from "@/components/pages/shared/SortItems";
 import { PAGINATE } from "@/constants/app.constants";
 import { getCookie } from "@/helpers/auth";
 import type { ListVariant } from "@/models/display";
-import type { ApiResponse, Identifiable } from "@/types/api-response.types";
+import type { ApiResponse, Identifiable } from "@/types/api.types";
 import type { SortOptions, SortValues } from "@/types/list-sort.types";
 
 type ListProps =

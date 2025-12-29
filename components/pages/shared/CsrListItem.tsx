@@ -1,32 +1,17 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
+import type { ListVariant } from "@/models/display";
 import type {
-  BirdWithCount,
-  Diary,
-  Group,
-  LifeList,
-  ListVariant,
-  LocationWithCount,
-  LocationWithSightingsCount,
-  SightingInStorage,
+  SightingsDiary,
   SightingWithBird,
   SightingWithBirdAndLocation,
   SightingWithLocation,
-} from "@/models/display";
+} from "@/types/sighting.types";
 import { MapPin } from "lucide-react";
 
 type CsrListItemProps = {
   favBirdId?: number | null;
-  item:
-    | BirdWithCount
-    | LifeList
-    | LocationWithCount
-    | SightingWithBird
-    | SightingWithLocation
-    | SightingInStorage
-    | Diary
-    | Group
-    | LocationWithSightingsCount;
+  item: unknown;
   variant: ListVariant;
 };
 
@@ -62,7 +47,7 @@ export default function CsrListItem({
     }
 
     case "diary": {
-      const { count, date, id, sightings } = item as Diary;
+      const { count, date, id, sightings } = item as SightingsDiary;
       return (
         <>
           <ListItemDetails

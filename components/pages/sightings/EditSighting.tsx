@@ -8,8 +8,9 @@ import Pending from "@/components/pages/shared/Pending";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { checkSession } from "@/helpers/auth";
-import type { SightingWithBirdAndLocation } from "@/models/display";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -36,9 +37,10 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
       if (hasSession) {
         setPending(true);
         try {
-          const result = await getSighting(sightingId);
+          const result: ApiResponse<SightingWithBirdAndLocation> =
+            await getSighting(sightingId);
 
-          if ("error" in result) {
+          if (result.error) {
             if (result.statusCode === 401) {
               toast.error(ErrorMessages.InvalidSession);
               signOut();
@@ -48,7 +50,7 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
             return setError(result.message);
           }
 
-          setData(result);
+          setData(result.data);
         } catch (error) {
           console.error(error);
           setFetchError(error as Error);

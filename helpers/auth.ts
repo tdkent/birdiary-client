@@ -2,8 +2,8 @@
 
 import { getUser } from "@/actions/profile";
 import { decrypt } from "@/lib/session";
-import type { ExpectedServerError } from "@/models/api";
-import type { User } from "@/models/db";
+import type { ApiResponse } from "@/types/api.types";
+import type { User } from "@/types/user.types";
 import { cookies } from "next/headers";
 
 export async function checkSession() {
@@ -26,10 +26,10 @@ export async function getCookie() {
 export async function getUserProfileOrNull() {
   const hasSession = await checkSession();
   if (!hasSession) return null;
-  const result: ExpectedServerError | User = await getUser();
-  if ("error" in result) return null;
+  const result: ApiResponse<User> = await getUser();
+  if (result.error) return null;
   return {
-    name: result.name ?? null,
-    favoriteBirdId: result.favoriteBirdId ?? null,
+    name: result.data.name ?? null,
+    favoriteBirdId: result.data.favoriteBirdId ?? null,
   };
 }

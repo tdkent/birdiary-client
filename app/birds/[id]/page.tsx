@@ -12,6 +12,8 @@ import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { apiRoutes } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
+import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { sortByDateOptions, SortValues } from "@/types/list-sort.types";
 import type { Metadata } from "next";
@@ -37,9 +39,9 @@ export async function generateMetadata({
     };
   }
 
-  const bird = await getBird(Number(birdId));
+  const result: ApiResponse<Bird> = await getBird(Number(birdId));
 
-  if ("error" in bird) {
+  if (result.error) {
     return {
       title: `Bird details - Birdiary`,
       description:
@@ -47,9 +49,13 @@ export async function generateMetadata({
     };
   }
 
+  const {
+    data: { commonName },
+  } = result;
+
   return {
-    title: `${bird.commonName} - Birdiary`,
-    description: `Learn about the ${bird.commonName} and view sightings of this bird.`,
+    title: `${commonName} - Birdiary`,
+    description: `Learn about the ${commonName} and view sightings of this bird.`,
   };
 }
 

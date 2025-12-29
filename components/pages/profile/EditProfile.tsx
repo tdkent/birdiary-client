@@ -2,9 +2,9 @@ import EditProfileForm from "@/components/forms/EditProfileForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError } from "@/models/api";
 import { apiRoutes } from "@/models/api";
-import { UserProfile } from "@/models/display";
+import type { ApiResponse } from "@/types/api.types";
+import type { UserWithCountAndBird } from "@/types/user.types";
 import Link from "next/link";
 
 /** Fetch user data and display form. */
@@ -17,16 +17,16 @@ export default async function EditProfile() {
     },
   });
 
-  const result: UserProfile | ExpectedServerError = await response.json();
+  const result: ApiResponse<UserWithCountAndBird> = await response.json();
 
-  if ("error" in result) {
+  if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }
 
   return (
     <>
       <div className="flex flex-col gap-4">
-        <EditProfileForm user={result} />
+        <EditProfileForm user={result.data} />
         <Button asChild size="lg" variant="secondary">
           <Link href="/profile">Cancel</Link>
         </Button>

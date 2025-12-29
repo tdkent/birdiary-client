@@ -38,16 +38,13 @@ export default function CsrList({
   variant,
 }: CsrListProps) {
   const { useQuery } = useApi();
-  const {
-    count,
-    data: items,
-    error,
-    pending,
-  } = useQuery({
+  const { count, data, error, pending } = useQuery({
     route,
     tag,
     variant,
   });
+
+  const items = data as unknown[];
 
   if (error) {
     return <ErrorDisplay msg={error} />;
@@ -55,7 +52,6 @@ export default function CsrList({
 
   const detailVariants: (typeof variant)[] = ["diaryDetail", "birdDetail"];
 
-  const noResults = !items.length;
   const currentPage = page;
   const pages = detailVariants.includes(variant)
     ? Math.ceil(count / PAGINATE.SMALL_LIST)
@@ -74,13 +70,13 @@ export default function CsrList({
             options={sortOptions}
             pending={pending}
             count={count}
-            noResults={noResults}
+            hasCount={!!count}
           />
           <FilterAndResultsText
             variant={variant}
             records={count}
             page={+page!}
-            noResults={noResults}
+            hasCount={!!count}
           />
           {pending || !items ? (
             <Pending variant={pendingVariant} listSize={listSize} />

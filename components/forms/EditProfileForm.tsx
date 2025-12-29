@@ -24,13 +24,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { FORM } from "@/constants/app.constants";
 import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
-import type { ExpectedServerError } from "@/models/api";
-import type { UserProfile } from "@/models/display";
 import {
   EditProfileFormSchema,
   type EditProfileForm,
 } from "@/schemas/user.schema";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type { UpdateProfile, UserWithCountAndBird } from "@/types/user.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { CircleQuestionMark } from "lucide-react";
@@ -39,7 +39,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-type EditProfileFormProps = { user: UserProfile };
+type EditProfileFormProps = { user: UserWithCountAndBird };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
   const [pending, setPending] = useState(false);
@@ -83,24 +83,24 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return toast.error(ErrorMessages.InvalidZip);
         });
     }
-    const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
+    const reqBody: UpdateProfile = {
       address: (address as string) || null,
       bio: values.bio || null,
       name: values.name || null,
       zipcode: values.zipcode || null,
     };
-    try {
-      const response: ExpectedServerError | UserProfile =
-        await editUserProfile(reqBody);
 
-      if ("error" in response) {
-        if (response.statusCode === 401) {
+    try {
+      const result: ApiResponse<null> = await editUserProfile(reqBody);
+
+      if (result.error) {
+        if (result.statusCode === 401) {
           toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(response.message);
+        return setError(result.message);
       }
       router.push("/profile");
     } catch (error) {

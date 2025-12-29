@@ -7,7 +7,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { type ExpectedServerError } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,10 +30,9 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
     setPending(true);
     setError(null);
     try {
-      const result: { count: number } | ExpectedServerError =
-        await deleteLocation(locationId);
+      const result: ApiResponse<null> = await deleteLocation(locationId);
 
-      if ("error" in result) {
+      if (result.error) {
         if (result.statusCode === 401) {
           toast.error(ErrorMessages.InvalidSession);
           signOut();

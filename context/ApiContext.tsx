@@ -4,11 +4,6 @@ import { deleteSessionCookie } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
-import {
-  type ExpectedServerError,
-  type ServerResponseWithList,
-} from "@/models/api";
-import type { Sighting } from "@/models/db";
 import { Group, SightingInStorage } from "@/models/display";
 import {
   Api,
@@ -18,8 +13,10 @@ import {
   type UseMutationInputs,
   type UseQueryInputs,
 } from "@/types/api-context.types";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import type { CreateSightingDto } from "@/types/list-sort.types";
+import type { Sighting } from "@/types/sighting.types";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -34,7 +31,7 @@ export default function ApiProvider({
 
   /** Fetch from server or browser in client components. */
   function useQuery({ route, tag }: UseQueryInputs) {
-    const [data, setData] = useState<ServerResponseWithList["data"]>([]);
+    const [data, setData] = useState<unknown>([]);
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
@@ -55,10 +52,9 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const result: ServerResponseWithList | ExpectedServerError =
-              await response.json();
+            const result: ApiResponse<unknown> = await response.json();
 
-            if ("error" in result) {
+            if (result.error) {
               if (result.statusCode === 401) {
                 toast.error(ErrorMessages.InvalidSession);
                 signOut();
@@ -69,7 +65,7 @@ export default function ApiProvider({
             }
 
             setData(result.data);
-            setCount(result.countOfRecords);
+            setCount(result.count);
           } catch (error) {
             console.error(error);
             if (error instanceof Error) {
@@ -129,9 +125,9 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const result: Sighting | ExpectedServerError = await response.json();
+          const result: ApiResponse<Sighting> = await response.json();
 
-          if ("error" in result) {
+          if (result.error) {
             if (result.statusCode === 401) {
               toast.error(ErrorMessages.InvalidSession);
               signOut();
@@ -141,7 +137,7 @@ export default function ApiProvider({
             return setError(result.message);
           }
 
-          setData(result);
+          setData(result.data);
           setSuccess(true);
         } catch (error) {
           console.error(error);

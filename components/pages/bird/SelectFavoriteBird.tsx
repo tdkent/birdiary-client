@@ -3,8 +3,8 @@
 import { updateFavoriteBird } from "@/actions/profile";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
-import { ExpectedServerError } from "@/models/api";
-import { User } from "@/models/db";
+import type { ApiResponse } from "@/types/api.types";
+import type { User } from "@/types/user.types";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 
@@ -24,8 +24,8 @@ export default function SelectFavoriteBird({
   const handleClick = async () => {
     setError(null);
     const newId = isCurrFav ? null : birdId;
-    const result: User | ExpectedServerError = await updateFavoriteBird(newId);
-    if ("error" in result) {
+    const result: ApiResponse<User> = await updateFavoriteBird(newId);
+    if (result.error) {
       return setError(result.message);
     }
   };

@@ -17,8 +17,9 @@ import {
   convertSightingDateToInteger,
   createLocaleString,
 } from "@/helpers/dates";
-import type { SightingWithBirdAndLocation } from "@/models/display";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -49,22 +50,23 @@ export default function SightingDetails({ sightingId }: SightingProps) {
       if (isSignedIn) {
         setPending(true);
         try {
-          const sighting = await getSighting(sightingId);
+          const result: ApiResponse<SightingWithBirdAndLocation> =
+            await getSighting(sightingId);
 
-          if ("error" in sighting) {
-            if (sighting.statusCode === 401) {
+          if (result.error) {
+            if (result.statusCode === 401) {
               toast.error(ErrorMessages.InvalidSession);
               signOut();
               deleteSessionCookie();
               router.replace("/signin");
             }
-            return setError(sighting.message);
+            return setError(result.message);
           }
 
           const user = await getUserProfileOrNull();
 
-          setSighting(sighting);
-          if (user) setFavBirdId(user?.favoriteBirdId);
+          setSighting(result.data);
+          if (user) setFavBirdId(user.favoriteBirdId);
         } catch (error) {
           console.error(error);
           setFetchError(error as Error);

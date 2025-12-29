@@ -11,8 +11,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { type ExpectedServerError } from "@/models/api";
 import type { SightingInStorage } from "@/models/display";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -36,10 +36,10 @@ export default function TransferStorageData() {
     setError(null);
     setPending(true);
     try {
-      const result: { count: number } | ExpectedServerError =
+      const result: ApiResponse<{ count: number }> =
         await transferStorageData(parsedSightings);
 
-      if ("error" in result) {
+      if (result.error) {
         if (result.statusCode === 401) {
           toast.error(ErrorMessages.InvalidSession);
           signOut();

@@ -2,8 +2,8 @@
 
 import { BASE_URL } from "@/constants/env";
 import { createSession, deleteSession } from "@/lib/session";
-import { apiRoutes, ExpectedServerError } from "@/models/api";
-import type { ApiResponse, Identifiable } from "@/types/api-response.types";
+import { apiRoutes } from "@/models/api";
+import type { ApiResponse, Identifiable } from "@/types/api.types";
 import { redirect } from "next/navigation";
 
 /** Sign up or sign in a user */
@@ -41,9 +41,7 @@ export async function verifyUser(email: string, verificationId: string) {
     },
     body: JSON.stringify({ email, verificationId }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function forgotPassword(email: string) {
@@ -54,16 +52,12 @@ export async function forgotPassword(email: string) {
     },
     body: JSON.stringify({ email }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function verifyResetPassword(token: string) {
   const response = await fetch(apiRoutes.userVerifyResetPassword(token));
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function resetPassword(password: string, token: string) {
@@ -74,9 +68,7 @@ export async function resetPassword(password: string, token: string) {
     },
     body: JSON.stringify({ password, token }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function deleteSessionCookie() {

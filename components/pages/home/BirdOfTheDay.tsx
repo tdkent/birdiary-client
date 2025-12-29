@@ -2,8 +2,9 @@ import StaticBirdImage from "@/components/image/StaticBirdImage";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { apiRoutes, ExpectedServerError } from "@/models/api";
+import { apiRoutes } from "@/models/api";
 import { Bird } from "@/models/db";
+import type { ApiResponse } from "@/types/api.types";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -33,16 +34,16 @@ export default async function BirdOfTheDay() {
 
 async function BirdOfTheDayImage() {
   const response = await fetch(apiRoutes.birdOfTheDay);
-  const result: Bird | ExpectedServerError = await response.json();
-  if ("error" in result) {
-    return <ErrorDisplay msg={result.message} />;
-  }
+  const result: ApiResponse<Bird> = await response.json();
+  if (result.error) return <ErrorDisplay msg={result.message} />;
+
+  const { data } = result;
 
   return (
     <>
-      <StaticBirdImage bird={result} sizes="(max-width: 1024px) 100vw, 780px" />
+      <StaticBirdImage bird={data} sizes="(max-width: 1024px) 100vw, 780px" />
       <h4 className="text-xl text-foreground hover:text-primary md:text-2xl">
-        <Link href={`/birds/${result.id}`}>{result.commonName}</Link>
+        <Link href={`/birds/${data.id}`}>{data.commonName}</Link>
       </h4>
     </>
   );

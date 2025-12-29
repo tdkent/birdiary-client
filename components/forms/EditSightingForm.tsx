@@ -14,7 +14,6 @@ import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
 import { apiRoutes } from "@/models/api";
-import type { SightingWithBirdAndLocation } from "@/models/display";
 import {
   SightingFormSchema,
   type SightingForm,
@@ -24,6 +23,7 @@ import type {
   CreateLocationDto,
   CreateSightingDto,
 } from "@/types/list-sort.types";
+import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -1,4 +1,3 @@
-import type { ServerResponseWithList } from "@/models/api";
 import type { Sighting } from "@/models/db";
 import type { ListVariant, SightingInStorage } from "@/models/display";
 import { createContext } from "react";
@@ -18,8 +17,8 @@ export type UseMutationInputs = {
 
 export type Api = {
   useQuery: ({ route, tag }: UseQueryInputs) => {
-    count: ServerResponseWithList["countOfRecords"];
-    data: ServerResponseWithList["data"];
+    count: number;
+    data: unknown;
     error: string | null;
     pending: boolean;
   };
