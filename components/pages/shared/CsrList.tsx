@@ -7,12 +7,9 @@ import NoResultsDisplay from "@/components/pages/shared/NoResultsDisplay";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { useApi } from "@/context/ApiContext";
-import type { SortOptions, SortValues } from "@/models/form";
+import type { SortOptions, SortValues } from "@/types/list-sort.types";
 
 type CsrListProps = {
   defaultSortOption: SortValues;
@@ -41,16 +38,13 @@ export default function CsrList({
   variant,
 }: CsrListProps) {
   const { useQuery } = useApi();
-  const {
-    count,
-    data: items,
-    error,
-    pending,
-  } = useQuery({
+  const { count, data, error, pending } = useQuery({
     route,
     tag,
     variant,
   });
+
+  const items = data as unknown[];
 
   if (error) {
     return <ErrorDisplay msg={error} />;
@@ -58,14 +52,13 @@ export default function CsrList({
 
   const detailVariants: (typeof variant)[] = ["diaryDetail", "birdDetail"];
 
-  const noResults = !items.length;
   const currentPage = page;
   const pages = detailVariants.includes(variant)
-    ? Math.ceil(count / DETAILS_RESULTS_PER_PAGE)
-    : Math.ceil(count / RESULTS_PER_PAGE);
+    ? Math.ceil(count / PAGINATE.SMALL_LIST)
+    : Math.ceil(count / PAGINATE.LARGE_LIST);
   const listSize = detailVariants.includes(variant)
-    ? DETAILS_RESULTS_PER_PAGE
-    : RESULTS_PER_PAGE;
+    ? PAGINATE.SMALL_LIST
+    : PAGINATE.LARGE_LIST;
 
   return (
     <>
@@ -77,13 +70,13 @@ export default function CsrList({
             options={sortOptions}
             pending={pending}
             count={count}
-            noResults={noResults}
+            hasCount={!!count}
           />
           <FilterAndResultsText
             variant={variant}
             records={count}
             page={+page!}
-            noResults={noResults}
+            hasCount={!!count}
           />
           {pending || !items ? (
             <Pending variant={pendingVariant} listSize={listSize} />

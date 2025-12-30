@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Bird } from "@/models/db";
+import type { Bird } from "@/types/bird.types";
 import { Bird as BirdIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -54,9 +54,9 @@ export default function BirdImageDisplay({
         </DialogTrigger>
         <DialogContent className="max-h-full min-w-full rounded-none border-none p-0 [&>button]:hidden">
           <DialogHeader className="sr-only">
-            <DialogTitle>{bird.commonName}</DialogTitle>
+            <DialogTitle>{commonName}</DialogTitle>
             <DialogDescription>
-              Full-screen image of {bird.commonName}
+              Full-screen image of {commonName}
             </DialogDescription>
           </DialogHeader>
           <figure>

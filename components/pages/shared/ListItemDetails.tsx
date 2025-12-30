@@ -1,6 +1,6 @@
 import Icons from "@/components/pages/shared/Icons";
 import SightingBadge from "@/components/pages/shared/SightingBadge";
-import type { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 import Link from "next/link";
 import type { ReactNode } from "react";
 

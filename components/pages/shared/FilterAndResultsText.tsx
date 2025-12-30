@@ -1,11 +1,8 @@
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
-import { ListVariant } from "@/models/display";
+import { PAGINATE } from "@/constants/app.constants";
+import type { ListVariant } from "@/types/list-sort.types";
 
 type FilterByTextProps = {
-  noResults: boolean;
+  hasCount: boolean;
   page: number;
   records: number;
   search?: string;
@@ -14,7 +11,7 @@ type FilterByTextProps = {
 };
 
 export default function FilterAndResultsText({
-  noResults,
+  hasCount,
   page,
   records,
   search,
@@ -25,7 +22,7 @@ export default function FilterAndResultsText({
   if (startsWith) filterStr = `Name begins with '${startsWith}'`;
   if (search) filterStr = `Name or family contains '${search}'`;
 
-  if (noResults || records === 0) {
+  if (!hasCount || records === 0) {
     return (
       <>
         <div className="my-6 flex flex-col gap-2 border-y px-2 py-4 md:py-6">
@@ -44,8 +41,8 @@ export default function FilterAndResultsText({
     "locationDetail",
   ];
   const resultsPerPage = detailVariants.includes(variant)
-    ? DETAILS_RESULTS_PER_PAGE
-    : RESULTS_PER_PAGE;
+    ? PAGINATE.SMALL_LIST
+    : PAGINATE.LARGE_LIST;
   const minResult = page * resultsPerPage - (resultsPerPage - 1);
   const maxResult =
     records < page * resultsPerPage ? records : page * resultsPerPage;

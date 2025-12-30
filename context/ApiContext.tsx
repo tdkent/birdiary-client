@@ -1,77 +1,40 @@
 "use client";
 
-// This context will store the entire application `state`
-// State slices will be managed with tags that correspond to specific arrays
-// The context will create two hooks: useQuery and useMutation
-// useQuery will use `useEffect` to fetch data from a given resource on initial load
-// useQuery will accept a `resource` parameter to direct fetch
-// useMutation will perform "POST", "PUT", and "DELETE" requests
-// useMutation will accept resource and method requests
-// These hooks will change behavior based on auth status of user
-// If logged in, requests will be directed to the API
-// Otherwise, they will be directed to local storage
-// Create a generic `request` function to use for fetch requests
-
-import {
-  defaultCache,
-  Messages,
-  type Cache,
-  type ExpectedServerError,
-  type MutationParameters,
-  type QueryParameters,
-  type ServerResponseWithList,
-} from "@/models/api";
-import type { Sighting } from "@/models/db";
-import type { CreateSightingDto } from "@/models/form";
-import { createContext, useContext, useEffect, useState } from "react";
-// import type { Group } from "@/models/display";
-// import type { Sighting } from "@/models/db";
 import { deleteSessionCookie } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
-import { Group, SightingInStorage } from "@/models/display";
+import {
+  Api,
+  ApiContext,
+  type Cache,
+  defaultCache,
+  type UseMutationInputs,
+  type UseQueryInputs,
+} from "@/types/api-context.types";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import type {
+  NewSighting,
+  Sighting,
+  StorageDiary,
+  StorageSighting,
+} from "@/types/sighting.types";
 import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-
-// Define the shape of the API Context object
-type Api = {
-  useQuery: ({ route, tag }: QueryParameters) => {
-    count: ServerResponseWithList["countOfRecords"];
-    data: ServerResponseWithList["data"];
-    error: string | null;
-    pending: boolean;
-  };
-  useMutation: ({ route, method, tagsToUpdate }: MutationParameters) => {
-    success: boolean;
-    error: string | null;
-    pending: boolean;
-    mutate: <T>(body: T) => void;
-    data: Sighting | SightingInStorage | null;
-  };
-};
-
-// Create context with default values
-export const ApiContext = createContext<Api>({
-  useQuery: () => ({ count: 0, data: [], error: null, pending: false }),
-  useMutation: () => ({
-    success: false,
-    error: null,
-    pending: false,
-    mutate: () => {},
-    data: null,
-  }),
-});
 
 export default function ApiProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Store query functions corresponding to tags.
   const [cache, setCache] = useState<Cache>(defaultCache);
 
-  function useQuery({ route, tag }: QueryParameters) {
-    const [data, setData] = useState<ServerResponseWithList["data"]>([]);
+  /** Fetch from server or browser in client components. */
+  function useQuery({ route, tag }: UseQueryInputs) {
+    const [data, setData] = useState<unknown>([]);
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
@@ -92,12 +55,11 @@ export default function ApiProvider({
               headers: { Authorization: `Bearer ${token}` },
             });
 
-            const result: ServerResponseWithList | ExpectedServerError =
-              await response.json();
+            const result: ApiResponse<unknown> = await response.json();
 
-            if ("error" in result) {
+            if (result.error) {
               if (result.statusCode === 401) {
-                toast.error(Messages.InvalidToken);
+                toast.error(ErrorMessages.InvalidSession);
                 signOut();
                 deleteSessionCookie();
                 router.replace("/signin");
@@ -106,30 +68,25 @@ export default function ApiProvider({
             }
 
             setData(result.data);
-            setCount(result.countOfRecords);
+            setCount(result.count);
           } catch (error) {
             console.error(error);
             if (error instanceof Error) {
               setFetchError(error);
             } else {
-              setError(Messages.ServerOutageError);
+              setError(ErrorMessages.ServerOutage);
             }
           } finally {
             setPending(false);
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as SightingInStorage[] | Group[]) || []);
+          setData((items as StorageSighting[] | StorageDiary[]) || []);
           setCount(countOfRecords);
         }
       }
 
-      // Update the cache:
-      // Use [tag] syntax to give property the name of the provided tag
-      // Spread the current value of cache[tag] into the array (or [])
-      // Append the query function (with the specific `resource` parameter) to the array value
-      // This function can be called later when the tag is present in a mutation and the
-      // data state value for that tag will be updated
+      // Add query function and corresponding tag to cache state.
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
     }, [route, router, signOut, tag]);
@@ -139,14 +96,15 @@ export default function ApiProvider({
     return { count, data, error, pending };
   }
 
+  /** Mutations on server or browser in client components. */
   function useMutation({
     route,
     tag,
     method,
     tagsToUpdate,
-  }: MutationParameters) {
+  }: UseMutationInputs) {
     const [success, setSuccess] = useState(false);
-    const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
+    const [data, setData] = useState<Sighting | StorageSighting | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
     const [pending, setPending] = useState(false);
@@ -170,11 +128,11 @@ export default function ApiProvider({
             body: JSON.stringify(formValues),
           });
 
-          const result: Sighting | ExpectedServerError = await response.json();
+          const result: ApiResponse<Sighting> = await response.json();
 
-          if ("error" in result) {
+          if (result.error) {
             if (result.statusCode === 401) {
-              toast.error(Messages.InvalidToken);
+              toast.error(ErrorMessages.InvalidSession);
               signOut();
               deleteSessionCookie();
               router.replace("/signin");
@@ -182,34 +140,30 @@ export default function ApiProvider({
             return setError(result.message);
           }
 
-          setData(result);
+          setData(result.data);
           setSuccess(true);
         } catch (error) {
           console.error(error);
           if (error instanceof Error) {
             setFetchError(error);
           } else {
-            setError(Messages.ServerOutageError);
+            setError(ErrorMessages.ServerOutage);
           }
         } finally {
           setPending(false);
         }
-      }
-      // Otherwise send mutation to browser storage
-      else {
-        const result: SightingInStorage = mutateStorage(
+      } else {
+        const result: StorageSighting = mutateStorage(
           tag,
           method,
-          formValues as CreateSightingDto,
+          formValues as NewSighting,
           route,
         );
         setData(result);
         setSuccess(true);
       }
 
-      // Call the query functions attached to each tag
-      // Update the data for all subscribed components
-      // For each tag, call query() attached to same property in `cache`
+      // For each tag, call query() attached to same property in `cache`.
       tagsToUpdate.forEach((tag) => cache[tag].forEach((query) => query()));
     }
 
@@ -226,9 +180,8 @@ export default function ApiProvider({
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
 }
 
-// Put the context into a hook for ease of use and error handling
 export function useApi() {
   const context = useContext(ApiContext);
-  if (!context) throw new Error(Messages.ContextError);
+  if (!context) throw new Error(ErrorMessages.InvalidContext);
   return context;
 }

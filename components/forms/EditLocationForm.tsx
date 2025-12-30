@@ -8,13 +8,13 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
-import type { Location } from "@/models/db";
-import { type CreateLocationDto } from "@/models/form";
 import {
   EditLocationFormSchema,
   type EditLocationForm,
 } from "@/schemas/sighting.schema";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import type { Location, NewLocation } from "@/types/location.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -38,7 +38,7 @@ export default function EditLocationForm({
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
   const [updatedLocation, setUpdatedLocation] = useState<
-    CreateLocationDto | undefined
+    NewLocation | undefined
   >(location ?? undefined);
 
   const router = useRouter();
@@ -61,23 +61,23 @@ export default function EditLocationForm({
     if (!updatedLocation || updatedLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.InvalidLocationError,
+        message: ErrorMessages.InvalidLocation,
       });
     }
 
     try {
-      const formValues: { location: CreateLocationDto } = {
+      const formValues: { location: NewLocation } = {
         location: updatedLocation,
       };
 
-      const result: ExpectedServerError | Location = await editLocation(
+      const result: ApiResponse<Location> = await editLocation(
         locationId,
         formValues.location,
       );
 
-      if ("error" in result) {
+      if (result.error) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
@@ -87,7 +87,7 @@ export default function EditLocationForm({
 
       setOpen(false);
       setSuccess(true);
-      router.replace(`/locations/${result.id}?page=1&sortBy=dateDesc`);
+      router.replace(`/locations/${result.data.id}?page=1&sortBy=dateDesc`);
     } catch (error) {
       setFetchError(error as Error);
     } finally {

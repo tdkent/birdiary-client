@@ -1,7 +1,6 @@
 "use client";
 
-import { TURNSTILE_URL } from "@/constants/constants";
-import { TURNSTILE_SITE_KEY } from "@/constants/env";
+import CONFIG from "@/constants/config.constants";
 import { useTheme } from "next-themes";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
@@ -42,6 +41,9 @@ export default function Turnstile({
 
   const widgetTheme = theme !== "light" && theme !== "dark" ? "auto" : theme;
 
+  const TURNSTILE_URL =
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+
   // Init cft widget and script
   useEffect(() => {
     const script = document.createElement("script");
@@ -49,7 +51,7 @@ export default function Turnstile({
     script.defer = true;
     script.onload = () => {
       const id = window.turnstile.render("#turnstile-container", {
-        sitekey: TURNSTILE_SITE_KEY,
+        sitekey: CONFIG.TURNSTILE_SITE_KEY,
         callback: function (token) {
           setToken(token);
         },

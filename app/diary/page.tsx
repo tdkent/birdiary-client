@@ -4,12 +4,13 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
   sortByDateOptions,
   sortBySightingsCount,
-} from "@/models/form";
+} from "@/types/list-sort.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -63,7 +64,7 @@ export default async function DiaryView({
             variant="diary"
           />
         ) : (
-          <ErrorDisplay msg={Messages.BadRequest} />
+          <ErrorDisplay msg={ErrorMessages.BadRequest} />
         )}
       </ViewWrapper>
     </>

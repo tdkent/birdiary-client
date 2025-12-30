@@ -1,11 +1,11 @@
-import { SESSION_KEY } from "@/constants/env";
+import CONFIG from "@/constants/config.constants";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import "server-only";
 
-const encodedKey = new TextEncoder().encode(SESSION_KEY);
+const encodedKey = new TextEncoder().encode(CONFIG.SESSION_KEY);
 
-export async function encrypt(payload: { id: string }) {
+export async function encrypt(payload: { id: number }) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -24,7 +24,7 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(id: string) {
+export async function createSession(id: number) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ id });
   (await cookies()).set("session", session, {

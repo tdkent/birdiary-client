@@ -4,8 +4,8 @@ import EditLocation from "@/components/pages/locations/EditLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import type { ExpectedServerError } from "@/models/api";
-import type { Location } from "@/models/db";
+import type { ApiResponse } from "@/types/api.types";
+import type { Location } from "@/types/location.types";
 
 type LocationDetailsType = {
   locationId: number;
@@ -14,30 +14,31 @@ type LocationDetailsType = {
 export default async function LocationDetails({
   locationId,
 }: LocationDetailsType) {
-  const result: Location | ExpectedServerError = await getLocation(locationId);
+  const result: ApiResponse<Location> = await getLocation(locationId);
 
-  if ("error" in result) {
+  if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }
 
-  const location = result;
+  const { data } = result;
+  const { lat, lng, name } = data;
 
   return (
     <>
       <section className="flex flex-col gap-4 md:w-[85%] md:gap-10">
         <dl className="flex flex-col gap-8 px-2 md:gap-12">
-          <DescriptionListItem dt={"Name"} dd={location.name} />
+          <DescriptionListItem dt={"Name"} dd={name} />
           <div className="flex flex-col gap-4">
             <dt className="text-sm font-semibold uppercase md:text-base">
               Map
             </dt>
             <dd>
-              <LocationMap lat={location.lat} lng={location.lng} />
+              <LocationMap lat={lat} lng={lng} />
             </dd>
           </div>
         </dl>
         <div className="my-8 flex flex-col gap-4">
-          <EditLocation location={location} locationId={locationId} />
+          <EditLocation location={data} locationId={locationId} />
           <DeleteLocation locationId={locationId} />
         </div>
       </section>

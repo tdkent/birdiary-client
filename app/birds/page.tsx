@@ -3,10 +3,11 @@ import List from "@/components/pages/shared/List";
 import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { RESULTS_PER_PAGE } from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -50,7 +51,7 @@ export default async function BirdsView({
         (startsWith &&
           (startsWith.length !== 1 || !/[A-Z]/.test(startsWith))) ? (
           <>
-            <ErrorDisplay msg={Messages.BadRequest} />
+            <ErrorDisplay msg={ErrorMessages.BadRequest} />
           </>
         ) : (
           <>
@@ -58,7 +59,7 @@ export default async function BirdsView({
               fallback={
                 <Pending
                   variant="listWithSorting"
-                  listSize={RESULTS_PER_PAGE}
+                  listSize={PAGINATE.LARGE_LIST}
                 />
               }
             >

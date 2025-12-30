@@ -1,10 +1,9 @@
-import { SUPPORT_EMAIL_ADDRESS } from "@/constants/env";
-
 type SupportEmailProps = {
   textSize?: string;
 };
 
 export default function SupportEmail({ textSize }: SupportEmailProps) {
+  const SUPPORT_EMAIL_ADDRESS = "support@mybirdiary.com";
   return (
     <>
       <p className={`${textSize || "text-lg"}`}>

@@ -7,12 +7,15 @@ import Pending, { ButtonSkeleton } from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
-import { BIRD_COUNT } from "@/constants/constants";
+import { BIRD } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
-import { sortByDateOptions, SortValues } from "@/models/form";
+import { apiRoutes } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
+import type { Bird } from "@/types/bird.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import { sortByDateOptions, SortValues } from "@/types/list-sort.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -36,9 +39,9 @@ export async function generateMetadata({
     };
   }
 
-  const bird = await getBird(Number(birdId));
+  const result: ApiResponse<Bird> = await getBird(Number(birdId));
 
-  if ("error" in bird) {
+  if (result.error) {
     return {
       title: `Bird details - Birdiary`,
       description:
@@ -46,9 +49,13 @@ export async function generateMetadata({
     };
   }
 
+  const {
+    data: { commonName },
+  } = result;
+
   return {
-    title: `${bird.commonName} - Birdiary`,
-    description: `Learn about the ${bird.commonName} and view sightings of this bird.`,
+    title: `${commonName} - Birdiary`,
+    description: `Learn about the ${commonName} and view sightings of this bird.`,
   };
 }
 
@@ -64,7 +71,9 @@ export default async function BirdDetailsView({
   }
 
   const validBirdId =
-    checkValidParamInteger(id) && Number(id) <= BIRD_COUNT ? Number(id) : null;
+    checkValidParamInteger(id) && Number(id) <= BIRD.BIRD_COUNT
+      ? Number(id)
+      : null;
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
@@ -113,7 +122,7 @@ export default async function BirdDetailsView({
             />
           </>
         ) : (
-          <ErrorDisplay msg={Messages.BadRequest} />
+          <ErrorDisplay msg={ErrorMessages.BadRequest} />
         )}
       </ViewWrapper>
     </>

@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 
 type SightingBadgeProps = {
   count?: number;

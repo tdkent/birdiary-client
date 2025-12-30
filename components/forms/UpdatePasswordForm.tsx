@@ -16,12 +16,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
-import type { User } from "@/models/db";
 import {
   UpdatePasswordFormSchema,
   type UpdatePasswordForm,
 } from "@/schemas/auth.schema";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -50,22 +50,22 @@ export default function UpdatePasswordForm() {
     setPending(true);
     setError(null);
     try {
-      const response: User | ExpectedServerError = await updatePassword(
+      const result: ApiResponse<null> = await updatePassword(
         values.currentPassword,
         values.newPassword,
       );
 
-      if ("error" in response) {
-        if (response.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+      if (result.error) {
+        if (result.statusCode === 401) {
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(response.message);
+        return setError(result.message);
       }
 
-      toast.success(Messages.PasswordUpdated);
+      toast.success("Password updated");
       form.reset();
       router.replace("/profile");
     } catch (error) {
@@ -83,7 +83,7 @@ export default function UpdatePasswordForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>
-            {Messages.ResetPasswordFormDescription}
+            Reset the password you use to access your account.
           </FormDescription>
           <input name="username" type="hidden" value="default" />
           <FormField

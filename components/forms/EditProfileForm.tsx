@@ -21,16 +21,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { FREE_TEXT_LENGTH } from "@/constants/constants";
-import { GOOGLE_API_KEY } from "@/constants/env";
+import { FORM } from "@/constants/app.constants";
+import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
-import type { ExpectedServerError } from "@/models/api";
-import { Messages } from "@/models/api";
-import type { UserProfile } from "@/models/display";
 import {
   EditProfileFormSchema,
   type EditProfileForm,
 } from "@/schemas/user.schema";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import type { UpdateProfile, UserWithCountAndBird } from "@/types/user.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { CircleQuestionMark } from "lucide-react";
@@ -39,7 +39,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-type EditProfileFormProps = { user: UserProfile };
+type EditProfileFormProps = { user: UserWithCountAndBird };
 
 export default function EditProfileForm({ user }: EditProfileFormProps) {
   const [pending, setPending] = useState(false);
@@ -80,29 +80,28 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return result.results[0].formatted_address as string;
         })
         .catch(() => {
-          return toast.error(Messages.InvalidZipcode);
+          return toast.error(ErrorMessages.InvalidZip);
         });
     }
-    const reqBody: Pick<UserProfile, "address" | "bio" | "name" | "zipcode"> = {
+    const reqBody: UpdateProfile = {
       address: (address as string) || null,
       bio: values.bio || null,
       name: values.name || null,
       zipcode: values.zipcode || null,
     };
-    try {
-      const response: ExpectedServerError | UserProfile =
-        await editUserProfile(reqBody);
 
-      if ("error" in response) {
-        if (response.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+    try {
+      const result: ApiResponse<null> = await editUserProfile(reqBody);
+
+      if (result.error) {
+        if (result.statusCode === 401) {
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
         }
-        return setError(response.message);
+        return setError(result.message);
       }
-      toast.success(Messages.ProfileUpdated);
       router.push("/profile");
     } catch (error) {
       setFetchError(error as Error);
@@ -153,7 +152,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                   </Popover>
                 </div>
                 <FormControl>
-                  <APIProvider apiKey={GOOGLE_API_KEY}>
+                  <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                     <Input disabled={pending} {...field} />
                   </APIProvider>
                 </FormControl>
@@ -176,7 +175,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
                   />
                 </FormControl>
                 <TextRemainingLength
-                  allowedLength={FREE_TEXT_LENGTH}
+                  allowedLength={FORM.TEXTAREA_MAX_CHARS}
                   currLength={form.watch("bio")!.length}
                 />
                 <FormMessage />

@@ -1,36 +1,15 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
-import { Messages } from "@/models/api";
-import type {
-  BirdWithCount,
-  Diary,
-  Group,
-  LifeList,
-  ListVariant,
-  LocationWithCount,
-  LocationWithSightingsCount,
-  SightingInStorage,
-  SightingWithBird,
-  SightingWithLocation,
-} from "@/models/display";
+import type { Bird, LifeListBird } from "@/types/bird.types";
+import type { ListVariant } from "@/types/list-sort.types";
+import type { LocationsList } from "@/types/location.types";
+import type { SightingWithBird } from "@/types/sighting.types";
 
 type ListItemProps = {
   favBirdId?: number | null;
-  item:
-    | BirdWithCount
-    | LifeList
-    | LocationWithCount
-    | SightingWithBird
-    | SightingWithLocation
-    | SightingInStorage
-    | Diary
-    | Group
-    | LocationWithSightingsCount;
+  item: unknown;
   searchTerm?: string;
-  variant: Extract<
-    ListVariant,
-    "birds" | "lifeList" | "locations" | "locationDetail"
-  >;
+  variant: ListVariant;
 };
 
 /** SSR component that renders a single item in List */
@@ -41,9 +20,9 @@ export default function ListItem({
   variant,
 }: ListItemProps) {
   switch (variant) {
+    // /birds
     case "birds": {
-      const { commonName, count, family, id, imgSecureUrl } =
-        item as BirdWithCount;
+      const { commonName, count, family, id, imgSecureUrl } = item as Bird;
       return (
         <ListItemDetails
           commonName={commonName}
@@ -61,8 +40,10 @@ export default function ListItem({
       );
     }
 
+    // /lifelist
     case "lifeList": {
-      const { id, commonName, count, date, imgSecureUrl } = item as LifeList;
+      const { id, commonName, count, date, imgSecureUrl } =
+        item as LifeListBird;
       return (
         <ListItemDetails
           commonName={commonName}
@@ -79,8 +60,9 @@ export default function ListItem({
       );
     }
 
+    // /locations
     case "locations": {
-      const { id, count, name, sightings } = item as LocationWithCount;
+      const { id, count, name, sightings } = item as LocationsList;
       const href = `/locations/${id}`;
       const sightingText = count
         ? `${count} sighting${count > 1 ? "s" : ""}`
@@ -99,6 +81,7 @@ export default function ListItem({
       );
     }
 
+    // locations/:id
     case "locationDetail": {
       const {
         bird: { commonName, id: birdId, imgSecureUrl },
@@ -123,6 +106,6 @@ export default function ListItem({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }

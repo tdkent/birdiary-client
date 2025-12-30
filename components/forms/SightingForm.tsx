@@ -13,22 +13,23 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes, Messages } from "@/models/api";
-import { type CreateLocationDto, type CreateSightingDto } from "@/models/form";
+import { apiRoutes } from "@/models/api";
 import {
   SightingFormSchema,
   type SightingForm,
 } from "@/schemas/sighting.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import type { NewLocation } from "@/types/location.types";
+import type { NewSighting } from "@/types/sighting.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 export default function SightingForm() {
   const { isSignedIn } = useAuth();
   const [isMatching, setIsMatching] = useState(false);
-  const [location, setLocation] = useState<CreateLocationDto>();
+  const [location, setLocation] = useState<NewLocation>();
 
   const router = useRouter();
   const { useMutation } = useApi();
@@ -59,13 +60,12 @@ export default function SightingForm() {
 
   useEffect(() => {
     if (success) {
-      toast.success(Messages.SightingCreated);
       router.push(`sightings/${sighting!.id}`);
     }
   }, [router, sighting, success]);
 
   async function onSubmit(values: SightingForm) {
-    let validatedLocation: CreateLocationDto | undefined = location;
+    let validatedLocation: NewLocation | undefined = location;
     if (!values.location) {
       validatedLocation = undefined;
     }
@@ -74,11 +74,11 @@ export default function SightingForm() {
     else if (!location || location.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.InvalidLocationError,
+        message: ErrorMessages.InvalidLocation,
       });
     }
 
-    const formValues: CreateSightingDto = {
+    const formValues: NewSighting = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoDateFromJsDate(values.date!),
       description: values.description ? values.description.trim() : null,

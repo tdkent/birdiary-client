@@ -7,9 +7,10 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";
-import { Messages, type ExpectedServerError } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type DeleteLocationProps = {
@@ -21,27 +22,19 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<Error | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const router = useRouter();
   const { signOut } = useAuth();
-
-  useEffect(() => {
-    if (success) {
-      toast.success(Messages.LocationDeleted);
-    }
-  }, [success]);
 
   const onDelete = async () => {
     setPending(true);
     setError(null);
     try {
-      const result: { count: number } | ExpectedServerError =
-        await deleteLocation(locationId);
+      const result: ApiResponse<null> = await deleteLocation(locationId);
 
-      if ("error" in result) {
+      if (result.error) {
         if (result.statusCode === 401) {
-          toast.error(Messages.InvalidToken);
+          toast.error(ErrorMessages.InvalidSession);
           signOut();
           deleteSessionCookie();
           router.replace("/signin");
@@ -50,7 +43,6 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
       }
 
       setOpen(false);
-      setSuccess(true);
       router.replace("/locations");
     } catch (error) {
       setFetchError(error as Error);

@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import birdNames from "@/data/birds";
-import { Messages } from "@/models/api";
 import { SearchInputSchema } from "@/schemas/search.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { Search, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ export default function SearchForBird() {
     setError("");
     const validate = SearchInputSchema.safeParse(currInput);
     if (!validate.success) {
-      setError(Messages.SearchValidationError);
+      setError(ErrorMessages.SearchStringLength);
     } else {
       router.push(`/birds?page=1&search=${currInput}`);
       setCurrInput("");

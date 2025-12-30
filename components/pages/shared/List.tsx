@@ -5,14 +5,14 @@ import FilterList from "@/components/pages/shared/FilterList";
 import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import SortItems from "@/components/pages/shared/SortItems";
-import {
-  DETAILS_RESULTS_PER_PAGE,
-  RESULTS_PER_PAGE,
-} from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { getCookie } from "@/helpers/auth";
-import type { ExpectedServerError, ServerResponseWithList } from "@/models/api";
-import type { ListVariant } from "@/models/display";
-import type { SortOptions, SortValues } from "@/models/form";
+import type { ApiResponse, Identifiable } from "@/types/api.types";
+import type {
+  ListVariant,
+  SortOptions,
+  SortValues,
+} from "@/types/list-sort.types";
 
 type ListProps =
   | {
@@ -62,20 +62,18 @@ export default async function List({
   if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
 
   const response = await fetch(resource, { headers: requestHeaders });
-  const result: ServerResponseWithList | ExpectedServerError =
-    await response.json();
+  const result: ApiResponse<Identifiable[]> = await response.json();
 
-  if ("error" in result) {
+  if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }
 
-  const { countOfRecords, data } = result;
-  const noResults = !data.length;
-  const records = countOfRecords;
+  const { count, data } = result;
+
   const pages =
     variant === "locationDetail"
-      ? Math.ceil(records / DETAILS_RESULTS_PER_PAGE)
-      : Math.ceil(records / RESULTS_PER_PAGE);
+      ? Math.ceil(count / PAGINATE.SMALL_LIST)
+      : Math.ceil(count / PAGINATE.LARGE_LIST);
 
   return (
     <>
@@ -92,16 +90,16 @@ export default async function List({
               defaultSortOption={defaultSortOption}
               options={sortOptions}
               isSSR
-              noResults={noResults}
+              hasCount={!!count}
             />
           )}
           <FilterAndResultsText
             variant={variant}
             search={search}
             startsWith={startsWith}
-            records={result.countOfRecords}
+            records={count}
             page={+page!}
-            noResults={noResults}
+            hasCount={!!count}
           />
           <ul className="my-8 divide-y">
             {!data.length ? (

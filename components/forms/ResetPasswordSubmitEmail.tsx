@@ -15,11 +15,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import {
   ForgotPasswordFormSchema,
   type ForgotPasswordForm,
 } from "@/schemas/auth.schema";
+import type { ApiResponse } from "@/types/api.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { useState } from "react";
@@ -45,11 +45,10 @@ export default function ResetPasswordSubmitEmail() {
     setFetchError(null);
     setPending(true);
     setSuccess(false);
+
     try {
-      const result = await forgotPassword(values.email);
-      if ("error" in result) {
-        return setError(result.message);
-      }
+      const result: ApiResponse<null> = await forgotPassword(values.email);
+      if (result.error) return setError(result.message);
       setSuccess(true);
     } catch (error) {
       setFetchError(error as Error);

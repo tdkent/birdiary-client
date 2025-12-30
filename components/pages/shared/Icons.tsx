@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  DESKTOP_REMAINING_COUNT,
-  MOBILE_REMAINING_COUNT,
-} from "@/constants/constants";
 import { useAuth } from "@/context/AuthContext";
-import { Messages } from "@/models/api";
-import type { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 import { Bird, Heart, Plus } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -48,6 +43,9 @@ export default function Icons({
   const matches = useMediaQuery("(min-width:640px)");
   const tablet = useMediaQuery("(min-width:768px)");
 
+  const MAX_ICONS_TO_DISPLAY_MOBILE = 3;
+  const MAX_ICONS_TO_DISPLAY_DESKTOP = MAX_ICONS_TO_DISPLAY_MOBILE + 1;
+
   const doNotShow =
     (listVariant !== "birds" && !isSignedIn) ||
     (listVariant === "locations" && !tablet);
@@ -61,8 +59,8 @@ export default function Icons({
 
       const distinctBirdCount = sightings.length;
       const iconsToShow = matches
-        ? DESKTOP_REMAINING_COUNT
-        : MOBILE_REMAINING_COUNT;
+        ? MAX_ICONS_TO_DISPLAY_DESKTOP
+        : MAX_ICONS_TO_DISPLAY_MOBILE;
       const remainingCount = distinctBirdCount - iconsToShow;
       const remainingCountFontSize =
         remainingCount >= 100
@@ -142,7 +140,7 @@ export default function Icons({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }
 

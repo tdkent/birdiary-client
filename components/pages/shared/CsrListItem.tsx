@@ -1,33 +1,17 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
-import { Messages } from "@/models/api";
+import type { ListVariant } from "@/types/list-sort.types";
 import type {
-  BirdWithCount,
-  Diary,
-  Group,
-  LifeList,
-  ListVariant,
-  LocationWithCount,
-  LocationWithSightingsCount,
-  SightingInStorage,
+  SightingsDiary,
   SightingWithBird,
   SightingWithBirdAndLocation,
   SightingWithLocation,
-} from "@/models/display";
+} from "@/types/sighting.types";
 import { MapPin } from "lucide-react";
 
 type CsrListItemProps = {
   favBirdId?: number | null;
-  item:
-    | BirdWithCount
-    | LifeList
-    | LocationWithCount
-    | SightingWithBird
-    | SightingWithLocation
-    | SightingInStorage
-    | Diary
-    | Group
-    | LocationWithSightingsCount;
+  item: unknown;
   variant: ListVariant;
 };
 
@@ -63,7 +47,7 @@ export default function CsrListItem({
     }
 
     case "diary": {
-      const { count, date, id, sightings } = item as Diary;
+      const { count, date, id, sightings } = item as SightingsDiary;
       return (
         <>
           <ListItemDetails
@@ -82,9 +66,7 @@ export default function CsrListItem({
 
     case "birdDetail": {
       const { id, date, isNew, location } = item as SightingWithLocation;
-      const locationString = location
-        ? location.name
-        : Messages.SightingLocationUnknown;
+      const locationString = location ? location.name : "No location";
 
       return (
         <>
@@ -107,9 +89,7 @@ export default function CsrListItem({
         isNew,
         location,
       } = item as SightingWithBirdAndLocation;
-      const locationString = location
-        ? location.name
-        : Messages.SightingLocationUnknown;
+      const locationString = location ? location.name : "No location";
       return (
         <ListItemDetails
           commonName={commonName}
@@ -127,7 +107,7 @@ export default function CsrListItem({
     }
 
     default:
-      throw new Error(Messages.InvalidSwitchCase);
+      throw new Error();
   }
 }
 

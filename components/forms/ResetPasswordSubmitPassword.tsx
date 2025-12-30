@@ -14,11 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ExpectedServerError, Messages } from "@/models/api";
 import {
   ResetPasswordFormSchema,
   type ResetPasswordForm,
 } from "@/schemas/auth.schema";
+import type { ApiResponse } from "@/types/api.types";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -51,19 +52,20 @@ export default function ResetPasswordSubmitPassword({
     setPending(true);
     setError(null);
     try {
-      const response: { success: boolean } | ExpectedServerError =
-        await resetPassword(values.newPassword, token);
+      const result: ApiResponse<null> = await resetPassword(
+        values.newPassword,
+        token,
+      );
 
-      if ("error" in response) {
-        console.log(response);
+      if (result.error) {
         const msg =
-          response.statusCode === 400
-            ? Messages.ExpiredResetToken
-            : response.message;
+          result.statusCode === 400
+            ? ErrorMessages.ExpiredResetToken
+            : result.message;
         return setError(msg);
       }
 
-      toast.success(Messages.PasswordUpdated);
+      toast.success("Password updated");
       form.reset();
       router.replace("/signin");
     } catch (error) {
@@ -81,7 +83,7 @@ export default function ResetPasswordSubmitPassword({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormDescription>
-            {Messages.ResetPasswordFormDescription}
+            Reset the password you use to access your account.
           </FormDescription>
           <FormField
             control={form.control}

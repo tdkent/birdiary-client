@@ -2,12 +2,18 @@
 
 import { BASE_URL } from "@/constants/env";
 import { createSession, deleteSession } from "@/lib/session";
-import { apiRoutes, ExpectedServerError } from "@/models/api";
-import type { AuthParams, AuthResponse } from "@/models/auth";
+import { apiRoutes } from "@/models/api";
+import type { ApiResponse, Identifiable } from "@/types/api.types";
 import { redirect } from "next/navigation";
 
 /** Sign up or sign in a user */
-export async function auth({ pathname, ...args }: AuthParams) {
+export async function auth({
+  pathname,
+  ...args
+}: {
+  pathname: "/signup" | "/signin";
+  [key: string]: string;
+}) {
   const response = await fetch(`${BASE_URL}/users${pathname}`, {
     method: "POST",
     headers: {
@@ -16,21 +22,15 @@ export async function auth({ pathname, ...args }: AuthParams) {
     body: JSON.stringify(args),
   });
 
-  const data:
-    | ExpectedServerError
-    | AuthResponse
-    | { email: string }
-    | { success: boolean } = await response.json();
+  const result: ApiResponse<Identifiable | null> = await response.json();
 
-  if (!response.ok) {
-    return data as ExpectedServerError;
+  if (result.error) return result;
+
+  if (result.data) {
+    await createSession(result.data.id);
   }
 
-  if ("id" in data) {
-    await createSession(data.id);
-  }
-
-  return data;
+  return result;
 }
 
 export async function verifyUser(email: string, verificationId: string) {
@@ -41,9 +41,7 @@ export async function verifyUser(email: string, verificationId: string) {
     },
     body: JSON.stringify({ email, verificationId }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function forgotPassword(email: string) {
@@ -54,16 +52,12 @@ export async function forgotPassword(email: string) {
     },
     body: JSON.stringify({ email }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function verifyResetPassword(token: string) {
   const response = await fetch(apiRoutes.userVerifyResetPassword(token));
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function resetPassword(password: string, token: string) {
@@ -74,9 +68,7 @@ export async function resetPassword(password: string, token: string) {
     },
     body: JSON.stringify({ password, token }),
   });
-  const data: ExpectedServerError | { success: boolean } =
-    await response.json();
-  return data;
+  return response.json();
 }
 
 export async function deleteSessionCookie() {

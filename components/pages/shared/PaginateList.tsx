@@ -7,7 +7,6 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import { MOBILE_PAGINATION_PAGES } from "@/constants/constants";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -35,15 +34,14 @@ export default function PaginateList({
     return `${pathname}?page=${page}${searchQuery}${startsWithQuery}${sortByQuery}`;
   };
 
-  // TODO: change number of buttons based on screen size
-
+  const MAX_PAGES_TO_DISPLAY = 5;
   const remainingPages = finalPage - currentPage + 1;
 
   // If total pages OR total remaining pages <= 5, map remaining pages to array
   // Base off `finalPage` instead of `currentPage` to avoid deviation
-  if (finalPage <= MOBILE_PAGINATION_PAGES || remainingPages <= 5) {
+  if (finalPage <= MAX_PAGES_TO_DISPLAY || remainingPages <= 5) {
     const rowLength =
-      finalPage < MOBILE_PAGINATION_PAGES ? finalPage : MOBILE_PAGINATION_PAGES;
+      finalPage < MAX_PAGES_TO_DISPLAY ? finalPage : MAX_PAGES_TO_DISPLAY;
     const pages: number[] = [];
     for (let i = rowLength; i > 0; i--) {
       const page = finalPage - i + 1;
@@ -103,7 +101,7 @@ export default function PaginateList({
   // Create array of clickable page buttons
   // Number of buttons should be total clickable - 2 (ellipse and final page)
   const pages = [];
-  for (let i = 0; i < MOBILE_PAGINATION_PAGES - 2; i++) {
+  for (let i = 0; i < MAX_PAGES_TO_DISPLAY - 2; i++) {
     const page = currentPage + i;
     pages.push(page);
   }

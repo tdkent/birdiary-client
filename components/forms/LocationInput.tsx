@@ -7,12 +7,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { GOOGLE_API_KEY } from "@/constants/env";
-import type { CreateLocationDto } from "@/models/form";
+import CONFIG from "@/constants/config.constants";
 import type {
   FormReturnEditLocationForm,
   FormReturnSightingForm,
 } from "@/schemas/sighting.schema";
+import type { NewLocation } from "@/types/location.types";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -21,13 +21,13 @@ type NameInputProps =
       variant: "create";
       form: FormReturnSightingForm;
       pending: boolean;
-      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
+      setLocation: Dispatch<SetStateAction<NewLocation | undefined>>;
     }
   | {
       variant: "update";
       form: FormReturnEditLocationForm;
       pending: boolean;
-      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
+      setLocation: Dispatch<SetStateAction<NewLocation | undefined>>;
     };
 
 /** Handles input of sighting location. */
@@ -47,7 +47,7 @@ export default function LocationInput({
             <FormItem className="form-item">
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <APIProvider apiKey={GOOGLE_API_KEY}>
+                <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                   <LocationAutocomplete field={field} {...rest} />
                 </APIProvider>
               </FormControl>
@@ -84,7 +84,7 @@ export default function LocationInput({
               </Button>
             </div>
             <FormControl>
-              <APIProvider apiKey={GOOGLE_API_KEY}>
+              <APIProvider apiKey={CONFIG.GOOGLE_API_KEY}>
                 <LocationAutocomplete field={field} {...rest} />
               </APIProvider>
             </FormControl>

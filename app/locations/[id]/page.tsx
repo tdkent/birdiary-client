@@ -6,15 +6,16 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
-import { DETAILS_RESULTS_PER_PAGE } from "@/constants/constants";
+import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes, Messages } from "@/models/api";
+import { apiRoutes } from "@/models/api";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
-} from "@/models/form";
+} from "@/types/list-sort.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -93,7 +94,7 @@ export default async function LocationDetailsView({
               fallback={
                 <Pending
                   variant="listWithSorting"
-                  listSize={DETAILS_RESULTS_PER_PAGE}
+                  listSize={PAGINATE.SMALL_LIST}
                 />
               }
             >
@@ -115,7 +116,7 @@ export default async function LocationDetailsView({
           </>
         ) : (
           <>
-            <ErrorDisplay msg={Messages.BadRequest} />
+            <ErrorDisplay msg={ErrorMessages.BadRequest} />
           </>
         )}
       </ViewWrapper>

@@ -13,18 +13,21 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes, Messages } from "@/models/api";
-import type { SightingWithBirdAndLocation } from "@/models/display";
-import type { CreateLocationDto, CreateSightingDto } from "@/models/form";
+import { apiRoutes } from "@/models/api";
 import {
   SightingFormSchema,
   type SightingForm,
 } from "@/schemas/sighting.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
+import type { NewLocation } from "@/types/location.types";
+import type {
+  NewSighting,
+  SightingWithBirdAndLocation,
+} from "@/types/sighting.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 type EditSightingFormProps = {
   sighting: SightingWithBirdAndLocation;
@@ -39,9 +42,9 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   } = sighting;
   const { isSignedIn } = useAuth();
   const [isMatching, setIsMatching] = useState(false);
-  const [editLocation, setEditLocation] = useState<
-    CreateLocationDto | undefined
-  >(sighting.location ?? undefined);
+  const [editLocation, setEditLocation] = useState<NewLocation | undefined>(
+    sighting.location ?? undefined,
+  );
 
   const router = useRouter();
 
@@ -69,13 +72,12 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   useEffect(() => {
     if (success) {
-      toast.success(Messages.SightingUpdated);
       router.replace(`/sightings/${sighting.id}`);
     }
   }, [router, sighting.id, success]);
 
   async function onSubmit(values: SightingForm) {
-    let validatedLocation: CreateLocationDto | undefined = editLocation;
+    let validatedLocation: NewLocation | undefined = editLocation;
     if (!values.location) {
       validatedLocation = undefined;
     }
@@ -84,11 +86,11 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
     else if (!editLocation || editLocation.name !== values.location) {
       return form.setError("location", {
         type: "custom",
-        message: Messages.InvalidLocationError,
+        message: ErrorMessages.InvalidLocation,
       });
     }
 
-    const formValues: CreateSightingDto = {
+    const formValues: NewSighting = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoDateFromJsDate(values.date!),
       description: values.description ? values.description.trim() : null,

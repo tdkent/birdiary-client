@@ -1,8 +1,8 @@
 import Loading from "@/app/loading";
 import VerifyUser from "@/components/pages/auth/VerifyUser";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { Messages } from "@/models/api";
 import { Email } from "@/schemas/auth.schema";
+import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -28,7 +28,7 @@ export default async function VerifyEmailView({
     !verification ||
     !verification.match(regex)
   )
-    return <ErrorDisplay msg={Messages.BadRequest} />;
+    return <ErrorDisplay msg={ErrorMessages.BadRequest} />;
 
   return (
     <>

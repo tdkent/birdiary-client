@@ -1,5 +1,5 @@
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
-import type { Bird } from "@/models/db";
+import type { Bird } from "@/types/bird.types";
 import { CircleAlert } from "lucide-react";
 
 type BirdImageProps = {

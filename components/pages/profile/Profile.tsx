@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getCookie } from "@/helpers/auth";
 import { createLocaleString } from "@/helpers/dates";
-import { apiRoutes, type ExpectedServerError } from "@/models/api";
-import type { UserProfile } from "@/models/display";
+import { apiRoutes } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
+import type { UserWithCountAndBird } from "@/types/user.types";
 import Link from "next/link";
 
 /** Fetch and display user's profile and account data */
@@ -18,9 +19,9 @@ export default async function Profile() {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  const result: UserProfile | ExpectedServerError = await response.json();
+  const result: ApiResponse<UserWithCountAndBird> = await response.json();
 
-  if ("error" in result) {
+  if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }
 
@@ -32,7 +33,7 @@ export default async function Profile() {
     createdAt,
     email,
     name,
-  } = result;
+  } = result.data;
 
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
