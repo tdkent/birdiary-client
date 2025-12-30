@@ -1,5 +1,5 @@
 import { PAGINATE } from "@/constants/app.constants";
-import { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 
 type FilterByTextProps = {
   hasCount: boolean;

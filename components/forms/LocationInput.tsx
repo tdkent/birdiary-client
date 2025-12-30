@@ -12,7 +12,7 @@ import type {
   FormReturnEditLocationForm,
   FormReturnSightingForm,
 } from "@/schemas/sighting.schema";
-import type { CreateLocationDto } from "@/types/list-sort.types";
+import type { NewLocation } from "@/types/location.types";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -21,13 +21,13 @@ type NameInputProps =
       variant: "create";
       form: FormReturnSightingForm;
       pending: boolean;
-      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
+      setLocation: Dispatch<SetStateAction<NewLocation | undefined>>;
     }
   | {
       variant: "update";
       form: FormReturnEditLocationForm;
       pending: boolean;
-      setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
+      setLocation: Dispatch<SetStateAction<NewLocation | undefined>>;
     };
 
 /** Handles input of sighting location. */

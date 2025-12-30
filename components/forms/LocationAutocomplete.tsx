@@ -2,7 +2,7 @@
 // Location autocomplete use legacy Google Place API
 import { Input } from "@/components/ui/input";
 import type { SightingForm } from "@/schemas/sighting.schema";
-import type { CreateLocationDto } from "@/types/list-sort.types";
+import type { NewLocation } from "@/types/location.types";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import {
   useEffect,
@@ -18,7 +18,7 @@ type LocationAutocompleteProps = {
     | ControllerRenderProps<SightingForm, "location">
     | ControllerRenderProps<{ location: string }, "location">;
   pending?: boolean;
-  setLocation: Dispatch<SetStateAction<CreateLocationDto | undefined>>;
+  setLocation: Dispatch<SetStateAction<NewLocation | undefined>>;
 };
 
 export default function LocationAutocomplete({

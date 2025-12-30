@@ -1,6 +1,6 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString, createRelativeDate } from "@/helpers/dates";
-import type { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 import type {
   SightingsDiary,
   SightingWithBird,

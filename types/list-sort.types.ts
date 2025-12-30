@@ -1,13 +1,12 @@
-import { Location } from "@/models/db";
-
-export type CreateLocationDto = Pick<Location, "lat" | "lng" | "name">;
-
-export type CreateSightingDto = {
-  birdId: number;
-  date: string;
-  description: string | null;
-  location?: CreateLocationDto;
-};
+export type ListVariant =
+  | "birds"
+  | "birdDetail"
+  | "diary"
+  | "diaryDetail"
+  | "lifeList"
+  | "locations"
+  | "locationDetail"
+  | "sighting";
 
 export type SortValues =
   | "alphaAsc"

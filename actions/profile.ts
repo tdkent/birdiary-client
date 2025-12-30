@@ -3,8 +3,8 @@
 import { BASE_URL } from "@/constants/env";
 import { getCookie } from "@/helpers/auth";
 import { apiRoutes } from "@/models/api";
-import type { SightingInStorage } from "@/models/display";
 import type { RequestBody } from "@/types/api.types";
+import type { StorageSighting } from "@/types/sighting.types";
 import { revalidatePath } from "next/cache";
 
 export async function getUser() {
@@ -41,7 +41,7 @@ export async function editUserProfile(reqBody: RequestBody) {
   return response.json();
 }
 
-export async function transferStorageData(storageData: SightingInStorage[]) {
+export async function transferStorageData(storageData: StorageSighting[]) {
   const token = await getCookie();
   const response = await fetch(apiRoutes.userStorage, {
     method: "POST",

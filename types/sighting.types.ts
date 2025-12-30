@@ -1,5 +1,5 @@
 import type { Bird } from "@/types/bird.types";
-import type { Location } from "@/types/location.types";
+import type { Location, NewLocation } from "@/types/location.types";
 
 export type Sighting = {
   id: number;
@@ -9,6 +9,10 @@ export type Sighting = {
   date: string;
   description: string | null;
   isNew: boolean;
+};
+
+export type NewSighting = Pick<Sighting, "birdId" | "date" | "description"> & {
+  location?: NewLocation;
 };
 
 // /bird/:id
@@ -29,3 +33,10 @@ export type SightingWithBirdAndLocation = SightingWithBird & {
 
 // /sightings
 export type SightingWithBird = Sighting & { bird: Bird };
+
+// Local storage
+export type StorageDiary = Omit<SightingsDiary, "sightings">;
+export type StorageSighting = Pick<
+  Sighting,
+  "id" | "birdId" | "date" | "description"
+> & { bird: Pick<Bird, "commonName"> };

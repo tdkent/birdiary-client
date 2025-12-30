@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import type { ListVariant } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
 import { Bird, Heart, Plus } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";

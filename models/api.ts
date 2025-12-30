@@ -1,5 +1,4 @@
 import { BASE_URL } from "@/constants/env";
-import type { CountOfRecords, List } from "@/models/display";
 
 /** Server request URLs */
 export const apiRoutes = {
@@ -47,14 +46,3 @@ export const apiRoutes = {
     `${BASE_URL}/users/forgot-password?token=${token}`,
   userVerifyEmail: `${BASE_URL}/users/verify-email`,
 } as const;
-
-// ======= RESPONSES =======
-
-export type ExpectedServerError = {
-  error: boolean;
-  message: string;
-  statusCode: number;
-  timestamp: string;
-};
-
-export type ServerResponseWithList = List & CountOfRecords;

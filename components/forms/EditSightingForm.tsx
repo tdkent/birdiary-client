@@ -19,11 +19,11 @@ import {
   type SightingForm,
 } from "@/schemas/sighting.schema";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type { NewLocation } from "@/types/location.types";
 import type {
-  CreateLocationDto,
-  CreateSightingDto,
-} from "@/types/list-sort.types";
-import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
+  NewSighting,
+  SightingWithBirdAndLocation,
+} from "@/types/sighting.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -42,9 +42,9 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   } = sighting;
   const { isSignedIn } = useAuth();
   const [isMatching, setIsMatching] = useState(false);
-  const [editLocation, setEditLocation] = useState<
-    CreateLocationDto | undefined
-  >(sighting.location ?? undefined);
+  const [editLocation, setEditLocation] = useState<NewLocation | undefined>(
+    sighting.location ?? undefined,
+  );
 
   const router = useRouter();
 
@@ -77,7 +77,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   }, [router, sighting.id, success]);
 
   async function onSubmit(values: SightingForm) {
-    let validatedLocation: CreateLocationDto | undefined = editLocation;
+    let validatedLocation: NewLocation | undefined = editLocation;
     if (!values.location) {
       validatedLocation = undefined;
     }
@@ -90,7 +90,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
       });
     }
 
-    const formValues: CreateSightingDto = {
+    const formValues: NewSighting = {
       birdId: birdNames.findIndex((name) => name === values.commonName) + 1,
       date: createIsoDateFromJsDate(values.date!),
       description: values.description ? values.description.trim() : null,

@@ -11,9 +11,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import type { SightingInStorage } from "@/models/display";
 import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import type { StorageSighting } from "@/types/sighting.types";
 import { CircleQuestionMark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export default function TransferStorageData() {
 
   const sightingsInStorage = localStorage.getItem("sightings");
   if (!sightingsInStorage) return null;
-  const parsedSightings: SightingInStorage[] = JSON.parse(sightingsInStorage);
+  const parsedSightings: StorageSighting[] = JSON.parse(sightingsInStorage);
   if (!parsedSightings.length) return null;
 
   const handleClick = async () => {
@@ -50,7 +50,7 @@ export default function TransferStorageData() {
       }
 
       toast.success(
-        `Transferred ${result.count} sighting${result.count === 1 ? "" : "s"}`,
+        `Transferred ${result.data.count} sighting${result.data.count === 1 ? "" : "s"}`,
       );
 
       localStorage.removeItem("sightings");

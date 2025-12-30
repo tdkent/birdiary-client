@@ -4,7 +4,6 @@ import { deleteSessionCookie } from "@/actions/auth";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
-import { Group, SightingInStorage } from "@/models/display";
 import {
   Api,
   ApiContext,
@@ -15,8 +14,12 @@ import {
 } from "@/types/api-context.types";
 import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
-import type { CreateSightingDto } from "@/types/list-sort.types";
-import type { Sighting } from "@/types/sighting.types";
+import type {
+  NewSighting,
+  Sighting,
+  StorageDiary,
+  StorageSighting,
+} from "@/types/sighting.types";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -78,7 +81,7 @@ export default function ApiProvider({
           }
         } else {
           const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as SightingInStorage[] | Group[]) || []);
+          setData((items as StorageSighting[] | StorageDiary[]) || []);
           setCount(countOfRecords);
         }
       }
@@ -101,7 +104,7 @@ export default function ApiProvider({
     tagsToUpdate,
   }: UseMutationInputs) {
     const [success, setSuccess] = useState(false);
-    const [data, setData] = useState<Sighting | SightingInStorage | null>(null);
+    const [data, setData] = useState<Sighting | StorageSighting | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
     const [pending, setPending] = useState(false);
@@ -150,10 +153,10 @@ export default function ApiProvider({
           setPending(false);
         }
       } else {
-        const result: SightingInStorage = mutateStorage(
+        const result: StorageSighting = mutateStorage(
           tag,
           method,
-          formValues as CreateSightingDto,
+          formValues as NewSighting,
           route,
         );
         setData(result);

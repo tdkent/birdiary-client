@@ -1,7 +1,7 @@
 import ListItemDetails from "@/components/pages/shared/ListItemDetails";
 import { createLocaleString } from "@/helpers/dates";
-import type { ListVariant } from "@/models/display";
 import type { Bird, LifeListBird } from "@/types/bird.types";
+import type { ListVariant } from "@/types/list-sort.types";
 import type { LocationsList } from "@/types/location.types";
 import type { SightingWithBird } from "@/types/sighting.types";
 

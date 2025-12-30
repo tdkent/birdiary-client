@@ -1,5 +1,6 @@
-import type { Sighting } from "@/models/db";
-import type { ListVariant, SightingInStorage } from "@/models/display";
+import type { ListVariant } from "@/types/list-sort.types";
+import type { Sighting } from "@/types/sighting.types";
+import { StorageSighting } from "@/types/sighting.types";
 import { createContext } from "react";
 
 export type UseQueryInputs = {
@@ -27,7 +28,7 @@ export type Api = {
     error: string | null;
     pending: boolean;
     mutate: <T>(body: T) => void;
-    data: Sighting | SightingInStorage | null;
+    data: Sighting | StorageSighting | null;
   };
 };
 

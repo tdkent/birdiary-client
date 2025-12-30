@@ -3,8 +3,8 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRoutes } from "@/models/api";
-import { Bird } from "@/models/db";
 import type { ApiResponse } from "@/types/api.types";
+import type { Bird } from "@/types/bird.types";
 import Link from "next/link";
 import { Suspense } from "react";
 

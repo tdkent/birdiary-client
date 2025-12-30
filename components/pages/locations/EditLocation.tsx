@@ -2,7 +2,7 @@
 
 import EditLocationForm from "@/components/forms/EditLocationForm";
 import Modal from "@/components/ui/Modal";
-import type { Location } from "@/models/db";
+import type { Location } from "@/types/location.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -20,7 +20,7 @@ export default function EditLocation({
 
   useEffect(() => {
     if (success) {
-      toast.success("Location updated"); //! Does not work with enum
+      toast.success("Location updated");
     }
   }, [success]);
 

@@ -3,7 +3,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
 import { apiRoutes } from "@/models/api";
-import type { SightingWithLocation } from "@/models/display";
+import type { SightingWithLocation } from "@/types/sighting.types";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect } from "react";
 

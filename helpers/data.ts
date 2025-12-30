@@ -1,16 +1,16 @@
 import { BIRD } from "@/constants/app.constants";
-import type { Group, SightingInStorage } from "@/models/display";
 import type { SortValues } from "@/types/list-sort.types";
+import type { StorageDiary, StorageSighting } from "@/types/sighting.types";
 import { DateTime } from "luxon";
 
 /** Sort and filter storage data */
 export function sortSightings(
-  arr: SightingInStorage[] | Group[],
+  arr: StorageSighting[] | StorageDiary[],
   option: SortValues,
 ) {
   switch (option) {
     case "alphaAsc": {
-      const sightings = arr as SightingInStorage[];
+      const sightings = arr as StorageSighting[];
       return sightings.sort((a, b) => {
         if (a.bird.commonName < b.bird.commonName) return -1;
         if (a.bird.commonName > b.bird.commonName) return 1;
@@ -18,7 +18,7 @@ export function sortSightings(
       });
     }
     case "alphaDesc": {
-      const sightings = arr as SightingInStorage[];
+      const sightings = arr as StorageSighting[];
       return sightings.sort((a, b) => {
         if (a.bird.commonName > b.bird.commonName) return -1;
         if (a.bird.commonName < b.bird.commonName) return 1;
@@ -32,8 +32,8 @@ export function sortSightings(
           const dateB = DateTime.fromISO(b.date).toMillis();
           return dateA - dateB;
         } else {
-          const diaryA = a as Group;
-          const diaryB = b as Group;
+          const diaryA = a as StorageDiary;
+          const diaryB = b as StorageDiary;
           const dateA = DateTime.fromISO(diaryA.date).toMillis();
           const dateB = DateTime.fromISO(diaryB.date).toMillis();
           return dateA - dateB;
@@ -46,15 +46,15 @@ export function sortSightings(
           const dateB = DateTime.fromISO(b.date).toMillis();
           return dateB - dateA;
         } else {
-          const diaryA = a as Group;
-          const diaryB = b as Group;
+          const diaryA = a as StorageDiary;
+          const diaryB = b as StorageDiary;
           const dateA = DateTime.fromISO(diaryA.date).toMillis();
           const dateB = DateTime.fromISO(diaryB.date).toMillis();
           return dateB - dateA;
         }
       });
     case "count": {
-      const group = arr as Group[];
+      const group = arr as StorageDiary[];
       return group.sort((a, b) => {
         const dateA = DateTime.fromISO(a.date).toMillis();
         const dateB = DateTime.fromISO(b.date).toMillis();
