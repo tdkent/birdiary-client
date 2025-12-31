@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import { getSighting } from "@/actions/sighting";
 import BirdImage from "@/components/forms/BirdImage";
 import StaticBirdImage from "@/components/image/StaticBirdImage";

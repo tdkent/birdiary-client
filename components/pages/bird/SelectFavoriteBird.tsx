@@ -1,6 +1,6 @@
 "use client";
 
-import { updateFavoriteBird } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import type { ApiResponse } from "@/types/api.types";
@@ -24,7 +24,15 @@ export default function SelectFavoriteBird({
   const handleClick = async () => {
     setError(null);
     const newId = isCurrFav ? null : birdId;
-    const result: ApiResponse<User> = await updateFavoriteBird(newId);
+    const requestBody = { favoriteBirdId: newId };
+
+    const result: ApiResponse<User> = await serverApiRequest({
+      method: "PATCH",
+      requestBody,
+      revalidate: "/users",
+      route: "/users/favorite-bird",
+    });
+
     if (result.error) {
       return setError(result.message);
     }

@@ -6,7 +6,6 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
@@ -45,6 +44,8 @@ export default async function LocationsView({
   const sortOptions = [...sortByAlphaOptions, sortBySightingsCount];
   const defaultSortOption: SortValues = "alphaAsc";
 
+  const route = `/locations?page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -65,7 +66,7 @@ export default async function LocationsView({
                 defaultSortOption={defaultSortOption}
                 favBirdId={favBirdId}
                 page={parsedPage}
-                resource={apiRoutes.locations(parsedPage, sortBy)}
+                route={route}
                 sortBy={sortBy}
                 sortOptions={sortOptions}
                 variant="locations"

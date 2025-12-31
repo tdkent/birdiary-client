@@ -2,34 +2,14 @@
 
 import CONFIG from "@/constants/config.constants";
 import { getCookie } from "@/helpers/auth";
-
-type ApiRequestInputs =
-  | {
-      method?: "DELETE";
-      requestBody?: never;
-      route: string;
-    }
-  | {
-      method: "PATCH" | "POST" | "PUT";
-      requestBody: object;
-      route: string;
-    };
-
-type Headers = {
-  Authorization?: string;
-  "Content-Type"?: "application/json";
-};
-
-type RequestHeaders = {
-  body?: string;
-  headers?: Headers;
-  method?: "DELETE" | "PATCH" | "POST" | "PUT";
-};
+import { ApiRequestInputs, Headers, RequestHeaders } from "@/types/api.types";
+import { revalidatePath } from "next/cache";
 
 export async function serverApiRequest({
   method,
   route,
   requestBody,
+  revalidate,
 }: ApiRequestInputs) {
   console.log("Server-side api request at", new Date().toISOString());
 
@@ -49,5 +29,8 @@ export async function serverApiRequest({
   if (Object.keys(headers).length) requestHeaders["headers"] = headers;
 
   const res = await fetch(url, requestHeaders);
+
+  if (res.ok && revalidate) revalidatePath(revalidate);
+
   return res.json();
 }

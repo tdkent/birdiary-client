@@ -3,8 +3,8 @@
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
+import { BASE_URL } from "@/constants/env";
 import { useAuth } from "@/context/AuthContext";
-import { apiRoutes } from "@/models/api";
 import type { ApiResponse } from "@/types/api.types";
 import { Download } from "lucide-react";
 import { useRef, useState } from "react";
@@ -22,7 +22,8 @@ export default function ExportCsv() {
     setFetchError(null);
     setPending(true);
     try {
-      const response = await fetch(apiRoutes.userExportData, {
+      const fetchUrl = BASE_URL + "/users/export-data";
+      const response = await fetch(fetchUrl, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

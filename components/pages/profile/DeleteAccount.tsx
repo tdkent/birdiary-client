@@ -1,7 +1,10 @@
 "use client";
 
-import { deleteSessionCookie, signOut as signOutAction } from "@/actions/auth";
-import { deleteAccount } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
+import {
+  deleteSessionCookie,
+  signOut as signOutAction,
+} from "@/actions/auth.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -27,7 +30,11 @@ export default function DeleteAccount() {
     setError(null);
     setPending(true);
     try {
-      const result: ApiResponse<null> = await deleteAccount();
+      const result: ApiResponse<null> = await serverApiRequest({
+        method: "DELETE",
+        route: "/users",
+      });
+
       setPending(false);
 
       if (result.error) {

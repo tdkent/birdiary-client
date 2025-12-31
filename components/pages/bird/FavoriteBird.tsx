@@ -1,4 +1,4 @@
-import { getUser } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
 import SelectFavoriteBird from "@/components/pages/bird/SelectFavoriteBird";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { checkSession } from "@/helpers/auth";
@@ -13,7 +13,10 @@ export default async function FavoriteBird({ birdId }: FavoriteBirdProps) {
   const hasSession = await checkSession();
   if (!hasSession) return null;
 
-  const result: ApiResponse<User> = await getUser();
+  const result: ApiResponse<User> = await serverApiRequest({
+    route: "/users",
+  });
+
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;
   }

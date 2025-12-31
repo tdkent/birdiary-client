@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { editLocation } from "@/actions/location";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import LocationInput from "@/components/forms/LocationInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -70,10 +70,11 @@ export default function EditLocationForm({
         location: updatedLocation,
       };
 
-      const result: ApiResponse<Location> = await editLocation(
-        locationId,
-        formValues.location,
-      );
+      const result: ApiResponse<Location> = await serverApiRequest({
+        method: "PUT",
+        requestBody: formValues.location,
+        route: `/locations/${locationId}`,
+      });
 
       if (result.error) {
         if (result.statusCode === 401) {

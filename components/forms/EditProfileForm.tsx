@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { editUserProfile } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import TextRemainingLength from "@/components/forms/TextRemainingLength";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -83,7 +83,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
           return toast.error(ErrorMessages.InvalidZip);
         });
     }
-    const reqBody: UpdateProfile = {
+    const requestBody: UpdateProfile = {
       address: (address as string) || null,
       bio: values.bio || null,
       name: values.name || null,
@@ -91,7 +91,11 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
     };
 
     try {
-      const result: ApiResponse<null> = await editUserProfile(reqBody);
+      const result: ApiResponse<null> = await serverApiRequest({
+        method: "PATCH",
+        requestBody,
+        route: "/users",
+      });
 
       if (result.error) {
         if (result.statusCode === 401) {

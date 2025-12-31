@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import { getSighting } from "@/actions/sighting";
 import EditSightingForm from "@/components/forms/EditSightingForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";

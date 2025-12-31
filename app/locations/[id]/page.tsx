@@ -1,4 +1,4 @@
-import { getLocation } from "@/actions/location";
+import { serverApiRequest } from "@/actions/api.actions";
 import LocationDetails from "@/components/pages/locations/LocationDetails";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import List from "@/components/pages/shared/List";
@@ -9,13 +9,14 @@ import { Separator } from "@/components/ui/separator";
 import { PAGINATE } from "@/constants/app.constants";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import type { ApiResponse } from "@/types/api.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
   sortByAlphaOptions,
   sortByDateOptions,
 } from "@/types/list-sort.types";
+import type { Location } from "@/types/location.types";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -38,9 +39,11 @@ export async function generateMetadata({
         "View details of a birdwatching location including a list of your sightings.",
     };
 
-  const location = await getLocation(validId);
+  const result: ApiResponse<Location> = await serverApiRequest({
+    route: `/locations/${validId}`,
+  });
 
-  if (!("name" in location))
+  if (result.error)
     return {
       title: `Location details - Birdiary`,
       description:
@@ -48,8 +51,8 @@ export async function generateMetadata({
     };
 
   return {
-    title: `${location.name} - Birdiary`,
-    description: `View details and a map of ${location.name}, and a list of your bird sightings at this location.`,
+    title: `${result.data.name} - Birdiary`,
+    description: `View details and a map of ${result.data.name}, and a list of your bird sightings at this location.`,
   };
 }
 
@@ -73,6 +76,8 @@ export default async function LocationDetailsView({
   const parsedPage = checkValidParamInteger(page);
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption = sortBy as SortValues;
+
+  const route = `/locations/${validId}/sightings?page=${parsedPage}&sortBy=${sortBy}`;
 
   return (
     <>
@@ -103,11 +108,7 @@ export default async function LocationDetailsView({
                 favBirdId={favBirdId}
                 headingText="My Sightings at This Location"
                 page={parsedPage}
-                resource={apiRoutes.getSightingsByLocation(
-                  validId,
-                  parsedPage,
-                  sortBy,
-                )}
+                route={route}
                 sortBy={sortBy}
                 sortOptions={sortOptions}
                 variant="locationDetail"

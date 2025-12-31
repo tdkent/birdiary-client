@@ -1,4 +1,4 @@
-import { getUserStats } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -9,7 +9,9 @@ import type { UserSightingStats } from "@/types/user.types";
 import Link from "next/link";
 
 export default async function Stats() {
-  const result: ApiResponse<UserSightingStats> = await getUserStats();
+  const result: ApiResponse<UserSightingStats> = await serverApiRequest({
+    route: "/users/stats",
+  });
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

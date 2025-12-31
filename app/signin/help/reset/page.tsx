@@ -1,4 +1,4 @@
-import { verifyResetPassword } from "@/actions/auth";
+import { serverApiRequest } from "@/actions/api.actions";
 import ResetPasswordSubmitPassword from "@/components/forms/ResetPasswordSubmitPassword";
 import InvalidVerificationLink from "@/components/pages/auth/InvalidVerificationLink";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -29,7 +29,9 @@ export default async function ResetPasswordView({
   if (!isValidJwt.success)
     return <ErrorDisplay msg={ErrorMessages.BadRequest} />;
 
-  const result: ApiResponse<null> = await verifyResetPassword(token);
+  const result: ApiResponse<null> = await serverApiRequest({
+    route: `/users/forgot-password?token=${token}`,
+  });
 
   if (result.error) {
     if (result.statusCode === 400) return <InvalidVerificationLink />;

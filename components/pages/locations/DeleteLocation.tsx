@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { deleteLocation } from "@/actions/location";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,10 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
     setPending(true);
     setError(null);
     try {
-      const result: ApiResponse<null> = await deleteLocation(locationId);
+      const result: ApiResponse<null> = await serverApiRequest({
+        method: "DELETE",
+        route: `/locations/${locationId}`,
+      });
 
       if (result.error) {
         if (result.statusCode === 401) {

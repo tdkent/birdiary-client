@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth";
 import { mutateStorage, queryStorage } from "@/helpers/storage";
