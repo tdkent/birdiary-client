@@ -11,7 +11,6 @@ import { BIRD } from "@/constants/app.constants";
 import birdNames from "@/data/birds";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
@@ -83,6 +82,8 @@ export default async function BirdDetailsView({
   const user = await getUserProfileOrNull();
   const isFavBird = user && user.favoriteBirdId === validBirdId;
 
+  const route = `/birds/${validBirdId}/sightings?page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -112,11 +113,7 @@ export default async function BirdDetailsView({
               headingText="My Sightings of This Species"
               page={parsedPage}
               pendingVariant="list"
-              route={apiRoutes.getSightingsByBirdId(
-                validBirdId,
-                parsedPage,
-                sortBy,
-              )}
+              route={route}
               sortBy={sortBy}
               sortOptions={sortOptions}
               tag="sightings"

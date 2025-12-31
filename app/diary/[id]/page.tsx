@@ -5,7 +5,6 @@ import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { getUserProfileOrNull } from "@/helpers/auth";
 import { checkValidParamInteger } from "@/helpers/data";
 import { convertDateIdToValidDate, createLocaleString } from "@/helpers/dates";
-import { apiRoutes } from "@/models/api";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { type SortValues, sortByAlphaOptions } from "@/types/list-sort.types";
 import type { Metadata } from "next";
@@ -56,6 +55,8 @@ export default async function DiaryDetailsView({
   const sortOptions = [...sortByAlphaOptions];
   const defaultSortOption = sortBy as SortValues;
 
+  const route = `/sightings?dateId=${validDateId}&page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -72,12 +73,7 @@ export default async function DiaryDetailsView({
             favBirdId={favBirdId}
             page={parsedPage}
             pendingVariant="list"
-            route={apiRoutes.getSightingsListByType(
-              "dateId",
-              validDateId,
-              parsedPage,
-              sortBy,
-            )}
+            route={route}
             sortBy={sortBy}
             sortOptions={sortOptions}
             tag="sightings"

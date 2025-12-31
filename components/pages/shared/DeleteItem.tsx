@@ -2,7 +2,6 @@ import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/context/ApiContext";
-import { apiRoutes } from "@/models/api";
 import type { SightingWithLocation } from "@/types/sighting.types";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect } from "react";
@@ -21,7 +20,7 @@ export default function DeleteItem({
   const router = useRouter();
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: apiRoutes.sighting(item.id),
+    route: `/sightings/${item.id}`,
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "DELETE",

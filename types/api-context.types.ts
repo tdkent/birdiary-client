@@ -5,8 +5,8 @@ import { createContext } from "react";
 
 export type UseQueryInputs = {
   route: string;
-  tag: "sightings" | "diary";
-  variant: ListVariant;
+  tag: "diary" | "sighting" | "sightings";
+  variant?: ListVariant;
 };
 
 export type UseMutationInputs = {
@@ -44,11 +44,13 @@ export const ApiContext = createContext<Api>({
 });
 
 export type Cache = {
-  sightings: Array<() => void>;
   diary: Array<() => void>;
+  sighting: Array<() => void>;
+  sightings: Array<() => void>;
 };
 
 export const defaultCache: Cache = {
-  sightings: [],
   diary: [],
+  sighting: [],
+  sightings: [],
 };

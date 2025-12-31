@@ -13,7 +13,6 @@ import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
 import birdNames from "@/data/birds";
 import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes } from "@/models/api";
 import {
   SightingFormSchema,
   type SightingForm,
@@ -50,7 +49,7 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
 
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
-    route: apiRoutes.sighting(sighting.id),
+    route: `/sightings/${sighting.id}`,
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "PATCH",
