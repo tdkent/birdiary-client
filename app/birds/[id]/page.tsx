@@ -1,4 +1,4 @@
-import { getBird } from "@/actions/bird";
+import { serverApiRequest } from "@/actions/api.actions";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import FavoriteBird from "@/components/pages/bird/FavoriteBird";
 import CsrList from "@/components/pages/shared/CsrList";
@@ -39,7 +39,9 @@ export async function generateMetadata({
     };
   }
 
-  const result: ApiResponse<Bird> = await getBird(Number(birdId));
+  const result: ApiResponse<Bird> = await serverApiRequest({
+    route: `/birds/${birdId}`,
+  });
 
   if (result.error) {
     return {

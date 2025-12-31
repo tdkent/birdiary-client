@@ -1,4 +1,4 @@
-import { getBird } from "@/actions/bird";
+import { serverApiRequest } from "@/actions/api.actions";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -10,7 +10,9 @@ type BirdDetailsProps = {
 };
 
 export default async function BirdDetails({ birdId }: BirdDetailsProps) {
-  const result: ApiResponse<Bird> = await getBird(birdId);
+  const result: ApiResponse<Bird> = await serverApiRequest({
+    route: `/birds/${birdId}`,
+  });
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;
