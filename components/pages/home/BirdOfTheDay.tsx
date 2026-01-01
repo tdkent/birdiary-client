@@ -1,8 +1,8 @@
+import { serverApiRequest } from "@/actions/api.actions";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import Pending from "@/components/pages/shared/Pending";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { apiRoutes } from "@/models/api";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import Link from "next/link";
@@ -33,8 +33,9 @@ export default async function BirdOfTheDay() {
 }
 
 async function BirdOfTheDayImage() {
-  const response = await fetch(apiRoutes.birdOfTheDay);
-  const result: ApiResponse<Bird> = await response.json();
+  const result: ApiResponse<Bird> = await serverApiRequest({
+    route: "/bird-of-the-day",
+  });
   if (result.error) return <ErrorDisplay msg={result.message} />;
 
   const { data } = result;

@@ -1,4 +1,4 @@
-import { getLocation } from "@/actions/location";
+import { serverApiRequest } from "@/actions/api.actions";
 import DeleteLocation from "@/components/pages/locations/DeleteLocation";
 import EditLocation from "@/components/pages/locations/EditLocation";
 import LocationMap from "@/components/pages/locations/LocationMap";
@@ -14,7 +14,9 @@ type LocationDetailsType = {
 export default async function LocationDetails({
   locationId,
 }: LocationDetailsType) {
-  const result: ApiResponse<Location> = await getLocation(locationId);
+  const result: ApiResponse<Location> = await serverApiRequest({
+    route: `/locations/${locationId}`,
+  });
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

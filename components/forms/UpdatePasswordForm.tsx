@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { updatePassword } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -50,10 +50,15 @@ export default function UpdatePasswordForm() {
     setPending(true);
     setError(null);
     try {
-      const result: ApiResponse<null> = await updatePassword(
-        values.currentPassword,
-        values.newPassword,
-      );
+      const requestBody = {
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      };
+      const result: ApiResponse<null> = await serverApiRequest({
+        method: "PATCH",
+        requestBody,
+        route: "/users/password",
+      });
 
       if (result.error) {
         if (result.statusCode === 401) {

@@ -1,3 +1,4 @@
+import { serverApiRequest } from "@/actions/api.actions";
 import SearchForBird from "@/components/pages/bird/SearchForBird";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import FilterAndResultsText from "@/components/pages/shared/FilterAndResultsText";
@@ -6,7 +7,6 @@ import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import SortItems from "@/components/pages/shared/SortItems";
 import { PAGINATE } from "@/constants/app.constants";
-import { getCookie } from "@/helpers/auth";
 import type { ApiResponse, Identifiable } from "@/types/api.types";
 import type {
   ListVariant,
@@ -20,7 +20,7 @@ type ListProps =
       favBirdId?: number | null;
       headingText?: string;
       page: number;
-      resource: string;
+      route: string;
       search?: never;
       sortBy: string;
       sortOptions: SortOptions;
@@ -35,7 +35,7 @@ type ListProps =
       favBirdId?: number | null;
       headingText?: never;
       page: number;
-      resource: string;
+      route: string;
       search: string | undefined;
       sortOptions?: never;
       sortBy?: never;
@@ -49,20 +49,14 @@ export default async function List({
   favBirdId,
   headingText,
   page,
-  resource,
+  route,
   search,
   sortBy,
   sortOptions,
   startsWith,
   variant,
 }: ListProps) {
-  const token = await getCookie();
-
-  const requestHeaders: { Authorization?: string } = {};
-  if (token) requestHeaders["Authorization"] = `Bearer ${token}`;
-
-  const response = await fetch(resource, { headers: requestHeaders });
-  const result: ApiResponse<Identifiable[]> = await response.json();
+  const result: ApiResponse<Identifiable[]> = await serverApiRequest({ route });
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

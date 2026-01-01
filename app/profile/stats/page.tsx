@@ -4,7 +4,7 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Suspense } from "react";
 
-import { getUserProfileOrNull } from "@/helpers/auth";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {

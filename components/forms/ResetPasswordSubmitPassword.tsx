@@ -1,6 +1,6 @@
 "use client";
 
-import { resetPassword } from "@/actions/auth";
+import { serverApiRequest } from "@/actions/api.actions";
 import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
@@ -52,10 +52,13 @@ export default function ResetPasswordSubmitPassword({
     setPending(true);
     setError(null);
     try {
-      const result: ApiResponse<null> = await resetPassword(
-        values.newPassword,
-        token,
-      );
+      const requestBody = { password: values.newPassword, token };
+
+      const result: ApiResponse<null> = await serverApiRequest({
+        method: "POST",
+        requestBody,
+        route: "/users/forgot-password/complete",
+      });
 
       if (result.error) {
         const msg =

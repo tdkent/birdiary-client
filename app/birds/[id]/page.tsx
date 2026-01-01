@@ -1,4 +1,4 @@
-import { getBird } from "@/actions/bird";
+import { serverApiRequest } from "@/actions/api.actions";
 import BirdDetails from "@/components/pages/bird/BirdDetails";
 import FavoriteBird from "@/components/pages/bird/FavoriteBird";
 import CsrList from "@/components/pages/shared/CsrList";
@@ -8,10 +8,9 @@ import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { Separator } from "@/components/ui/separator";
 import { BIRD } from "@/constants/app.constants";
-import birdNames from "@/data/birds";
-import { getUserProfileOrNull } from "@/helpers/auth";
-import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import birdNames from "@/db/birdNames";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
@@ -39,7 +38,9 @@ export async function generateMetadata({
     };
   }
 
-  const result: ApiResponse<Bird> = await getBird(Number(birdId));
+  const result: ApiResponse<Bird> = await serverApiRequest({
+    route: `/birds/${birdId}`,
+  });
 
   if (result.error) {
     return {
@@ -81,6 +82,8 @@ export default async function BirdDetailsView({
   const user = await getUserProfileOrNull();
   const isFavBird = user && user.favoriteBirdId === validBirdId;
 
+  const route = `/birds/${validBirdId}/sightings?page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -110,11 +113,7 @@ export default async function BirdDetailsView({
               headingText="My Sightings of This Species"
               page={parsedPage}
               pendingVariant="list"
-              route={apiRoutes.getSightingsByBirdId(
-                validBirdId,
-                parsedPage,
-                sortBy,
-              )}
+              route={route}
               sortBy={sortBy}
               sortOptions={sortOptions}
               tag="sightings"

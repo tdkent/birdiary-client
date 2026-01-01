@@ -1,9 +1,9 @@
 "use client";
 
+import { serverApiRequest } from "@/actions/api.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
-import birdNames from "@/data/birds";
-import { apiRoutes } from "@/models/api";
+import birdNames from "@/db/birdNames";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
@@ -29,8 +29,9 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
     setCurrFetchedBird(currBirdName);
     try {
       const birdId = birdNames.findIndex((name) => name === currBirdName) + 1;
-      const response = await fetch(apiRoutes.bird(birdId));
-      const result: ApiResponse<Bird> = await response.json();
+      const result: ApiResponse<Bird> = await serverApiRequest({
+        route: `/birds/${birdId}`,
+      });
 
       if (result.error) return setError(result.message);
 

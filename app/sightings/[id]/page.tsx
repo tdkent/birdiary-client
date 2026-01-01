@@ -2,7 +2,8 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import SightingDetails from "@/components/pages/sightings/SightingDetails";
-import { checkValidParamInteger } from "@/helpers/data";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 
@@ -21,6 +22,9 @@ export default async function SightingView({ params }: SightingViewProps) {
   const { id } = await params;
   const validId = checkValidParamInteger(id);
 
+  const user = await getUserProfileOrNull();
+  const favBirdId = user && user.favoriteBirdId;
+
   return (
     <>
       <ViewWrapper>
@@ -31,7 +35,7 @@ export default async function SightingView({ params }: SightingViewProps) {
         />
         {validId ? (
           <>
-            <SightingDetails sightingId={validId} />
+            <SightingDetails favBirdId={favBirdId} sightingId={validId} />
           </>
         ) : (
           <>

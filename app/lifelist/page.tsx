@@ -4,9 +4,8 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { PAGINATE } from "@/constants/app.constants";
-import { getUserProfileOrNull } from "@/helpers/auth";
-import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
@@ -45,6 +44,8 @@ export default async function LifeListView({
   const sortOptions = [...sortByAlphaOptions, ...sortByDateOptions];
   const defaultSortOption: SortValues = "alphaAsc";
 
+  const route = `/sightings?groupBy=lifelist&page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -69,11 +70,7 @@ export default async function LifeListView({
                 defaultSortOption={defaultSortOption}
                 favBirdId={favBirdId}
                 page={parsedPage}
-                resource={apiRoutes.getSightingsGroupByType(
-                  "lifelist",
-                  parsedPage,
-                  sortBy,
-                )}
+                route={route}
                 sortBy={sortBy}
                 sortOptions={sortOptions}
                 variant="lifeList"

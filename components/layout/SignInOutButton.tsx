@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut as signOutAction } from "@/actions/auth";
+import { signOut as signOutAction } from "@/actions/auth.actions";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/context/AuthContext";

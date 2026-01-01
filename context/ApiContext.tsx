@@ -1,9 +1,11 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
+import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
-import { getCookie } from "@/helpers/auth";
-import { mutateStorage, queryStorage } from "@/helpers/storage";
+import { getCookie } from "@/helpers/auth.helpers";
+import { mutateStorage, queryStorage } from "@/helpers/storage.helpers";
 import {
   Api,
   ApiContext,
@@ -34,28 +36,25 @@ export default function ApiProvider({
 
   /** Fetch from server or browser in client components. */
   function useQuery({ route, tag }: UseQueryInputs) {
-    const [data, setData] = useState<unknown>([]);
+    const [data, setData] = useState<unknown>();
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<Error | null>(null);
     const [pending, setPending] = useState(false);
 
-    const { signOut } = useAuth();
+    const { isSignedIn, signOut } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
       async function query() {
         setError(null);
         const token = await getCookie();
-
         if (token) {
           setPending(true);
           try {
-            const response = await fetch(route, {
-              headers: { Authorization: `Bearer ${token}` },
+            const result: ApiResponse<unknown> = await serverApiRequest({
+              route,
             });
-
-            const result: ApiResponse<unknown> = await response.json();
 
             if (result.error) {
               if (result.statusCode === 401) {
@@ -80,16 +79,20 @@ export default function ApiProvider({
             setPending(false);
           }
         } else {
-          const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as StorageSighting[] | StorageDiary[]) || []);
-          setCount(countOfRecords);
+          const data = queryStorage(route, tag);
+          if ("items" in data) {
+            setData((data.items as StorageSighting[] | StorageDiary[]) || []);
+            setCount(data.countOfRecords);
+          } else {
+            setData(data);
+          }
         }
       }
 
       // Add query function and corresponding tag to cache state.
       setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
-    }, [route, router, signOut, tag]);
+    }, [isSignedIn, route, router, signOut, tag]);
 
     if (fetchError) throw fetchError;
 
@@ -119,7 +122,8 @@ export default function ApiProvider({
         setError(null);
         setPending(true);
         try {
-          const response = await fetch(route, {
+          const url = CONFIG.BASE_URL + route;
+          const response = await fetch(url, {
             method,
             headers: {
               "Content-Type": "application/json",

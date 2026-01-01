@@ -4,9 +4,8 @@ import Pending from "@/components/pages/shared/Pending";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
 import { PAGINATE } from "@/constants/app.constants";
-import { getUserProfileOrNull } from "@/helpers/auth";
-import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -41,6 +40,7 @@ export default async function BirdsView({
   const favBirdId = user && user.favoriteBirdId;
 
   const parsedPage = checkValidParamInteger(page);
+  const route = `/birds?page=${page}${search ? `&search=${search}` : ""}${startsWith ? `&startsWith=${startsWith}` : ""}`;
 
   return (
     <>
@@ -66,7 +66,7 @@ export default async function BirdsView({
               <List
                 favBirdId={favBirdId}
                 page={parsedPage}
-                resource={apiRoutes.birds(parsedPage, search, startsWith)}
+                route={route}
                 search={search}
                 startsWith={startsWith}
                 variant="birds"

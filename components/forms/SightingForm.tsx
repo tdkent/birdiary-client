@@ -11,9 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
-import birdNames from "@/data/birds";
-import { createIsoDateFromJsDate } from "@/helpers/dates";
-import { apiRoutes } from "@/models/api";
+import birdNames from "@/db/birdNames";
+import { createIsoDateFromJsDate } from "@/helpers/date.helpers";
 import {
   SightingFormSchema,
   type SightingForm,
@@ -40,7 +39,7 @@ export default function SightingForm() {
     success,
     data: sighting,
   } = useMutation({
-    route: apiRoutes.sightings,
+    route: "/sightings",
     tag: "sightings",
     tagsToUpdate: ["sightings"],
     method: "POST",

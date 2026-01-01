@@ -1,7 +1,5 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { getSighting } from "@/actions/sighting";
 import BirdImage from "@/components/forms/BirdImage";
 import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DeleteItem from "@/components/pages/shared/DeleteItem";
@@ -11,85 +9,37 @@ import Pending from "@/components/pages/shared/Pending";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
+import { useApi } from "@/context/ApiContext";
 import { useAuth } from "@/context/AuthContext";
-import { getUserProfileOrNull } from "@/helpers/auth";
 import {
   convertSightingDateToInteger,
   createLocaleString,
-} from "@/helpers/dates";
-import type { ApiResponse } from "@/types/api.types";
-import { ErrorMessages } from "@/types/error-messages.enum";
+} from "@/helpers/date.helpers";
 import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 
 type SightingProps = {
+  favBirdId: number | null;
   sightingId: number;
 };
 
 /** Fetch and display sighting data. */
-export default function SightingDetails({ sightingId }: SightingProps) {
-  const { isSignedIn, signOut } = useAuth();
-  const router = useRouter();
+export default function SightingDetails({
+  favBirdId,
+  sightingId,
+}: SightingProps) {
+  const { isSignedIn } = useAuth();
+  const { useQuery } = useApi();
+  const { data, error, pending } = useQuery({
+    route: `/sightings/${sightingId}`,
+    tag: "sighting",
+  });
 
-  const [sighting, setSighting] = useState<SightingWithBirdAndLocation | null>(
-    null,
-  );
-  const [favBirdId, setFavBirdId] = useState<number | null>(null);
-  const [error, setError] = useState<string | string | null>(null);
-  const [fetchError, setFetchError] = useState<Error | null>(null);
-  const [pending, setPending] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    async function query() {
-      setError(null);
-      if (isSignedIn) {
-        setPending(true);
-        try {
-          const result: ApiResponse<SightingWithBirdAndLocation> =
-            await getSighting(sightingId);
-
-          if (result.error) {
-            if (result.statusCode === 401) {
-              toast.error(ErrorMessages.InvalidSession);
-              signOut();
-              deleteSessionCookie();
-              router.replace("/signin");
-            }
-            return setError(result.message);
-          }
-
-          const user = await getUserProfileOrNull();
-
-          setSighting(result.data);
-          if (user) setFavBirdId(user.favoriteBirdId);
-        } catch (error) {
-          console.error(error);
-          setFetchError(error as Error);
-        } finally {
-          setPending(false);
-        }
-      } else {
-        if (!window.localStorage.getItem("sightings")) {
-          window.localStorage.setItem("sightings", "[]");
-        }
-        const data = JSON.parse(
-          window.localStorage.getItem("sightings")!,
-        ) as SightingWithBirdAndLocation[];
-
-        const sighting = data.find((s) => s.id === sightingId);
-        if (!sighting) return setError(ErrorMessages.NotFound);
-        setSighting(sighting);
-      }
-    }
-    query();
-  }, [isSignedIn, router, sightingId, signOut]);
-
-  if (fetchError) throw fetchError;
+  const sighting = data as SightingWithBirdAndLocation;
 
   if (error) {
     return <ErrorDisplay msg={error} />;

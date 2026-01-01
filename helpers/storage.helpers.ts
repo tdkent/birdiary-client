@@ -1,8 +1,7 @@
-// Functions to process data in local storage
 import { PAGINATE } from "@/constants/app.constants";
-import birdNames from "@/data/birds";
-import { sortSightings } from "@/helpers/data";
-import { convertSightingDateToInteger } from "@/helpers/dates";
+import birdNames from "@/db/birdNames";
+import { sortSightings } from "@/helpers/app.helpers";
+import { convertSightingDateToInteger } from "@/helpers/date.helpers";
 import type {
   UseMutationInputs,
   UseQueryInputs,
@@ -14,23 +13,28 @@ import type {
   StorageSighting,
 } from "@/types/sighting.types";
 
-type QueryStorageData = {
-  items: StorageSighting[] | StorageDiary[];
-  countOfRecords: number;
-};
+type QueryStorageData =
+  | {
+      items: StorageSighting[] | StorageDiary[];
+      countOfRecords: number;
+    }
+  | StorageSighting;
 
 /** Query, filter, and sort data in storage based on route */
 export function queryStorage(
   route: string,
   key: UseQueryInputs["tag"],
 ): QueryStorageData {
-  if (!window.localStorage.getItem(key)) {
+  if (!window.localStorage.getItem(key) && key !== "sighting") {
     window.localStorage.setItem(key, "[]");
   }
   const data = JSON.parse(window.localStorage.getItem(key)!);
+
+  const sightingDetailsPattern = /^\/sightings\/\d+/;
+
   switch (true) {
     // Diary ("/diary"): sort by selected option
-    case route.includes("/sightings?groupBy=date"): {
+    case route.includes("groupBy=date"): {
       const query = route.split("&");
       const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
@@ -46,7 +50,7 @@ export function queryStorage(
     }
 
     // Diary Details ("/diary/:date"): filter by date parameter in route string
-    case route.includes("/sightings?dateId="): {
+    case route.includes("dateId="): {
       const date = route.split("dateId=")[1].slice(0, 10);
       const query = route.split("&");
       const page = Number(query[1].slice(5));
@@ -64,8 +68,8 @@ export function queryStorage(
     }
 
     // Bird Details ("/birds/:id/sightings"): filter by name parameter in route string
-    case !!route.match(/\/birds\/\d{1,5}\/sightings/): {
-      const birdId = Number(route.split("/")[5]);
+    case route.startsWith("/birds"): {
+      const birdId = Number(route.split("/")[2]);
       const queries = route.split("?")[1].split("&");
       const page = Number(queries[0].slice(5));
       const sortBy = queries[1].slice(7);
@@ -81,8 +85,17 @@ export function queryStorage(
       return { items: paginated, countOfRecords: filterByBird.length };
     }
 
+    case sightingDetailsPattern.test(route): {
+      const sightingId = Number(route.split("/")[2]);
+      const sightings: StorageSighting[] = JSON.parse(
+        window.localStorage.getItem("sightings")!,
+      );
+      const sighting = sightings.filter((s) => s.id === sightingId)[0];
+      return sighting;
+    }
+
     // Sightings ("/sightings"): all sightings, sort by date or bird name
-    case route.split("api")[1].startsWith("/sightings"): {
+    case route.startsWith("/sightings"): {
       const queries = route.split("?")[1].split("&");
       const page = Number(queries[0].slice(5));
       const sortBy = queries[1].slice(7);
@@ -123,8 +136,6 @@ export function mutateStorage(
       throw new Error("Invalid request method");
   }
 }
-
-// Note: dates are sent to server as Date, returned from server as string.
 
 function addSighting(formValues: NewSighting) {
   if (!window.localStorage.getItem("sightings")) {

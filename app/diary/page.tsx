@@ -2,9 +2,8 @@ import CsrList from "@/components/pages/shared/CsrList";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { getUserProfileOrNull } from "@/helpers/auth";
-import { checkValidParamInteger } from "@/helpers/data";
-import { apiRoutes } from "@/models/api";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,
@@ -41,6 +40,8 @@ export default async function DiaryView({
   const sortOptions = [...sortByDateOptions, sortBySightingsCount];
   const defaultSortOption = sortBy as SortValues;
 
+  const route = `/sightings?groupBy=date&page=${parsedPage}&sortBy=${sortBy}`;
+
   return (
     <>
       <ViewWrapper>
@@ -53,11 +54,7 @@ export default async function DiaryView({
             favBirdId={favBirdId}
             page={parsedPage}
             pendingVariant="list"
-            route={apiRoutes.getSightingsGroupByType(
-              "date",
-              parsedPage,
-              sortBy,
-            )}
+            route={route}
             sortBy={sortBy}
             sortOptions={sortOptions}
             tag="diary"

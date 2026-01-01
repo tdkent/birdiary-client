@@ -1,6 +1,6 @@
 import NewSightingButton from "@/components/pages/shared/NewSightingButton";
 import { Button } from "@/components/ui/button";
-import { checkSession } from "@/helpers/auth";
+import { checkSession } from "@/helpers/auth.helpers";
 import Link from "next/link";
 
 export default async function CTA() {

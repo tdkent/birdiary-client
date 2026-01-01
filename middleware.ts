@@ -1,4 +1,4 @@
-import { checkSession } from "@/helpers/auth";
+import { checkSession } from "@/helpers/auth.helpers";
 import { deleteSession } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 

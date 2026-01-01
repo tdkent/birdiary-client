@@ -1,6 +1,6 @@
 "use client";
 
-import { auth } from "@/actions/auth";
+import { authAction } from "@/actions/auth.actions";
 import PasswordInput from "@/components/forms/PasswordInput";
 import PendingIcon from "@/components/forms/PendingIcon";
 import Turnstile from "@/components/pages/auth/Turnstile";
@@ -58,7 +58,8 @@ export default function AuthForm() {
     try {
       if (!cftToken) return setError(ErrorMessages.BadRequest);
 
-      const result = await auth({ ...values, cftToken, pathname });
+      const requestBody = { cftToken, ...values };
+      const result = await authAction({ pathname, requestBody });
 
       if (result.error) {
         if (result.message === "timeout-or-duplicate") {

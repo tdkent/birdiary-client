@@ -66,16 +66,6 @@ export function sortSightings(
   }
 }
 
-/** Format bird name from standard to URL. */
-export function formatBirdNameToUrl(commonName: string) {
-  return commonName.replaceAll(" ", "_").replaceAll(`'`, "");
-}
-
-/** Format bird name from URL to standard. */
-export function formatUrlToBirdName(urlSegment: string) {
-  return urlSegment.replaceAll("_", " ");
-}
-
 /** Check if string parses to a valid integer.  */
 export function checkValidParamInteger(id: string, isBirdId?: boolean) {
   const parsedId = Number(id);

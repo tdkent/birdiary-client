@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteSessionCookie } from "@/actions/auth";
-import { transferStorageData } from "@/actions/profile";
+import { serverApiRequest } from "@/actions/api.actions";
+import { deleteSessionCookie } from "@/actions/auth.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
@@ -36,8 +36,12 @@ export default function TransferStorageData() {
     setError(null);
     setPending(true);
     try {
-      const result: ApiResponse<{ count: number }> =
-        await transferStorageData(parsedSightings);
+      const result: ApiResponse<{ count: number }> = await serverApiRequest({
+        method: "POST",
+        requestBody: parsedSightings,
+        revalidate: "/users",
+        route: "/users/transfer-storage",
+      });
 
       if (result.error) {
         if (result.statusCode === 401) {
