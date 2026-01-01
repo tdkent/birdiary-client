@@ -79,9 +79,13 @@ export default function ApiProvider({
             setPending(false);
           }
         } else {
-          const { items, countOfRecords } = queryStorage(route, tag);
-          setData((items as StorageSighting[] | StorageDiary[]) || []);
-          setCount(countOfRecords);
+          const data = queryStorage(route, tag);
+          if ("items" in data) {
+            setData((data.items as StorageSighting[] | StorageDiary[]) || []);
+            setCount(data.countOfRecords);
+          } else {
+            setData(data);
+          }
         }
       }
 
