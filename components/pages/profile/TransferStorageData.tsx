@@ -39,6 +39,7 @@ export default function TransferStorageData() {
       const result: ApiResponse<{ count: number }> = await serverApiRequest({
         method: "POST",
         requestBody: parsedSightings,
+        revalidate: "/users",
         route: "/users/transfer-storage",
       });
 
