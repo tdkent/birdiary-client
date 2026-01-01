@@ -1,7 +1,7 @@
 "use server";
 
 import CONFIG from "@/constants/config.constants";
-import { getCookie } from "@/helpers/auth";
+import { getCookie } from "@/helpers/auth.helpers";
 import { ApiRequestInputs, Headers, RequestHeaders } from "@/types/api.types";
 import { revalidatePath } from "next/cache";
 
@@ -11,8 +11,6 @@ export async function serverApiRequest({
   requestBody,
   revalidate,
 }: ApiRequestInputs) {
-  console.log("Server-side api request at", new Date().toISOString());
-
   const url = CONFIG.BASE_URL + route;
 
   const requestHeaders: RequestHeaders = {};

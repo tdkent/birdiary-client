@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import birdNames from "@/data/birds";
+import birdNames from "@/db/birdNames";
 import { SearchInputSchema } from "@/schemas/search.schema";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { Search, X } from "lucide-react";

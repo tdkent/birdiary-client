@@ -2,8 +2,8 @@ import CsrList from "@/components/pages/shared/CsrList";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import ViewHeader from "@/components/pages/shared/ViewHeader";
 import ViewWrapper from "@/components/pages/shared/ViewWrapper";
-import { getUserProfileOrNull } from "@/helpers/auth";
-import { checkValidParamInteger } from "@/helpers/data";
+import { checkValidParamInteger } from "@/helpers/app.helpers";
+import { getUserProfileOrNull } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import {
   type SortValues,

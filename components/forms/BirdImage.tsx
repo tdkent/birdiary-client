@@ -3,7 +3,7 @@
 import { serverApiRequest } from "@/actions/api.actions";
 import PendingIcon from "@/components/forms/PendingIcon";
 import BirdImageDisplay from "@/components/image/BirdImageDisplay";
-import birdNames from "@/data/birds";
+import birdNames from "@/db/birdNames";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";

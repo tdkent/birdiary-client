@@ -1,4 +1,4 @@
-import birdNames from "@/data/birds";
+import birdNames from "@/db/birdNames";
 import type { FormReturnSightingForm } from "@/schemas/sighting.schema";
 import { matchSorter } from "match-sorter";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";

@@ -1,7 +1,7 @@
 import { serverApiRequest } from "@/actions/api.actions";
 import SelectFavoriteBird from "@/components/pages/bird/SelectFavoriteBird";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
-import { checkSession } from "@/helpers/auth";
+import { checkSession } from "@/helpers/auth.helpers";
 import type { ApiResponse } from "@/types/api.types";
 import type { User } from "@/types/user.types";
 

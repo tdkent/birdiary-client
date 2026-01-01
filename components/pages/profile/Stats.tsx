@@ -3,7 +3,7 @@ import StaticBirdImage from "@/components/image/StaticBirdImage";
 import DescriptionListItem from "@/components/pages/shared/DescriptionListItem";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Separator } from "@/components/ui/separator";
-import { createLocaleString } from "@/helpers/dates";
+import { createLocaleString } from "@/helpers/date.helpers";
 import type { ApiResponse } from "@/types/api.types";
 import type { UserSightingStats } from "@/types/user.types";
 import Link from "next/link";

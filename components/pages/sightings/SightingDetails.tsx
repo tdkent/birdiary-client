@@ -14,7 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 import {
   convertSightingDateToInteger,
   createLocaleString,
-} from "@/helpers/dates";
+} from "@/helpers/date.helpers";
 import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";

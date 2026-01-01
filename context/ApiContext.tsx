@@ -4,8 +4,8 @@ import { serverApiRequest } from "@/actions/api.actions";
 import { deleteSessionCookie } from "@/actions/auth.actions";
 import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
-import { getCookie } from "@/helpers/auth";
-import { mutateStorage, queryStorage } from "@/helpers/storage";
+import { getCookie } from "@/helpers/auth.helpers";
+import { mutateStorage, queryStorage } from "@/helpers/storage.helpers";
 import {
   Api,
   ApiContext,

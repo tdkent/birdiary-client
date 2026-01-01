@@ -11,12 +11,71 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/AuthContext";
-import { mobile as mobileNavLinks } from "@/data/nav";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { AlignJustify } from "lucide-react";
+import {
+  AlignJustify,
+  Bird,
+  CircleUserRound,
+  House,
+  LucideIcon,
+  MapPinned,
+  Notebook,
+  NotebookPen,
+  Plus,
+} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
+
+const mobileNavLinks: {
+  label: string;
+  href: string;
+  icon?: LucideIcon;
+  type: "public" | "protected";
+}[] = [
+  {
+    label: "Home",
+    href: "/",
+    icon: House,
+    type: "public",
+  },
+  {
+    label: "New Sighting",
+    href: "newsighting",
+    icon: Plus,
+    type: "public",
+  },
+  {
+    label: "Diary",
+    href: "diary",
+    icon: NotebookPen,
+    type: "public",
+  },
+  {
+    label: "Sightings",
+    href: "sightings",
+    icon: Notebook,
+    type: "public",
+  },
+  {
+    label: "Locations",
+    href: "locations",
+    icon: MapPinned,
+    type: "protected",
+  },
+  {
+    label: "Birdpedia",
+    href: "birds",
+    icon: Bird,
+    type: "public",
+  },
+  {
+    label: "Profile",
+    href: "profile",
+    icon: CircleUserRound,
+    type: "protected",
+  },
+];
 
 /** Shelf with navigation for mobile display. */
 export function MobileNav() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { checkSession, getCookie } from "@/helpers/auth";
+import { checkSession, getCookie } from "@/helpers/auth.helpers";
 import { ErrorMessages } from "@/types/error-messages.enum";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";

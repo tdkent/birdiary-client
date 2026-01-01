@@ -1,7 +1,6 @@
-/**
- * Example date format: "2025-12-02T00:00:00.000Z".
- * Functions remove 'Z' (UTC) from end of string to remove timezone drift.
- */
+// Dates are sent to server as Date, returned from server as string.
+// Example date format: "2025-12-02T00:00:00.000Z".
+// Removing 'Z' (UTC) from string prevents timezone drift.
 
 import { DateTime } from "luxon";
 

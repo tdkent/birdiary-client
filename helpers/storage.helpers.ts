@@ -1,8 +1,7 @@
-// Functions to process data in local storage
 import { PAGINATE } from "@/constants/app.constants";
-import birdNames from "@/data/birds";
-import { sortSightings } from "@/helpers/data";
-import { convertSightingDateToInteger } from "@/helpers/dates";
+import birdNames from "@/db/birdNames";
+import { sortSightings } from "@/helpers/app.helpers";
+import { convertSightingDateToInteger } from "@/helpers/date.helpers";
 import type {
   UseMutationInputs,
   UseQueryInputs,
@@ -137,8 +136,6 @@ export function mutateStorage(
       throw new Error("Invalid request method");
   }
 }
-
-// Note: dates are sent to server as Date, returned from server as string.
 
 function addSighting(formValues: NewSighting) {
   if (!window.localStorage.getItem("sightings")) {

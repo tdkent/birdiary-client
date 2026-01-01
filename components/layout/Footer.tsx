@@ -1,4 +1,4 @@
-import { CURR_YEAR } from "@/helpers/dates";
+import { CURR_YEAR } from "@/helpers/date.helpers";
 import Link from "next/link";
 
 export default function Footer() {
