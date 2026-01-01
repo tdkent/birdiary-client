@@ -9,8 +9,6 @@ import { mutateStorage, queryStorage } from "@/helpers/storage.helpers";
 import {
   Api,
   ApiContext,
-  type Cache,
-  defaultCache,
   type UseMutationInputs,
   type UseQueryInputs,
 } from "@/types/api-context.types";
@@ -31,9 +29,6 @@ export default function ApiProvider({
 }: {
   children: React.ReactNode;
 }) {
-  // Store query functions corresponding to tags.
-  const [cache, setCache] = useState<Cache>(defaultCache);
-
   /** Fetch from server or browser in client components. */
   function useQuery({ route, tag }: UseQueryInputs) {
     const [data, setData] = useState<unknown>();
@@ -88,9 +83,6 @@ export default function ApiProvider({
           }
         }
       }
-
-      // Add query function and corresponding tag to cache state.
-      setCache({ ...cache, [tag]: [...(cache[tag] ?? []), query] });
       query();
     }, [isSignedIn, route, router, signOut, tag]);
 
@@ -166,9 +158,6 @@ export default function ApiProvider({
         setData(result);
         setSuccess(true);
       }
-
-      // For each tag, call query() attached to same property in `cache`.
-      tagsToUpdate.forEach((tag) => cache[tag].forEach((query) => query()));
     }
 
     if (fetchError) throw fetchError;
