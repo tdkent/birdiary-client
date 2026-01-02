@@ -7,6 +7,7 @@ import birdNames from "@/db/birdNames";
 import type { ApiResponse } from "@/types/api.types";
 import type { Bird } from "@/types/bird.types";
 import { ErrorMessages } from "@/types/error-messages.enum";
+import * as Sentry from "@sentry/nextjs";
 import { CircleAlert, Image as ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
@@ -37,10 +38,11 @@ export default function BirdImage({ currBirdName, sizes }: BirdImageProps) {
 
       setData(result.data);
     } catch (error) {
-      console.error(error);
       if (error instanceof Error) {
+        Sentry.logger.error(error.message);
         setError(error.message);
       } else {
+        Sentry.logger.error(ErrorMessages.Unexpected);
         setError(ErrorMessages.Unexpected);
       }
     } finally {

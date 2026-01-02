@@ -2,10 +2,7 @@ import { PAGINATE } from "@/constants/app.constants";
 import birdNames from "@/db/birdNames";
 import { sortSightings } from "@/helpers/app.helpers";
 import { convertSightingDateToInteger } from "@/helpers/date.helpers";
-import type {
-  UseMutationInputs,
-  UseQueryInputs,
-} from "@/types/api-context.types";
+import type { UseMutationInputs } from "@/types/api-context.types";
 import type { SortValues } from "@/types/list-sort.types";
 import type {
   NewSighting,
@@ -21,14 +18,18 @@ type QueryStorageData =
   | StorageSighting;
 
 /** Query, filter, and sort data in storage based on route */
-export function queryStorage(
-  route: string,
-  key: UseQueryInputs["tag"],
-): QueryStorageData {
-  if (!window.localStorage.getItem(key) && key !== "sighting") {
-    window.localStorage.setItem(key, "[]");
-  }
-  const data = JSON.parse(window.localStorage.getItem(key)!);
+export function queryStorage(route: string): QueryStorageData {
+  if (!window.localStorage.getItem("sightings"))
+    window.localStorage.setItem("sightings", "[]");
+  if (!window.localStorage.getItem("diary"))
+    window.localStorage.setItem("diary", "[]");
+
+  const storageSightings: StorageSighting[] = JSON.parse(
+    window.localStorage.getItem("sightings")!,
+  );
+  const storageDiary: StorageDiary[] = JSON.parse(
+    window.localStorage.getItem("diary")!,
+  );
 
   const sightingDetailsPattern = /^\/sightings\/\d+/;
 
@@ -38,10 +39,7 @@ export function queryStorage(
       const query = route.split("&");
       const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
-      const sightings = sortSightings(
-        data as StorageDiary[],
-        sortBy as SortValues,
-      );
+      const sightings = sortSightings(storageDiary, sortBy as SortValues);
       const paginated = sightings.slice(
         PAGINATE.LARGE_LIST * (page - 1),
         PAGINATE.LARGE_LIST * page,
@@ -55,8 +53,8 @@ export function queryStorage(
       const query = route.split("&");
       const page = Number(query[1].slice(5));
       const sortBy = query[2].slice(7);
-      const sightings = data as StorageSighting[];
-      const filterByDate = sightings.filter(
+      // const sightings = data as StorageSighting[];
+      const filterByDate = storageSightings.filter(
         (sighting) => sighting.date.slice(0, 10) === date,
       );
       const sorted = sortSightings(filterByDate, sortBy as SortValues);
@@ -73,8 +71,7 @@ export function queryStorage(
       const queries = route.split("?")[1].split("&");
       const page = Number(queries[0].slice(5));
       const sortBy = queries[1].slice(7);
-      const sightings = data as StorageSighting[];
-      const filterByBird = sightings.filter(
+      const filterByBird = storageSightings.filter(
         (sighting) => sighting.birdId === birdId,
       );
       const sorted = sortSightings(filterByBird, sortBy as SortValues);
@@ -85,12 +82,10 @@ export function queryStorage(
       return { items: paginated, countOfRecords: filterByBird.length };
     }
 
+    // Sighting Details ("/sightings/:id")
     case sightingDetailsPattern.test(route): {
       const sightingId = Number(route.split("/")[2]);
-      const sightings: StorageSighting[] = JSON.parse(
-        window.localStorage.getItem("sightings")!,
-      );
-      const sighting = sightings.filter((s) => s.id === sightingId)[0];
+      const sighting = storageSightings.filter((s) => s.id === sightingId)[0];
       return sighting;
     }
 
@@ -99,15 +94,12 @@ export function queryStorage(
       const queries = route.split("?")[1].split("&");
       const page = Number(queries[0].slice(5));
       const sortBy = queries[1].slice(7);
-      const sorted = sortSightings(
-        data as StorageSighting[],
-        sortBy as SortValues,
-      );
+      const sorted = sortSightings(storageSightings, sortBy as SortValues);
       const paginated = sorted.slice(
         PAGINATE.LARGE_LIST * (page - 1),
         PAGINATE.LARGE_LIST * page,
       );
-      return { items: paginated, countOfRecords: data.length };
+      return { items: paginated, countOfRecords: storageSightings.length };
     }
 
     default:
@@ -117,7 +109,6 @@ export function queryStorage(
 
 /** Mutate sighting data in storage based on method */
 export function mutateStorage(
-  tag: "sightings" | "locations",
   method: UseMutationInputs["method"],
   formValues: NewSighting,
   route: string,

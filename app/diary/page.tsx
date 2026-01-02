@@ -57,7 +57,6 @@ export default async function DiaryView({
             route={route}
             sortBy={sortBy}
             sortOptions={sortOptions}
-            tag="diary"
             variant="diary"
           />
         ) : (

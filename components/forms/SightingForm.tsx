@@ -40,8 +40,6 @@ export default function SightingForm() {
     data: sighting,
   } = useMutation({
     route: "/sightings",
-    tag: "sightings",
-    tagsToUpdate: ["sightings"],
     method: "POST",
   });
 

@@ -50,8 +50,6 @@ export default function EditSightingForm({ sighting }: EditSightingFormProps) {
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: `/sightings/${sighting.id}`,
-    tag: "sightings",
-    tagsToUpdate: ["sightings"],
     method: "PATCH",
   });
 

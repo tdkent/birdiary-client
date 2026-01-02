@@ -5,25 +5,22 @@ import { createContext } from "react";
 
 export type UseQueryInputs = {
   route: string;
-  tag: "diary" | "sighting" | "sightings";
   variant?: ListVariant;
 };
 
 export type UseMutationInputs = {
   route: string;
-  tag: "sightings";
   method: "POST" | "PUT" | "PATCH" | "DELETE";
-  tagsToUpdate: "sightings"[];
 };
 
 export type Api = {
-  useQuery: ({ route, tag }: UseQueryInputs) => {
+  useQuery: ({ route }: UseQueryInputs) => {
     count: number;
     data: unknown;
     error: string | null;
     pending: boolean;
   };
-  useMutation: ({ route, method, tagsToUpdate }: UseMutationInputs) => {
+  useMutation: ({ route, method }: UseMutationInputs) => {
     success: boolean;
     error: string | null;
     pending: boolean;
@@ -42,15 +39,3 @@ export const ApiContext = createContext<Api>({
     data: null,
   }),
 });
-
-export type Cache = {
-  diary: Array<() => void>;
-  sighting: Array<() => void>;
-  sightings: Array<() => void>;
-};
-
-export const defaultCache: Cache = {
-  diary: [],
-  sighting: [],
-  sightings: [],
-};
