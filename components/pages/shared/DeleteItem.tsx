@@ -21,8 +21,6 @@ export default function DeleteItem({
   const { useMutation } = useApi();
   const { mutate, pending, error, success } = useMutation({
     route: `/sightings/${item.id}`,
-    tag: "sightings",
-    tagsToUpdate: ["sightings"],
     method: "DELETE",
   });
 

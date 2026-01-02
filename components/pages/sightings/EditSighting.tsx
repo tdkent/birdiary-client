@@ -17,7 +17,6 @@ export default function EditSighting({ sightingId }: EditSightingProps) {
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery({
     route: `/sightings/${sightingId}`,
-    tag: "sighting",
   });
 
   const sighting = data as SightingWithBirdAndLocation;

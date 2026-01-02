@@ -20,6 +20,7 @@ import type {
   StorageDiary,
   StorageSighting,
 } from "@/types/sighting.types";
+import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -30,7 +31,7 @@ export default function ApiProvider({
   children: React.ReactNode;
 }) {
   /** Fetch from server or browser in client components. */
-  function useQuery({ route, tag }: UseQueryInputs) {
+  function useQuery({ route }: UseQueryInputs) {
     const [data, setData] = useState<unknown>();
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
@@ -64,17 +65,18 @@ export default function ApiProvider({
             setData(result.data);
             setCount(result.count);
           } catch (error) {
-            console.error(error);
             if (error instanceof Error) {
+              Sentry.logger.error(error.message);
               setFetchError(error);
             } else {
+              Sentry.logger.error(ErrorMessages.ServerOutage);
               setError(ErrorMessages.ServerOutage);
             }
           } finally {
             setPending(false);
           }
         } else {
-          const data = queryStorage(route, tag);
+          const data = queryStorage(route);
           if ("items" in data) {
             setData((data.items as StorageSighting[] | StorageDiary[]) || []);
             setCount(data.countOfRecords);
@@ -84,7 +86,7 @@ export default function ApiProvider({
         }
       }
       query();
-    }, [isSignedIn, route, router, signOut, tag]);
+    }, [isSignedIn, route, router, signOut]);
 
     if (fetchError) throw fetchError;
 
@@ -92,12 +94,7 @@ export default function ApiProvider({
   }
 
   /** Mutations on server or browser in client components. */
-  function useMutation({
-    route,
-    tag,
-    method,
-    tagsToUpdate,
-  }: UseMutationInputs) {
+  function useMutation({ route, method }: UseMutationInputs) {
     const [success, setSuccess] = useState(false);
     const [data, setData] = useState<Sighting | StorageSighting | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -139,10 +136,11 @@ export default function ApiProvider({
           setData(result.data);
           setSuccess(true);
         } catch (error) {
-          console.error(error);
           if (error instanceof Error) {
+            Sentry.logger.error(error.message);
             setFetchError(error);
           } else {
+            Sentry.logger.error(ErrorMessages.ServerOutage);
             setError(ErrorMessages.ServerOutage);
           }
         } finally {
@@ -150,7 +148,6 @@ export default function ApiProvider({
         }
       } else {
         const result: StorageSighting = mutateStorage(
-          tag,
           method,
           formValues as NewSighting,
           route,

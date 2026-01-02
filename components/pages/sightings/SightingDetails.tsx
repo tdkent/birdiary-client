@@ -34,7 +34,6 @@ export default function SightingDetails({
   const { useQuery } = useApi();
   const { data, error, pending } = useQuery({
     route: `/sightings/${sightingId}`,
-    tag: "sighting",
   });
 
   const [open, setOpen] = useState(false);

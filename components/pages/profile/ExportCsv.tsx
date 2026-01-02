@@ -47,7 +47,6 @@ export default function ExportCsv() {
       link.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error(error);
       setFetchError(error as Error);
     } finally {
       setPending(false);

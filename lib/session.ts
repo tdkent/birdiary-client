@@ -1,4 +1,5 @@
 import CONFIG from "@/constants/config.constants";
+import * as Sentry from "@sentry/nextjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import "server-only";
@@ -20,7 +21,11 @@ export async function decrypt(session: string | undefined = "") {
     });
     return payload;
   } catch (error) {
-    console.error("Decryption failed:", error);
+    if (error instanceof Error) {
+      Sentry.logger.error(error.message);
+    } else {
+      Sentry.logger.error("An unknown error occurred.");
+    }
   }
 }
 

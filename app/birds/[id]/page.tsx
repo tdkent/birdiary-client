@@ -116,7 +116,6 @@ export default async function BirdDetailsView({
               route={route}
               sortBy={sortBy}
               sortOptions={sortOptions}
-              tag="sightings"
               variant="birdDetail"
             />
           </>

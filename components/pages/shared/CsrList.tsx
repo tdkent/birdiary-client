@@ -20,7 +20,6 @@ type CsrListProps = {
   route: string;
   sortBy: string;
   sortOptions: SortOptions;
-  tag: "diary" | "sightings";
   variant: "birdDetail" | "diary" | "diaryDetail" | "sighting";
 };
 
@@ -34,13 +33,11 @@ export default function CsrList({
   route,
   sortBy,
   sortOptions,
-  tag,
   variant,
 }: CsrListProps) {
   const { useQuery } = useApi();
   const { count, data, error, pending } = useQuery({
     route,
-    tag,
     variant,
   });
 
