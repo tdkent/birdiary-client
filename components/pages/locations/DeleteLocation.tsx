@@ -32,6 +32,7 @@ export default function DeleteLocation({ locationId }: DeleteLocationProps) {
     try {
       const result: ApiResponse<null> = await serverApiRequest({
         method: "DELETE",
+        revalidateTags: ["location", "sighting"],
         route: `/locations/${locationId}`,
       });
 

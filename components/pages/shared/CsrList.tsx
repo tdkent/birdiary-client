@@ -9,6 +9,7 @@ import Pending from "@/components/pages/shared/Pending";
 import SortItems from "@/components/pages/shared/SortItems";
 import { PAGINATE } from "@/constants/app.constants";
 import { useApi } from "@/context/ApiContext";
+import type { Tags } from "@/types/api.types";
 import type { SortOptions, SortValues } from "@/types/list-sort.types";
 
 type CsrListProps = {
@@ -36,8 +37,13 @@ export default function CsrList({
   variant,
 }: CsrListProps) {
   const { useQuery } = useApi();
+
+  const tags: Tags[] =
+    variant === "diaryDetail" ? ["location", "sighting"] : ["sighting"];
+
   const { count, data, error, pending } = useQuery({
     route,
+    tags,
     variant,
   });
 

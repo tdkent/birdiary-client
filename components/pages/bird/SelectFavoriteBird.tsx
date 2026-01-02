@@ -29,7 +29,7 @@ export default function SelectFavoriteBird({
     const result: ApiResponse<User> = await serverApiRequest({
       method: "PATCH",
       requestBody,
-      revalidate: "/users",
+      revalidateTags: ["location", "sighting", "user"],
       route: "/users/favorite-bird",
     });
 

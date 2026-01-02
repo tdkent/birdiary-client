@@ -1,16 +1,12 @@
-import { serverApiRequest } from "@/actions/api.actions";
+import { getUser } from "@/actions/api.actions";
 import EditProfileForm from "@/components/forms/EditProfileForm";
 import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
-import type { ApiResponse } from "@/types/api.types";
-import type { UserWithCountAndBird } from "@/types/user.types";
 import Link from "next/link";
 
 /** Fetch user data and display form. */
 export default async function EditProfile() {
-  const result: ApiResponse<UserWithCountAndBird> = await serverApiRequest({
-    route: "/users",
-  });
+  const result = await getUser();
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

@@ -16,6 +16,7 @@ export default async function LocationDetails({
 }: LocationDetailsType) {
   const result: ApiResponse<Location> = await serverApiRequest({
     route: `/locations/${locationId}`,
+    tags: ["location"],
   });
 
   if (result.error) {

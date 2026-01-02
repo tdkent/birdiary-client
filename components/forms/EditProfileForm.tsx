@@ -94,6 +94,7 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
       const result: ApiResponse<null> = await serverApiRequest({
         method: "PATCH",
         requestBody,
+        revalidateTags: ["user"],
         route: "/users",
       });
 

@@ -2,7 +2,6 @@
 
 import { serverApiRequest } from "@/actions/api.actions";
 import { deleteSessionCookie } from "@/actions/auth.actions";
-import CONFIG from "@/constants/config.constants";
 import { useAuth } from "@/context/AuthContext";
 import { getCookie } from "@/helpers/auth.helpers";
 import { mutateStorage, queryStorage } from "@/helpers/storage.helpers";
@@ -31,7 +30,7 @@ export default function ApiProvider({
   children: React.ReactNode;
 }) {
   /** Fetch from server or browser in client components. */
-  function useQuery({ route }: UseQueryInputs) {
+  function useQuery({ route, tags }: UseQueryInputs) {
     const [data, setData] = useState<unknown>();
     const [count, setCount] = useState<number>(-1);
     const [error, setError] = useState<string | null>(null);
@@ -50,6 +49,7 @@ export default function ApiProvider({
           try {
             const result: ApiResponse<unknown> = await serverApiRequest({
               route,
+              tags,
             });
 
             if (result.error) {
@@ -86,6 +86,7 @@ export default function ApiProvider({
         }
       }
       query();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn, route, router, signOut]);
 
     if (fetchError) throw fetchError;
@@ -104,24 +105,19 @@ export default function ApiProvider({
     const { signOut } = useAuth();
     const router = useRouter();
 
-    async function mutate<T>(formValues: T) {
+    async function mutate(formValues: object) {
       setSuccess(false);
       const token = await getCookie();
       if (token) {
         setError(null);
         setPending(true);
         try {
-          const url = CONFIG.BASE_URL + route;
-          const response = await fetch(url, {
+          const result: ApiResponse<Sighting> = await serverApiRequest({
             method,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(formValues),
+            revalidateTags: ["location", "sighting", "user"],
+            requestBody: formValues,
+            route,
           });
-
-          const result: ApiResponse<Sighting> = await response.json();
 
           if (result.error) {
             if (result.statusCode === 401) {
