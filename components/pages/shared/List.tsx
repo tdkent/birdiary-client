@@ -7,7 +7,7 @@ import ListItem from "@/components/pages/shared/ListItem";
 import PaginateList from "@/components/pages/shared/PaginateList";
 import SortItems from "@/components/pages/shared/SortItems";
 import { PAGINATE } from "@/constants/app.constants";
-import type { ApiResponse, Identifiable } from "@/types/api.types";
+import type { ApiResponse, Identifiable, Tags } from "@/types/api.types";
 import type {
   ListVariant,
   SortOptions,
@@ -56,7 +56,13 @@ export default async function List({
   startsWith,
   variant,
 }: ListProps) {
-  const result: ApiResponse<Identifiable[]> = await serverApiRequest({ route });
+  const tags: Tags[] =
+    variant === "locations" ? ["location", "sighting"] : ["sighting"];
+
+  const result: ApiResponse<Identifiable[]> = await serverApiRequest({
+    route,
+    tags,
+  });
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

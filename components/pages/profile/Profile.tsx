@@ -1,4 +1,4 @@
-import { serverApiRequest } from "@/actions/api.actions";
+import { getUser } from "@/actions/api.actions";
 import DeleteAccount from "@/components/pages/profile/DeleteAccount";
 import ExportCsv from "@/components/pages/profile/ExportCsv";
 import TransferStorageData from "@/components/pages/profile/TransferStorageData";
@@ -7,15 +7,11 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { createLocaleString } from "@/helpers/date.helpers";
-import type { ApiResponse } from "@/types/api.types";
-import type { UserWithCountAndBird } from "@/types/user.types";
 import Link from "next/link";
 
 /** Fetch and display user's profile and account data */
 export default async function Profile() {
-  const result: ApiResponse<UserWithCountAndBird> = await serverApiRequest({
-    route: "/users",
-  });
+  const result = await getUser();
 
   if (result.error) {
     return <ErrorDisplay msg={result.message} />;

@@ -1,17 +1,23 @@
 export type RequestBody = { [key: string]: unknown };
 
+export type Tags = "location" | "sighting" | "user";
+
 export type ApiRequestInputs =
   | {
-      method?: "DELETE";
+      method?: never;
       requestBody?: never;
-      revalidate?: never;
+      revalidateTags?: never;
+      revalidateTime?: number;
       route: string;
+      tags?: Tags[];
     }
   | {
-      method: "PATCH" | "POST" | "PUT";
-      requestBody: object;
-      revalidate?: "/users";
+      method: "DELETE" | "PATCH" | "POST" | "PUT";
+      requestBody?: object;
+      revalidateTags?: Tags[];
+      revalidateTime?: never;
       route: string;
+      tags?: never;
     };
 
 export type Headers = {
@@ -21,8 +27,13 @@ export type Headers = {
 
 export type RequestHeaders = {
   body?: string;
+  cache?: "force-cache";
   headers?: Headers;
   method?: "DELETE" | "PATCH" | "POST" | "PUT";
+  next?: {
+    revalidate?: number;
+    tags?: Tags[];
+  };
 };
 
 export type ApiResponse<T> =

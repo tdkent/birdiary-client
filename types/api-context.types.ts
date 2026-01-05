@@ -1,3 +1,4 @@
+import type { Tags } from "@/types/api.types";
 import type { ListVariant } from "@/types/list-sort.types";
 import type { Sighting } from "@/types/sighting.types";
 import { StorageSighting } from "@/types/sighting.types";
@@ -5,6 +6,7 @@ import { createContext } from "react";
 
 export type UseQueryInputs = {
   route: string;
+  tags?: Tags[];
   variant?: ListVariant;
 };
 
@@ -24,7 +26,7 @@ export type Api = {
     success: boolean;
     error: string | null;
     pending: boolean;
-    mutate: <T>(body: T) => void;
+    mutate: (body: object) => void;
     data: Sighting | StorageSighting | null;
   };
 };

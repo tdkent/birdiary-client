@@ -41,6 +41,7 @@ export async function generateMetadata({
 
   const result: ApiResponse<Location> = await serverApiRequest({
     route: `/locations/${validId}`,
+    tags: ["location"],
   });
 
   if (result.error)

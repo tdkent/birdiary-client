@@ -73,6 +73,7 @@ export default function EditLocationForm({
       const result: ApiResponse<Location> = await serverApiRequest({
         method: "PUT",
         requestBody: formValues.location,
+        revalidateTags: ["location", "sighting"],
         route: `/locations/${locationId}`,
       });
 

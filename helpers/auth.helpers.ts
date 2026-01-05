@@ -1,9 +1,7 @@
 "use server";
 
-import { serverApiRequest } from "@/actions/api.actions";
+import { getUser } from "@/actions/api.actions";
 import { decrypt } from "@/lib/session";
-import type { ApiResponse } from "@/types/api.types";
-import type { User } from "@/types/user.types";
 import { cookies } from "next/headers";
 
 export async function checkSession() {
@@ -26,9 +24,7 @@ export async function getCookie() {
 export async function getUserProfileOrNull() {
   const hasSession = await checkSession();
   if (!hasSession) return null;
-  const result: ApiResponse<User> = await serverApiRequest({
-    route: "/users",
-  });
+  const result = await getUser();
   if (result.error) return null;
   return {
     name: result.data.name ?? null,

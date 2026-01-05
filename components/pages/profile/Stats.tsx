@@ -11,6 +11,7 @@ import Link from "next/link";
 export default async function Stats() {
   const result: ApiResponse<UserSightingStats> = await serverApiRequest({
     route: "/users/stats",
+    tags: ["location", "sighting", "user"],
   });
 
   if (result.error) {

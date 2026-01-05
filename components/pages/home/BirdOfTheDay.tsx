@@ -34,8 +34,10 @@ export default async function BirdOfTheDay() {
 
 async function BirdOfTheDayImage() {
   const result: ApiResponse<Bird> = await serverApiRequest({
+    revalidateTime: 3600,
     route: "/bird-of-the-day",
   });
+
   if (result.error) return <ErrorDisplay msg={result.message} />;
 
   const { data } = result;
