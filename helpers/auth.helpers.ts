@@ -2,6 +2,7 @@
 
 import { getUser } from "@/actions/api.actions";
 import { decrypt } from "@/lib/session";
+import DOMPurify from "isomorphic-dompurify";
 import { cookies } from "next/headers";
 
 export async function checkSession() {
@@ -26,8 +27,13 @@ export async function getUserProfileOrNull() {
   if (!hasSession) return null;
   const result = await getUser();
   if (result.error) return null;
+
+  const sanitizeName = result.data.name
+    ? DOMPurify.sanitize(result.data.name)
+    : result.data.name;
+
   return {
-    name: result.data.name ?? null,
+    name: sanitizeName ?? null,
     favoriteBirdId: result.data.favoriteBirdId ?? null,
   };
 }

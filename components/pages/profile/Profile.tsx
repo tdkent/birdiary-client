@@ -29,6 +29,7 @@ export default async function Profile() {
   } = result.data;
 
   const sanitizeBio = bio ? DOMPurify.sanitize(bio) : bio;
+  const sanitizeName = name ? DOMPurify.sanitize(name) : name;
 
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
@@ -38,7 +39,7 @@ export default async function Profile() {
         <section className="flex flex-col gap-4">
           <h2 className="font-heading">My Info</h2>
           <dl className="my-4 flex flex-col gap-8 md:gap-12">
-            <DescriptionListItem dt="Name" dd={name} />
+            <DescriptionListItem dt="Name" dd={sanitizeName} />
             <DescriptionListItem dt="Location" dd={address} />
             <DescriptionListItem dt="Bio" dd={sanitizeBio} />
           </dl>
