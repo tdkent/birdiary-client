@@ -7,6 +7,7 @@ import ErrorDisplay from "@/components/pages/shared/ErrorDisplay";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { createLocaleString } from "@/helpers/date.helpers";
+import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
 
 /** Fetch and display user's profile and account data */
@@ -27,6 +28,8 @@ export default async function Profile() {
     name,
   } = result.data;
 
+  const sanitizeBio = bio ? DOMPurify.sanitize(bio) : bio;
+
   const accountCreatedDate = createLocaleString(createdAt, "med");
 
   return (
@@ -37,7 +40,7 @@ export default async function Profile() {
           <dl className="my-4 flex flex-col gap-8 md:gap-12">
             <DescriptionListItem dt="Name" dd={name} />
             <DescriptionListItem dt="Location" dd={address} />
-            <DescriptionListItem dt="Bio" dd={bio} />
+            <DescriptionListItem dt="Bio" dd={sanitizeBio} />
           </dl>
           <Button variant="secondary" size="lg" asChild>
             <Link href="/profile/edit">Edit Profile</Link>
