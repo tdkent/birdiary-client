@@ -16,6 +16,7 @@ import {
   createLocaleString,
 } from "@/helpers/date.helpers";
 import type { SightingWithBirdAndLocation } from "@/types/sighting.types";
+import DOMPurify from "isomorphic-dompurify";
 import { CircleCheck, Heart } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -50,6 +51,10 @@ export default function SightingDetails({
   }
 
   const { bird, birdId, date, description, isNew, location } = sighting;
+
+  const sanitizeDescription = description
+    ? DOMPurify.sanitize(description)
+    : null;
 
   const isFavBird = birdId === favBirdId;
 
@@ -112,7 +117,7 @@ export default function SightingDetails({
           )}
           <DescriptionListItem
             dt="Description"
-            dd={description}
+            dd={sanitizeDescription}
             fallbackText="No description provided"
           />
         </dl>
